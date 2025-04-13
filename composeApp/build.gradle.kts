@@ -43,6 +43,11 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.voyager.koin)
+            implementation(libs.voyager.navigator)
+            implementation(libs.permissions.compose)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
         }
     }
 }
