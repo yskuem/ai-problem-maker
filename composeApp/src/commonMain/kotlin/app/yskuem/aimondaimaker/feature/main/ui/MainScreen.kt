@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker
+package app.yskuem.aimondaimaker.feature.main.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,8 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.main.viewmodel.MainScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
-import kotlinx.coroutines.launch
+import cafe.adriel.voyager.koin.koinScreenModel
 
 class MainScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -36,6 +37,8 @@ class MainScreen : Screen {
     override fun Content() {
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
+        val mainScreenModel = koinScreenModel<MainScreenViewModel> ()
+        val state by mainScreenModel.state.collectAsState()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(
@@ -174,7 +177,9 @@ class MainScreen : Screen {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         OutlinedButton(
-                            onClick = { /* ギャラリーを開く */ },
+                            onClick = {
+                                mainScreenModel.onSelectImage()
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(56.dp),
