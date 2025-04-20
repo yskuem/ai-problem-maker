@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.data.api.response
 
-import app.yskuem.aimondaimaker.domain.entity.Problem
 import kotlinx.serialization.Serializable
 
 
