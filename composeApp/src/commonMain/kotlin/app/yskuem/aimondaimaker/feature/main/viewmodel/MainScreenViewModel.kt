@@ -4,7 +4,6 @@ import app.yskuem.aimondaimaker.core.picker.ImagePicker
 import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
 import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.flow.MutableStateFlow
