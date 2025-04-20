@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.data.api.response
 
+import app.yskuem.aimondaimaker.domain.entity.Problem
 import kotlinx.serialization.Serializable
 
 
@@ -12,7 +13,7 @@ data class ProblemResponse(
 
 
 @Serializable
-data class Question(
+data class ProblemDto(
     val answer: String,
     val category: String,
     val question: String,
@@ -23,5 +24,5 @@ data class Question(
 
 @Serializable
 data class Args(
-    val questions: List<Question>
+    val questions: List<ProblemDto>
 )
