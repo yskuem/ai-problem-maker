@@ -38,7 +38,7 @@ class MainScreen : Screen {
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         val mainScreenModel = koinScreenModel<MainScreenViewModel> ()
-        val state by mainScreenModel.state.collectAsState()
+        val state by mainScreenModel.uiState.collectAsState()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(
