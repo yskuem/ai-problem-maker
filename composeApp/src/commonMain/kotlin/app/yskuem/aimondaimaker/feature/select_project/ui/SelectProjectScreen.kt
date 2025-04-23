@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
 
 class SelectProjectScreen : Screen {
     @OptIn(ExperimentalMaterialApi::class)
@@ -32,6 +33,7 @@ class SelectProjectScreen : Screen {
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
         var expandedMenuFor by remember { mutableStateOf<Int?>(null) }
+        val navigator = LocalNavigator.current
 
         // プロジェクト一覧
         var projects by remember {
@@ -228,7 +230,10 @@ class SelectProjectScreen : Screen {
 
                     // 新規プロジェクト作成ボタン
                     Button(
-                        onClick = { /* 新規プロジェクト作成 */ },
+                        onClick = {
+                            // 遷移処理
+                            navigator?.push(SelectNoteOrProblemScreen())
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
