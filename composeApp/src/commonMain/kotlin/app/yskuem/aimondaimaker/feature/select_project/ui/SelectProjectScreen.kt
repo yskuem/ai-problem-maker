@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -134,7 +135,7 @@ class SelectProjectScreen : Screen {
                                         Icon(
                                             imageVector = when (project.type) {
                                                 ProjectType.Note -> Icons.Default.Description
-                                                ProjectType.Book -> Icons.Default.MenuBook
+                                                ProjectType.Book -> Icons.AutoMirrored.Filled.MenuBook
                                             },
                                             contentDescription = null,
                                             modifier = Modifier.size(24.dp),
