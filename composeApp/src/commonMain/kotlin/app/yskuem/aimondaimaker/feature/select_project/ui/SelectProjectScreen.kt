@@ -3,10 +3,8 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
