@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material3.*
@@ -26,18 +28,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 
 class SelectNoteOrProblemScreen: Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        StudyModeSelector()
-    }
-
-    @Composable
-    private fun StudyModeSelector() {
-        var hoveredCard by remember { mutableStateOf<String?>(null) }
-
-        Box(
+        val navigator = LocalNavigator.current
+        Box (
             modifier = Modifier
                 .fillMaxSize()
                 .background(
@@ -48,6 +47,47 @@ class SelectNoteOrProblemScreen: Screen {
                         )
                     )
                 ),
+        ){
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = Color.Black,
+                            navigationIconContentColor = Color.Black,
+                            actionIconContentColor = Color.Black
+                        ),
+                        title = { Text("モードの選択") },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
+                                    navigator?.pop()
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "戻る"
+                                )
+                            }
+                        }
+                    )
+                }
+            ) { innerPadding ->
+                // 既存の StudyModeSelector を表示
+                Box(modifier = Modifier.padding(innerPadding)) {
+                    StudyModeSelector()
+                }
+            }
+        }
+    }
+
+
+    @Composable
+    private fun StudyModeSelector() {
+        var hoveredCard by remember { mutableStateOf<String?>(null) }
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Column(
