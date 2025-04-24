@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.main.ui
+package app.yskuem.aimondaimaker.feature.problem.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,18 +27,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.main.viewmodel.MainScreenViewModel
+import app.yskuem.aimondaimaker.feature.problem.viewmodel.ProblemScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 
-class MainScreen : Screen {
+class ProblemScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val mainScreenModel = koinScreenModel<MainScreenViewModel> ()
-        val state by mainScreenModel.state.collectAsState()
+        val mainScreenModel = koinScreenModel<ProblemScreenViewModel> ()
+        val state by mainScreenModel.uiState.collectAsState()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(

@@ -1,9 +1,9 @@
-package app.yskuem.aimondaimaker.feature.main.viewmodel
+package app.yskuem.aimondaimaker.feature.problem.viewmodel
 
 import app.yskuem.aimondaimaker.core.picker.ImagePicker
 import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
 import app.yskuem.aimondaimaker.domain.entity.Problem
-import app.yskuem.aimondaimaker.feature.main.uiState.MainUiState
+import app.yskuem.aimondaimaker.feature.problem.uiState.ProblemUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import io.github.vinceglb.filekit.extension
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class MainScreenViewModel(
+class ProblemScreenViewModel(
     private val imagePicker: ImagePicker,
     private val problemRepository: ProblemRepository,
 ) : ScreenModel {
@@ -26,10 +26,10 @@ class MainScreenViewModel(
     private val _problems = MutableStateFlow<List<Problem>>(emptyList())
 
 
-    val uiState: StateFlow<MainUiState> = combine(
+    val uiState: StateFlow<ProblemUiState> = combine(
         _isLoading, _hasError,_problems
     ) { isLoading, hasError, problems ->
-        MainUiState(
+        ProblemUiState(
             isLoading = isLoading,
             hasError = hasError,
             problems = problems,
@@ -37,7 +37,7 @@ class MainScreenViewModel(
     }.stateIn(
         scope = screenModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = MainUiState()
+        initialValue = ProblemUiState()
     )
 
     fun onSelectImage() {
