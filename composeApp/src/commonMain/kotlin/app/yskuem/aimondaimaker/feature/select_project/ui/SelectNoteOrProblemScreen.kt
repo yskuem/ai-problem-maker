@@ -27,9 +27,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.problem.ui.ProblemScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
 
 class SelectNoteOrProblemScreen: Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -85,6 +85,7 @@ class SelectNoteOrProblemScreen: Screen {
     @Composable
     private fun StudyModeSelector() {
         var hoveredCard by remember { mutableStateOf<String?>(null) }
+        val navigator = LocalNavigator.current
 
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -134,7 +135,7 @@ class SelectNoteOrProblemScreen: Screen {
                             hoveredCard = if (isHovered) "quiz" else null
                         },
                         onClick = {
-                            // クイズ作成機能に遷移するロジック
+                            navigator?.push(ProblemScreen())
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
