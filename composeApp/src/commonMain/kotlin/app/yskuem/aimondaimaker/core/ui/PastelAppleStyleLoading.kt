@@ -441,11 +441,11 @@ fun FloatingParticle(data: ParticleData) {
         animationSpec = infiniteRepeatable(
             animation = keyframes {
                 durationMillis = data.duration
-                data.initialX at 0 with LinearEasing
-                data.initialX + 10f at data.duration / 4 with LinearEasing
-                data.initialX - 5f at data.duration / 2 with LinearEasing
-                data.initialX - 10f at 3 * data.duration / 4 with LinearEasing
-                data.initialX at data.duration with LinearEasing
+                data.initialX at 0 using LinearEasing
+                data.initialX + 10f at data.duration / 4 using LinearEasing
+                data.initialX - 5f at data.duration / 2 using LinearEasing
+                data.initialX - 10f at 3 * data.duration / 4 using LinearEasing
+                data.initialX at data.duration using LinearEasing
             },
             initialStartOffset = StartOffset(offsetMillis = data.delay)
         ),
@@ -458,11 +458,11 @@ fun FloatingParticle(data: ParticleData) {
         animationSpec = infiniteRepeatable(
             animation = keyframes {
                 durationMillis = data.duration
-                data.initialY at 0 with LinearEasing
-                data.initialY - 10f at data.duration / 4 with LinearEasing
-                data.initialY - 20f at data.duration / 2 with LinearEasing
-                data.initialY - 10f at 3 * data.duration / 4 with LinearEasing
-                data.initialY at data.duration with LinearEasing
+                data.initialY at 0 using LinearEasing
+                data.initialY - 10f at data.duration / 4 using LinearEasing
+                data.initialY - 20f at data.duration / 2 using LinearEasing
+                data.initialY - 10f at 3 * data.duration / 4 using LinearEasing
+                data.initialY at data.duration using LinearEasing
             },
             initialStartOffset = StartOffset(offsetMillis = data.delay)
         ),
@@ -475,11 +475,11 @@ fun FloatingParticle(data: ParticleData) {
         animationSpec = infiniteRepeatable(
             animation = keyframes {
                 durationMillis = data.duration
-                0f at 0 with LinearEasing
-                0.8f at data.duration / 4 with LinearEasing
-                0.6f at data.duration / 2 with LinearEasing
-                0.8f at 3 * data.duration / 4 with LinearEasing
-                0f at data.duration with LinearEasing
+                0f at 0 using LinearEasing
+                0.8f at data.duration / 4 using LinearEasing
+                0.6f at data.duration / 2 using LinearEasing
+                0.8f at 3 * data.duration / 4 using LinearEasing
+                0f at data.duration using LinearEasing
             },
             initialStartOffset = StartOffset(offsetMillis = data.delay)
         ),
