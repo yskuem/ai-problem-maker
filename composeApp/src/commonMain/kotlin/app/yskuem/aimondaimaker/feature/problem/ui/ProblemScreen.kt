@@ -37,8 +37,8 @@ class ProblemScreen : Screen {
     override fun Content() {
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val mainScreenModel = koinScreenModel<ProblemScreenViewModel> ()
-        val state by mainScreenModel.uiState.collectAsState()
+        val problemScreenModel = koinScreenModel<ProblemScreenViewModel> ()
+        val state by problemScreenModel.uiState.collectAsState()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(
@@ -178,7 +178,7 @@ class ProblemScreen : Screen {
 
                         OutlinedButton(
                             onClick = {
-                                mainScreenModel.onSelectImage()
+                                problemScreenModel.onSelectImage()
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
