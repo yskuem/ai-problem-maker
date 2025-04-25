@@ -24,7 +24,11 @@ object HttpClient {
     val client: HttpClient by lazy {
         HttpClient(engine) {
             install(ContentNegotiation) {
-                json(Json { ignoreUnknownKeys = true })
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    coerceInputValues = true
+                })
             }
             install(Logging) {
                 level = LogLevel.INFO

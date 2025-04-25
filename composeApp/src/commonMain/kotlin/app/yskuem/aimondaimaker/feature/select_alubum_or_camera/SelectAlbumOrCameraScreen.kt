@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.problem.ui
+package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.History
@@ -27,18 +26,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.problem.viewmodel.ProblemScreenViewModel
+import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
+import app.yskuem.aimondaimaker.feature.problem.viewmodel.ShowProblemScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.launch
 
-class ProblemScreen : Screen {
+class SelectAlbumOrCameraScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.current
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val problemScreenModel = koinScreenModel<ProblemScreenViewModel> ()
-        val state by problemScreenModel.uiState.collectAsState()
+        val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(
@@ -169,7 +171,11 @@ class ProblemScreen : Screen {
 
                         OutlinedButton(
                             onClick = {
-                                problemScreenModel.onSelectImage()
+                                scope.launch {
+                                    viewmodel.onSelectAlbum { image ->
+                                        navigator?.push(ShowProblemScreen(image))
+                                    }
+                                }
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

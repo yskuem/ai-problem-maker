@@ -1,11 +1,13 @@
 package app.yskuem.aimondaimaker.feature.problem.viewmodel
 
 import app.yskuem.aimondaimaker.core.picker.ImagePicker
+import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
 import app.yskuem.aimondaimaker.domain.entity.Problem
 import app.yskuem.aimondaimaker.feature.problem.uiState.ProblemUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
 import io.github.vinceglb.filekit.readBytes
@@ -16,23 +18,20 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ProblemScreenViewModel(
-    private val imagePicker: ImagePicker,
+class ShowProblemScreenViewModel(
     private val problemRepository: ProblemRepository,
 ) : ScreenModel {
 
-    private val _isLoading = MutableStateFlow(false)
-    private val _hasError  = MutableStateFlow(false)
-    private val _problems = MutableStateFlow<List<Problem>>(emptyList())
+    private val _problems = MutableStateFlow<DataUiState<List<Problem>>>(DataUiState.Loading)
+    private val _currentProblemIndex = MutableStateFlow(0)
 
 
     val uiState: StateFlow<ProblemUiState> = combine(
-        _isLoading, _hasError,_problems
-    ) { isLoading, hasError, problems ->
+        _problems, _currentProblemIndex,
+    ) { problems, currentProblemIndex ->
         ProblemUiState(
-            isLoading = isLoading,
-            hasError = hasError,
             problems = problems,
+            currentProblemIndex = currentProblemIndex
         )
     }.stateIn(
         scope = screenModelScope,
@@ -40,21 +39,20 @@ class ProblemScreenViewModel(
         initialValue = ProblemUiState()
     )
 
-    fun onSelectImage() {
+    fun onFetchProblems(
+        image: PlatformFile
+    ) {
         screenModelScope.launch {
-            val image = imagePicker.pickImage() ?: return@launch
-            _isLoading.value = true
+            _problems.value = DataUiState.Loading
             try {
                 val problems = problemRepository.fetchFromImage(
                     image = image.readBytes(),
                     fileName = image.nameWithoutExtension,
                     extension = image.extension,
                 )
-                _problems.value = problems
+                _problems.value = DataUiState.Success(problems)
             } catch (e: Exception) {
-                _hasError.value = true
-            } finally {
-                _isLoading.value = false
+                _problems.value = DataUiState.Error(e)
             }
         }
     }

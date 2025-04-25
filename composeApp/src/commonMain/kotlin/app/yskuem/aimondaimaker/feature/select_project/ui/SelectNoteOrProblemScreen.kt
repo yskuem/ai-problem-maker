@@ -26,7 +26,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.problem.ui.ProblemScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 
@@ -134,7 +134,7 @@ class SelectNoteOrProblemScreen: Screen {
                             hoveredCard = if (isHovered) "quiz" else null
                         },
                         onClick = {
-                            navigator?.push(ProblemScreen())
+                            navigator?.push(SelectAlbumOrCameraScreen())
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
