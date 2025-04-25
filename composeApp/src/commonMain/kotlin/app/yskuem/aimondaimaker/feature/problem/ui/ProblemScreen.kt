@@ -117,15 +117,6 @@ class ProblemScreen : Screen {
                         )
                     )
                 },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = { /* カメラを起動 */ },
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ) {
-                        Icon(Icons.Filled.Add, contentDescription = "写真を撮影")
-                    }
-                }
             ) { paddingValues ->
                 Box(
                     modifier = Modifier
