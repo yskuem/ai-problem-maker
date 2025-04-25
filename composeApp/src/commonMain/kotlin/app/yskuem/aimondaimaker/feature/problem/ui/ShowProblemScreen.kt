@@ -17,7 +17,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -63,7 +65,6 @@ data class ShowProblemScreen(
     }
 }
 
-
 @Composable
 fun QuizApp(problems: List<Problem>) {
     var currentQuestion by remember { mutableStateOf(0) }
@@ -87,7 +88,9 @@ fun QuizApp(problems: List<Problem>) {
             color = backgroundColor
         ) {
             Box(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 if (quizCompleted) {
@@ -104,7 +107,6 @@ fun QuizApp(problems: List<Problem>) {
                     )
                 } else {
                     val currentProblem = problems[currentQuestion]
-                    // Problem.answer は正解の選択肢の文字列なので、そのインデックスを探す
                     val correctAnswerIndex = currentProblem.choices.indexOf(currentProblem.answer)
 
                     QuizContentScreen(
@@ -153,10 +155,13 @@ fun QuizContentScreen(
     onOptionSelected: (Int) -> Unit,
     onNextQuestion: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     Card(
         modifier = Modifier
             .widthIn(max = 500.dp)
-            .padding(16.dp),
+            .padding(16.dp)
+            .verticalScroll(scrollState),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(24.dp)
     ) {
@@ -166,7 +171,6 @@ fun QuizContentScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // ヘッダー（進捗とスコア）
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -184,9 +188,8 @@ fun QuizContentScreen(
                 )
             }
 
-            // カテゴリ表示
             Chip(
-                onClick = { /* カテゴリークリック時のアクション */ },
+                onClick = { },
                 colors = ChipDefaults.chipColors(
                     backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
                 ),
@@ -199,7 +202,6 @@ fun QuizContentScreen(
                 )
             }
 
-            // 進捗バー
             val progress = (currentQuestionIndex + 1).toFloat() / totalQuestions
             val animatedProgress by animateFloatAsState(targetValue = progress)
 
@@ -219,16 +221,12 @@ fun QuizContentScreen(
                 )
             }
 
-            // 質問
             Text(
                 text = problem.question,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.Bold
-                ),
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            // 選択肢
             problem.choices.forEachIndexed { index, option ->
                 OptionItem(
                     text = option,
@@ -239,7 +237,6 @@ fun QuizContentScreen(
                 )
             }
 
-            // 解説
             AnimatedVisibility(visible = showResult) {
                 Column {
                     Card(
@@ -267,7 +264,6 @@ fun QuizContentScreen(
                 }
             }
 
-            // 次へボタン
             AnimatedVisibility(visible = showResult) {
                 Button(
                     onClick = onNextQuestion,
@@ -275,9 +271,7 @@ fun QuizContentScreen(
                         .fillMaxWidth()
                         .padding(top = 8.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                 ) {
                     Row(
                         modifier = Modifier.padding(8.dp),
@@ -289,10 +283,7 @@ fun QuizContentScreen(
                             style = MaterialTheme.typography.titleMedium
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Icon(
-                            imageVector = Icons.Default.ChevronRight,
-                            contentDescription = "Next"
-                        )
+                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = "Next")
                     }
                 }
             }
@@ -329,11 +320,7 @@ fun OptionItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(backgroundColor)
-            .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = RoundedCornerShape(16.dp)
-            )
+            .border(width = 1.dp, color = borderColor, shape = RoundedCornerShape(16.dp))
             .clickable(enabled = !isShowingResult, onClick = onClick)
             .padding(16.dp)
             .alpha(alpha),
@@ -433,5 +420,3 @@ fun QuizCompletedScreen(
         }
     }
 }
-
-
