@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
-import app.yskuem.aimondaimaker.feature.problem.viewmodel.ShowProblemScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator

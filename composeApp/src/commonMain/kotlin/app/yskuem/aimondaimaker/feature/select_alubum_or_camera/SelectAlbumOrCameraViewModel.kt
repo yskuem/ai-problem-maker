@@ -1,9 +1,7 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import app.yskuem.aimondaimaker.core.picker.ImagePicker
-import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.navigator.Navigator
 import io.github.vinceglb.filekit.PlatformFile
 
 class SelectAlbumOrCameraViewModel(

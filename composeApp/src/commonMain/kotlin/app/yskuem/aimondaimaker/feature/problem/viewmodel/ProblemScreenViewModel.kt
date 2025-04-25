@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.feature.problem.viewmodel
 
-import app.yskuem.aimondaimaker.core.picker.ImagePicker
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
 import app.yskuem.aimondaimaker.domain.entity.Problem
