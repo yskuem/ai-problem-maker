@@ -7,6 +7,6 @@ fun ProblemDto.toDomain(): Problem = Problem(
     answer      = answer,
     category    = category,
     question    = question,
-    choices     = choices,
+    choices     = choices.shuffled(),// 正解が1番目にくることが多いので選択肢をシャッフルしておく
     explanation = explanation
 )

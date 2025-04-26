@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.problem.ui
+package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.History
@@ -27,18 +26,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.problem.viewmodel.ProblemScreenViewModel
+import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.launch
 
-class ProblemScreen : Screen {
+class SelectAlbumOrCameraScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.current
         val scaffoldState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
-        val mainScreenModel = koinScreenModel<ProblemScreenViewModel> ()
-        val state by mainScreenModel.uiState.collectAsState()
+        val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
         var selectedItem by remember { mutableStateOf(0) }
         val items = listOf("ホーム", "履歴", "設定")
         val icons = listOf(
@@ -117,15 +118,6 @@ class ProblemScreen : Screen {
                         )
                     )
                 },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = { /* カメラを起動 */ },
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ) {
-                        Icon(Icons.Filled.Add, contentDescription = "写真を撮影")
-                    }
-                }
             ) { paddingValues ->
                 Box(
                     modifier = Modifier
@@ -178,7 +170,11 @@ class ProblemScreen : Screen {
 
                         OutlinedButton(
                             onClick = {
-                                mainScreenModel.onSelectImage()
+                                scope.launch {
+                                    viewmodel.onSelectAlbum { image ->
+                                        navigator?.push(ShowProblemScreen(image))
+                                    }
+                                }
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

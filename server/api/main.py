@@ -44,7 +44,7 @@ async def analyze_image(file: UploadFile = File(...)):
             contents=[
                 uploaded,
                 "\n\n",
-                "この画像から複数の問題を作成してください。"
+                "この画像から複数の問題を作成してください。問題は画像の言語で出力してください。",
             ],
             config=generate_content_config,
         )
@@ -83,7 +83,7 @@ tools = [
                                         ),
                                         "choices": genai.types.Schema(
                                             type = genai.types.Type.ARRAY,
-                                            description = "4つの選択肢",
+                                            description = "4つの選択肢。選択肢にはanswerと文字列が完全一致した選択肢を必ず1つ含めること。",
                                             items = genai.types.Schema(
                                                 type = genai.types.Type.STRING,
                                             ),
