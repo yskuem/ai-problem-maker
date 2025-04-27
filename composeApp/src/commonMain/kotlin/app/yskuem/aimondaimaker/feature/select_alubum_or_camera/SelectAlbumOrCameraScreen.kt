@@ -149,7 +149,9 @@ class SelectAlbumOrCameraScreen : Screen {
                         Spacer(modifier = Modifier.height(32.dp))
 
                         Button(
-                            onClick = { /* カメラを起動 */ },
+                            onClick = {
+                                navigator?.push(CameraPermissionScreen())
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(56.dp),
