@@ -68,7 +68,11 @@ class CameraPermissionScreen : Screen {
             if (checked) {
                 AnimatedContent(hasPermissionAlready) { hasPermission ->
                     if (hasPermission) {
-                        CameraView()
+                        CameraPickerView(
+                            upLoadImage = { bytes ->
+                                println(bytes.size)
+                            }
+                        )
                     } else {
                         CameraPermission(
                             state = state,
