@@ -8,7 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -29,19 +32,24 @@ import platform.CoreGraphics.CGRectZero
 import platform.UIKit.UIColor
 import platform.UIKit.UIView
 import kotlinx.cinterop.cValue
+import kotlinx.cinterop.useContents
 import kotlinx.cinterop.usePinned
 import platform.AVFoundation.AVCaptureFlashModeOff
 import platform.AVFoundation.AVCapturePhoto
 import platform.AVFoundation.AVCapturePhotoCaptureDelegateProtocol
 import platform.AVFoundation.AVCapturePhotoSettings
 import platform.AVFoundation.fileDataRepresentation
+import platform.CoreGraphics.CGSize
 import platform.Foundation.NSData
 import platform.Foundation.NSError
+import platform.Foundation.setValue
+import platform.UIKit.UIViewControllerTransitionCoordinatorProtocol
 import platform.darwin.NSObject
 import platform.posix.memcpy
+import platform.UIKit.UIViewController
 
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
 @Composable
 actual fun CameraView() {
     val session = AVCaptureSession().apply {
@@ -73,7 +81,11 @@ actual fun CameraView() {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         UIKitView(
             modifier = Modifier.fillMaxSize(),
             factory = {
@@ -139,5 +151,73 @@ class PhotoCaptureDelegate(
         }
     }
 }
+
+
+class CameraViewController : UIViewController(nibName = null, bundle = null) {
+
+    private lateinit var session: AVCaptureSession
+    private lateinit var previewLayer: AVCaptureVideoPreviewLayer
+    private lateinit var photoOutput: AVCapturePhotoOutput
+
+    @OptIn(ExperimentalForeignApi::class)
+    override fun viewDidLoad() {
+        super.viewDidLoad()
+
+        session = AVCaptureSession().apply {
+            sessionPreset = AVCaptureSessionPresetPhoto
+        }
+
+        // バックカメラデバイス取得
+        val backDevice = AVCaptureDevice
+            .devicesWithMediaType(AVMediaTypeVideo)
+            .firstOrNull { (it as AVCaptureDevice).position == AVCaptureDevicePositionBack }
+                as? AVCaptureDevice ?: return
+
+        val input = AVCaptureDeviceInput.deviceInputWithDevice(backDevice, null)
+                as platform.AVFoundation.AVCaptureDeviceInput
+        session.addInput(input)
+
+        photoOutput = AVCapturePhotoOutput().apply {
+            isHighResolutionCaptureEnabled()
+        }
+        session.addOutput(photoOutput)
+
+        // プレビュー層セットアップ
+        previewLayer = AVCaptureVideoPreviewLayer(session = session).apply {
+            videoGravity = AVLayerVideoGravityResizeAspectFill
+        }
+        view.layer.addSublayer(previewLayer)
+        session.startRunning()
+    }
+
+    // ← ここが Swift/Objective-C の override func viewWillTransition(to:with:) に相当
+    @OptIn(ExperimentalForeignApi::class)
+    override fun viewWillTransitionToSize(
+        size: CValue<CGSize>,
+        withTransitionCoordinator: UIViewControllerTransitionCoordinatorProtocol
+    ) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator)
+
+        withTransitionCoordinator.animateAlongsideTransition(
+            animation = { _ ->
+                // CValue<CGAffineTransform> を展開して angle を計算
+                val angle = withTransitionCoordinator.targetTransform.useContents {
+                    -kotlin.math.atan2(this.b, this.a)
+                }
+                // 逆回転を適用
+                previewLayer.setValue(
+                    angle,
+                    forKeyPath = "transform.rotation.z"
+                )
+            },
+            completion = { _ ->
+                // リセット
+                previewLayer.setValue(0.0, forKeyPath = "transform.rotation.z")
+                previewLayer.frame = view.bounds
+            }
+        )
+    }
+}
+
 
 
