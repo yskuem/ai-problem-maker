@@ -26,6 +26,7 @@ import platform.AVFoundation.AVMediaTypeVideo
 import platform.AVFoundation.position
 import platform.CoreGraphics.CGRect
 import androidx.compose.ui.viewinterop.UIKitView
+import androidx.compose.ui.viewinterop.UIKitViewController
 import kotlinx.cinterop.addressOf
 import platform.AVFoundation.AVCapturePhotoOutput
 import platform.CoreGraphics.CGRectZero
@@ -86,14 +87,10 @@ actual fun CameraView() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        UIKitView(
+        UIKitViewController(
             modifier = Modifier.fillMaxSize(),
             factory = {
-                PreviewView(cValue { CGRectZero }).apply {
-                    backgroundColor = UIColor.blackColor
-                    layer.addSublayer(previewLayer)
-                    session.startRunning()
-                }
+                CameraViewController()
             }
         )
 
