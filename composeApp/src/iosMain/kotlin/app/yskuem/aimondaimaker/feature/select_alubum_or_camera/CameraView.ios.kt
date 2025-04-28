@@ -23,18 +23,22 @@ import platform.AVFoundation.AVMediaTypeVideo
 import platform.AVFoundation.position
 import platform.CoreGraphics.CGRect
 import androidx.compose.ui.viewinterop.UIKitView
+import kotlinx.cinterop.addressOf
 import platform.AVFoundation.AVCapturePhotoOutput
 import platform.CoreGraphics.CGRectZero
 import platform.UIKit.UIColor
 import platform.UIKit.UIView
 import kotlinx.cinterop.cValue
+import kotlinx.cinterop.usePinned
 import platform.AVFoundation.AVCaptureFlashModeOff
 import platform.AVFoundation.AVCapturePhoto
 import platform.AVFoundation.AVCapturePhotoCaptureDelegateProtocol
 import platform.AVFoundation.AVCapturePhotoSettings
 import platform.AVFoundation.fileDataRepresentation
+import platform.Foundation.NSData
 import platform.Foundation.NSError
 import platform.darwin.NSObject
+import platform.posix.memcpy
 
 
 @OptIn(ExperimentalForeignApi::class)
@@ -89,7 +93,7 @@ actual fun CameraView() {
                     isAutoStillImageStabilizationEnabled()
                 }
                 photoOutput.capturePhotoWithSettings(settings, PhotoCaptureDelegate { data ->
-                    // 画像データ利用処理
+                    println(data.size)
                 })
             },
             modifier = Modifier
@@ -121,6 +125,18 @@ class PhotoCaptureDelegate(
         }
         // 画像データを JPEG として取得
         val imageData = didFinishProcessingPhoto.fileDataRepresentation() ?: return
+        onImageCaptured(imageData.toByteArray())
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    fun NSData.toByteArray(): ByteArray {
+        val size = this.length.toInt()
+        return ByteArray(size).apply {
+            usePinned { pinned ->
+                // ポインタ先頭に NSData.bytes を memcpy
+                memcpy(pinned.addressOf(0), this@toByteArray.bytes, this@toByteArray.length)
+            }
+        }
     }
 }
 
