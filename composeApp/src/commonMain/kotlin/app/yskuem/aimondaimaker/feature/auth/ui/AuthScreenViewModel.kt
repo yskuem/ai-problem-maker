@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.feature.auth.ui
 
-import androidx.compose.runtime.mutableStateOf
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
