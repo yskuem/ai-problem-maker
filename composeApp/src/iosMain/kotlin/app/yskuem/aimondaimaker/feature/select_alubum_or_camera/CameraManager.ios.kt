@@ -32,6 +32,10 @@ actual fun rememberCameraManager(onResult: (SharedImage?) -> Unit): CameraManage
                 onResult.invoke(SharedImage(image))
                 picker.dismissViewControllerAnimated(true, null)
             }
+            override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
+                onResult.invoke(null)
+                picker.dismissViewControllerAnimated(true, null)
+            }
         }
     }
 

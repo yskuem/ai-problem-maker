@@ -24,8 +24,10 @@ actual fun rememberCameraManager(onResult: (SharedImage?) -> Unit): CameraManage
         onResult = { success ->
             if (success) {
                 onResult.invoke(SharedImage(BitmapUtils.getBitmapFromUri(tempPhotoUri, contentResolver)))
+            } else {
+                onResult.invoke(null)
             }
-        }
+        },
     )
     return remember {
         CameraManager(
