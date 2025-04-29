@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.domain.entity.Problem
 
 data class ShowProblemScreen(
-    val image: PlatformFile
+    val imageByte: ByteArray,
+    val fileName: String = "image",
+    val extension: String
 ): Screen {
     @Composable
     override fun Content() {
@@ -48,7 +50,11 @@ data class ShowProblemScreen(
         val state by viewmodel.uiState.collectAsState()
 
         LaunchedEffect(Unit) {
-            viewmodel.onFetchProblems(image)
+            viewmodel.onFetchProblems(
+                imageByte = imageByte,
+                fileName = fileName,
+                extension = extension
+            )
         }
 
         when(val problems = state.problems) {
@@ -62,6 +68,26 @@ data class ShowProblemScreen(
                 QuizApp(problems.data)
             }
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as ShowProblemScreen
+
+        if (!imageByte.contentEquals(other.imageByte)) return false
+        if (fileName != other.fileName) return false
+        if (extension != other.extension) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = imageByte.contentHashCode()
+        result = 31 * result + fileName.hashCode()
+        result = 31 * result + extension.hashCode()
+        return result
     }
 }
 

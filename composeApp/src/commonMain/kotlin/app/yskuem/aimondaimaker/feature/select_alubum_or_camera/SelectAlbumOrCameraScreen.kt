@@ -30,6 +30,9 @@ import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import io.github.vinceglb.filekit.extension
+import io.github.vinceglb.filekit.nameWithoutExtension
+import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 
 class SelectAlbumOrCameraScreen : Screen {
@@ -173,8 +176,14 @@ class SelectAlbumOrCameraScreen : Screen {
                         OutlinedButton(
                             onClick = {
                                 scope.launch {
-                                    viewmodel.onSelectAlbum { image ->
-                                        navigator?.push(ShowProblemScreen(image))
+                                    viewmodel.onSelectAlbum { imageByte, fileName, extension ->
+                                        navigator?.push(
+                                            ShowProblemScreen(
+                                                imageByte = imageByte,
+                                                fileName = fileName,
+                                                extension = extension,
+                                            )
+                                        )
                                     }
                                 }
                             },

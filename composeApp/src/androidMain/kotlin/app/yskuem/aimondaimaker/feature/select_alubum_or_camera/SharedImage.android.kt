@@ -10,7 +10,7 @@ actual class SharedImage(private val bitmap: android.graphics.Bitmap?) {
         return if (bitmap != null) {
             val byteArrayOutputStream = ByteArrayOutputStream()
             @Suppress("MagicNumber") bitmap.compress(
-                android.graphics.Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream
+                android.graphics.Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream
             )
             byteArrayOutputStream.toByteArray()
         } else {

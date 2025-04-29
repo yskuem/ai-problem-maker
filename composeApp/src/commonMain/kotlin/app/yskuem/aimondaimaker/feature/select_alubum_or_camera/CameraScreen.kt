@@ -29,10 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
@@ -59,6 +61,18 @@ class CameraPermissionScreen : Screen {
         * */
         var isPermissionChecked by rememberSaveable { mutableStateOf(false) }
 
+        val navigator = LocalNavigator.current
+
+        val onImageReady: (ByteArray) -> Unit = { bytes ->
+            navigator?.push(
+                ShowProblemScreen(
+                    imageByte = bytes,
+                    extension = "jpg"
+                )
+            )
+        }
+
+
         LaunchedEffect(Unit) {
             hasPermissionAlready = viewModel.checkIfHavePermission()
             isPermissionChecked = true
@@ -69,16 +83,15 @@ class CameraPermissionScreen : Screen {
                 AnimatedContent(hasPermissionAlready) { hasPermission ->
                     if (hasPermission) {
                         CameraPickerView(
-                            upLoadImage = { bytes ->
-                                println(bytes.size)
-                            }
+                            upLoadImage = onImageReady
                         )
                     } else {
                         CameraPermission(
                             state = state,
                             onRequestPermission = viewModel::requestPermission,
                             openSettings = viewModel::openSettings,
-                            onDismiss = viewModel::onDismissDialog
+                            onDismiss = viewModel::onDismissDialog,
+                            onImageReady = onImageReady
                         )
                     }
                 }
@@ -98,7 +111,10 @@ fun CameraPermission(
     onRequestPermission: () -> Unit,
     openSettings: () -> Unit,
     onDismiss: () -> Unit,
+    onImageReady: (ByteArray) -> Unit
 ) {
+
+    val navigator = LocalNavigator.current
 
     LaunchedEffect(Unit) {
         if (state.uiPermissionState == UiPermissionState.INITIAL) {
@@ -121,7 +137,9 @@ fun CameraPermission(
     }
 
     when {
-        state.uiPermissionState == UiPermissionState.GRANTED -> CameraView()
+        state.uiPermissionState == UiPermissionState.GRANTED -> CameraPickerView(
+            upLoadImage = onImageReady
+        )
         state.isAlwaysDeniedDialogVisible -> AlwaysDeniedDialog(
             onOpenSettings = openSettings,
             onDismiss = onDismiss
