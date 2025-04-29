@@ -36,6 +36,15 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.ktor.client.cio)
+            // CameraX core library
+            implementation(libs.androidx.camera.core)
+            // CameraX Camera2 extensions
+            implementation(libs.androidx.camera.camera2)
+            // CameraX Lifecycle library
+            implementation(libs.androidx.camera.lifecycle)
+            // CameraX View class
+            implementation(libs.androidx.camera.view)
+            implementation(libs.androidx.compose.ui.tooling.preview)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -50,6 +59,7 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
             implementation(libs.permissions.compose)
+            implementation(libs.permissions.camera)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(libs.filekit.core)

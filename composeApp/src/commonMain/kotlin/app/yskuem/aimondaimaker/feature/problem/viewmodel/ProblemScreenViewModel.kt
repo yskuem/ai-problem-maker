@@ -39,15 +39,17 @@ class ShowProblemScreenViewModel(
     )
 
     fun onFetchProblems(
-        image: PlatformFile
+        imageByte: ByteArray,
+        fileName: String,
+        extension: String
     ) {
         screenModelScope.launch {
             _problems.value = DataUiState.Loading
             try {
                 val problems = problemRepository.fetchFromImage(
-                    image = image.readBytes(),
-                    fileName = image.nameWithoutExtension,
-                    extension = image.extension,
+                    image = imageByte,
+                    fileName = fileName,
+                    extension = extension,
                 )
                 _problems.value = DataUiState.Success(problems)
             } catch (e: Exception) {
