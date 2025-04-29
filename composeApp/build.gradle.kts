@@ -70,6 +70,8 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.logging)
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.postgrest)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
