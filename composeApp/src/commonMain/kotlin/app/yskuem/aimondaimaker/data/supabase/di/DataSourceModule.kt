@@ -5,7 +5,7 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import org.koin.dsl.module
 
-val dataSourceModule = module {
+val supabaseModule = module {
     single {
         createSupabaseClient(
             supabaseUrl = "https://boalkdckbrgxekncokjz.supabase.co",

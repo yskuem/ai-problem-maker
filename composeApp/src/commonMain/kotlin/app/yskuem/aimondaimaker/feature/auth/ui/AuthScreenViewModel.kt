@@ -15,6 +15,7 @@ class AuthScreenViewModel(
     private val _isLoginSuccess = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
     val isLoginSuccess: StateFlow<Boolean> = _isLoginSuccess.asStateFlow()
+
     fun login() {
         screenModelScope.launch {
             val result = runCatching {

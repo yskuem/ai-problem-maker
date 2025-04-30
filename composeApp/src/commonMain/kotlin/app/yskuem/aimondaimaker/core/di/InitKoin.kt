@@ -1,6 +1,6 @@
 package app.yskuem.aimondaimaker.core.di
 
-import app.yskuem.aimondaimaker.data.data_source.di.dataSourceModule
+import app.yskuem.aimondaimaker.data.data_source.di.supabaseModule
 import app.yskuem.aimondaimaker.data.repository.di.repositoryModule
 import app.yskuem.aimondaimaker.feature.auth.ui.di.authScreenModule
 import app.yskuem.aimondaimaker.feature.problem.di.problemScreenModule
@@ -13,7 +13,7 @@ fun initKoin() = startKoin {
         repositoryModule,
         problemScreenModule,
         selectAlbumOrCameraModule,
-        dataSourceModule,
+        supabaseModule,
         authScreenModule,
     )
 }
