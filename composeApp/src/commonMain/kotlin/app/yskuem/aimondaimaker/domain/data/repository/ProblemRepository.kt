@@ -8,4 +8,9 @@ interface ProblemRepository {
         fileName: String,
         extension: String,
     ): List<Problem>
+
+    suspend fun saveProblem(
+        problem: Problem,
+        projectId: String,
+    )
 }

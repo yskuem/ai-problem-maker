@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.data.supabase.response
 
-import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Project.CREATED_AT
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Project.UPDATED_AT
 import kotlinx.serialization.SerialName
