@@ -7,5 +7,6 @@ object SupabaseColumnName {
         const val DESCRIPTION = "description"
         const val IMAGE_URL = "image_url"
         const val CREATED_AT = "created_at"
+        const val UPDATED_AT = "updated_at"
     }
 }

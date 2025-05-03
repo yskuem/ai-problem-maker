@@ -1,7 +1,7 @@
 package app.yskuem.aimondaimaker.data.repository
 
 import app.yskuem.aimondaimaker.data.api.HttpClient
-import app.yskuem.aimondaimaker.data.api.extension.toDomain
+import app.yskuem.aimondaimaker.data.extension.toDomain
 import app.yskuem.aimondaimaker.data.api.response.ProblemResponse
 import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
 import app.yskuem.aimondaimaker.domain.entity.Problem

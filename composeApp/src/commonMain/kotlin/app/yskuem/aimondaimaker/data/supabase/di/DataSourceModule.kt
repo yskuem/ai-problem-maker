@@ -1,7 +1,6 @@
-package app.yskuem.aimondaimaker.data.data_source.di
+package app.yskuem.aimondaimaker.data.supabase.di
 
-import app.yskuem.aimondaimaker.core.data.data.SupabaseClientHelper
-import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelperImpl
+import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
@@ -20,13 +19,13 @@ val supabaseModule = module {
     }
     single<Json> {
         Json {
-            ignoreUnknownKeys = true    // 受信 JSON に余分なプロパティがあっても無視
-            prettyPrint = true          // (必要に応じて) 出力を見やすく整形
-            isLenient = true            // 柔軟な JSON パースを許可
+            ignoreUnknownKeys = true
+            prettyPrint = true
+            isLenient = true
         }
     }
-    single <SupabaseClientHelper>{
-        SupabaseClientHelperImpl(
+    single {
+        SupabaseClientHelper(
             supabase = get(),
             json = get()
         )

@@ -1,34 +1,35 @@
 package app.yskuem.aimondaimaker.data.supabase
 
-import app.yskuem.aimondaimaker.core.data.data.SupabaseClientHelper
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Order
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
-class SupabaseClientHelperImpl(
+class SupabaseClientHelper(
     private val supabase: SupabaseClient,
     private val json: Json
-) : SupabaseClientHelper {
-    override suspend fun <T> fetchListByMatchValue(
+) {
+    internal suspend inline fun<reified T : Any> addItem(
         tableName: String,
-        serializer: KSerializer<T>,
+        item: T,
+    ): String {
+        return supabase.from(tableName)
+            .insert<T>(item)
+            .data
+    }
+
+    internal suspend inline fun <reified T : Any> fetchListByMatchValue(
+        tableName: String,
         filterCol: String,
         filterVal: String,
         orderCol: String
     ): List<T> {
-        val response = supabase
+        return supabase
             .from(tableName)
             .select {
                 filter { eq(filterCol, filterVal) }
                 order(column = orderCol, order = Order.DESCENDING)
             }
-            .data
-        return json.decodeFromString(
-            ListSerializer(serializer),
-            response
-        )
+            .decodeList<T>()
     }
 }
