@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 
 class SelectProjectScreen : Screen {
@@ -33,6 +34,7 @@ class SelectProjectScreen : Screen {
         // どのプロジェクトのメニューが開いているか
         var expandedMenuFor by remember { mutableStateOf<Int?>(null) }
         val navigator = LocalNavigator.current
+        val viewModel = koinScreenModel<SelectProjectScreenViewModel>()
 
         // プロジェクト一覧
         var projects by remember {

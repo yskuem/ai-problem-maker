@@ -7,11 +7,6 @@ import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import org.koin.dsl.module
 
 val selectAlbumOrCameraModule = module {
-    factory {
-        SelectAlbumOrCameraViewModel(
-            imagePicker = get(),
-        )
-    }
     factory { (controller: PermissionsController) ->
         CameraPermissionViewModel(permissionsController = controller)
     }
