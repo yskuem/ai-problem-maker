@@ -10,8 +10,8 @@ import org.koin.dsl.module
 val supabaseModule = module {
     single {
         createSupabaseClient(
-            supabaseUrl = "https://boalkdckbrgxekncokjz.supabase.co",
-            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvYWxrZGNrYnJneGVrbmNva2p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MDI0ODIsImV4cCI6MjA2MTQ3ODQ4Mn0.SJGwz6WU9QZOCOhLb2HU9DYVdVf_2jo8NCkiCAdlwqw",
+            supabaseUrl = "https://yexqdytmyenkzpornjhx.supabase.co",
+            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHFkeXRteWVua3pwb3Juamh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYyNzY0NDgsImV4cCI6MjA2MTg1MjQ0OH0.MXdfk2WqDCOMmsw9zerJ4KpCicm2Yyl8LhqirKCXZzU",
         ) {
             install(Auth)
             install(Postgrest)
