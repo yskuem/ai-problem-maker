@@ -1,7 +1,7 @@
 package app.yskuem.aimondaimaker.feature.di
 
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreenViewModel
-import app.yskuem.aimondaimaker.feature.problem.viewmodel.ShowProblemScreenViewModel
+import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
 import org.koin.dsl.module
@@ -13,8 +13,8 @@ val viewModelModule = module {
         )
     }
     factory {
-        ShowProblemScreenViewModel(
-            problemRepository = get()
+        ShowQuizScreenViewModel(
+            quizRepository = get()
         )
     }
     factory {

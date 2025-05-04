@@ -2,24 +2,24 @@ package app.yskuem.aimondaimaker.data.repository
 
 import app.yskuem.aimondaimaker.data.api.HttpClient
 import app.yskuem.aimondaimaker.data.extension.toDomain
-import app.yskuem.aimondaimaker.data.api.response.ProblemResponse
+import app.yskuem.aimondaimaker.data.api.response.QuizResponse
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
-import app.yskuem.aimondaimaker.domain.data.repository.ProblemRepository
-import app.yskuem.aimondaimaker.domain.entity.Problem
+import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 
-class ProblemRepositoryImpl(
+class QuizRepositoryImpl(
     private val authRepository: AuthRepository,
     private val supabaseClientHelper: SupabaseClientHelper,
-): ProblemRepository {
+): QuizRepository {
 
     override suspend fun fetchFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
-    ): List<Problem> {
-        val response = HttpClient.postWithImage<List<ProblemResponse>>(
+    ): List<Quiz> {
+        val response = HttpClient.postWithImage<List<QuizResponse>>(
             imageBytes = image,
             fileName = fileName,
             extension = extension,
@@ -30,15 +30,15 @@ class ProblemRepositoryImpl(
         return response.first().args.questions.map { it.toDomain() }
     }
 
-    override suspend fun saveProblem(
-        problem: Problem,
+    override suspend fun saveQuiz(
+        quiz: Quiz,
         projectId: String
     ) {
         val userId = authRepository.getUserId()
         if(userId == null) {
             throw IllegalStateException("userId is null")
         }
-        val upLoadQuiz = problem.copy(
+        val upLoadQuiz = quiz.copy(
             projectId = projectId,
             createdUserId = userId,
         )

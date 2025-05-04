@@ -30,7 +30,7 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCam
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 
-class SelectNoteOrProblemScreen: Screen {
+class SelectNoteOrQuizScreen: Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {

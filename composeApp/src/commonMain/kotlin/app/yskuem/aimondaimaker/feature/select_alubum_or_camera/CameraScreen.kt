@@ -4,13 +4,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -29,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
+import app.yskuem.aimondaimaker.feature.quiz.ui.ShowQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
 import cafe.adriel.voyager.core.screen.Screen
@@ -65,7 +62,7 @@ class CameraPermissionScreen : Screen {
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
             navigator?.push(
-                ShowProblemScreen(
+                ShowQuizScreen(
                     imageByte = bytes,
                     extension = "jpg"
                 )

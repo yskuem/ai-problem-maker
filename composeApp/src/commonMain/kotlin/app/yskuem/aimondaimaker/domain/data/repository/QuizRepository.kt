@@ -1,16 +1,16 @@
 package app.yskuem.aimondaimaker.domain.data.repository
 
-import app.yskuem.aimondaimaker.domain.entity.Problem
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 
-interface ProblemRepository {
+interface QuizRepository {
     suspend fun fetchFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
-    ): List<Problem>
+    ): List<Quiz>
 
-    suspend fun saveProblem(
-        problem: Problem,
+    suspend fun saveQuiz(
+        quiz: Quiz,
         projectId: String,
     )
 }

@@ -233,7 +233,7 @@ class SelectProjectScreen : Screen {
                     Button(
                         onClick = {
                             // 遷移処理
-                            navigator?.push(SelectNoteOrProblemScreen())
+                            navigator?.push(SelectNoteOrQuizScreen())
                         },
                         modifier = Modifier
                             .fillMaxWidth()

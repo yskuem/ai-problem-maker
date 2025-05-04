@@ -26,13 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.problem.ui.ShowProblemScreen
+import app.yskuem.aimondaimaker.feature.quiz.ui.ShowQuizScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
-import io.github.vinceglb.filekit.extension
-import io.github.vinceglb.filekit.nameWithoutExtension
-import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.launch
 
 class SelectAlbumOrCameraScreen : Screen {
@@ -178,7 +175,7 @@ class SelectAlbumOrCameraScreen : Screen {
                                 scope.launch {
                                     viewmodel.onSelectAlbum { imageByte, fileName, extension ->
                                         navigator?.push(
-                                            ShowProblemScreen(
+                                            ShowQuizScreen(
                                                 imageByte = imageByte,
                                                 fileName = fileName,
                                                 extension = extension,

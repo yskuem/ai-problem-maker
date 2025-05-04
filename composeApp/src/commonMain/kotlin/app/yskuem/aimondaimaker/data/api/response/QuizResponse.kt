@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class ProblemResponse(
+data class QuizResponse(
     val id: String? = null,
     val args: Args,
     val name: String
@@ -12,7 +12,7 @@ data class ProblemResponse(
 
 
 @Serializable
-data class ProblemDto(
+data class QuizDto(
     val answer: String,
     val category: String,
     val question: String,
@@ -23,5 +23,5 @@ data class ProblemDto(
 
 @Serializable
 data class Args(
-    val questions: List<ProblemDto>
+    val questions: List<QuizDto>
 )

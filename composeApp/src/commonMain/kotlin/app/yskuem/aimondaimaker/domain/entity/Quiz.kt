@@ -1,7 +1,7 @@
 package app.yskuem.aimondaimaker.domain.entity
 import kotlinx.datetime.Instant
 
-data class Problem(
+data class Quiz(
     val answer: String,
     val category: String,
     val question: String,

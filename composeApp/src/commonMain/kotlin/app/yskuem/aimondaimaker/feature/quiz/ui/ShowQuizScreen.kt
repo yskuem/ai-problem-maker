@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.problem.ui
+package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import PastelAppleStyleLoading
 import androidx.compose.material3.Text
@@ -7,10 +7,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.feature.problem.viewmodel.ShowProblemScreenViewModel
+import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
-import io.github.vinceglb.filekit.PlatformFile
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -37,35 +36,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.yskuem.aimondaimaker.domain.entity.Problem
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 
-data class ShowProblemScreen(
+data class ShowQuizScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String
 ): Screen {
     @Composable
     override fun Content() {
-        val viewmodel = koinScreenModel<ShowProblemScreenViewModel> ()
+        val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
         val state by viewmodel.uiState.collectAsState()
 
         LaunchedEffect(Unit) {
-            viewmodel.onFetchProblems(
+            viewmodel.onFetchQuizList(
                 imageByte = imageByte,
                 fileName = fileName,
                 extension = extension
             )
         }
 
-        when(val problems = state.problems) {
+        when(val quizList = state.quizList) {
             is DataUiState.Error -> {
-                Text(problems.throwable.toString())
+                Text(quizList.throwable.toString())
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading()
             }
             is DataUiState.Success -> {
-                QuizApp(problems.data)
+                QuizApp(quizList.data)
             }
         }
     }
@@ -74,7 +73,7 @@ data class ShowProblemScreen(
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as ShowProblemScreen
+        other as ShowQuizScreen
 
         if (!imageByte.contentEquals(other.imageByte)) return false
         if (fileName != other.fileName) return false
@@ -92,7 +91,7 @@ data class ShowProblemScreen(
 }
 
 @Composable
-fun QuizApp(problems: List<Problem>) {
+fun QuizApp(quizList: List<Quiz>) {
     var currentQuestion by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
     var showResult by remember { mutableStateOf(false) }
@@ -122,7 +121,7 @@ fun QuizApp(problems: List<Problem>) {
                 if (quizCompleted) {
                     QuizCompletedScreen(
                         score = score,
-                        totalQuestions = problems.size,
+                        totalQuestions = quizList.size,
                         onRestart = {
                             currentQuestion = 0
                             selectedOption = null
@@ -132,14 +131,14 @@ fun QuizApp(problems: List<Problem>) {
                         }
                     )
                 } else {
-                    val currentProblem = problems[currentQuestion]
-                    val correctAnswerIndex = currentProblem.choices.indexOf(currentProblem.answer)
+                    val currentQuiz = quizList[currentQuestion]
+                    val correctAnswerIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
 
                     QuizContentScreen(
-                        problem = currentProblem,
+                        quiz = currentQuiz,
                         correctAnswerIndex = correctAnswerIndex,
                         currentQuestionIndex = currentQuestion,
-                        totalQuestions = problems.size,
+                        totalQuestions = quizList.size,
                         selectedOption = selectedOption,
                         showResult = showResult,
                         score = score,
@@ -155,7 +154,7 @@ fun QuizApp(problems: List<Problem>) {
                         onNextQuestion = {
                             selectedOption = null
                             showResult = false
-                            if (currentQuestion < problems.size - 1) {
+                            if (currentQuestion < quizList.size - 1) {
                                 currentQuestion += 1
                             } else {
                                 quizCompleted = true
@@ -171,7 +170,7 @@ fun QuizApp(problems: List<Problem>) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun QuizContentScreen(
-    problem: Problem,
+    quiz: Quiz,
     correctAnswerIndex: Int,
     currentQuestionIndex: Int,
     totalQuestions: Int,
@@ -222,7 +221,7 @@ fun QuizContentScreen(
                 modifier = Modifier.padding(vertical = 4.dp)
             ) {
                 Text(
-                    text = problem.category,
+                    text = quiz.category,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -248,12 +247,12 @@ fun QuizContentScreen(
             }
 
             Text(
-                text = problem.question,
+                text = quiz.question,
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
-            problem.choices.forEachIndexed { index, option ->
+            quiz.choices.forEachIndexed { index, option ->
                 OptionItem(
                     text = option,
                     isSelected = selectedOption == index,
@@ -281,7 +280,7 @@ fun QuizContentScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = problem.explanation,
+                                text = quiz.explanation,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
                             )
