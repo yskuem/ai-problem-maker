@@ -9,6 +9,7 @@ data class Quiz(
     val explanation: String,
     val projectId: String = "",
     val createdUserId: String = "",
+    val groupId: String,
     val createdAt: Instant,
     val updatedAt: Instant,
 )
