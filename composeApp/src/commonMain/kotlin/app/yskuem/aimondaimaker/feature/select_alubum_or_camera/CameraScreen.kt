@@ -111,8 +111,6 @@ fun CameraPermission(
     onImageReady: (ByteArray) -> Unit
 ) {
 
-    val navigator = LocalNavigator.current
-
     LaunchedEffect(Unit) {
         if (state.uiPermissionState == UiPermissionState.INITIAL) {
             onRequestPermission()
