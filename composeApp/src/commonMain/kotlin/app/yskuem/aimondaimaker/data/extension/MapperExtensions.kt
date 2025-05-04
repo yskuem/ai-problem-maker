@@ -1,13 +1,13 @@
 package app.yskuem.aimondaimaker.data.extension
 
-import app.yskuem.aimondaimaker.data.api.response.QuizDto
+import app.yskuem.aimondaimaker.data.api.response.QuizApiDto
 import app.yskuem.aimondaimaker.data.supabase.response.ProjectDto
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.Project
 import kotlinx.datetime.Clock
 
 
-fun QuizDto.toDomain(): Quiz = Quiz(
+fun QuizApiDto.toDomain(): Quiz = Quiz(
     id = id,
     answer = answer,
     title = title,

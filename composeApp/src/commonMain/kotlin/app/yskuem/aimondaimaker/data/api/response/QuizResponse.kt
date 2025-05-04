@@ -13,7 +13,7 @@ data class QuizResponse(
 
 
 @Serializable
-data class QuizDto(
+data class QuizApiDto(
     val id: String,
     val answer: String,
     val question: String,
@@ -27,5 +27,5 @@ data class QuizDto(
 
 @Serializable
 data class Args(
-    val questions: List<QuizDto>,
+    val questions: List<QuizApiDto>,
 )
