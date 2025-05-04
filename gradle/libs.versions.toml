@@ -24,6 +24,7 @@ ktor = "3.1.2"
 cameraCore = "1.4.2"
 androidx-ui-tooling = "1.8.0"
 supabase = "3.1.4"
+serialization = "1.8.1"
 
 
 [libraries]
@@ -73,6 +74,9 @@ ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 supabase-bom = { group="io.github.jan-tennert.supabase", name="bom", version.ref = "supabase" }
 supabase-auth = { group="io.github.jan-tennert.supabase", name="auth-kt", version.ref ="supabase" }
 supabase-postgrest = { group="io.github.jan-tennert.supabase", name="postgrest-kt", version.ref = "supabase" }
+
+serialization-core = { module="org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }
+serialization-json = { module="org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 
 

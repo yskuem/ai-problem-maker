@@ -35,9 +35,6 @@ class QuizRepositoryImpl(
         projectId: String
     ) {
         val userId = authRepository.getUserId()
-        if(userId == null) {
-            throw IllegalStateException("userId is null")
-        }
         val upLoadQuiz = quiz.copy(
             projectId = projectId,
             createdUserId = userId,

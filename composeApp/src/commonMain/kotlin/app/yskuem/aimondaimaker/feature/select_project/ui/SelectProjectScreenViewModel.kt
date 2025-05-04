@@ -1,12 +1,13 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
+import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
 
 class SelectProjectScreenViewModel(
-    private val supabaseClientHelper: SupabaseClientHelper
+    private val projectRepository: ProjectRepository,
 ) : ScreenModel {
     init {
         onFetchProjectList()
@@ -15,16 +16,10 @@ class SelectProjectScreenViewModel(
     fun onFetchProjectList() {
         screenModelScope.launch {
             val result = runCatching {
-//                supabaseClientHelper.fetchListByMatchValue<ProjectResponse>(
-//                    tableName = SupabaseTableName.Project.NAME,
-//                    filterCol = SupabaseColumnName.Project.ID,
-//                    filterVal = "7828121",
-//                    orderCol = SupabaseColumnName.Project.CREATED_AT,
-//                )
+                projectRepository.fetchProjectList()
             }
             result.onSuccess {
-                val kk = it
-                //println("Fetched project list: ${it[0].id}")
+                println(it)
             }.onFailure {
                 println("Failed to fetch project list: ${it.message}")
             }

@@ -72,6 +72,8 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.supabase.auth)
             implementation(libs.supabase.postgrest)
+            implementation(libs.serialization.core)
+            implementation(libs.serialization.json)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

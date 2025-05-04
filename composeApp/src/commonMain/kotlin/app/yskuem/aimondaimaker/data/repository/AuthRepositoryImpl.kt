@@ -16,7 +16,8 @@ class AuthRepositoryImpl(
         return supabaseClient.auth.currentUserOrNull()
     }
 
-    override suspend fun getUserId(): String? {
-        return supabaseClient.auth.currentUserOrNull()?.id
+    override suspend fun getUserId(): String {
+        val userId = supabaseClient.auth.currentUserOrNull()?.id
+        return userId ?: throw IllegalStateException("User is not signed in")
     }
 }

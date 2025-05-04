@@ -19,9 +19,18 @@ fun QuizDto.toDomain(): Quiz = Quiz(
 
 
 fun Project.toDTO(): ProjectDto = ProjectDto(
-    id          = id,
+    id = id,
     createdUserId = createdUserId,
-    name        = name,
-    createdAt   = createdAt.toString(),
-    updatedAt   = updatedAt.toString(),
+    name = name,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+)
+
+
+fun ProjectDto.toDomain(): Project = Project(
+    id = id,
+    createdUserId = createdUserId,
+    name = name,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
 )
