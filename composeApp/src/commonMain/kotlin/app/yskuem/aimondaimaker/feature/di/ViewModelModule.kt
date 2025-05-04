@@ -24,7 +24,7 @@ val viewModelModule = module {
     }
     factory {
         SelectProjectScreenViewModel(
-            supabaseClientHelper = get(),
+            projectRepository = get(),
         )
     }
 }

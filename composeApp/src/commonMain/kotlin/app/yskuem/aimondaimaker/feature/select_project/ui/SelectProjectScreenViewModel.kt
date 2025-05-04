@@ -1,9 +1,14 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
+import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
+import app.yskuem.aimondaimaker.domain.entity.Project
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SelectProjectScreenViewModel(
@@ -13,15 +18,18 @@ class SelectProjectScreenViewModel(
         onFetchProjectList()
     }
 
-    fun onFetchProjectList() {
+    private val _projects = MutableStateFlow<DataUiState<List<Project>>>(DataUiState.Loading)
+    val projects = _projects.asStateFlow()
+
+    private fun onFetchProjectList() {
         screenModelScope.launch {
             val result = runCatching {
                 projectRepository.fetchProjectList()
             }
             result.onSuccess {
-                println(it)
+                _projects.value = DataUiState.Success(it)
             }.onFailure {
-                println("Failed to fetch project list: ${it.message}")
+                _projects.value = DataUiState.Error(it)
             }
         }
     }
