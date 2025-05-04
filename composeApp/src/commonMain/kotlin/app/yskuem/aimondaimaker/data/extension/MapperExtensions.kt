@@ -8,10 +8,12 @@ import kotlinx.datetime.Clock
 
 
 fun QuizDto.toDomain(): Quiz = Quiz(
-    answer      = answer,
-    category    = category,
-    question    = question,
-    choices     = choices.shuffled(),// 正解が1番目にくることが多いので選択肢をシャッフルしておく
+    id = id,
+    answer = answer,
+    title = title,
+    groupId = groupId,
+    question = question,
+    choices = choices.shuffled(),// 正解が1番目にくることが多いので選択肢をシャッフルしておく
     explanation = explanation,
     createdAt = Clock.System.now(),
     updatedAt = Clock.System.now(),
