@@ -69,11 +69,13 @@ tools = [
 @app.post("/analyze_image")
 async def analyze_image(file: UploadFile = File(...)):
     try:
+        # ファイル読み込み
         file_bytes = await file.read()
         file_obj = io.BytesIO(file_bytes)
         file_obj.name = file.filename
         file_obj.seek(0)
 
+        # アップロード設定
         upload_config = types.UploadFileConfig(
             mime_type=file.content_type,
             display_name=file.filename,
@@ -83,6 +85,7 @@ async def analyze_image(file: UploadFile = File(...)):
             config=upload_config,
         )
 
+        # モデル呼び出し設定
         generate_content_config = types.GenerateContentConfig(
             response_mime_type="text/plain",
             tools=tools
@@ -96,22 +99,28 @@ async def analyze_image(file: UploadFile = File(...)):
         raw_calls = result.function_calls or []
         enriched = []
         for fc in raw_calls:
-            # unique group ID per call
-            group_id = str(uuid.uuid4())
+            # 一つの関数呼び出しで共通の group_id を生成
+            group_uuid = str(uuid.uuid4())
+            # 辞書化
             try:
                 fc_dict = fc.dict()
             except Exception:
                 fc_dict = fc.to_dict()
-            # extract and remove title and questions
-            title = fc_dict['args'].pop('title', None)
-            questions = fc_dict['args'].pop('questions', [])
-            # for each question, inject title and group_id at same level
+
+            title = fc_dict['args'].get('title')
+            questions = fc_dict['args'].get('questions', [])
+
+            # 各質問にユニークな ID と共通の group_id、title を注入
             enriched_questions = []
             for q in questions:
-                q['title'] = title
-                q['group_id'] = group_id
+                question_id = str(uuid.uuid4())
+                q['id'] = question_id
+                q['group_id'] = group_uuid
+                if title is not None:
+                    q['title'] = title
                 enriched_questions.append(q)
-            # replace args with flat questions list
+
+            # args を更新して返却
             fc_dict['args'] = enriched_questions
             enriched.append(fc_dict)
 
