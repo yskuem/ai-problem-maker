@@ -28,7 +28,7 @@ class QuizRepositoryImpl(
         if(response.isEmpty()) {
             throw IllegalStateException("Response is empty")
         }
-        return response.first().args.questions.map { it.toDomain() }
+        return response.first().args.map { it.toDomain() }
     }
 
     override suspend fun saveQuiz(

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class QuizResponse(
     val id: String? = null,
-    val args: Args,
+    val args: List<QuizApiDto>,
     val name: String
 )
 
@@ -25,7 +25,4 @@ data class QuizApiDto(
 )
 
 
-@Serializable
-data class Args(
-    val questions: List<QuizApiDto>,
-)
+

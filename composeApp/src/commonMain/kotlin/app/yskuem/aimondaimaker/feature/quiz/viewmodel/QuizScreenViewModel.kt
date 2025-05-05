@@ -74,7 +74,7 @@ class ShowQuizScreenViewModel(
     private suspend fun onSaveData(
         quizList: List<Quiz>,
     ) {
-        runCatching {
+        val res = runCatching {
             // Projectの保存
             val project = projectRepository.addProject(
                 projectName = quizList[0].title
@@ -89,6 +89,11 @@ class ShowQuizScreenViewModel(
                     userId = userId,
                 )
             }
+        }
+        res.onSuccess {
+            println("success save")
+        }.onFailure { e ->
+            println("ああ$e")
         }
     }
 }
