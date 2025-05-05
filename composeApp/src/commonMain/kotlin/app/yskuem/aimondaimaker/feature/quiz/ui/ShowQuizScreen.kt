@@ -221,7 +221,7 @@ fun QuizContentScreen(
                 modifier = Modifier.padding(vertical = 4.dp)
             ) {
                 Text(
-                    text = quiz.category,
+                    text = quiz.title,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary
                 )
