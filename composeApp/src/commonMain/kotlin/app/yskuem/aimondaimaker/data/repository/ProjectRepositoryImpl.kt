@@ -18,7 +18,7 @@ class ProjectRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ) : ProjectRepository {
     @OptIn(ExperimentalUuidApi::class)
-    override suspend fun addProject(projectName: String) {
+    override suspend fun addProject(projectName: String): Project {
 
         val project = Project(
             id = Uuid.random().toString(),
@@ -31,6 +31,7 @@ class ProjectRepositoryImpl(
             tableName = SupabaseTableName.Project.NAME,
             item = project.toDTO(),
         )
+        return project
     }
 
     override suspend fun fetchProjectList(): List<Project> {

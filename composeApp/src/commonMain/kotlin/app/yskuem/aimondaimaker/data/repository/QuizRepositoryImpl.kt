@@ -5,6 +5,7 @@ import app.yskuem.aimondaimaker.data.extension.toDomain
 import app.yskuem.aimondaimaker.data.api.response.QuizResponse
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
+import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
@@ -32,16 +33,16 @@ class QuizRepositoryImpl(
 
     override suspend fun saveQuiz(
         quiz: Quiz,
-        projectId: String
+        projectId: String,
+        userId: String,
     ) {
-        val userId = authRepository.getUserId()
         val upLoadQuiz = quiz.copy(
             projectId = projectId,
             createdUserId = userId,
         )
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.Quiz.NAME,
-            item = upLoadQuiz
+            item = upLoadQuiz.toDTO()
         )
     }
 }

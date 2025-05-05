@@ -14,7 +14,9 @@ val viewModelModule = module {
     }
     factory {
         ShowQuizScreenViewModel(
-            quizRepository = get()
+            quizRepository = get(),
+            authRepository = get(),
+            projectRepository = get(),
         )
     }
     factory {

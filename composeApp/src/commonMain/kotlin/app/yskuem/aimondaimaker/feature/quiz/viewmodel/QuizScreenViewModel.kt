@@ -1,8 +1,11 @@
 package app.yskuem.aimondaimaker.feature.quiz.viewmodel
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import app.yskuem.aimondaimaker.feature.di.viewModelModule
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -14,7 +17,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ShowQuizScreenViewModel(
+    private val authRepository: AuthRepository,
     private val quizRepository: QuizRepository,
+    private val projectRepository: ProjectRepository,
 ) : ScreenModel {
 
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
@@ -34,22 +39,56 @@ class ShowQuizScreenViewModel(
         initialValue = QuizUiState()
     )
 
-    fun onFetchQuizList(
+    fun onLoadPage(
         imageByte: ByteArray,
         fileName: String,
         extension: String
     ) {
         screenModelScope.launch {
             _quizList.value = DataUiState.Loading
-            try {
-                val quizList = quizRepository.fetchFromImage(
-                    image = imageByte,
-                    fileName = fileName,
-                    extension = extension,
+
+            // 画像からQuizを取得
+            val quizList = onFetchQuizList(
+                imageByte = imageByte,
+                fileName = fileName,
+                extension = extension,
+            )
+            onSaveData(quizList)
+        }
+    }
+
+    private suspend fun onFetchQuizList(
+        imageByte: ByteArray,
+        fileName: String,
+        extension: String
+    ): List<Quiz> {
+        return try {
+            val quizList = quizRepository.fetchFromImage(imageByte, fileName, extension)
+            _quizList.value = DataUiState.Success(quizList)
+            quizList
+        } catch (e: Exception) {
+            _quizList.value = DataUiState.Error(e)
+            emptyList()
+        }
+    }
+
+    private suspend fun onSaveData(
+        quizList: List<Quiz>,
+    ) {
+        runCatching {
+            // Projectの保存
+            val project = projectRepository.addProject(
+                projectName = quizList[0].title
+            )
+
+            // Quizの保存
+            val userId = authRepository.getUserId()
+            quizList.map {
+                quizRepository.saveQuiz(
+                    quiz = it,
+                    projectId = project.id,
+                    userId = userId,
                 )
-                _quizList.value = DataUiState.Success(quizList)
-            } catch (e: Exception) {
-                _quizList.value = DataUiState.Error(e)
             }
         }
     }

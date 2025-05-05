@@ -12,5 +12,6 @@ interface QuizRepository {
     suspend fun saveQuiz(
         quiz: Quiz,
         projectId: String,
+        userId: String,
     )
 }

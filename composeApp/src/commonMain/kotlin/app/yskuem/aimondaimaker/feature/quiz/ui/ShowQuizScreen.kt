@@ -49,7 +49,7 @@ data class ShowQuizScreen(
         val state by viewmodel.uiState.collectAsState()
 
         LaunchedEffect(Unit) {
-            viewmodel.onFetchQuizList(
+            viewmodel.onLoadPage(
                 imageByte = imageByte,
                 fileName = fileName,
                 extension = extension
