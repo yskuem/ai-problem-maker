@@ -1,8 +1,8 @@
 package app.yskuem.aimondaimaker.data.supabase.response
 
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Project.CREATE_USER_ID
-import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Project.CREATED_AT
-import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Project.UPDATED_AT
+import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.CREATED_AT
+import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.UPDATED_AT
 import kotlinx.datetime.Instant
 import kotlinx.datetime.serializers.InstantIso8601Serializer
 import kotlinx.serialization.SerialName

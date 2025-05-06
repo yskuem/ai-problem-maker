@@ -9,6 +9,13 @@ interface QuizRepository {
         extension: String,
     ): List<Quiz>
 
+    suspend fun saveQuizInfo(
+        projectId: String,
+        userId: String,
+        groupId: String,
+        quizName: String,
+    )
+
     suspend fun saveQuiz(
         quiz: Quiz,
         projectId: String,

@@ -9,6 +9,8 @@ import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import app.yskuem.aimondaimaker.domain.entity.QuizInfo
+import kotlinx.datetime.Clock
 
 class QuizRepositoryImpl(
     private val authRepository: AuthRepository,
@@ -31,6 +33,25 @@ class QuizRepositoryImpl(
         return response.first().args.map { it.toDomain() }
     }
 
+    override suspend fun saveQuizInfo(
+        projectId: String,
+        userId: String,
+        groupId: String,
+        quizName: String,
+    ) {
+        val quizInfo = QuizInfo(
+            groupId = groupId,
+            name = quizName,
+            createdAt = Clock.System.now(),
+            updatedAt = Clock.System.now(),
+            createdUserId = userId,
+        )
+        supabaseClientHelper.addItem(
+            tableName = SupabaseTableName.QuizInfo.NAME,
+            item = quizInfo.toDTO()
+        )
+    }
+
     override suspend fun saveQuiz(
         quiz: Quiz,
         projectId: String,
@@ -39,6 +60,7 @@ class QuizRepositoryImpl(
         val upLoadQuiz = quiz.copy(
             projectId = projectId,
             createdUserId = userId,
+            groupId = quiz.groupId,
         )
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.Quiz.NAME,
