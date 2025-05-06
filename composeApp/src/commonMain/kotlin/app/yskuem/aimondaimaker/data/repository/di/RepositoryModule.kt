@@ -3,9 +3,11 @@ package app.yskuem.aimondaimaker.data.repository.di
 import app.yskuem.aimondaimaker.data.repository.AuthRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.ProjectRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.QuizRepositoryImpl
+import app.yskuem.aimondaimaker.data.repository.UserRepositoryImpl
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -24,6 +26,12 @@ val repositoryModule = module {
         ProjectRepositoryImpl(
             authRepository = get(),
             supabaseClientHelper = get(),
+        )
+    }
+    single<UserRepository> {
+        UserRepositoryImpl(
+            supabaseClientHelper = get(),
+            authRepository = get(),
         )
     }
 }

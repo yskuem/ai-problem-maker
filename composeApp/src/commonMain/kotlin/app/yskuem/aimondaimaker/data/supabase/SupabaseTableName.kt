@@ -7,4 +7,7 @@ object SupabaseTableName {
     object Quiz {
         const val NAME = "quiz"
     }
+    object User {
+        const val NAME = "user"
+    }
 }

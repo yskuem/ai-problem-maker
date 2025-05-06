@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.data.supabase
 
+import io.github.jan.supabase.auth.Auth
+
 object SupabaseColumnName {
     object Project {
         const val ID = "id"
@@ -7,5 +9,8 @@ object SupabaseColumnName {
         const val NAME = "name"
         const val CREATED_AT = "created_at"
         const val UPDATED_AT = "updated_at"
+    }
+    object User {
+        const val AVATAR_URL = "avatar_url"
     }
 }
