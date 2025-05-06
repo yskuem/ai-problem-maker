@@ -13,7 +13,7 @@ interface QuizRepository {
         projectId: String,
         userId: String,
         groupId: String,
-        quizName: String,
+        quizTitle: String,
     )
 
     suspend fun saveQuiz(

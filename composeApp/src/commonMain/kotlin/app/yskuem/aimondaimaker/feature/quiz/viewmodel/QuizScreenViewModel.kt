@@ -80,8 +80,17 @@ class ShowQuizScreenViewModel(
                 projectName = quizList[0].title
             )
 
-            // Quizの保存
             val userId = authRepository.getUserId()
+
+            // QuizInfoの保存
+            quizRepository.saveQuizInfo(
+                projectId = project.id,
+                userId = userId,
+                groupId = quizList[0].groupId,
+                quizTitle = quizList[0].title,
+            )
+
+            // Quizの保存
             quizList.map {
                 quizRepository.saveQuiz(
                     quiz = it,
