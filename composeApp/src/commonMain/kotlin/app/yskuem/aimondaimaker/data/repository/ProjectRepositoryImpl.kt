@@ -40,7 +40,7 @@ class ProjectRepositoryImpl(
             tableName = SupabaseTableName.Project.NAME,
             filterCol = SupabaseColumnName.Project.CREATE_USER_ID,
             filterVal = authRepository.getUserId(),
-            orderCol = SupabaseColumnName.Project.CREATED_AT,
+            orderCol = SupabaseColumnName.CREATED_AT,
         )
         return res.map { it.toDomain() }
     }

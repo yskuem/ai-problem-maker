@@ -13,7 +13,6 @@ import org.koin.dsl.module
 val repositoryModule = module {
      single<QuizRepository> {
          QuizRepositoryImpl(
-             authRepository = get(),
              supabaseClientHelper = get(),
          )
      }
