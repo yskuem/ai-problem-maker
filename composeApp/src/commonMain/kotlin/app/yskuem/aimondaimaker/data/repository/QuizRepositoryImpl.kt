@@ -13,7 +13,6 @@ import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import kotlinx.datetime.Clock
 
 class QuizRepositoryImpl(
-    private val authRepository: AuthRepository,
     private val supabaseClientHelper: SupabaseClientHelper,
 ): QuizRepository {
 
