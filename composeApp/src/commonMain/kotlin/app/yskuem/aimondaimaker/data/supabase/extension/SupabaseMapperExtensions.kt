@@ -1,11 +1,14 @@
 package app.yskuem.aimondaimaker.data.supabase.extension
 
+import app.yskuem.aimondaimaker.data.supabase.response.QuizInfoDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.data.supabase.response.UserDto
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.domain.entity.User
 
+
+// Quiz
 fun Quiz.toDTO(): QuizSupabaseDto = QuizSupabaseDto(
     id = id,
     answer = answer,
@@ -17,20 +20,6 @@ fun Quiz.toDTO(): QuizSupabaseDto = QuizSupabaseDto(
     createdAt = createdAt,
     updatedAt = updatedAt,
     projectId = projectId,
-    createdUserId = createdUserId,
-)
-
-fun QuizInfo.toDTO(): QuizSupabaseDto = QuizSupabaseDto(
-    id = "",
-    answer = "",
-    title = name,
-    groupId = groupId,
-    question = "",
-    choices = emptyList(),
-    explanation = "",
-    createdAt = createdAt,
-    updatedAt = updatedAt,
-    projectId = "",
     createdUserId = createdUserId,
 )
 
@@ -48,6 +37,26 @@ fun QuizSupabaseDto.toDomain(): Quiz = Quiz(
     updatedAt = updatedAt,
 )
 
+
+// QuizInfo
+fun QuizInfo.toDTO(): QuizInfoDto = QuizInfoDto(
+    groupId = groupId,
+    createdUserId = createdUserId,
+    name = name,
+    updatedAt = updatedAt,
+    createdAt = createdAt,
+)
+
+fun QuizInfoDto.toDomain(): QuizInfo = QuizInfo(
+    groupId = groupId,
+    createdUserId = createdUserId,
+    name = name,
+    updatedAt = updatedAt,
+    createdAt = createdAt,
+)
+
+
+// User
 fun UserDto.toDomain(): User = User(
     id = id,
     name = name,
