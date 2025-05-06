@@ -21,6 +21,7 @@ class AuthScreenViewModel(
     fun login() {
         screenModelScope.launch {
             val result = runCatching {
+                // TODO UserIdをローカルに保存するように修正
                 val currentUser = authRepository.getUser()
                 if (currentUser == null) {
                     authRepository.signInAnonymous()
