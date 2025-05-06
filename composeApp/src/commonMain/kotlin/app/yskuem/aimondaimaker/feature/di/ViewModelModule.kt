@@ -10,6 +10,7 @@ val viewModelModule = module {
     factory {
         AuthScreenViewModel(
             authRepository = get(),
+            userRepository = get()
         )
     }
     factory {
