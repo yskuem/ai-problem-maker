@@ -13,5 +13,4 @@ actual val localDbModule: Module = module {
             context = get()
         )
     }
-    single<Context> { androidContext() }
 }
