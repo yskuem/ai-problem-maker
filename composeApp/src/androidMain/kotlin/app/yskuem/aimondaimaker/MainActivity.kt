@@ -12,6 +12,7 @@ import io.github.vinceglb.filekit.dialogs.init
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
 
         FileKit.init(this)
         initKoin()
@@ -19,6 +20,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             App()
         }
+    }
+    companion object {
+        lateinit var instance: MainActivity
+            private set
     }
 }
 

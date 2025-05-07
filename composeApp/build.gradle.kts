@@ -45,6 +45,9 @@ kotlin {
             // CameraX View class
             implementation(libs.androidx.camera.view)
             implementation(libs.androidx.compose.ui.tooling.preview)
+
+            implementation(libs.datastore.core)
+            implementation(libs.datastore)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -74,6 +77,9 @@ kotlin {
             implementation(libs.supabase.postgrest)
             implementation(libs.serialization.core)
             implementation(libs.serialization.json)
+            implementation(libs.multiplatform.settings.core)
+            implementation(libs.multiplatform.settings.datastore)
+            implementation(libs.multiplatform.settings.coroutines)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
