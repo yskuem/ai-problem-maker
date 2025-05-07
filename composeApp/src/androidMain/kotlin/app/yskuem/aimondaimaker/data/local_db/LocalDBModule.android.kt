@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalSettingsImplementation::class)
 actual val localDbModule: Module = module {
-    single {
+    single<UserDataStore> {
         AndroidUserDataStore(
             context = get()
         )

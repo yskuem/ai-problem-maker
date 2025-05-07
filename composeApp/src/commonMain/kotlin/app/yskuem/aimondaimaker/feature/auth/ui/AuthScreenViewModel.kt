@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.feature.auth.ui
 
+import app.yskuem.aimondaimaker.data.local_db.UserDataStore
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
 import cafe.adriel.voyager.core.model.ScreenModel
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 class AuthScreenViewModel(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
+    private val userDataStore: UserDataStore,
 ): ScreenModel {
     private val _hasError = MutableStateFlow(false)
     private val _isLoginSuccess = MutableStateFlow(false)

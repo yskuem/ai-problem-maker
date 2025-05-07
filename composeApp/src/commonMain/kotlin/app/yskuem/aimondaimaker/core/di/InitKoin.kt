@@ -10,7 +10,11 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
 
-expect fun initKoin() : KoinApplication
+fun initKoin() {
+    initKoinPlatform()
+}
+
+expect fun initKoinPlatform() : KoinApplication
 
 val diModules = listOf(
     coreModule,
