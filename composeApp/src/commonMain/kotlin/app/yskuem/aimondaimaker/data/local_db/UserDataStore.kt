@@ -16,6 +16,6 @@ abstract class UserDataStore {
     }
 
     companion object {
-        const val KEY_USER_ID = "user_token"
+        const val KEY_USER_ID = "user_id"
     }
 }
