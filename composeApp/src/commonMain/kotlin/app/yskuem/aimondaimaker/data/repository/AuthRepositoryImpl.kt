@@ -13,6 +13,8 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun getUser(): UserInfo? {
+        // 待たないとiOSで常時nullになる
+        supabaseClient.auth.awaitInitialization()
         return supabaseClient.auth.currentUserOrNull()
     }
 
