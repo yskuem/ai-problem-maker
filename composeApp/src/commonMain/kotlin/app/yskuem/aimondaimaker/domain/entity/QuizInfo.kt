@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.domain.entity
 import kotlinx.datetime.Instant
 
 data class QuizInfo(
+    val projectId: String,
     val groupId: String,
     val createdUserId: String,
     val name: String,

@@ -40,6 +40,7 @@ fun QuizSupabaseDto.toDomain(): Quiz = Quiz(
 
 // QuizInfo
 fun QuizInfo.toDTO(): QuizInfoDto = QuizInfoDto(
+    projectId = projectId,
     groupId = groupId,
     createdUserId = createdUserId,
     name = name,
@@ -48,6 +49,7 @@ fun QuizInfo.toDTO(): QuizInfoDto = QuizInfoDto(
 )
 
 fun QuizInfoDto.toDomain(): QuizInfo = QuizInfo(
+    projectId = projectId,
     groupId = groupId,
     createdUserId = createdUserId,
     name = name,

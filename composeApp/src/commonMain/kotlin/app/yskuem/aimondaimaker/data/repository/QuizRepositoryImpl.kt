@@ -39,6 +39,7 @@ class QuizRepositoryImpl(
         quizTitle: String,
     ) {
         val quizInfo = QuizInfo(
+            projectId = projectId,
             groupId = groupId,
             name = quizTitle,
             createdAt = Clock.System.now(),
