@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.quiz.ui.ShowQuizScreen
+import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -175,7 +175,7 @@ class SelectAlbumOrCameraScreen : Screen {
                                 scope.launch {
                                     viewmodel.onSelectAlbum { imageByte, fileName, extension ->
                                         navigator?.push(
-                                            ShowQuizScreen(
+                                            CreateQuizScreen(
                                                 imageByte = imageByte,
                                                 fileName = fileName,
                                                 extension = extension,

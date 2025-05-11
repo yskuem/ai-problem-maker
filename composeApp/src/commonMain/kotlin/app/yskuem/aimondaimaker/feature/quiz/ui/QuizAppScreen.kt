@@ -1,21 +1,21 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
-import PastelAppleStyleLoading
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,8 +26,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -38,57 +50,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 
-data class ShowQuizScreen(
-    val imageByte: ByteArray,
-    val fileName: String = "image",
-    val extension: String
-): Screen {
-    @Composable
-    override fun Content() {
-        val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
-        val state by viewmodel.uiState.collectAsState()
-
-        LaunchedEffect(Unit) {
-            viewmodel.onLoadPage(
-                imageByte = imageByte,
-                fileName = fileName,
-                extension = extension
-            )
-        }
-
-        when(val quizList = state.quizList) {
-            is DataUiState.Error -> {
-                Text(quizList.throwable.toString())
-            }
-            is DataUiState.Loading -> {
-                PastelAppleStyleLoading()
-            }
-            is DataUiState.Success -> {
-                QuizApp(quizList.data)
-            }
-        }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as ShowQuizScreen
-
-        if (!imageByte.contentEquals(other.imageByte)) return false
-        if (fileName != other.fileName) return false
-        if (extension != other.extension) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = imageByte.contentHashCode()
-        result = 31 * result + fileName.hashCode()
-        result = 31 * result + extension.hashCode()
-        return result
-    }
-}
 
 @Composable
 fun QuizApp(quizList: List<Quiz>) {

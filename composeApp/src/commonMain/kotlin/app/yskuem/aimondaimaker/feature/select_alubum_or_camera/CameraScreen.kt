@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.quiz.ui.ShowQuizScreen
+import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
 import cafe.adriel.voyager.core.screen.Screen
@@ -62,7 +62,7 @@ class CameraPermissionScreen : Screen {
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
             navigator?.push(
-                ShowQuizScreen(
+                CreateQuizScreen(
                     imageByte = bytes,
                     extension = "jpg"
                 )
