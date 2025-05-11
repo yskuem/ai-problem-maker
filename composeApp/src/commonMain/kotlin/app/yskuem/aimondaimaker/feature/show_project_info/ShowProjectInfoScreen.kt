@@ -104,6 +104,14 @@ class ShowProjectInfoScreen(): Screen {
                                         it.updatedAt
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
+                                    },
+                                    itemsProjectIds = quizInfoList.data.map { it.projectId },
+                                    onTapCard = { projectId ->
+                                        println("ああああああああ")
+                                        viewModel.onTapQuizInfo(
+                                            projectId = projectId,
+                                            navigator = navigator,
+                                        )
                                     }
                                 )
                             }
@@ -126,6 +134,10 @@ class ShowProjectInfoScreen(): Screen {
                                         it.updatedAt
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
+                                    },
+                                    itemsProjectIds = noteInfoList.data.map { it.projectId },
+                                    onTapCard = { projectId ->
+                                        // TODO ノートの詳細画面に遷移する処理を実装
                                     }
                                 )
                             }
@@ -170,6 +182,8 @@ fun ErrorContent(message: String?) {
 fun ContentList(
     items: List<String>,
     updateAtList: List<String>,
+    itemsProjectIds: List<String>,
+    onTapCard: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType
 ) {
@@ -178,6 +192,9 @@ fun ContentList(
     ) {
         itemsIndexed(items) { index, item ->
             Card(
+                onClick = {
+                    onTapCard(itemsProjectIds[index])
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp) // カードを大きくする

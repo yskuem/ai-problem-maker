@@ -5,8 +5,10 @@ import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.NoteInfo
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
+import app.yskuem.aimondaimaker.feature.quiz.ui.ShowAnsweredQuizzesScreen
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,6 +40,26 @@ class ShowProjectInfoScreenViewModel(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = ProjectInfoScreenState()
     )
+
+    fun onTapQuizInfo(
+        projectId: String,
+        navigator: Navigator?,
+    ) {
+        screenModelScope.launch {
+            val currentState = _quizInfoList.value
+            _quizInfoList.value = DataUiState.Loading
+
+            val res = runCatching {
+                quizRepository.fetchAnsweredQuizList(projectId = projectId)
+            }
+            res.onSuccess { quizList ->
+                navigator?.push(ShowAnsweredQuizzesScreen(quizList = quizList))
+                _quizInfoList.value = currentState
+            }.onFailure { exception ->
+                _quizInfoList.value = DataUiState.Error(exception)
+            }
+        }
+    }
 
     private fun fetchQuizInfo() {
         screenModelScope.launch {

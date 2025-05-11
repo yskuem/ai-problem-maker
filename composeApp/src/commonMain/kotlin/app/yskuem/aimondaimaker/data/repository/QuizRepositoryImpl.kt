@@ -9,6 +9,7 @@ import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
 import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
 import app.yskuem.aimondaimaker.data.supabase.extension.toDomain
 import app.yskuem.aimondaimaker.data.supabase.response.QuizInfoDto
+import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
@@ -52,6 +53,16 @@ class QuizRepositoryImpl(
             tableName = SupabaseTableName.QuizInfo.NAME,
             item = quizInfo.toDTO()
         )
+    }
+
+    override suspend fun fetchAnsweredQuizList(projectId: String): List<Quiz> {
+        val res = supabaseClientHelper.fetchListByMatchValue<QuizSupabaseDto>(
+            tableName = SupabaseTableName.Quiz.NAME,
+            filterCol = SupabaseColumnName.Quiz.PROJECT_ID,
+            filterVal = projectId,
+            orderCol = SupabaseColumnName.CREATED_AT,
+        )
+        return res.map { it.toDomain() }
     }
 
     override suspend fun saveQuiz(
