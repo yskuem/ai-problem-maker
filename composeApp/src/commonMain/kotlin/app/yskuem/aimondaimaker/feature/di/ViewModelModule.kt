@@ -4,6 +4,7 @@ import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreenViewModel
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
+import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreenViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
@@ -29,6 +30,12 @@ val viewModelModule = module {
     factory {
         SelectProjectScreenViewModel(
             projectRepository = get(),
+        )
+    }
+    factory {
+        ShowProjectInfoScreenViewModel(
+            authRepository = get(),
+            quizRepository = get()
         )
     }
 }

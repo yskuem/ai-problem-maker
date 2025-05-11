@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.domain.data.repository
 
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 
 interface QuizRepository {
     suspend fun fetchFromImage(
@@ -21,4 +22,6 @@ interface QuizRepository {
         projectId: String,
         userId: String,
     )
+
+    suspend fun fetchQuizInfoList(userId: String): List<QuizInfo>
 }

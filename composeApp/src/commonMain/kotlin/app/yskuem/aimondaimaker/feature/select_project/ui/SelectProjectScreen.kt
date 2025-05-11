@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 
@@ -133,7 +134,7 @@ class SelectProjectScreen : Screen {
                                 items(filtered) { project ->
                                     Card(
                                         onClick = {
-
+                                            navigator?.push(ShowProjectInfoScreen())
                                         },
                                         shape = RoundedCornerShape(8.dp),
                                         elevation = 4.dp,
