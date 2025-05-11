@@ -16,7 +16,7 @@ fun App() {
         Navigator(AuthScreen()) { navigator ->
             FadeTransition(
                 navigator = navigator,
-                animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+                animationSpec = spring(stiffness = Spring.StiffnessLow)
             )
         }
     }
