@@ -107,7 +107,6 @@ class ShowProjectInfoScreen(): Screen {
                                     },
                                     itemsProjectIds = quizInfoList.data.map { it.projectId },
                                     onTapCard = { projectId ->
-                                        println("ああああああああ")
                                         viewModel.onTapQuizInfo(
                                             projectId = projectId,
                                             navigator = navigator,
