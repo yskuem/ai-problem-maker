@@ -49,6 +49,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import cafe.adriel.voyager.navigator.LocalNavigator
 
 
 @Composable
@@ -349,6 +350,7 @@ fun QuizCompletedScreen(
     onRestart: () -> Unit
 ) {
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
+    val navigator = LocalNavigator.current
 
     Card(
         modifier = Modifier
@@ -399,6 +401,27 @@ fun QuizCompletedScreen(
             ) {
                 Text(
                     text = "もう一度挑戦する",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(2.dp))
+
+            Button(
+                onClick = {
+                    navigator?.pop()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            ) {
+                Text(
+                    text = "前の画面に戻る",
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp)
                 )
