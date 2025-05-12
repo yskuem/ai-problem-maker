@@ -27,9 +27,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class SelectProjectScreen : Screen {
     @OptIn(ExperimentalMaterialApi::class)
@@ -132,6 +135,10 @@ class SelectProjectScreen : Screen {
                                     .fillMaxWidth()
                             ) {
                                 items(filtered) { project ->
+                                    // 最終更新日
+                                    val updatedAt = project.updatedAt
+                                        .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                        .toJapaneseMonthDay()
                                     Card(
                                         onClick = {
                                             navigator?.push(ShowProjectInfoScreen())
@@ -217,7 +224,7 @@ class SelectProjectScreen : Screen {
                                                     )
                                                     Text(
                                                         // TODO わかりやすい日付フォーマットにする
-                                                        text = "最終編集: ${project.updatedAt}",
+                                                        text = "最終編集: $updatedAt",
                                                         fontSize = 12.sp,
                                                         color = Color.Gray
                                                     )
