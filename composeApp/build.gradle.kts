@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlin.plugin.serialization)
 }
 
 kotlin {
@@ -33,6 +33,21 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.client.cio)
+            // CameraX core library
+            implementation(libs.androidx.camera.core)
+            // CameraX Camera2 extensions
+            implementation(libs.androidx.camera.camera2)
+            // CameraX Lifecycle library
+            implementation(libs.androidx.camera.lifecycle)
+            // CameraX View class
+            implementation(libs.androidx.camera.view)
+            implementation(libs.androidx.compose.ui.tooling.preview)
+
+            implementation(libs.datastore.core)
+            implementation(libs.datastore)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -43,6 +58,31 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.voyager.koin)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.permissions.compose)
+            implementation(libs.permissions.camera)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
+            implementation(libs.filekit.core)
+            implementation(libs.filekit.dialogs)
+            implementation(libs.koin.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.postgrest)
+            implementation(libs.serialization.core)
+            implementation(libs.serialization.json)
+            implementation(libs.multiplatform.settings.core)
+            implementation(libs.multiplatform.settings.datastore)
+            implementation(libs.multiplatform.settings.coroutines)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
