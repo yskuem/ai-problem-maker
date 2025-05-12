@@ -49,14 +49,14 @@ class SelectNoteOrQuizScreen: Screen {
         ){
             Scaffold(
                 topBar = {
-                    TopAppBar(
+                    CenterAlignedTopAppBar(
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent,
                             titleContentColor = Color.Black,
                             navigationIconContentColor = Color.Black,
                             actionIconContentColor = Color.Black
                         ),
-                        title = { Text("モードの選択") },
+                        title = { Text("") },
                         navigationIcon = {
                             IconButton(
                                 onClick = {
