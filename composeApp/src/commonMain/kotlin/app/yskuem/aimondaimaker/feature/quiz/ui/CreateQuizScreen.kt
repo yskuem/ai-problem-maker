@@ -10,6 +10,7 @@ import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 
 data class CreateQuizScreen(
     val imageByte: ByteArray,
@@ -20,6 +21,7 @@ data class CreateQuizScreen(
     override fun Content() {
         val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
         val state by viewmodel.uiState.collectAsState()
+        val navigator = LocalNavigator.current
 
         LaunchedEffect(Unit) {
             viewmodel.onLoadPage(
@@ -37,7 +39,9 @@ data class CreateQuizScreen(
                 PastelAppleStyleLoading()
             }
             is DataUiState.Success -> {
-                QuizApp(quizList.data)
+                QuizApp(quizList.data) {
+                    navigator?.pop()
+                }
             }
         }
     }
