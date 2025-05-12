@@ -4,8 +4,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 
@@ -13,10 +13,10 @@ import cafe.adriel.voyager.transitions.FadeTransition
 @Preview
 fun App() {
     MaterialTheme {
-        Navigator(SelectProjectScreen()) { navigator ->
+        Navigator(AuthScreen()) { navigator ->
             FadeTransition(
                 navigator = navigator,
-                animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+                animationSpec = spring(stiffness = Spring.StiffnessLow)
             )
         }
     }

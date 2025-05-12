@@ -1,7 +1,7 @@
 package app.yskuem.aimondaimaker.core.di
 
-import app.yskuem.aimondaimaker.core.picker.ImagePicker
-import app.yskuem.aimondaimaker.core.picker.ImagePickerImpl
+import app.yskuem.aimondaimaker.core.data.picker.ImagePicker
+import app.yskuem.aimondaimaker.data.picker.ImagePickerImpl
 import org.koin.dsl.module
 
 val coreModule = module {
