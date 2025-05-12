@@ -247,12 +247,4 @@ class SelectNoteOrQuizScreen: Screen {
             }
         }
     }
-
-    // デスクトップ向けのホバー検出（必要に応じて使用）
-    @Composable
-    private fun rememberIsHovered(): Pair<MutableInteractionSource, Boolean> {
-        val interactionSource = remember { MutableInteractionSource() }
-        val isHovered = interactionSource.collectIsHoveredAsState().value
-        return interactionSource to isHovered
-    }
 }
