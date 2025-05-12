@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
