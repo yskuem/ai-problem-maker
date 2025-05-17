@@ -1,8 +1,8 @@
 package app.yskuem.aimondaimaker.data.repository
 
 import app.yskuem.aimondaimaker.data.api.HttpClient
+import app.yskuem.aimondaimaker.data.api.response.QuizApiDto
 import app.yskuem.aimondaimaker.data.extension.toDomain
-import app.yskuem.aimondaimaker.data.api.response.QuizResponse
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName
 import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
@@ -24,7 +24,7 @@ class QuizRepositoryImpl(
         fileName: String,
         extension: String,
     ): List<Quiz> {
-        val response = HttpClient.postWithImage<List<QuizResponse>>(
+        val response = HttpClient.postWithImage<List<QuizApiDto>>(
             imageBytes = image,
             fileName = fileName,
             extension = extension,
@@ -32,7 +32,7 @@ class QuizRepositoryImpl(
         if(response.isEmpty()) {
             throw IllegalStateException("Response is empty")
         }
-        return response.first().args.map { it.toDomain() }
+        return response.map { it.toDomain() }
     }
 
     override suspend fun saveQuizInfo(

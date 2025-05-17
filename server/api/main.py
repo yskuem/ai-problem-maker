@@ -7,19 +7,23 @@ import io
 import os
 import uvicorn
 import uuid
-from typing import Optional
+from typing import Optional, List
 
 app = FastAPI()
 client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY"),
 )
 
-# Pydanticモデル: 画像から生成される4択問題
+# Pydanticモデル: 単一の4択問題
 class ImageQuestion(BaseModel):
-    title: Optional[str]
     question: str
-    options: list[str]
+    options: List[str]
     answer: str
+
+# Pydanticモデル: クイズ全体の出力
+class QuizOutput(BaseModel):
+    title: str
+    questions: List[ImageQuestion]
 
 @app.post("/analyze_image")
 async def analyze_image(file: UploadFile = File(...)):
@@ -40,30 +44,37 @@ async def analyze_image(file: UploadFile = File(...)):
             config=upload_config,
         )
 
-        # モデル呼び出し: Structured Output (JSON)
+        # モデル呼び出し: Structured Output (JSON) with overall quiz title
         generate_config = types.GenerateContentConfig(
             response_mime_type="application/json",
-            response_schema=list[ImageQuestion]
+            response_schema=QuizOutput
+        )
+        prompt = (
+            "画像からクイズを生成してください。"
+            "クイズ全体のタイトルと、複数の4択問題を含むJSON形式で出力してください。"
         )
         result = client.models.generate_content(
             model="gemini-2.5-flash-preview-04-17",
-            contents=[uploaded, "\n\n画像から4択問題を複数生成してください。"],
+            contents=[uploaded, "\n\n" + prompt],
             config=generate_config,
         )
 
         # パース済みオブジェクトを取得
-        raw_questions = result.parsed or []
+        quiz: QuizOutput = result.parsed
+        if not quiz or not quiz.questions:
+            raise HTTPException(status_code=500, detail="モデルから有効なクイズデータが返されませんでした。")
 
         # 質問群IDを生成
         group_uuid = str(uuid.uuid4())
         enriched = []
-        for q in raw_questions:
+        for img_q in quiz.questions:
             question_id = str(uuid.uuid4())
-            # dict化してID, group_idを注入
-            q_dict = q.dict()
+            q_dict = img_q.dict()
+            # 全体タイトルと group_id, 個別ID を注入
             q_dict.update({
                 "id": question_id,
-                "group_id": group_uuid
+                "group_id": group_uuid,
+                "title": quiz.title
             })
             enriched.append(q_dict)
 
