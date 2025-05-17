@@ -26,8 +26,8 @@ class QuizOutput(BaseModel):
     title: str
     questions: List[ImageQuestion]
 
-@app.post("/analyze_image")
-async def analyze_image(file: UploadFile = File(...)):
+@app.post("/generate_quizies")
+async def generate_quizies(file: UploadFile = File(...)):
     try:
         # ファイル読み込み
         file_bytes = await file.read()
