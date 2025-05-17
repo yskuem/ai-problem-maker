@@ -17,8 +17,9 @@ client = genai.Client(
 # Pydanticモデル: 単一の4択問題
 class ImageQuestion(BaseModel):
     question: str
-    options: List[str]
+    choices: List[str]
     answer: str
+    explanation: str
 
 # Pydanticモデル: クイズ全体の出力
 class QuizOutput(BaseModel):
