@@ -65,7 +65,7 @@ object HttpClient {
             else -> ContentType.Application.OctetStream
         }
 
-        return client.post("/analyze_image") {
+        return client.post("/generate_quizzes") {
             // Multipart/form-data body
             setBody(
                 MultiPartFormDataContent(
