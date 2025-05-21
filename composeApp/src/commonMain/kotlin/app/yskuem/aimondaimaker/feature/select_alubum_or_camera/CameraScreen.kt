@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
-import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState

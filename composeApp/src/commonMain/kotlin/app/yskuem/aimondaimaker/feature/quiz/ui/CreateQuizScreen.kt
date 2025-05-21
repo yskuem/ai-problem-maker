@@ -36,7 +36,7 @@ data class CreateQuizScreen(
                 Text(quizList.throwable.toString())
             }
             is DataUiState.Loading -> {
-                PastelAppleStyleLoading()
+                PastelAppleStyleLoading("クイズ")
             }
             is DataUiState.Success -> {
                 QuizApp(quizList.data) {

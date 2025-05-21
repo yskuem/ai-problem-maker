@@ -24,13 +24,15 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 @Composable
-fun PastelAppleStyleLoading() {
-    var loadingText by remember { mutableStateOf("問題を生成中") }
+fun PastelAppleStyleLoading(
+    target: String
+) {
+    var loadingText by remember { mutableStateOf("${target}を生成中") }
     var isVisible by remember { mutableStateOf(false) }
 
     // テキストアニメーション
     LaunchedEffect(key1 = true) {
-        val textStates = listOf("問題を生成中", "問題を生成中.", "問題を生成中..", "問題を生成中...")
+        val textStates = listOf("${target}を生成中", "${target}を生成中.", "${target}を生成中..", "${target}を生成中...")
         var index = 0
 
         // 初期フェードイン

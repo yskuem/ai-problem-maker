@@ -39,7 +39,7 @@ data class CreateNoteScreen(
                 Text(note.throwable.toString())
             }
             is DataUiState.Loading -> {
-                PastelAppleStyleLoading()
+                PastelAppleStyleLoading("ノート")
             }
             is DataUiState.Success -> {
                 Box(
