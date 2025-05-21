@@ -1,8 +1,6 @@
 package app.yskuem.aimondaimaker.domain.data.repository
 
 import app.yskuem.aimondaimaker.domain.entity.Note
-import app.yskuem.aimondaimaker.domain.entity.Quiz
-import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 
 interface NoteRepository {
     suspend fun generateFromImage(
