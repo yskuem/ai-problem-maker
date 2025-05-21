@@ -26,13 +26,15 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.toCreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.launch
 
 data class SelectAlbumOrCameraScreen(
-    val mode: CreateMode,
+    val navMode: NavCreateMode,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -40,6 +42,7 @@ data class SelectAlbumOrCameraScreen(
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
         val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
+        val mode = navMode.toCreateMode()
 
         Scaffold(
             topBar = {
@@ -95,7 +98,7 @@ data class SelectAlbumOrCameraScreen(
 
                     Button(
                         onClick = {
-                            navigator?.push(CameraPermissionScreen(mode))
+                            navigator?.push(CameraPermissionScreen(navMode))
                         },
                         modifier = Modifier
                             .fillMaxWidth()

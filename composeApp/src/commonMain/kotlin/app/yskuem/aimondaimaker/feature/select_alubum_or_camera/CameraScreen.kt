@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
 import cafe.adriel.voyager.core.screen.Screen
@@ -41,7 +42,7 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.koin.core.parameter.parametersOf
 
 data class CameraPermissionScreen(
-    val mode: CreateMode
+    val mode: NavCreateMode
 ) : Screen {
     @Composable
     override fun Content() {
@@ -66,7 +67,7 @@ data class CameraPermissionScreen(
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
             when(mode) {
-                CreateMode.Note -> {
+                NavCreateMode.Note -> {
                     navigator?.push(
                         CreateNoteScreen(
                             imageByte = bytes,
@@ -74,7 +75,7 @@ data class CameraPermissionScreen(
                         )
                     )
                 }
-                CreateMode.Quiz -> {
+                NavCreateMode.Quiz -> {
                     navigator?.push(
                         CreateQuizScreen(
                             imageByte = bytes,

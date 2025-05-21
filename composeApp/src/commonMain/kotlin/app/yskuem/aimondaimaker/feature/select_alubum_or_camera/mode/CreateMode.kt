@@ -5,6 +5,11 @@ import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.ui.graphics.vector.ImageVector
 
+enum class NavCreateMode {
+    Quiz,
+    Note,
+}
+
 sealed class CreateMode(
     val title: String,
     val contentDescription: String,
@@ -18,9 +23,15 @@ sealed class CreateMode(
         icon = Icons.AutoMirrored.Outlined.Help,
     )
     data object Note : CreateMode(
-        title = "AIノート要約",
+        title = "AIノートまとめ",
         contentDescription = "教材やノートを撮影して\n" + "AIに教材やノートをまとめてもらいましょう",
         usage = "1. 教材やノートの写真を撮影\n" + "2. AIが自動的にノートをまとめる\n" + "3. 生成された電子ノートで学習しましょう",
         icon = Icons.AutoMirrored.Outlined.Note
     )
 }
+
+fun NavCreateMode.toCreateMode(): CreateMode =
+    when (this) {
+        NavCreateMode.Quiz -> CreateMode.Quiz
+        NavCreateMode.Note -> CreateMode.Note
+    }
