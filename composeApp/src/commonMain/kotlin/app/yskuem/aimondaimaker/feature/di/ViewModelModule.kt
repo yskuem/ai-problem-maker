@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.di
 
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreenViewModel
+import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteScreenViewModel
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
@@ -18,6 +19,13 @@ val viewModelModule = module {
     factory {
         ShowQuizScreenViewModel(
             quizRepository = get(),
+            authRepository = get(),
+            projectRepository = get(),
+        )
+    }
+    factory {
+        ShowNoteScreenViewModel(
+            noteRepository = get(),
             authRepository = get(),
             projectRepository = get(),
         )

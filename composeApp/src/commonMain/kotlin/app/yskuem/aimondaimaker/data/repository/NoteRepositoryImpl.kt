@@ -14,16 +14,13 @@ class NoteRepositoryImpl(
         image: ByteArray,
         fileName: String,
         extension: String
-    ): List<Note> {
-        val response = HttpClient.postWithImage<List<NoteApiDto>>(
+    ): Note {
+        val response = HttpClient.postWithImage<NoteApiDto>(
             imageBytes = image,
             fileName = fileName,
             extension = extension,
             path = "/generate_note"
         )
-        if(response.isEmpty()) {
-            throw IllegalStateException("Response is empty")
-        }
-        return response.map { it.toDomain() }
+        return response.toDomain()
     }
 }

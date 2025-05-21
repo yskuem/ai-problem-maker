@@ -7,5 +7,5 @@ interface NoteRepository {
         image: ByteArray,
         fileName: String,
         extension: String,
-    ): List<Note>
+    ): Note
 }
