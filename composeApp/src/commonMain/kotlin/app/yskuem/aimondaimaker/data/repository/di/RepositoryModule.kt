@@ -1,10 +1,12 @@
 package app.yskuem.aimondaimaker.data.repository.di
 
 import app.yskuem.aimondaimaker.data.repository.AuthRepositoryImpl
+import app.yskuem.aimondaimaker.data.repository.NoteRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.ProjectRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.QuizRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.UserRepositoryImpl
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
@@ -16,12 +18,17 @@ val repositoryModule = module {
              supabaseClientHelper = get(),
          )
      }
-    single <AuthRepository>{
+    single<AuthRepository> {
         AuthRepositoryImpl(
             supabaseClient = get(),
         )
     }
-    single <ProjectRepository>{
+    single<NoteRepository> {
+        NoteRepositoryImpl(
+            supabaseClientHelper = get(),
+        )
+    }
+    single<ProjectRepository> {
         ProjectRepositoryImpl(
             authRepository = get(),
             supabaseClientHelper = get(),

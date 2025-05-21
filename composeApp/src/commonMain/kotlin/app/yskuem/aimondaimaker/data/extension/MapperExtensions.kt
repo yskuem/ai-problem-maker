@@ -1,7 +1,9 @@
 package app.yskuem.aimondaimaker.data.extension
 
+import app.yskuem.aimondaimaker.data.api.response.NoteApiDto
 import app.yskuem.aimondaimaker.data.api.response.QuizApiDto
 import app.yskuem.aimondaimaker.data.supabase.response.ProjectDto
+import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.Project
 import kotlinx.datetime.Clock
@@ -35,4 +37,14 @@ fun ProjectDto.toDomain(): Project = Project(
     name = name,
     createdAt = createdAt,
     updatedAt = updatedAt,
+)
+
+
+
+fun NoteApiDto.toDomain(): Note = Note(
+    id = id,
+    title = title,
+    html = html,
+    createdAt = Clock.System.now(),
+    updatedAt = Clock.System.now(),
 )

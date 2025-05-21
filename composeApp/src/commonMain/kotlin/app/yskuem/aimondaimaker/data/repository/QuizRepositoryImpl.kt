@@ -28,6 +28,7 @@ class QuizRepositoryImpl(
             imageBytes = image,
             fileName = fileName,
             extension = extension,
+            path = "/generate_quizzes"
         )
         if(response.isEmpty()) {
             throw IllegalStateException("Response is empty")

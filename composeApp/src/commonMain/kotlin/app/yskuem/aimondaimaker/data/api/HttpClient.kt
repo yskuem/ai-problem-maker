@@ -53,7 +53,8 @@ object HttpClient {
     suspend inline fun <reified T> postWithImage(
         imageBytes: ByteArray,
         fileName: String,
-        extension: String
+        extension: String,
+        path: String,
     ): T {
         // Determine ContentType based on extension
         val contentType = when (extension.lowercase()) {
@@ -65,7 +66,7 @@ object HttpClient {
             else -> ContentType.Application.OctetStream
         }
 
-        return client.post("/generate_quizzes") {
+        return client.post(path) {
             // Multipart/form-data body
             setBody(
                 MultiPartFormDataContent(
