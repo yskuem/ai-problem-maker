@@ -80,6 +80,7 @@ kotlin {
             implementation(libs.multiplatform.settings.core)
             implementation(libs.multiplatform.settings.datastore)
             implementation(libs.multiplatform.settings.coroutines)
+            implementation(libs.compose.webview.multiplatform)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
