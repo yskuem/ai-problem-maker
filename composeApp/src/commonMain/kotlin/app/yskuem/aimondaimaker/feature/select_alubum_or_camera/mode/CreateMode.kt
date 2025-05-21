@@ -3,8 +3,6 @@ package app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.Note
-import androidx.compose.material.icons.outlined.Help
-import androidx.compose.material.icons.outlined.Note
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class CreateMode(

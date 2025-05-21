@@ -24,7 +24,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import cafe.adriel.voyager.core.screen.Screen

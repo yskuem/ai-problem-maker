@@ -9,7 +9,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewStateWithHTMLData
 
-class CreateNoteScreen: Screen {
+data class CreateNoteScreen(
+    val imageByte: ByteArray,
+    val fileName: String = "image",
+    val extension: String
+): Screen {
     @Composable
     override fun Content() {
         Box(
@@ -23,6 +27,26 @@ class CreateNoteScreen: Screen {
                 modifier = Modifier.fillMaxSize()
             )
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as CreateNoteScreen
+
+        if (!imageByte.contentEquals(other.imageByte)) return false
+        if (fileName != other.fileName) return false
+        if (extension != other.extension) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = imageByte.contentHashCode()
+        result = 31 * result + fileName.hashCode()
+        result = 31 * result + extension.hashCode()
+        return result
     }
 
 }

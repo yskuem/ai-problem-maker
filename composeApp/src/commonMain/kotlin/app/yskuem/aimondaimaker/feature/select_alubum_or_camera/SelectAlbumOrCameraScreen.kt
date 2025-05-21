@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import cafe.adriel.voyager.core.screen.Screen
@@ -94,7 +95,7 @@ data class SelectAlbumOrCameraScreen(
 
                     Button(
                         onClick = {
-                            navigator?.push(CameraPermissionScreen())
+                            navigator?.push(CameraPermissionScreen(mode))
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -118,13 +119,26 @@ data class SelectAlbumOrCameraScreen(
                         onClick = {
                             scope.launch {
                                 viewmodel.onSelectAlbum { imageByte, fileName, extension ->
-                                    navigator?.push(
-                                        CreateQuizScreen(
-                                            imageByte = imageByte,
-                                            fileName = fileName,
-                                            extension = extension,
-                                        )
-                                    )
+                                    when(mode) {
+                                        CreateMode.Note -> {
+                                            navigator?.push(
+                                                CreateNoteScreen(
+                                                    imageByte = imageByte,
+                                                    fileName = fileName,
+                                                    extension = extension,
+                                                )
+                                            )
+                                        }
+                                        CreateMode.Quiz -> {
+                                            navigator?.push(
+                                                CreateQuizScreen(
+                                                    imageByte = imageByte,
+                                                    fileName = fileName,
+                                                    extension = extension,
+                                                )
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         },
