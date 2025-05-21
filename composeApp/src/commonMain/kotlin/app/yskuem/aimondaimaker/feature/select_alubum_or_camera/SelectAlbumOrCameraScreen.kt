@@ -24,12 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.launch
 
-class SelectAlbumOrCameraScreen : Screen {
+data class SelectAlbumOrCameraScreen(
+    val mode: CreateMode,
+) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -41,7 +44,7 @@ class SelectAlbumOrCameraScreen : Screen {
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("AI問題作成")
+                        Text(mode.title)
                     },
                     navigationIcon = {
                         IconButton(
@@ -72,8 +75,8 @@ class SelectAlbumOrCameraScreen : Screen {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Camera,
-                        contentDescription = "カメラアイコン",
+                        imageVector = mode.icon,
+                        contentDescription = "",
                         modifier = Modifier.size(120.dp),
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -81,7 +84,7 @@ class SelectAlbumOrCameraScreen : Screen {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = "教材やノートを撮影して\nAIに問題を作成してもらいましょう",
+                        text = mode.contentDescription,
                         fontSize = 18.sp,
                         textAlign = TextAlign.Center,
                         lineHeight = 28.sp
@@ -152,9 +155,7 @@ class SelectAlbumOrCameraScreen : Screen {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "1. 教材やノートの写真を撮影\n" +
-                                        "2. AIが自動的に問題を生成\n" +
-                                        "3. 生成された問題を解いて学習しましょう",
+                                text = mode.usage,
                                 lineHeight = 24.sp
                             )
                         }
@@ -164,3 +165,4 @@ class SelectAlbumOrCameraScreen : Screen {
         }
     }
 }
+
