@@ -56,11 +56,11 @@ class QuizRepositoryImpl(
         )
     }
 
-    override suspend fun fetchAnsweredQuizList(projectId: String): List<Quiz> {
+    override suspend fun fetchAnsweredQuizzes(groupId: String): List<Quiz> {
         val res = supabaseClientHelper.fetchListByMatchValue<QuizSupabaseDto>(
             tableName = SupabaseTableName.Quiz.NAME,
-            filterCol = SupabaseColumnName.Quiz.PROJECT_ID,
-            filterVal = projectId,
+            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+            filterVal = groupId,
             orderCol = SupabaseColumnName.CREATED_AT,
         )
         return res.map { it.toDomain() }
@@ -83,12 +83,12 @@ class QuizRepositoryImpl(
     }
 
     override suspend fun fetchQuizInfoList(
-        userId: String,
+        projectId: String,
     ): List<QuizInfo> {
         val res =  supabaseClientHelper.fetchListByMatchValue<QuizInfoDto>(
             tableName = SupabaseTableName.QuizInfo.NAME,
-            filterCol = SupabaseColumnName.Quiz.CREATED_USER_ID,
-            filterVal = userId,
+            filterCol = SupabaseColumnName.Quiz.PROJECT_ID,
+            filterVal = projectId,
             orderCol = SupabaseColumnName.UPDATED_AT,
         )
         return res.map { it.toDomain() }

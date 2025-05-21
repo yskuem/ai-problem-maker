@@ -17,8 +17,8 @@ interface QuizRepository {
         quizTitle: String,
     )
 
-    suspend fun fetchAnsweredQuizList(
-        projectId: String,
+    suspend fun fetchAnsweredQuizzes(
+        groupId: String,
     ): List<Quiz>
 
     suspend fun saveQuiz(
@@ -27,5 +27,5 @@ interface QuizRepository {
         userId: String,
     )
 
-    suspend fun fetchQuizInfoList(userId: String): List<QuizInfo>
+    suspend fun fetchQuizInfoList(projectId: String): List<QuizInfo>
 }

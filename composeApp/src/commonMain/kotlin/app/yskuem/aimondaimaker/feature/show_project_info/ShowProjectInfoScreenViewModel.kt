@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 class ShowProjectInfoScreenViewModel(
     private val quizRepository: QuizRepository,
     private val authRepository: AuthRepository,
+    private val projectId: String,
 ) : ScreenModel {
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
     private val _noteInfoList = MutableStateFlow<DataUiState<List<NoteInfo>>>(DataUiState.Loading)
@@ -42,7 +43,7 @@ class ShowProjectInfoScreenViewModel(
     )
 
     fun onTapQuizInfo(
-        projectId: String,
+        groupId: String,
         navigator: Navigator?,
     ) {
         screenModelScope.launch {
@@ -50,7 +51,7 @@ class ShowProjectInfoScreenViewModel(
             _quizInfoList.value = DataUiState.Loading
 
             val res = runCatching {
-                quizRepository.fetchAnsweredQuizList(projectId = projectId)
+                quizRepository.fetchAnsweredQuizzes(groupId = groupId)
             }
             res.onSuccess { quizList ->
                 navigator?.push(ShowAnsweredQuizzesScreen(quizList = quizList))
@@ -65,7 +66,7 @@ class ShowProjectInfoScreenViewModel(
         screenModelScope.launch {
             val res = runCatching {
                 quizRepository.fetchQuizInfoList(
-                    userId = authRepository.getUserId()
+                    projectId = projectId
                 )
             }
             res.onSuccess { quizInfoList ->

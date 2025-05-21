@@ -40,10 +40,11 @@ val viewModelModule = module {
             projectRepository = get(),
         )
     }
-    factory {
+    factory { (projectId: String) ->
         ShowProjectInfoScreenViewModel(
             authRepository = get(),
-            quizRepository = get()
+            quizRepository = get(),
+            projectId = projectId,
         )
     }
 }

@@ -141,7 +141,9 @@ class SelectProjectScreen : Screen {
                                         .toJapaneseMonthDay()
                                     Card(
                                         onClick = {
-                                            navigator?.push(ShowProjectInfoScreen())
+                                            navigator?.push(
+                                                ShowProjectInfoScreen(projectId = project.id)
+                                            )
                                         },
                                         shape = RoundedCornerShape(8.dp),
                                         elevation = 4.dp,

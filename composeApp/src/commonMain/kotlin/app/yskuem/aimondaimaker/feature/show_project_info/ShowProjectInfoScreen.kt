@@ -27,16 +27,20 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.koin.core.parameter.parametersOf
 
 
-class ShowProjectInfoScreen(): Screen {
-
+data class ShowProjectInfoScreen(
+    private val projectId: String,
+): Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         var selectedTabIndex by remember { mutableStateOf(0) }
         val tabs = listOf("クイズ", "ノート")
-        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>()
+        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
+            parameters = { parametersOf(projectId) }
+        )
         val uiState = viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
         Scaffold(
@@ -105,10 +109,10 @@ class ShowProjectInfoScreen(): Screen {
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
                                     },
-                                    itemsProjectIds = quizInfoList.data.map { it.projectId },
-                                    onTapCard = { projectId ->
+                                    itemGroupIds = quizInfoList.data.map { it.groupId },
+                                    onTapCard = { groupId ->
                                         viewModel.onTapQuizInfo(
-                                            projectId = projectId,
+                                            groupId = groupId,
                                             navigator = navigator,
                                         )
                                     }
@@ -134,7 +138,7 @@ class ShowProjectInfoScreen(): Screen {
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
                                     },
-                                    itemsProjectIds = noteInfoList.data.map { it.projectId },
+                                    itemGroupIds = noteInfoList.data.map { it.groupId },
                                     onTapCard = { projectId ->
                                         // TODO ノートの詳細画面に遷移する処理を実装
                                     }
@@ -181,7 +185,7 @@ fun ErrorContent(message: String?) {
 fun ContentList(
     items: List<String>,
     updateAtList: List<String>,
-    itemsProjectIds: List<String>,
+    itemGroupIds: List<String>,
     onTapCard: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType
@@ -192,7 +196,7 @@ fun ContentList(
         itemsIndexed(items) { index, item ->
             Card(
                 onClick = {
-                    onTapCard(itemsProjectIds[index])
+                    onTapCard(itemGroupIds[index])
                 },
                 modifier = Modifier
                     .fillMaxWidth()
