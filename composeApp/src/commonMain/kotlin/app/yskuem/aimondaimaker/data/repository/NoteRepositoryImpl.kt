@@ -10,7 +10,7 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 class NoteRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ): NoteRepository {
-    override suspend fun fetchFromImage(
+    override suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String

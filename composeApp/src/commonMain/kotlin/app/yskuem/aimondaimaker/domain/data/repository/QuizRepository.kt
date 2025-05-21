@@ -4,7 +4,7 @@ import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 
 interface QuizRepository {
-    suspend fun fetchFromImage(
+    suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,

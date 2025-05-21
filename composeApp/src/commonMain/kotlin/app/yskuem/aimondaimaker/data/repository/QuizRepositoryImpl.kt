@@ -19,7 +19,7 @@ class QuizRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ): QuizRepository {
 
-    override suspend fun fetchFromImage(
+    override suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
