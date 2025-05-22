@@ -124,28 +124,28 @@ data class ShowProjectInfoScreen(
                         }
                     }
                     1 -> {
-                        when (val noteInfoList = uiState.value.noteInfoList) {
+                        when (val noteList = uiState.value.noteList) {
                             is DataUiState.Loading -> {
                                 LoadingContent()
                             }
                             is DataUiState.Success -> {
                                 ContentList(
-                                    items = noteInfoList.data.map { it.name },
+                                    items = noteList.data.map { it.title },
                                     icon = Icons.AutoMirrored.Filled.Assignment,
                                     contentType = ContentType.NOTE,
-                                    updateAtList = noteInfoList.data.map {
+                                    updateAtList = noteList.data.map {
                                         it.updatedAt
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
                                     },
-                                    itemGroupIds = noteInfoList.data.map { it.groupId },
-                                    onTapCard = { projectId ->
+                                    itemGroupIds = noteList.data.map { it.id },
+                                    onTapCard = { id ->
                                         // TODO ノートの詳細画面に遷移する処理を実装
                                     }
                                 )
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = noteInfoList.throwable.message)
+                                ErrorContent(message = noteList.throwable.message)
                             }
                         }
                     }

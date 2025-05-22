@@ -4,8 +4,16 @@ import app.yskuem.aimondaimaker.data.api.HttpClient
 import app.yskuem.aimondaimaker.data.api.response.NoteApiDto
 import app.yskuem.aimondaimaker.data.extension.toDomain
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
+import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName
+import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
+import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
+import app.yskuem.aimondaimaker.data.supabase.extension.toDomain
+import app.yskuem.aimondaimaker.data.supabase.response.NoteSupabaseDto
+import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
+import app.yskuem.aimondaimaker.domain.entity.Quiz
+import kotlinx.datetime.Clock
 
 class NoteRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
@@ -22,5 +30,25 @@ class NoteRepositoryImpl(
             path = "/generate_note"
         )
         return response.toDomain()
+    }
+
+    override suspend fun fetchNotes(projectId: String): List<Note> {
+        val res = supabaseClientHelper.fetchListByMatchValue<NoteSupabaseDto>(
+            tableName = SupabaseTableName.Note.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+            orderCol = SupabaseColumnName.CREATED_AT,
+        )
+        return res.map { it.toDomain() }
+    }
+
+    override suspend fun saveNote(note: Note, projectId: String, userId: String) {
+        supabaseClientHelper.addItem(
+            tableName = SupabaseTableName.Note.NAME,
+            item = note.toDTO(
+                projectId = projectId,
+                createdUserId = userId,
+            ),
+        )
     }
 }

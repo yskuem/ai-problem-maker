@@ -87,7 +87,7 @@ class QuizRepositoryImpl(
     ): List<QuizInfo> {
         val res =  supabaseClientHelper.fetchListByMatchValue<QuizInfoDto>(
             tableName = SupabaseTableName.QuizInfo.NAME,
-            filterCol = SupabaseColumnName.Quiz.PROJECT_ID,
+            filterCol = SupabaseColumnName.PROJECT_ID,
             filterVal = projectId,
             orderCol = SupabaseColumnName.UPDATED_AT,
         )

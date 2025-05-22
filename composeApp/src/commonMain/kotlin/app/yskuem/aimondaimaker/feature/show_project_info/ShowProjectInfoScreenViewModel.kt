@@ -3,7 +3,7 @@ package app.yskuem.aimondaimaker.feature.show_project_info
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
-import app.yskuem.aimondaimaker.domain.entity.NoteInfo
+import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.feature.quiz.ui.ShowAnsweredQuizzesScreen
 import cafe.adriel.voyager.core.model.ScreenModel
@@ -22,7 +22,7 @@ class ShowProjectInfoScreenViewModel(
     private val projectId: String,
 ) : ScreenModel {
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
-    private val _noteInfoList = MutableStateFlow<DataUiState<List<NoteInfo>>>(DataUiState.Loading)
+    private val _noteList = MutableStateFlow<DataUiState<List<Note>>>(DataUiState.Loading)
 
     init {
         fetchQuizInfo()
@@ -30,11 +30,11 @@ class ShowProjectInfoScreenViewModel(
 
 
     val uiState: StateFlow<ProjectInfoScreenState> = combine(
-        _quizInfoList, _noteInfoList,
-    ) { quizInfoList, currentQuizListIndex ->
+        _quizInfoList, _noteList,
+    ) { quizInfoList, noteList ->
         ProjectInfoScreenState(
             quizInfoList = quizInfoList,
-            noteInfoList = currentQuizListIndex
+            noteList = noteList
         )
     }.stateIn(
         scope = screenModelScope,

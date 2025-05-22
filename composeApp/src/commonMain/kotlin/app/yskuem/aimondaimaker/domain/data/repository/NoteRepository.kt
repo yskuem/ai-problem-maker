@@ -2,29 +2,32 @@ package app.yskuem.aimondaimaker.domain.data.repository
 
 import app.yskuem.aimondaimaker.domain.entity.Note
 
+
 interface NoteRepository {
+
+    /**
+     * ノートを画像から作成
+     */
     suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
     ): Note
 
-//    suspend fun saveNoteInfo(
-//        projectId: String,
-//        userId: String,
-//        noteId: String,
-//        quizTitle: String,
-//    )
-//
-//    suspend fun fetchAnsweredNoteList(
-//        projectId: String,
-//    ): List<Quiz>
-//
-//    suspend fun saveQuiz(
-//        quiz: Quiz,
-//        projectId: String,
-//        userId: String,
-//    )
-//
-//    suspend fun fetchQuizInfoList(userId: String): List<QuizInfo>
+    /**
+     * プロジェクトのノートの取得
+     */
+    suspend fun fetchNotes(
+        projectId: String,
+    ): List<Note>
+
+
+    /**
+     * ノートの保存
+     */
+    suspend fun saveNote(
+        note: Note,
+        projectId: String,
+        userId: String,
+    )
 }
