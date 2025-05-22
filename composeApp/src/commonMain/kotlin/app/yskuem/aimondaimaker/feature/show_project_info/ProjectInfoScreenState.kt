@@ -7,4 +7,5 @@ import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 data class ProjectInfoScreenState(
     val quizInfoList: DataUiState<List<QuizInfo>> = DataUiState.Loading,
     val noteList: DataUiState<List<Note>> = DataUiState.Loading,
+    val selectedTabIndex: Int = 0,
 )

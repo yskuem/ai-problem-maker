@@ -1,7 +1,7 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
@@ -18,11 +18,12 @@ import kotlinx.coroutines.launch
 
 class ShowProjectInfoScreenViewModel(
     private val quizRepository: QuizRepository,
-    private val authRepository: AuthRepository,
+    private val noteRepository: NoteRepository,
     private val projectId: String,
 ) : ScreenModel {
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
     private val _noteList = MutableStateFlow<DataUiState<List<Note>>>(DataUiState.Loading)
+    private val _selectedTabIndex = MutableStateFlow(0)
 
     init {
         fetchQuizInfo()
@@ -30,11 +31,12 @@ class ShowProjectInfoScreenViewModel(
 
 
     val uiState: StateFlow<ProjectInfoScreenState> = combine(
-        _quizInfoList, _noteList,
-    ) { quizInfoList, noteList ->
+        _quizInfoList, _noteList, _selectedTabIndex,
+    ) { quizInfoList, noteList, selectedTabIndex ->
         ProjectInfoScreenState(
             quizInfoList = quizInfoList,
-            noteList = noteList
+            noteList = noteList,
+            selectedTabIndex = selectedTabIndex,
         )
     }.stateIn(
         scope = screenModelScope,
@@ -73,6 +75,27 @@ class ShowProjectInfoScreenViewModel(
                 _quizInfoList.value = DataUiState.Success(quizInfoList)
             }.onFailure { exception ->
                 _quizInfoList.value = DataUiState.Error(exception)
+            }
+        }
+    }
+
+    fun onTapTab(
+        tabIndex: Int,
+    ) {
+        screenModelScope.launch {
+            _selectedTabIndex.value = tabIndex
+            if(tabIndex == 0) {
+                return@launch
+            }
+            // noteのfetchをする
+            val result = runCatching {
+                noteRepository.fetchNotes(projectId = projectId)
+            }
+            result.onSuccess { notes ->
+                _noteList.value = DataUiState.Success(data = notes)
+            }
+            .onFailure {
+                _noteList.value = DataUiState.Error(it)
             }
         }
     }

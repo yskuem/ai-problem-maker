@@ -37,12 +37,11 @@ data class ShowProjectInfoScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        var selectedTabIndex by remember { mutableStateOf(0) }
         val tabs = listOf("クイズ", "ノート")
         val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
             parameters = { parametersOf(projectId) }
         )
-        val uiState = viewModel.uiState.collectAsState()
+        val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
         Scaffold(
             topBar = {
@@ -65,20 +64,22 @@ data class ShowProjectInfoScreen(
                         }
                     }
                     TabRow(
-                        selectedTabIndex = selectedTabIndex,
+                        selectedTabIndex = uiState.selectedTabIndex,
                         containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(8.dp)
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
-                                selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
+                                selected = uiState.selectedTabIndex == index,
+                                onClick = {
+                                    viewModel.onTapTab(index)
+                                },
                                 text = {
                                     Text(
                                         text = title,
                                         fontSize = 16.sp,
-                                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (uiState.selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
                                     )
                                 }
                             )
@@ -94,9 +95,9 @@ data class ShowProjectInfoScreen(
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-                when (selectedTabIndex) {
+                when (uiState.selectedTabIndex) {
                     0 -> {
-                        when (val quizInfoList = uiState.value.quizInfoList) {
+                        when (val quizInfoList = uiState.quizInfoList) {
                             is DataUiState.Loading -> {
                                 LoadingContent()
                             }
@@ -125,7 +126,7 @@ data class ShowProjectInfoScreen(
                         }
                     }
                     1 -> {
-                        when (val noteList = uiState.value.noteList) {
+                        when (val noteList = uiState.noteList) {
                             is DataUiState.Loading -> {
                                 LoadingContent()
                             }

@@ -9,6 +9,7 @@ import kotlinx.datetime.serializers.InstantIso8601Serializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class NoteSupabaseDto(
     val id: String,
     val title: String,
