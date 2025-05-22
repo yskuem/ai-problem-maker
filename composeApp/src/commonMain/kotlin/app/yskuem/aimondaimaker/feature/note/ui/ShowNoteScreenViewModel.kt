@@ -66,44 +66,34 @@ class ShowNoteScreenViewModel(
         fileName: String,
         extension: String
     ): Result<Note> {
-        return runCatching<Note> {
+        return runCatching {
             noteRepository.generateFromImage(imageByte, fileName, extension)
         }
     }
 
     private suspend fun onSaveData(
-        quizList: Note,
+        note: Note,
     ) {
         val res = runCatching {
             // Projectの保存
             // TODO
-//            val project = projectRepository.addProject(
-//                projectName = quizList[0].title
-//            )
-//
-//            val userId = authRepository.getUserId()
-//
-//            // QuizInfoの保存
-//            quizRepository.saveQuizInfo(
-//                projectId = project.id,
-//                userId = userId,
-//                groupId = quizList[0].groupId,
-//                quizTitle = quizList[0].title,
-//            )
-//
-//            // Quizの保存
-//            quizList.map {
-//                quizRepository.saveQuiz(
-//                    quiz = it,
-//                    projectId = project.id,
-//                    userId = userId,
-//                )
-//            }
+            val project = projectRepository.addProject(
+                projectName = note.title
+            )
+
+            val userId = authRepository.getUserId()
+
+            // Noteの保存
+            noteRepository.saveNote(
+                projectId = project.id,
+                userId = userId,
+                note = note,
+            )
         }
         res.onSuccess {
             println("success save")
         }.onFailure { e ->
-            println("ああ$e")
+            println("$e")
         }
     }
 }
