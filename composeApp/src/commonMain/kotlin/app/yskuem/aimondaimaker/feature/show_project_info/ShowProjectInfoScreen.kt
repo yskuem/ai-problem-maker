@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -140,7 +141,10 @@ data class ShowProjectInfoScreen(
                                     },
                                     itemGroupIds = noteList.data.map { it.id },
                                     onTapCard = { id ->
-                                        // TODO ノートの詳細画面に遷移する処理を実装
+                                        val targetNote = noteList.data.first {
+                                            it.id == id
+                                        }
+                                        navigator?.push(ShowNoteAppScreen(targetNote))
                                     }
                                 )
                             }

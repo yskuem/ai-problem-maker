@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewStateWithHTMLData
 
@@ -25,6 +26,7 @@ data class CreateNoteScreen(
     override fun Content() {
         val viewmodel = koinScreenModel<ShowNoteScreenViewModel> ()
         val state by viewmodel.uiState.collectAsState()
+        val navigator = LocalNavigator.current
 
         LaunchedEffect(Unit) {
             viewmodel.onLoadPage(
@@ -34,24 +36,16 @@ data class CreateNoteScreen(
             )
         }
 
-        when(val note = state.note) {
+        when(val result = state.note) {
             is DataUiState.Error -> {
-                Text(note.throwable.toString())
+                Text(result.throwable.toString())
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading("ノート")
             }
             is DataUiState.Success -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    val htmlState = rememberWebViewStateWithHTMLData(note.data.html)
-                    WebView(
-                        state = htmlState,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                NoteApp(note = result.data) {
+                    navigator?.pop()
                 }
             }
         }
