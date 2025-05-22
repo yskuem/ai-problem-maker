@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.data.supabase
 
-import io.github.jan.supabase.auth.Auth
 
 object SupabaseColumnName {
 

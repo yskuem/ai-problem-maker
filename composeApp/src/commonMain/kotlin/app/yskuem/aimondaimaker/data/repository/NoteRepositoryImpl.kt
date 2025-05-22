@@ -9,11 +9,8 @@ import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
 import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
 import app.yskuem.aimondaimaker.data.supabase.extension.toDomain
 import app.yskuem.aimondaimaker.data.supabase.response.NoteSupabaseDto
-import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
-import app.yskuem.aimondaimaker.domain.entity.Quiz
-import kotlinx.datetime.Clock
 
 class NoteRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
