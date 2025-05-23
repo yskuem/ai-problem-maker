@@ -56,7 +56,7 @@ class SelectProjectScreen : Screen {
         // フォーカスマネージャーを取得
         val focusManager = LocalFocusManager.current
 
-        val projectState by viewModel.projects.collectAsState()
+        val uiState by viewModel.projects.collectAsState()
 
         // フォーカス取得のトリガー
         LaunchedEffect(editingId) {
@@ -67,7 +67,7 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold { padding ->
-            when(val projectState = projectState) {
+            when(val projectState = uiState) {
                 is DataUiState.Loading -> {
                     // TODO まとめる
                     Box(
