@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +52,9 @@ class SelectProjectScreen : Screen {
 
         // フォーカス用リクエスタ（1つだけでOK）
         val focusRequester = remember { FocusRequester() }
+
+        // フォーカスマネージャーを取得
+        val focusManager = LocalFocusManager.current
 
         val projectState by viewModel.projects.collectAsState()
 
@@ -101,6 +107,12 @@ class SelectProjectScreen : Screen {
                         modifier = Modifier
                             .fillMaxSize()
                             .systemBarsPadding()
+                            .pointerInput(Unit) {
+                                // 画面全体のタップを検知してフォーカスをクリア
+                                detectTapGestures {
+                                    focusManager.clearFocus()
+                                }
+                            }
                     ) {
                         Column(
                             modifier = Modifier
@@ -122,7 +134,12 @@ class SelectProjectScreen : Screen {
                                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(onSearch = { /* 検索実行 */ })
+                                keyboardActions = KeyboardActions(
+                                    onSearch = {
+                                        // 検索実行時にフォーカスをクリア
+                                        focusManager.clearFocus()
+                                    }
+                                )
                             )
 
                             // プロジェクトグリッド
