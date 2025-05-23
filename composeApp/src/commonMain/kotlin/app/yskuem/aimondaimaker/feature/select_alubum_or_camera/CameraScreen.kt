@@ -26,7 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
 import cafe.adriel.voyager.core.screen.Screen
@@ -38,7 +40,9 @@ import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.koin.core.parameter.parametersOf
 
-class CameraPermissionScreen : Screen {
+data class CameraPermissionScreen(
+    val mode: NavCreateMode
+) : Screen {
     @Composable
     override fun Content() {
         val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
@@ -61,12 +65,24 @@ class CameraPermissionScreen : Screen {
         val navigator = LocalNavigator.current
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
-            navigator?.push(
-                CreateQuizScreen(
-                    imageByte = bytes,
-                    extension = "jpg"
-                )
-            )
+            when(mode) {
+                NavCreateMode.Note -> {
+                    navigator?.push(
+                        CreateNoteScreen(
+                            imageByte = bytes,
+                            extension = "jpg"
+                        )
+                    )
+                }
+                NavCreateMode.Quiz -> {
+                    navigator?.push(
+                        CreateQuizScreen(
+                            imageByte = bytes,
+                            extension = "jpg"
+                        )
+                    )
+                }
+            }
         }
 
 

@@ -62,7 +62,7 @@ class ShowQuizScreenViewModel(
         extension: String
     ): List<Quiz> {
         return try {
-            val quizList = quizRepository.fetchFromImage(imageByte, fileName, extension)
+            val quizList = quizRepository.generateFromImage(imageByte, fileName, extension)
             _quizList.value = DataUiState.Success(quizList)
             quizList
         } catch (e: Exception) {

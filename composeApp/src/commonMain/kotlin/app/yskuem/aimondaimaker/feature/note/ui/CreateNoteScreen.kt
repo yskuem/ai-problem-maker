@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.quiz.ui
+package app.yskuem.aimondaimaker.feature.note.ui
 
 import PastelAppleStyleLoading
 import androidx.compose.material3.Text
@@ -7,19 +7,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 
-data class CreateQuizScreen(
+data class CreateNoteScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String
 ): Screen {
     @Composable
     override fun Content() {
-        val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
+        val viewmodel = koinScreenModel<ShowNoteScreenViewModel> ()
         val state by viewmodel.uiState.collectAsState()
         val navigator = LocalNavigator.current
 
@@ -31,15 +30,15 @@ data class CreateQuizScreen(
             )
         }
 
-        when(val quizList = state.quizList) {
+        when(val result = state.note) {
             is DataUiState.Error -> {
-                Text(quizList.throwable.toString())
+                Text(result.throwable.toString())
             }
             is DataUiState.Loading -> {
-                PastelAppleStyleLoading("クイズ")
+                PastelAppleStyleLoading("ノート")
             }
             is DataUiState.Success -> {
-                QuizApp(quizList.data) {
+                NoteApp(note = result.data) {
                     navigator?.pop()
                 }
             }
@@ -50,7 +49,7 @@ data class CreateQuizScreen(
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as CreateQuizScreen
+        other as CreateNoteScreen
 
         if (!imageByte.contentEquals(other.imageByte)) return false
         if (fileName != other.fileName) return false
@@ -65,5 +64,5 @@ data class CreateQuizScreen(
         result = 31 * result + extension.hashCode()
         return result
     }
-}
 
+}

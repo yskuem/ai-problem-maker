@@ -1,8 +1,10 @@
 package app.yskuem.aimondaimaker.data.supabase.extension
 
+import app.yskuem.aimondaimaker.data.supabase.response.NoteSupabaseDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizInfoDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.data.supabase.response.UserDto
+import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.domain.entity.User
@@ -33,6 +35,29 @@ fun QuizSupabaseDto.toDomain(): Quiz = Quiz(
     createdUserId = createdUserId,
     groupId = groupId,
     title = title,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+)
+
+//Note
+fun Note.toDTO(
+    projectId: String,
+    createdUserId: String,
+): NoteSupabaseDto = NoteSupabaseDto(
+    id = id,
+    title = title,
+    html = html,
+    projectId = projectId,
+    createdUserId =createdUserId,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+)
+
+
+fun NoteSupabaseDto.toDomain(): Note = Note(
+    id = id,
+    title = title,
+    html = html,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )

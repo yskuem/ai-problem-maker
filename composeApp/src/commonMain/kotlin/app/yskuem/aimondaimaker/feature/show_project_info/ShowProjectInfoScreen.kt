@@ -22,22 +22,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.koin.core.parameter.parametersOf
 
 
-class ShowProjectInfoScreen(): Screen {
-
+data class ShowProjectInfoScreen(
+    private val projectId: String,
+): Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        var selectedTabIndex by remember { mutableStateOf(0) }
         val tabs = listOf("クイズ", "ノート")
-        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>()
-        val uiState = viewModel.uiState.collectAsState()
+        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
+            parameters = { parametersOf(projectId) }
+        )
+        val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
         Scaffold(
             topBar = {
@@ -60,20 +64,22 @@ class ShowProjectInfoScreen(): Screen {
                         }
                     }
                     TabRow(
-                        selectedTabIndex = selectedTabIndex,
+                        selectedTabIndex = uiState.selectedTabIndex,
                         containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(8.dp)
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
-                                selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
+                                selected = uiState.selectedTabIndex == index,
+                                onClick = {
+                                    viewModel.onTapTab(index)
+                                },
                                 text = {
                                     Text(
                                         text = title,
                                         fontSize = 16.sp,
-                                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (uiState.selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
                                     )
                                 }
                             )
@@ -89,9 +95,9 @@ class ShowProjectInfoScreen(): Screen {
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-                when (selectedTabIndex) {
+                when (uiState.selectedTabIndex) {
                     0 -> {
-                        when (val quizInfoList = uiState.value.quizInfoList) {
+                        when (val quizInfoList = uiState.quizInfoList) {
                             is DataUiState.Loading -> {
                                 LoadingContent()
                             }
@@ -105,10 +111,10 @@ class ShowProjectInfoScreen(): Screen {
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
                                     },
-                                    itemsProjectIds = quizInfoList.data.map { it.projectId },
-                                    onTapCard = { projectId ->
+                                    itemGroupIds = quizInfoList.data.map { it.groupId },
+                                    onTapCard = { groupId ->
                                         viewModel.onTapQuizInfo(
-                                            projectId = projectId,
+                                            groupId = groupId,
                                             navigator = navigator,
                                         )
                                     }
@@ -120,28 +126,31 @@ class ShowProjectInfoScreen(): Screen {
                         }
                     }
                     1 -> {
-                        when (val noteInfoList = uiState.value.noteInfoList) {
+                        when (val noteList = uiState.noteList) {
                             is DataUiState.Loading -> {
                                 LoadingContent()
                             }
                             is DataUiState.Success -> {
                                 ContentList(
-                                    items = noteInfoList.data.map { it.name },
+                                    items = noteList.data.map { it.title },
                                     icon = Icons.AutoMirrored.Filled.Assignment,
                                     contentType = ContentType.NOTE,
-                                    updateAtList = noteInfoList.data.map {
+                                    updateAtList = noteList.data.map {
                                         it.updatedAt
                                             .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                             .toJapaneseMonthDay()
                                     },
-                                    itemsProjectIds = noteInfoList.data.map { it.projectId },
-                                    onTapCard = { projectId ->
-                                        // TODO ノートの詳細画面に遷移する処理を実装
+                                    itemGroupIds = noteList.data.map { it.id },
+                                    onTapCard = { id ->
+                                        val targetNote = noteList.data.first {
+                                            it.id == id
+                                        }
+                                        navigator?.push(ShowNoteAppScreen(targetNote))
                                     }
                                 )
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = noteInfoList.throwable.message)
+                                ErrorContent(message = noteList.throwable.message)
                             }
                         }
                     }
@@ -181,7 +190,7 @@ fun ErrorContent(message: String?) {
 fun ContentList(
     items: List<String>,
     updateAtList: List<String>,
-    itemsProjectIds: List<String>,
+    itemGroupIds: List<String>,
     onTapCard: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType
@@ -192,7 +201,7 @@ fun ContentList(
         itemsIndexed(items) { index, item ->
             Card(
                 onClick = {
-                    onTapCard(itemsProjectIds[index])
+                    onTapCard(itemGroupIds[index])
                 },
                 modifier = Modifier
                     .fillMaxWidth()

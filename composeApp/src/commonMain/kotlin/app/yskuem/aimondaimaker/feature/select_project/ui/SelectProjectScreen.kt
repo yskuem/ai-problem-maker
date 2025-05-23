@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +34,7 @@ import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
@@ -50,7 +54,10 @@ class SelectProjectScreen : Screen {
         // フォーカス用リクエスタ（1つだけでOK）
         val focusRequester = remember { FocusRequester() }
 
-        val projectState by viewModel.projects.collectAsState()
+        // フォーカスマネージャーを取得
+        val focusManager = LocalFocusManager.current
+
+        val uiState by viewModel.projects.collectAsState()
 
         // フォーカス取得のトリガー
         LaunchedEffect(editingId) {
@@ -61,7 +68,7 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold { padding ->
-            when(val projectState = projectState) {
+            when(val projectState = uiState) {
                 is DataUiState.Loading -> {
                     // TODO まとめる
                     Box(
@@ -101,6 +108,12 @@ class SelectProjectScreen : Screen {
                         modifier = Modifier
                             .fillMaxSize()
                             .systemBarsPadding()
+                            .pointerInput(Unit) {
+                                // 画面全体のタップを検知してフォーカスをクリア
+                                detectTapGestures {
+                                    focusManager.clearFocus()
+                                }
+                            }
                     ) {
                         Column(
                             modifier = Modifier
@@ -122,7 +135,12 @@ class SelectProjectScreen : Screen {
                                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(onSearch = { /* 検索実行 */ })
+                                keyboardActions = KeyboardActions(
+                                    onSearch = {
+                                        // 検索実行時にフォーカスをクリア
+                                        focusManager.clearFocus()
+                                    }
+                                )
                             )
 
                             // プロジェクトグリッド
@@ -141,7 +159,9 @@ class SelectProjectScreen : Screen {
                                         .toJapaneseMonthDay()
                                     Card(
                                         onClick = {
-                                            navigator?.push(ShowProjectInfoScreen())
+                                            navigator?.push(
+                                                ShowProjectInfoScreen(projectId = project.id)
+                                            )
                                         },
                                         shape = RoundedCornerShape(8.dp),
                                         elevation = 4.dp,
@@ -193,15 +213,13 @@ class SelectProjectScreen : Screen {
                                                         )
                                                         IconButton(onClick = {
                                                             if (editingTitle.isNotBlank()) {
-                                                                // TODO 名前の変更ロジック
-//                                                                projects = projects.map {
-//                                                                    if (it.id == editingId) {
-//                                                                        it.copy(
-//                                                                            title = editingTitle.trim(),
-//                                                                            lastEdited = "2025年4月22日"
-//                                                                        )
-//                                                                    } else it
-//                                                                }
+                                                                viewModel.editProject(
+                                                                    currentProjects = projects,
+                                                                    targetProject = project.copy(
+                                                                        name = editingTitle.trim(),
+                                                                        updatedAt = Clock.System.now()
+                                                                    )
+                                                                )
                                                             }
                                                             editingId = null
                                                             editingTitle = ""

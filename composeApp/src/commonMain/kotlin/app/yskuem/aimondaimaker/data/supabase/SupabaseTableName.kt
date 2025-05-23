@@ -10,6 +10,9 @@ object SupabaseTableName {
     object QuizInfo {
         const val NAME = "quiz_info"
     }
+    object Note {
+        const val NAME = "note"
+    }
     object User {
         const val NAME = "user"
     }

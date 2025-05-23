@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.di
 
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreenViewModel
+import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteScreenViewModel
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
@@ -23,6 +24,13 @@ val viewModelModule = module {
         )
     }
     factory {
+        ShowNoteScreenViewModel(
+            noteRepository = get(),
+            authRepository = get(),
+            projectRepository = get(),
+        )
+    }
+    factory {
         SelectAlbumOrCameraViewModel(
             imagePicker = get(),
         )
@@ -32,10 +40,11 @@ val viewModelModule = module {
             projectRepository = get(),
         )
     }
-    factory {
+    factory { (projectId: String) ->
         ShowProjectInfoScreenViewModel(
-            authRepository = get(),
-            quizRepository = get()
+            quizRepository = get(),
+            noteRepository = get(),
+            projectId = projectId,
         )
     }
 }

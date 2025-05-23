@@ -32,4 +32,24 @@ class SelectProjectScreenViewModel(
             }
         }
     }
+
+    fun editProject(
+        targetProject: Project,
+        currentProjects: List<Project>
+    ) {
+        screenModelScope.launch {
+            val result = runCatching {
+                projectRepository.updateProject(targetProject)
+            }
+            result.onSuccess {
+                val updateProjects = currentProjects.map {
+                    if(it.id == targetProject.id) targetProject else it
+                }
+                _projects.value = DataUiState.Success(updateProjects)
+            }
+            .onFailure {
+                println(it)
+            }
+        }
+    }
 }

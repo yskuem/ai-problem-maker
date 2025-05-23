@@ -2,132 +2,121 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from google import genai
 from google.genai import types
+from pydantic import BaseModel
 import io
 import os
-import uvicorn
 import uuid
+import uvicorn
+from typing import Any, Callable, Dict, Tuple, Type
 
 app = FastAPI()
-client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY"),
-)
 
-tools = [
-    types.Tool(
-        function_declarations=[
-            types.FunctionDeclaration(
-                name="create_english_questions",
-                description="画像の資料から複数の4択問題を作成する。",
-                parameters=genai.types.Schema(
-                    type=genai.types.Type.OBJECT,
-                    required=["questions"],
-                    properties={
-                        "title": genai.types.Schema(
-                            type=genai.types.Type.STRING,
-                            description="クイズ全体の大まかなタイトル",
-                        ),
-                        "questions": genai.types.Schema(
-                            type=genai.types.Type.ARRAY,
-                            description="四択問題のリスト。問題を作成できるだけ多く作成する。",
-                            items=genai.types.Schema(
-                                type=genai.types.Type.OBJECT,
-                                required=["question", "choices", "answer", "explanation", "category"],
-                                properties={
-                                    "question": genai.types.Schema(
-                                        type=genai.types.Type.STRING,
-                                        description="問題文",
-                                    ),
-                                    "choices": genai.types.Schema(
-                                        type=genai.types.Type.ARRAY,
-                                        description="4つの選択肢。選択肢にはanswerと文字列が完全一致した選択肢を必ず1つ含めること。",
-                                        items=genai.types.Schema(
-                                            type=genai.types.Type.STRING,
-                                        ),
-                                    ),
-                                    "answer": genai.types.Schema(
-                                        type=genai.types.Type.STRING,
-                                        description="問題の正解",
-                                    ),
-                                    "explanation": genai.types.Schema(
-                                        type=genai.types.Type.STRING,
-                                        description="解説",
-                                    ),
-                                    "category": genai.types.Schema(
-                                        type=genai.types.Type.STRING,
-                                        description="問題のカテゴリ",
-                                    ),
-                                },
-                            ),
-                        ),
-                    },
-                ),
-            ),
-        ]
+# Gemini クライアントの初期化
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+#
+# Pydanticモデル定義
+#
+
+class ImageQuestion(BaseModel):
+    question: str
+    choices: list[str]
+    answer: str
+    explanation: str
+
+class QuizOutput(BaseModel):
+    title: str
+    questions: list[ImageQuestion]
+
+class NoteOutput(BaseModel):
+    title: str
+    html: str
+
+#
+# 共通処理関数
+#
+
+async def handle_generation(
+    file: UploadFile,
+    prompt: str,
+    response_schema: Type[BaseModel],
+    id_key: str,
+) -> Dict[str, Any]:
+    """
+    1. 画像ファイルを読み込み
+    2. Geminiにアップロード
+    3. 指定プロンプトでモデル呼び出し
+    4. Pydanticモデルにパース
+    5. UUIDを付与して dict を返却
+    """
+    # 1. ファイル読み込み
+    file_bytes = await file.read()
+    file_obj = io.BytesIO(file_bytes)
+    file_obj.name = file.filename
+    file_obj.seek(0)
+
+    # 2. ファイルアップロード
+    upload_config = types.UploadFileConfig(
+        mime_type=file.content_type,
+        display_name=file.filename,
     )
-]
+    uploaded = client.files.upload(file=file_obj, config=upload_config)
 
-@app.post("/analyze_image")
-async def analyze_image(file: UploadFile = File(...)):
-    try:
-        # ファイル読み込み
-        file_bytes = await file.read()
-        file_obj = io.BytesIO(file_bytes)
-        file_obj.name = file.filename
-        file_obj.seek(0)
+    # 3. モデル呼び出し
+    generate_config = types.GenerateContentConfig(
+        response_mime_type="application/json",
+        response_schema=response_schema,
+    )
+    contents = [uploaded, "\n\n" + prompt]
+    result = client.models.generate_content(
+        model="gemini-2.5-flash-preview-05-20",
+        contents=contents,
+        config=generate_config,
+    )
 
-        # アップロード設定
-        upload_config = types.UploadFileConfig(
-            mime_type=file.content_type,
-            display_name=file.filename,
-        )
-        uploaded = client.files.upload(
-            file=file_obj,
-            config=upload_config,
-        )
+    # 4. パース済みオブジェクト取得
+    parsed = result.parsed
+    if parsed is None:
+        raise HTTPException(status_code=500, detail="モデルから有効なレスポンスが返されませんでした。")
 
-        # モデル呼び出し設定
-        generate_content_config = types.GenerateContentConfig(
-            response_mime_type="text/plain",
-            tools=tools
-        )
-        result = client.models.generate_content(
-            model="gemini-2.5-flash-preview-04-17",
-            contents=[uploaded, "\n\n", "この画像から複数の問題を作成してください。問題は画像の言語で出力してください。"],
-            config=generate_content_config,
-        )
+    # 5. UUID付与
+    obj = parsed.dict()
+    obj[id_key] = str(uuid.uuid4())
+    return obj
 
-        raw_calls = result.function_calls or []
-        enriched = []
-        for fc in raw_calls:
-            # 一つの関数呼び出しで共通の group_id を生成
-            group_uuid = str(uuid.uuid4())
-            # 辞書化
-            try:
-                fc_dict = fc.dict()
-            except Exception:
-                fc_dict = fc.to_dict()
+#
+# エンドポイント定義
+#
 
-            title = fc_dict['args'].get('title')
-            questions = fc_dict['args'].get('questions', [])
+@app.post("/generate_quizzes")
+async def generate_quizzes(file: UploadFile = File(...)):
+    prompt = (
+        "画像からクイズを生成してください。"
+        "クイズ全体のタイトルと、複数の4択問題を含むJSON形式で出力してください。"
+    )
+    # handle_generation は一問分ではなく QuizOutput 全体を返すので、
+    # 質問ごとの UUID 付与処理はここで行います。
+    quiz_obj = await handle_generation(file, prompt, QuizOutput, id_key="group_id")
+    # group_id を生成値から取り出し、questions に個別IDを振り分け
+    group_id = quiz_obj.pop("group_id")
+    enriched_questions = []
+    for q in quiz_obj["questions"]:
+        q["id"] = str(uuid.uuid4())
+        q["group_id"] = group_id
+        q["title"] = quiz_obj["title"]
+        enriched_questions.append(q)
+    return JSONResponse(content=enriched_questions)
 
-            # 各質問にユニークな ID と共通の group_id、title を注入
-            enriched_questions = []
-            for q in questions:
-                question_id = str(uuid.uuid4())
-                q['id'] = question_id
-                q['group_id'] = group_uuid
-                if title is not None:
-                    q['title'] = title
-                enriched_questions.append(q)
-
-            # args を更新して返却
-            fc_dict['args'] = enriched_questions
-            enriched.append(fc_dict)
-
-        return enriched
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/generate_note")
+async def generate_note(file: UploadFile = File(...)):
+    prompt = (
+        "画像の資料内容をhtmlで分かりやすくまとめてください。"
+        "美しくカラフルなレイアウトで視覚的にわかりやすいデザインにしてください。"
+        "内容の漏れはないようにしてください。"
+    )
+    note_obj = await handle_generation(file, prompt, NoteOutput, id_key="id")
+    # id は handle_generation で付与済み、title/html は note_obj に含まれる
+    return JSONResponse(content=note_obj)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
