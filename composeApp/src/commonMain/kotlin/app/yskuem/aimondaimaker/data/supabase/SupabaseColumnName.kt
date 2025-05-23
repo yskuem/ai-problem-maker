@@ -8,6 +8,7 @@ object SupabaseColumnName {
     const val PROJECT_ID = "project_id"
 
     object Project {
+        const val ID = "id"
         const val CREATE_USER_ID = "created_user_id"
     }
     object User {

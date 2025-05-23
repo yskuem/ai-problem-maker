@@ -5,4 +5,5 @@ import app.yskuem.aimondaimaker.domain.entity.Project
 interface ProjectRepository {
     suspend fun addProject(projectName: String) : Project
     suspend fun fetchProjectList(): List<Project>
+    suspend fun editProjectName(targetProject: Project): Project?
 }

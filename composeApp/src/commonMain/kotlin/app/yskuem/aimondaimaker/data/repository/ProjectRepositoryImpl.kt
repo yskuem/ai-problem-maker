@@ -17,9 +17,9 @@ class ProjectRepositoryImpl(
     private val authRepository: AuthRepository,
     private val supabaseClientHelper: SupabaseClientHelper,
 ) : ProjectRepository {
+
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun addProject(projectName: String): Project {
-
         val project = Project(
             id = Uuid.random().toString(),
             createdUserId = authRepository.getUserId(),
@@ -34,8 +34,8 @@ class ProjectRepositoryImpl(
         return project
     }
 
-    override suspend fun fetchProjectList(): List<Project> {
 
+    override suspend fun fetchProjectList(): List<Project> {
         val res = supabaseClientHelper.fetchListByMatchValue<ProjectDto>(
             tableName = SupabaseTableName.Project.NAME,
             filterCol = SupabaseColumnName.Project.CREATE_USER_ID,
@@ -43,6 +43,19 @@ class ProjectRepositoryImpl(
             orderCol = SupabaseColumnName.CREATED_AT,
         )
         return res.map { it.toDomain() }
+    }
+
+
+    override suspend fun editProjectName(
+        targetProject: Project,
+    ): Project? {
+        val res = supabaseClientHelper.updateItemById<ProjectDto>(
+            tableName = SupabaseTableName.Project.NAME,
+            idCol = SupabaseColumnName.Project.ID,
+            idVal = targetProject.id,
+            changes = targetProject.toDTO()
+        )
+        return res?.toDomain()
     }
 
 }
