@@ -95,6 +95,7 @@ class SupabaseClientHelper(
         return supabase
             .from(tableName)
             .update<T>(changes) {
+                select()
                 filter { eq(idCol, idVal) }
             }
             .decodeSingleOrNull<T>()

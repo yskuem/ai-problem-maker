@@ -34,6 +34,7 @@ import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
@@ -212,15 +213,13 @@ class SelectProjectScreen : Screen {
                                                         )
                                                         IconButton(onClick = {
                                                             if (editingTitle.isNotBlank()) {
-                                                                // TODO 名前の変更ロジック
-//                                                                projects = projects.map {
-//                                                                    if (it.id == editingId) {
-//                                                                        it.copy(
-//                                                                            title = editingTitle.trim(),
-//                                                                            lastEdited = "2025年4月22日"
-//                                                                        )
-//                                                                    } else it
-//                                                                }
+                                                                viewModel.editProject(
+                                                                    currentProjects = projects,
+                                                                    targetProject = project.copy(
+                                                                        name = editingTitle.trim(),
+                                                                        updatedAt = Clock.System.now()
+                                                                    )
+                                                                )
                                                             }
                                                             editingId = null
                                                             editingTitle = ""

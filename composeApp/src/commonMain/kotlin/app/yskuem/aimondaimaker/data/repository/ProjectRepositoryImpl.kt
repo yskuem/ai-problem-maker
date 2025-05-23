@@ -46,7 +46,7 @@ class ProjectRepositoryImpl(
     }
 
 
-    override suspend fun editProjectName(
+    override suspend fun updateProject(
         targetProject: Project,
     ): Project? {
         val res = supabaseClientHelper.updateItemById<ProjectDto>(

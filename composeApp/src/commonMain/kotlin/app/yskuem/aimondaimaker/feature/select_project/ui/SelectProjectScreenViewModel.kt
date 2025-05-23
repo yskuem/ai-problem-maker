@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class SelectProjectScreenViewModel(
@@ -29,6 +30,26 @@ class SelectProjectScreenViewModel(
                 _projects.value = DataUiState.Success(it)
             }.onFailure {
                 _projects.value = DataUiState.Error(it)
+            }
+        }
+    }
+
+    fun editProject(
+        targetProject: Project,
+        currentProjects: List<Project>
+    ) {
+        screenModelScope.launch {
+            val result = runCatching {
+                projectRepository.updateProject(targetProject)
+            }
+            result.onSuccess {
+                val updateProjects = currentProjects.map {
+                    if(it.id == targetProject.id) targetProject else it
+                }
+                _projects.value = DataUiState.Success(updateProjects)
+            }
+            .onFailure {
+                println(it)
             }
         }
     }
