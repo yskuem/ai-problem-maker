@@ -1,7 +1,6 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.note_tab_name
 import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -48,7 +48,6 @@ data class SelectAlbumOrCameraScreen(
     override fun Content() {
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
-        val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
         val mode = navMode.toCreateMode()
 
         val galleryManager = rememberGalleryManager {
