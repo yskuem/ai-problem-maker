@@ -29,6 +29,8 @@ import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -133,7 +135,12 @@ data class ShowProjectInfoScreen(
                                     buttonText = stringResource(Res.string.create_new_quiz),
                                     modifier = Modifier.align(Alignment.BottomEnd)
                                 ) {
-
+                                    navigator?.push(
+                                        SelectAlbumOrCameraScreen(
+                                            navMode = NavCreateMode.Quiz,
+                                            projectId = projectId,
+                                        )
+                                    )
                                 }
                             }
                             is DataUiState.Error -> {
@@ -168,7 +175,12 @@ data class ShowProjectInfoScreen(
                                     buttonText = stringResource(Res.string.create_new_note),
                                     modifier = Modifier.align(Alignment.BottomEnd)
                                 ) {
-
+                                    navigator?.push(
+                                        SelectAlbumOrCameraScreen(
+                                            navMode = NavCreateMode.Note,
+                                            projectId = projectId,
+                                        )
+                                    )
                                 }
                             }
                             is DataUiState.Error -> {

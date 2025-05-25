@@ -41,7 +41,8 @@ import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.koin.core.parameter.parametersOf
 
 data class CameraPermissionScreen(
-    val mode: NavCreateMode
+    val mode: NavCreateMode,
+    val projectId: String? = null
 ) : Screen {
     @Composable
     override fun Content() {
@@ -70,7 +71,8 @@ data class CameraPermissionScreen(
                     navigator?.push(
                         CreateNoteScreen(
                             imageByte = bytes,
-                            extension = "jpg"
+                            extension = "jpg",
+                            projectId = projectId,
                         )
                     )
                 }
@@ -78,7 +80,8 @@ data class CameraPermissionScreen(
                     navigator?.push(
                         CreateQuizScreen(
                             imageByte = bytes,
-                            extension = "jpg"
+                            extension = "jpg",
+                            projectId = projectId,
                         )
                     )
                 }

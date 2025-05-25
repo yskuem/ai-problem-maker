@@ -42,6 +42,7 @@ import org.jetbrains.compose.resources.stringResource
 
 data class SelectAlbumOrCameraScreen(
     val navMode: NavCreateMode,
+    val projectId: String? = null
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -65,6 +66,7 @@ data class SelectAlbumOrCameraScreen(
                             CreateNoteScreen(
                                 imageByte = bytes,
                                 extension = "jpg",
+                                projectId = projectId,
                             )
                         )
                     }
@@ -73,6 +75,7 @@ data class SelectAlbumOrCameraScreen(
                             CreateQuizScreen(
                                 imageByte = bytes,
                                 extension = "jpg",
+                                projectId = projectId,
                             )
                         )
                     }
@@ -135,7 +138,12 @@ data class SelectAlbumOrCameraScreen(
 
                     Button(
                         onClick = {
-                            navigator?.push(CameraPermissionScreen(navMode))
+                            navigator?.push(
+                                item = CameraPermissionScreen(
+                                    mode = navMode,
+                                    projectId = projectId
+                                ),
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()

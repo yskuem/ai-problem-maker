@@ -18,7 +18,8 @@ import org.jetbrains.compose.resources.stringResource
 data class CreateQuizScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
-    val extension: String
+    val extension: String,
+    val projectId: String? = null
 ): Screen {
     @Composable
     override fun Content() {
@@ -30,7 +31,8 @@ data class CreateQuizScreen(
             viewmodel.onLoadPage(
                 imageByte = imageByte,
                 fileName = fileName,
-                extension = extension
+                extension = extension,
+                projectId = projectId
             )
         }
 
