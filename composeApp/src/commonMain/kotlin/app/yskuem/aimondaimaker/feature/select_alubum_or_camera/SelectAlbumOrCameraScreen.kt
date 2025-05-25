@@ -33,7 +33,6 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.toCreateMode
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
