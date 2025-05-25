@@ -31,7 +31,9 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.toCreateMod
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 data class SelectAlbumOrCameraScreen(
     val navMode: NavCreateMode,
@@ -43,6 +45,37 @@ data class SelectAlbumOrCameraScreen(
         val scope = rememberCoroutineScope()
         val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
         val mode = navMode.toCreateMode()
+
+        val galleryManager = rememberGalleryManager {
+            scope.launch {
+                val bytes = withContext(Dispatchers.Default) {
+                    it?.toByteArray()
+                }
+                if (bytes == null) {
+                    navigator?.pop()
+                    return@launch
+                }
+                when(mode) {
+                    CreateMode.Note -> {
+                        navigator?.push(
+                            CreateNoteScreen(
+                                imageByte = bytes,
+                                extension = "jpg",
+                            )
+                        )
+                    }
+                    CreateMode.Quiz -> {
+                        navigator?.push(
+                            CreateQuizScreen(
+                                imageByte = bytes,
+                                extension = "jpg",
+                            )
+                        )
+                    }
+                }
+
+            }
+        }
 
         Scaffold(
             topBar = {
@@ -121,28 +154,7 @@ data class SelectAlbumOrCameraScreen(
                     OutlinedButton(
                         onClick = {
                             scope.launch {
-                                viewmodel.onSelectAlbum { imageByte, fileName, extension ->
-                                    when(mode) {
-                                        CreateMode.Note -> {
-                                            navigator?.push(
-                                                CreateNoteScreen(
-                                                    imageByte = imageByte,
-                                                    fileName = fileName,
-                                                    extension = extension,
-                                                )
-                                            )
-                                        }
-                                        CreateMode.Quiz -> {
-                                            navigator?.push(
-                                                CreateQuizScreen(
-                                                    imageByte = imageByte,
-                                                    fileName = fileName,
-                                                    extension = extension,
-                                                )
-                                            )
-                                        }
-                                    }
-                                }
+                                galleryManager.launch()
                             }
                         },
                         modifier = Modifier
