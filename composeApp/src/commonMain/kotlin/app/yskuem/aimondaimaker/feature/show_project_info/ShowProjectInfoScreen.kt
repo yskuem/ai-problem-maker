@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -28,6 +30,7 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
 
@@ -37,7 +40,10 @@ data class ShowProjectInfoScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val tabs = listOf("クイズ", "ノート")
+        val tabs = listOf(
+            stringResource(Res.string.quiz_tab_name),
+            stringResource(Res.string.quiz_tab_name),
+        )
         val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
             parameters = { parametersOf(projectId) }
         )
