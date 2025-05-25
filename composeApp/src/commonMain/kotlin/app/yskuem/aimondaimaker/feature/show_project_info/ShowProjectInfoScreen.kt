@@ -1,6 +1,9 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.create_new_note
+import ai_problem_maker.composeapp.generated.resources.create_new_quiz
+import ai_problem_maker.composeapp.generated.resources.note_tab_name
 import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
@@ -42,7 +46,7 @@ data class ShowProjectInfoScreen(
     override fun Content() {
         val tabs = listOf(
             stringResource(Res.string.quiz_tab_name),
-            stringResource(Res.string.quiz_tab_name),
+            stringResource(Res.string.note_tab_name),
         )
         val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
             parameters = { parametersOf(projectId) }
@@ -125,6 +129,12 @@ data class ShowProjectInfoScreen(
                                         )
                                     }
                                 )
+                                CreateNewButton(
+                                    buttonText = stringResource(Res.string.create_new_quiz),
+                                    modifier = Modifier.align(Alignment.BottomEnd)
+                                ) {
+
+                                }
                             }
                             is DataUiState.Error -> {
                                 ErrorContent(message = quizInfoList.throwable.message)
@@ -154,6 +164,12 @@ data class ShowProjectInfoScreen(
                                         navigator?.push(ShowNoteAppScreen(targetNote))
                                     }
                                 )
+                                CreateNewButton(
+                                    buttonText = stringResource(Res.string.create_new_note),
+                                    modifier = Modifier.align(Alignment.BottomEnd)
+                                ) {
+
+                                }
                             }
                             is DataUiState.Error -> {
                                 ErrorContent(message = noteList.throwable.message)

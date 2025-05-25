@@ -34,6 +34,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
@@ -283,19 +284,10 @@ class SelectProjectScreen : Screen {
                             }
 
                             // 新規プロジェクト作成ボタン
-                            Button(
-                                onClick = {
-                                    // 遷移処理
-                                    navigator?.push(SelectNoteOrQuizScreen())
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 16.dp),
-                                shape = RoundedCornerShape(8.dp)
+                            CreateNewButton(
+                                buttonText = stringResource(Res.string.new_project),
                             ) {
-                                Icon(Icons.Default.Add, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = stringResource(Res.string.new_project))
+                                navigator?.push(SelectNoteOrQuizScreen())
                             }
                         }
                     }

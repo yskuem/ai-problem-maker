@@ -8,7 +8,9 @@
 
     <!-- Project Details -->
     <string name="quiz_tab_name">Quiz</string>
-    <string name="note_tab_name">Notes</string>
+    <string name="create_new_quiz">Create New Quiz</string>
+    <string name="note_tab_name">Note</string>
+    <string name="create_new_note">Create New Note</string>
 
     <!-- New Project -->
     <string name="select_mode">Select Mode</string>
