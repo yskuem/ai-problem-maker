@@ -1,9 +1,17 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.note_mode_page_explanation
+import ai_problem_maker.composeapp.generated.resources.note_mode_page_how_to_explanation
+import ai_problem_maker.composeapp.generated.resources.note_mode_page_title
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_explanation
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_how_to_explanation
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_title
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.StringResource
 
 enum class NavCreateMode {
     Quiz,
@@ -11,21 +19,21 @@ enum class NavCreateMode {
 }
 
 sealed class CreateMode(
-    val title: String,
-    val contentDescription: String,
-    val usage: String,
+    val title: StringResource,
+    val contentDescription: StringResource,
+    val usage: StringResource,
     val icon: ImageVector,
 ) {
     data object Quiz : CreateMode(
-        title = "AI問題作成",
-        contentDescription = "教材やノートを撮影して\n" + "AIに問題を作成してもらいましょう",
-        usage = "1. 教材やノートの写真を撮影\n" + "2. AIが自動的に問題を生成\n" + "3. 生成された問題を解いて学習しましょう",
+        title = Res.string.quiz_mode_page_title,
+        contentDescription = Res.string.quiz_mode_page_explanation,
+        usage = Res.string.quiz_mode_page_how_to_explanation,
         icon = Icons.AutoMirrored.Outlined.Help,
     )
     data object Note : CreateMode(
-        title = "AIノートまとめ",
-        contentDescription = "教材やノートを撮影して\n" + "AIに教材やノートをまとめてもらいましょう",
-        usage = "1. 教材やノートの写真を撮影\n" + "2. AIが自動的にノートをまとめる\n" + "3. 生成された電子ノートで学習しましょう",
+        title = Res.string.note_mode_page_title,
+        contentDescription = Res.string.note_mode_page_explanation,
+        usage = Res.string.note_mode_page_how_to_explanation,
         icon = Icons.AutoMirrored.Outlined.Note
     )
 }

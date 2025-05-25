@@ -8,7 +8,7 @@
 
     <!-- プロジェクト詳細 -->
     <string name="quiz_tab_name">クイズ</string>
-    <string name="quiz_tab_name">ノート</string>
+    <string name="note_tab_name">ノート</string>
 
     <!-- 新規プロジェクト -->
     <string name="select_mode">モードの選択</string>
@@ -29,9 +29,9 @@
     <string name="quiz_mode_page_how_to_explanation">1. 教材やノートの写真を撮影\n2. AIが自動的に問題を生成\n3. 生成された問題を解いて学習しましょう</string>
 
     <!-- ノートモード -->
-    <string name="quiz_mode_page_title">AIノートまとめ</string>
-    <string name="quiz_mode_page_explanation">教材やノートを撮影して\nAIに教材やノートをまとめてもらいましょう</string>
-    <string name="quiz_mode_page_how_to_explanation">1. 教材やノートの写真を撮影\n2. AIが自動的にノートをまとめる\n3. 生成された電子ノートで学習しましょう</string>
+    <string name="note_mode_page_title">AIノートまとめ</string>
+    <string name="note_mode_page_explanation">教材やノートを撮影して\nAIに教材やノートをまとめてもらいましょう</string>
+    <string name="note_mode_page_how_to_explanation">1. 教材やノートの写真を撮影\n2. AIが自動的にノートをまとめる\n3. 生成された電子ノートで学習しましょう</string>
 
     <!-- ローディング画面 -->
     <string name="quiz_generating">クイズを生成中</string>

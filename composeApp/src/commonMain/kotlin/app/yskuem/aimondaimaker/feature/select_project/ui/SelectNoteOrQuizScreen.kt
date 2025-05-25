@@ -1,5 +1,12 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.note_mode_explanation
+import ai_problem_maker.composeapp.generated.resources.note_mode_title
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_explanation
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_title
+import ai_problem_maker.composeapp.generated.resources.select_explanation
+import ai_problem_maker.composeapp.generated.resources.select_mode
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +36,7 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
 
 class SelectNoteOrQuizScreen: Screen {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +110,7 @@ class SelectNoteOrQuizScreen: Screen {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "モードの選択",
+                        text = stringResource(Res.string.select_mode),
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF3730A3)
@@ -111,7 +119,7 @@ class SelectNoteOrQuizScreen: Screen {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "画像からあなたの学習をサポートします",
+                        text = stringResource(Res.string.select_explanation),
                         fontSize = 16.sp,
                         color = Color(0xFF6B7280)
                     )
@@ -126,8 +134,8 @@ class SelectNoteOrQuizScreen: Screen {
                 ) {
                     // クイズ作成カード
                     FeatureCard(
-                        title = "画像からクイズを作成",
-                        description = "ノートや教科書の画像をアップロードして、内容に基づいた確認テストを自動生成します。",
+                        title = stringResource(Res.string.quiz_mode_title),
+                        description = stringResource(Res.string.quiz_mode_explanation),
                         icon = Icons.Filled.Psychology,
                         isHovered = hoveredCard == "quiz",
                         onHoverChange = { isHovered ->
@@ -145,8 +153,8 @@ class SelectNoteOrQuizScreen: Screen {
 
                     // 要約作成カード
                     FeatureCard(
-                        title = "画像からノートを要約",
-                        description = "ノートや参考書の画像から重要なポイントを抽出し、要約とまとめを作成します。",
+                        title = stringResource(Res.string.note_mode_title),
+                        description = stringResource(Res.string.note_mode_explanation),
                         icon = Icons.Filled.Book,
                         isHovered = hoveredCard == "summary",
                         onHoverChange = { isHovered ->

@@ -1,5 +1,9 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.how_to_title
+import ai_problem_maker.composeapp.generated.resources.pick_from_gallery
+import ai_problem_maker.composeapp.generated.resources.take_picture
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +38,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
 
 data class SelectAlbumOrCameraScreen(
     val navMode: NavCreateMode,
@@ -81,7 +86,7 @@ data class SelectAlbumOrCameraScreen(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text(mode.title)
+                        Text(stringResource(mode.title))
                     },
                     navigationIcon = {
                         IconButton(
@@ -121,7 +126,7 @@ data class SelectAlbumOrCameraScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = mode.contentDescription,
+                        text = stringResource(mode.contentDescription),
                         fontSize = 18.sp,
                         textAlign = TextAlign.Center,
                         lineHeight = 28.sp
@@ -146,7 +151,7 @@ data class SelectAlbumOrCameraScreen(
                             contentDescription = "カメラ"
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("写真を撮影", fontSize = 16.sp)
+                        Text(stringResource(Res.string.take_picture), fontSize = 16.sp)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -162,7 +167,7 @@ data class SelectAlbumOrCameraScreen(
                             .height(56.dp),
                         shape = RoundedCornerShape(16.dp)
                     ) {
-                        Text("ギャラリーから選択", fontSize = 16.sp)
+                        Text(stringResource(Res.string.pick_from_gallery), fontSize = 16.sp)
                     }
 
                     Spacer(modifier = Modifier.height(48.dp))
@@ -178,13 +183,13 @@ data class SelectAlbumOrCameraScreen(
                             modifier = Modifier.padding(16.dp)
                         ) {
                             Text(
-                                text = "使い方",
+                                text = stringResource(Res.string.how_to_title),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = mode.usage,
+                                text = stringResource(mode.usage),
                                 lineHeight = 24.sp
                             )
                         }

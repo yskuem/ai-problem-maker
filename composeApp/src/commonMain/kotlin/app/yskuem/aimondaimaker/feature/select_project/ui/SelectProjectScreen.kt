@@ -1,5 +1,10 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.change_project_name
+import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
+import ai_problem_maker.composeapp.generated.resources.new_project
+import ai_problem_maker.composeapp.generated.resources.search_project
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
@@ -37,6 +42,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 class SelectProjectScreen : Screen {
     @OptIn(ExperimentalMaterialApi::class)
@@ -131,7 +137,7 @@ class SelectProjectScreen : Screen {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 16.dp),
-                                placeholder = { Text("プロジェクトを検索...") },
+                                placeholder = { Text(stringResource(Res.string.search_project)) },
                                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
@@ -241,8 +247,7 @@ class SelectProjectScreen : Screen {
                                                         color = MaterialTheme.colors.onSurface
                                                     )
                                                     Text(
-                                                        // TODO わかりやすい日付フォーマットにする
-                                                        text = "最終編集: $updatedAt",
+                                                        text = stringResource(Res.string.last_updated_project_date) + updatedAt,
                                                         fontSize = 12.sp,
                                                         color = Color.Gray
                                                     )
@@ -267,7 +272,7 @@ class SelectProjectScreen : Screen {
                                                         editingTitle = project.name
                                                         expandedMenuFor = null
                                                     }) {
-                                                        Text("名前を変更")
+                                                        Text(stringResource(Res.string.change_project_name))
                                                     }
                                                     // ここに他のメニュー項目を追加可能
                                                 }
@@ -290,7 +295,7 @@ class SelectProjectScreen : Screen {
                             ) {
                                 Icon(Icons.Default.Add, contentDescription = null)
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("新規プロジェクト")
+                                Text(text = stringResource(Res.string.new_project))
                             }
                         }
                     }

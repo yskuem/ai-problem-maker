@@ -1,6 +1,9 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import PastelAppleStyleLoading
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.note_generating
+import ai_problem_maker.composeapp.generated.resources.quiz_generating
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +14,7 @@ import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
 
 data class CreateQuizScreen(
     val imageByte: ByteArray,
@@ -36,7 +40,9 @@ data class CreateQuizScreen(
                 Text(quizList.throwable.toString())
             }
             is DataUiState.Loading -> {
-                PastelAppleStyleLoading("クイズ")
+                PastelAppleStyleLoading(
+                    loadingTitle = stringResource(Res.string.quiz_generating)
+                )
             }
             is DataUiState.Success -> {
                 QuizApp(quizList.data) {

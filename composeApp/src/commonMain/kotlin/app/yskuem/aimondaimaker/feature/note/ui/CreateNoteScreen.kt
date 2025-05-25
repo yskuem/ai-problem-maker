@@ -1,6 +1,8 @@
 package app.yskuem.aimondaimaker.feature.note.ui
 
 import PastelAppleStyleLoading
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.note_generating
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,6 +12,7 @@ import app.yskuem.aimondaimaker.core.ui.DataUiState
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
 
 data class CreateNoteScreen(
     val imageByte: ByteArray,
@@ -35,7 +38,9 @@ data class CreateNoteScreen(
                 Text(result.throwable.toString())
             }
             is DataUiState.Loading -> {
-                PastelAppleStyleLoading("ノート")
+                PastelAppleStyleLoading(
+                    loadingTitle = stringResource(Res.string.note_generating)
+                )
             }
             is DataUiState.Success -> {
                 NoteApp(note = result.data) {
