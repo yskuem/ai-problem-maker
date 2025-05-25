@@ -40,7 +40,8 @@ class ShowNoteScreenViewModel(
     fun onLoadPage(
         imageByte: ByteArray,
         fileName: String,
-        extension: String
+        extension: String,
+        projectId: String? = null
     ) {
         screenModelScope.launch {
             _note.value = DataUiState.Loading
@@ -53,7 +54,10 @@ class ShowNoteScreenViewModel(
             )
             noteResult.onSuccess { note ->
                 _note.value = DataUiState.Success(note)
-                onSaveData(note)
+                onSaveData(
+                    note = note,
+                    projectId = projectId
+                )
             }
             .onFailure {
                 _note.value = DataUiState.Error(it)
@@ -73,22 +77,24 @@ class ShowNoteScreenViewModel(
 
     private suspend fun onSaveData(
         note: Note,
+        projectId: String? = null
     ) {
         val res = runCatching {
-            // Projectの保存
-            // TODO
-            val project = projectRepository.addProject(
-                projectName = note.title
-            )
 
             val userId = authRepository.getUserId()
 
+            // 新規の場合はプロジェクトの作成
+            val finalProjectId = projectId ?: projectRepository.addProject(
+                projectName = note.title,
+            ).id
+
             // Noteの保存
             noteRepository.saveNote(
-                projectId = project.id,
+                projectId = finalProjectId,
                 userId = userId,
                 note = note,
             )
+
         }
         res.onSuccess {
             println("success save")

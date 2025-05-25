@@ -17,7 +17,8 @@ import org.jetbrains.compose.resources.stringResource
 data class CreateNoteScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
-    val extension: String
+    val extension: String,
+    val projectId: String? = null
 ): Screen {
     @Composable
     override fun Content() {
@@ -29,7 +30,8 @@ data class CreateNoteScreen(
             viewmodel.onLoadPage(
                 imageByte = imageByte,
                 fileName = fileName,
-                extension = extension
+                extension = extension,
+                projectId = projectId,
             )
         }
 

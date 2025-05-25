@@ -33,7 +33,6 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.toCreateMode
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,6 +41,7 @@ import org.jetbrains.compose.resources.stringResource
 
 data class SelectAlbumOrCameraScreen(
     val navMode: NavCreateMode,
+    val projectId: String? = null
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -65,6 +65,7 @@ data class SelectAlbumOrCameraScreen(
                             CreateNoteScreen(
                                 imageByte = bytes,
                                 extension = "jpg",
+                                projectId = projectId,
                             )
                         )
                     }
@@ -73,6 +74,7 @@ data class SelectAlbumOrCameraScreen(
                             CreateQuizScreen(
                                 imageByte = bytes,
                                 extension = "jpg",
+                                projectId = projectId,
                             )
                         )
                     }
@@ -135,7 +137,12 @@ data class SelectAlbumOrCameraScreen(
 
                     Button(
                         onClick = {
-                            navigator?.push(CameraPermissionScreen(navMode))
+                            navigator?.push(
+                                item = CameraPermissionScreen(
+                                    mode = navMode,
+                                    projectId = projectId
+                                ),
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()

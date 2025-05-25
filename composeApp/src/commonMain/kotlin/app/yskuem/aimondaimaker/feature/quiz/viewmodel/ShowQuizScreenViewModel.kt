@@ -41,7 +41,8 @@ class ShowQuizScreenViewModel(
     fun onLoadPage(
         imageByte: ByteArray,
         fileName: String,
-        extension: String
+        extension: String,
+        projectId: String? = null
     ) {
         screenModelScope.launch {
             _quizList.value = DataUiState.Loading
@@ -52,7 +53,10 @@ class ShowQuizScreenViewModel(
                 fileName = fileName,
                 extension = extension,
             )
-            onSaveData(quizList)
+            onSaveData(
+                quizList = quizList,
+                projectId = projectId
+            )
         }
     }
 
@@ -73,18 +77,19 @@ class ShowQuizScreenViewModel(
 
     private suspend fun onSaveData(
         quizList: List<Quiz>,
+        projectId: String? = null
     ) {
         val res = runCatching {
-            // Projectの保存
-            val project = projectRepository.addProject(
-                projectName = quizList[0].title
-            )
 
             val userId = authRepository.getUserId()
 
+            val finalProjectId = projectId ?: projectRepository.addProject(
+                projectName = quizList[0].title
+            ).id
+
             // QuizInfoの保存
             quizRepository.saveQuizInfo(
-                projectId = project.id,
+                projectId = finalProjectId,
                 userId = userId,
                 groupId = quizList[0].groupId,
                 quizTitle = quizList[0].title,
@@ -94,7 +99,7 @@ class ShowQuizScreenViewModel(
             quizList.map {
                 quizRepository.saveQuiz(
                     quiz = it,
-                    projectId = project.id,
+                    projectId = finalProjectId,
                     userId = userId,
                 )
             }
