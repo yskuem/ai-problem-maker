@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- 新規プロジェクト -->
+    <string name="new_project">新規プロジェクト</string>
+    <string name="search_project">プロジェクトを検索...</string>
+    <string name="change_project_name">名前を変更</string>
+    <string name="last_updated_project_date">"最終編集:"</string>
+
+    <!-- プロジェクト詳細 -->
+    <string name="quiz_tab_name">クイズ</string>
+    <string name="quiz_tab_name">ノート</string>
+
+    <!-- 新規プロジェクト -->
+    <string name="select_mode">モードの選択</string>
+    <string name="select_explanation">画像からあなたの学習をサポートします</string>
+    <string name="quiz_mode_title">画像からクイズを作成</string>
+    <string name="quiz_mode_explanation">ノートや教科書の画像をアップロードして、内容に基づいた確認テストを自動生成します。</string>
+    <string name="note_mode_title">画像からノートを要約</string>
+    <string name="note_mode_explanation">ノートや参考書の画像から重要なポイントを抽出し、要約とまとめを作成します。</string>
+
+    <!-- 画像取得モードページ共通 -->
+    <string name="take_picture">写真を撮影</string>
+    <string name="pick_from_gallery">ギャラリーから選択</string>
+    <string name="how_to_title">使い方</string>
+
+    <!-- クイズモード -->
+    <string name="quiz_mode_page_title">AI問題作成</string>
+    <string name="quiz_mode_page_explanation">教材やノートを撮影して\nAIに問題を作成してもらいましょう</string>
+    <string name="quiz_mode_page_how_to_explanation">1. 教材やノートの写真を撮影\n2. AIが自動的に問題を生成\n3. 生成された問題を解いて学習しましょう</string>
+
+    <!-- ノートモード -->
+    <string name="quiz_mode_page_title">AIノートまとめ</string>
+    <string name="quiz_mode_page_explanation">教材やノートを撮影して\nAIに教材やノートをまとめてもらいましょう</string>
+    <string name="quiz_mode_page_how_to_explanation">1. 教材やノートの写真を撮影\n2. AIが自動的にノートをまとめる\n3. 生成された電子ノートで学習しましょう</string>
+
+    <!-- ローディング画面 -->
+    <string name="quiz_generating">クイズを生成中</string>
+    <string name="note_generating">ノートを生成中</string>
+    <string name="loading_explanation">少し時間がかかります。\n少々お待ちください。</string>
+
+</resources>
