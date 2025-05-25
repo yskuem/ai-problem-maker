@@ -1,7 +1,5 @@
 package app.yskuem.aimondaimaker.core.ui
 
-import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.new_project
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,8 +13,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.yskuem.aimondaimaker.feature.select_project.ui.SelectNoteOrQuizScreen
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CreateNewButton(
