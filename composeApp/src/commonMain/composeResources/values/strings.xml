@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">New Project</string>
+    <string name="search_project">Search projects...</string>
+    <string name="change_project_name">Rename</string>
+    <string name="last_updated_project_date">"Last edited:"</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">Quiz</string>
+    <string name="note_tab_name">Notes</string>
+
+    <!-- New Project -->
+    <string name="select_mode">Select Mode</string>
+    <string name="select_explanation">Support your learning from images</string>
+    <string name="quiz_mode_title">Create Quiz from Image</string>
+    <string name="quiz_mode_explanation">Upload images of notes or textbooks to automatically generate comprehension tests based on the content.</string>
+    <string name="note_mode_title">Summarize Notes from Image</string>
+    <string name="note_mode_explanation">Extract key points from images of notes or reference books and create summaries and compilations.</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">Take Photo</string>
+    <string name="pick_from_gallery">Select from Gallery</string>
+    <string name="how_to_title">How to Use</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">AI Question Generator</string>
+    <string name="quiz_mode_page_explanation">Take photos of study materials or notes\nand let AI create questions for you</string>
+    <string name="quiz_mode_page_how_to_explanation">1. Take photos of study materials or notes\n2. AI automatically generates questions\n3. Solve the generated questions to study</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">AI Note Summary</string>
+    <string name="note_mode_page_explanation">Take photos of study materials or notes\nand let AI summarize your materials or notes</string>
+    <string name="note_mode_page_how_to_explanation">1. Take photos of study materials or notes\n2. AI automatically summarizes the notes\n3. Study with the generated digital notes</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">Generating Quiz</string>
+    <string name="note_generating">Generating Notes</string>
+    <string name="loading_explanation">This may take a moment.\nPlease wait.</string>
+
+</resources>
+
