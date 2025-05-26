@@ -42,6 +42,7 @@ import org.koin.core.parameter.parametersOf
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
+    private val onBack: () -> Unit
 ): Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
