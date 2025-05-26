@@ -35,6 +35,10 @@ data class CreateNoteScreen(
             )
         }
 
+        LaunchedEffect(Unit) {
+            viewmodel.showInterstitialAd()
+        }
+
         when(val result = state.note) {
             is DataUiState.Error -> {
                 Text(result.throwable.toString())

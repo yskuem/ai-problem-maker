@@ -34,6 +34,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.lexilabs.basic.ads.BannerAd
+import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
@@ -46,7 +48,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 class SelectProjectScreen : Screen {
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
@@ -283,12 +285,23 @@ class SelectProjectScreen : Screen {
                                 }
                             }
 
-                            // 新規プロジェクト作成ボタン
-                            CreateNewButton(
-                                buttonText = stringResource(Res.string.new_project),
-                            ) {
-                                navigator?.push(SelectNoteOrQuizScreen())
+                            Column {
+                                CreateNewButton(
+                                    buttonText = stringResource(Res.string.new_project),
+                                ) {
+                                    navigator?.push(SelectNoteOrQuizScreen())
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    BannerAd()
+                                }
                             }
+
                         }
                     }
                 }

@@ -1,12 +1,15 @@
 package app.yskuem.aimondaimaker.feature.note.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
+import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +21,7 @@ class ShowNoteScreenViewModel(
     private val authRepository: AuthRepository,
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
+    private val adUseCase: AdUseCase,
 ) : ScreenModel {
 
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
@@ -62,6 +66,13 @@ class ShowNoteScreenViewModel(
             .onFailure {
                 _note.value = DataUiState.Error(it)
             }
+        }
+    }
+
+    fun showInterstitialAd() {
+        screenModelScope.launch {
+            // 広告表示
+            adUseCase.onInterstitialAdLoaded()
         }
     }
 

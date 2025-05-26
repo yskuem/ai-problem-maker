@@ -5,6 +5,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -19,6 +20,7 @@ class ShowQuizScreenViewModel(
     private val authRepository: AuthRepository,
     private val quizRepository: QuizRepository,
     private val projectRepository: ProjectRepository,
+    private val adUseCase: AdUseCase,
 ) : ScreenModel {
 
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
@@ -107,7 +109,13 @@ class ShowQuizScreenViewModel(
         res.onSuccess {
             println("success save")
         }.onFailure { e ->
-            println("ああ$e")
+            println("$e")
+        }
+    }
+
+    fun showInterstitialAd() {
+        screenModelScope.launch {
+            adUseCase.onInterstitialAdLoaded()
         }
     }
 }

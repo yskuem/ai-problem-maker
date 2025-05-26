@@ -81,6 +81,8 @@ kotlin {
             implementation(libs.multiplatform.settings.datastore)
             implementation(libs.multiplatform.settings.coroutines)
             implementation(libs.compose.webview.multiplatform)
+            implementation(libs.basic.ads)
+            implementation(libs.google.ads)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -36,6 +36,10 @@ data class CreateQuizScreen(
             )
         }
 
+        LaunchedEffect(Unit) {
+            viewmodel.showInterstitialAd()
+        }
+
         when(val quizList = state.quizList) {
             is DataUiState.Error -> {
                 Text(quizList.throwable.toString())
