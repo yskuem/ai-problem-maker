@@ -11,6 +11,7 @@
     <string name="create_new_quiz">新規クイズを作成</string>
     <string name="note_tab_name">ノート</string>
     <string name="create_new_note">新規ノートを作成</string>
+    <string name="last_updated_date">最終更新日</string>
 
     <!-- 新規プロジェクト -->
     <string name="select_mode">モードの選択</string>

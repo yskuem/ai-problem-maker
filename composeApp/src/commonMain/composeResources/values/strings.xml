@@ -11,6 +11,7 @@
     <string name="create_new_quiz">Create New Quiz</string>
     <string name="note_tab_name">Note</string>
     <string name="create_new_note">Create New Note</string>
+    <string name="last_updated_date">Last Updated</string>
 
     <!-- New Project -->
     <string name="select_mode">Select Mode</string>

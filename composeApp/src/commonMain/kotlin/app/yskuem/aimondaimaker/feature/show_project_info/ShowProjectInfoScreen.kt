@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.show_project_info
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
+import ai_problem_maker.composeapp.generated.resources.last_updated_date
 import ai_problem_maker.composeapp.generated.resources.note_tab_name
 import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
@@ -296,7 +297,7 @@ fun ContentList(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = "最終更新: ${updateAtList[index]}",
+                            text = "${stringResource(Res.string.last_updated_date)}: ${updateAtList[index]}",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) // もう少しはっきりした色に
