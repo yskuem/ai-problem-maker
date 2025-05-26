@@ -19,8 +19,6 @@ class AdRepositoryImpl(
     contextFactory: ContextFactory
 ) : AdRepository {
 
-    private val tag = "AdRepository"
-
     private val interstitial = InterstitialAd(contextFactory.getActivity())
 
     private val _interstitialEnabled = MutableStateFlow(false)
