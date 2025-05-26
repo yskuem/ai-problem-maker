@@ -286,15 +286,22 @@ class SelectProjectScreen : Screen {
                             }
 
                             Column {
-                                // 新規プロジェクト作成ボタン
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
                                 ) {
                                     navigator?.push(SelectNoteOrQuizScreen())
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
-                                BannerAd()
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    BannerAd()
+                                }
                             }
+
                         }
                     }
                 }
