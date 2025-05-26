@@ -36,7 +36,7 @@ data class CreateNoteScreen(
         }
 
         LaunchedEffect(Unit) {
-            viewmodel.showAd()
+            viewmodel.showInterstitialAd()
         }
 
         when(val result = state.note) {

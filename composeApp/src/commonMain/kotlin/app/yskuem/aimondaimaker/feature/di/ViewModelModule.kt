@@ -21,6 +21,7 @@ val viewModelModule = module {
             quizRepository = get(),
             authRepository = get(),
             projectRepository = get(),
+            adUseCase = get(),
         )
     }
     factory {
@@ -28,7 +29,7 @@ val viewModelModule = module {
             noteRepository = get(),
             authRepository = get(),
             projectRepository = get(),
-            adRepository = get(),
+            adUseCase = get(),
         )
     }
     factory {

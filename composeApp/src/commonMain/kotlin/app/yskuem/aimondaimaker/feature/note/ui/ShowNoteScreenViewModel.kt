@@ -6,6 +6,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
+import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.delay
@@ -20,7 +21,7 @@ class ShowNoteScreenViewModel(
     private val authRepository: AuthRepository,
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
-    private val adRepository: AdRepository,
+    private val adUseCase: AdUseCase,
 ) : ScreenModel {
 
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
@@ -68,15 +69,10 @@ class ShowNoteScreenViewModel(
         }
     }
 
-    fun showAd() {
+    fun showInterstitialAd() {
         screenModelScope.launch {
             // 広告表示
-            if(!adRepository.interstitialEnabled.value) {
-                return@launch
-            }
-            // iOSで表示されないときがあるので若干遅らせる
-            delay(1500)
-            adRepository.showInterstitialAd()
+            adUseCase.onInterstitialAdLoaded()
         }
     }
 
