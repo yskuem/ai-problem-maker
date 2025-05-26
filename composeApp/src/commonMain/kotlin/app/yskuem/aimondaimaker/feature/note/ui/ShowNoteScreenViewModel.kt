@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.note.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
@@ -18,6 +19,7 @@ class ShowNoteScreenViewModel(
     private val authRepository: AuthRepository,
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
+    private val adRepository: AdRepository,
 ) : ScreenModel {
 
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
@@ -43,6 +45,12 @@ class ShowNoteScreenViewModel(
         extension: String,
         projectId: String? = null
     ) {
+        screenModelScope.launch {
+            if(!adRepository.interstitialEnabled.value) {
+                return@launch
+            }
+            adRepository.showInterstitialAd()
+        }
         screenModelScope.launch {
             _note.value = DataUiState.Loading
 
