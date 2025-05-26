@@ -8,6 +8,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -46,12 +47,6 @@ class ShowNoteScreenViewModel(
         projectId: String? = null
     ) {
         screenModelScope.launch {
-            if(!adRepository.interstitialEnabled.value) {
-                return@launch
-            }
-            adRepository.showInterstitialAd()
-        }
-        screenModelScope.launch {
             _note.value = DataUiState.Loading
 
             // 画像からNoteを取得
@@ -70,6 +65,18 @@ class ShowNoteScreenViewModel(
             .onFailure {
                 _note.value = DataUiState.Error(it)
             }
+        }
+    }
+
+    fun showAd() {
+        screenModelScope.launch {
+            // 広告表示
+            if(!adRepository.interstitialEnabled.value) {
+                return@launch
+            }
+            // iOSで表示されないときがあるので若干遅らせる
+            delay(1500)
+            adRepository.showInterstitialAd()
         }
     }
 

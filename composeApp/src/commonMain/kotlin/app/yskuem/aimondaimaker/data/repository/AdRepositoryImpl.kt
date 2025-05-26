@@ -57,7 +57,7 @@ class AdRepositoryImpl(
     private fun setInterstitialListeners() {
         interstitial.setListeners(
             onFailure = { error ->
-                println("ああ$error")
+                println("$error")
             },
             onDismissed = {
                 // ユーザーが広告を閉じたら次のロードを行う
