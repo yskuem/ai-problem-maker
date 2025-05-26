@@ -35,6 +35,10 @@ class SelectProjectScreenViewModel(
         }
     }
 
+    fun refreshProjectList() {
+        onFetchProjectList()
+    }
+
     fun editProject(
         targetProject: Project,
         currentProjects: List<Project>

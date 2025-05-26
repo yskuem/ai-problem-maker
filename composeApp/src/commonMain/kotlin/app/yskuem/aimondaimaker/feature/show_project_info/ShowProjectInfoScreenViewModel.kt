@@ -79,14 +79,8 @@ class ShowProjectInfoScreenViewModel(
         }
     }
 
-    fun onTapTab(
-        tabIndex: Int,
-    ) {
+    private fun fetchNoteList() {
         screenModelScope.launch {
-            _selectedTabIndex.value = tabIndex
-            if(tabIndex == 0) {
-                return@launch
-            }
             // noteのfetchをする
             val result = runCatching {
                 noteRepository.fetchNotes(projectId = projectId)
@@ -98,5 +92,22 @@ class ShowProjectInfoScreenViewModel(
                 _noteList.value = DataUiState.Error(it)
             }
         }
+    }
+
+    fun onTapTab(
+        tabIndex: Int,
+    ) {
+        _selectedTabIndex.value = tabIndex
+        if(tabIndex != 0) {
+            fetchNoteList()
+        }
+    }
+
+    fun refreshQuizInfo() {
+        fetchQuizInfo()
+    }
+
+    fun refreshNoteList() {
+        fetchNoteList()
     }
 }

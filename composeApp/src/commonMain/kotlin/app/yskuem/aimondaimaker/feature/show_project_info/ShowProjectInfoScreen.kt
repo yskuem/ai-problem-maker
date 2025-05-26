@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.show_project_info
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
+import ai_problem_maker.composeapp.generated.resources.last_updated_date
 import ai_problem_maker.composeapp.generated.resources.note_tab_name
 import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
@@ -42,6 +43,7 @@ import org.koin.core.parameter.parametersOf
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
+    private val onBack: () -> Unit
 ): Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -139,6 +141,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Quiz,
                                             projectId = projectId,
+                                            onBack = viewModel::refreshQuizInfo
                                         )
                                     )
                                 }
@@ -179,6 +182,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Note,
                                             projectId = projectId,
+                                            onBack = viewModel::refreshNoteList
                                         )
                                     )
                                 }
@@ -293,7 +297,7 @@ fun ContentList(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = "最終更新: ${updateAtList[index]}",
+                            text = "${stringResource(Res.string.last_updated_date)}: ${updateAtList[index]}",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) // もう少しはっきりした色に

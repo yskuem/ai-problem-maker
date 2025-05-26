@@ -169,7 +169,10 @@ class SelectProjectScreen : Screen {
                                     Card(
                                         onClick = {
                                             navigator?.push(
-                                                ShowProjectInfoScreen(projectId = project.id)
+                                                ShowProjectInfoScreen(
+                                                    projectId = project.id,
+                                                    onBack = viewModel::refreshProjectList
+                                                )
                                             )
                                         },
                                         shape = RoundedCornerShape(8.dp),
@@ -289,7 +292,11 @@ class SelectProjectScreen : Screen {
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
                                 ) {
-                                    navigator?.push(SelectNoteOrQuizScreen())
+                                    navigator?.push(
+                                        SelectNoteOrQuizScreen (
+                                            onBack = viewModel::refreshProjectList
+                                        )
+                                    )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
                                 Box(
