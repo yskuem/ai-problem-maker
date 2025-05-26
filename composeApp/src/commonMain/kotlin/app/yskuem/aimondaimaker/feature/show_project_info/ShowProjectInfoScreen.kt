@@ -140,6 +140,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Quiz,
                                             projectId = projectId,
+                                            onBack = viewModel::refreshQuizInfo
                                         )
                                     )
                                 }
@@ -180,6 +181,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Note,
                                             projectId = projectId,
+                                            onBack = viewModel::refreshNoteList
                                         )
                                     )
                                 }
