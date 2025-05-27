@@ -4,7 +4,8 @@
     <string name="new_project">New Project</string>
     <string name="search_project">Search projects...</string>
     <string name="change_project_name">Rename</string>
-    <string name="last_updated_project_date">"Last edited:"</string>
+    <string name="last_updated_project_date">Last edited:</string>
+    <string name="no_project_message">No projects created yet.\nTap the button below to create your first one!</string>
 
     <!-- Project Details -->
     <string name="quiz_tab_name">Quiz</string>
@@ -12,6 +13,8 @@
     <string name="note_tab_name">Note</string>
     <string name="create_new_note">Create New Note</string>
     <string name="last_updated_date">Last Updated</string>
+    <string name="no_quiz_info">No quizzes have been created yet.\nLet’s click the button below to create a new one!</string>
+    <string name="no_note_info">No notes have been created yet.\nLet’s click the button below to create a new one!</string>
 
     <!-- New Project -->
     <string name="select_mode">Select Mode</string>

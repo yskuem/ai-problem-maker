@@ -8,8 +8,8 @@ import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_explanatio
 import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_how_to_explanation
 import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_title
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Help
-import androidx.compose.material.icons.automirrored.outlined.Note
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.outlined.QuestionAnswer
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.StringResource
 
@@ -28,13 +28,13 @@ sealed class CreateMode(
         title = Res.string.quiz_mode_page_title,
         contentDescription = Res.string.quiz_mode_page_explanation,
         usage = Res.string.quiz_mode_page_how_to_explanation,
-        icon = Icons.AutoMirrored.Outlined.Help,
+        icon = Icons.Outlined.QuestionAnswer,
     )
     data object Note : CreateMode(
         title = Res.string.note_mode_page_title,
         contentDescription = Res.string.note_mode_page_explanation,
         usage = Res.string.note_mode_page_how_to_explanation,
-        icon = Icons.AutoMirrored.Outlined.Note
+        icon = Icons.AutoMirrored.Filled.Assignment,
     )
 }
 

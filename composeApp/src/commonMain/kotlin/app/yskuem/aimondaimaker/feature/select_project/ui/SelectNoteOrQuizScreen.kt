@@ -16,8 +16,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -138,7 +138,7 @@ data class SelectNoteOrQuizScreen(
                     FeatureCard(
                         title = stringResource(Res.string.quiz_mode_title),
                         description = stringResource(Res.string.quiz_mode_explanation),
-                        icon = Icons.Filled.Psychology,
+                        icon = Icons.Filled.QuestionAnswer,
                         isHovered = hoveredCard == "quiz",
                         onHoverChange = { isHovered ->
                             hoveredCard = if (isHovered) "quiz" else null
@@ -157,7 +157,7 @@ data class SelectNoteOrQuizScreen(
                     FeatureCard(
                         title = stringResource(Res.string.note_mode_title),
                         description = stringResource(Res.string.note_mode_explanation),
-                        icon = Icons.Filled.Book,
+                        icon = Icons.AutoMirrored.Filled.Assignment,
                         isHovered = hoveredCard == "summary",
                         onHoverChange = { isHovered ->
                             hoveredCard = if (isHovered) "summary" else null

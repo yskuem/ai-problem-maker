@@ -4,7 +4,8 @@
     <string name="new_project">新規プロジェクト</string>
     <string name="search_project">プロジェクトを検索...</string>
     <string name="change_project_name">名前を変更</string>
-    <string name="last_updated_project_date">"最終編集:"</string>
+    <string name="last_updated_project_date">最終編集:</string>
+    <string name="no_project_message">まだプロジェクトが作成されていません。\n下のボタンから新規作成してみましょう！</string>
 
     <!-- プロジェクト詳細 -->
     <string name="quiz_tab_name">クイズ</string>
@@ -12,6 +13,8 @@
     <string name="note_tab_name">ノート</string>
     <string name="create_new_note">新規ノートを作成</string>
     <string name="last_updated_date">最終更新日</string>
+    <string name="no_quiz_info">まだクイズが作成されていません。\n下のボタンから新規作成してみましょう！</string>
+    <string name="no_note_info">まだノートが作成されていません。\n下のボタンから新規作成してみましょう！</string>
 
     <!-- 新規プロジェクト -->
     <string name="select_mode">モードの選択</string>
