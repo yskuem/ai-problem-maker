@@ -24,9 +24,9 @@ class VersionRepositoryImpl(
         )
     }
 
-    override suspend fun fetchForcedUpdateMinVersion(): Version {
+    override suspend fun fetchRequireMinVersion(): Version {
         return Version(
-            remoteConfig.getValue("forced_update_min_version").asString()
+            remoteConfig.getValue("require_min_version").asString()
         )
     }
 

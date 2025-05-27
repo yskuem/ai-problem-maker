@@ -7,5 +7,5 @@ interface VersionRepository {
     suspend fun fetchAndActivate()
     suspend fun fetchLastestAppVersion(): Version
 
-    suspend fun fetchForcedUpdateMinVersion(): Version
+    suspend fun fetchRequireMinVersion(): Version
 }
