@@ -83,6 +83,7 @@ kotlin {
             implementation(libs.compose.webview.multiplatform)
             implementation(libs.basic.ads)
             implementation(libs.google.ads)
+            implementation(libs.firebase.remote.config)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
