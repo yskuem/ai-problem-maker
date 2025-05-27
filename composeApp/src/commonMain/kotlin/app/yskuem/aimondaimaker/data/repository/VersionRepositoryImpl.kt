@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.data.repository
 
+import app.yskuem.aimondaimaker.core.util.getCurrentAppVersionString
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import app.yskuem.aimondaimaker.domain.entity.Version
 import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
@@ -8,7 +9,9 @@ class VersionRepositoryImpl(
     private val remoteConfig: FirebaseRemoteConfig,
 ): VersionRepository {
     override suspend fun getCurrentAppVersion(): Version {
-        TODO("Not yet implemented")
+        return Version(
+            getCurrentAppVersionString()
+        )
     }
 
     override suspend fun fetchAndActivate() {

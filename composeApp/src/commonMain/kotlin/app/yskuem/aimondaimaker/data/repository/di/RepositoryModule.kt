@@ -7,12 +7,17 @@ import app.yskuem.aimondaimaker.data.repository.NoteRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.ProjectRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.QuizRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.UserRepositoryImpl
+import app.yskuem.aimondaimaker.data.repository.VersionRepositoryImpl
 import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
+import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
+import dev.gitlive.firebase.remoteconfig.remoteConfig
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -46,6 +51,11 @@ val repositoryModule = module {
     single<AdRepository> {
         AdRepositoryImpl(
             contextFactory = ContextFactory()
+        )
+    }
+    single<VersionRepository> {
+        VersionRepositoryImpl(
+            remoteConfig = Firebase.remoteConfig
         )
     }
 }
