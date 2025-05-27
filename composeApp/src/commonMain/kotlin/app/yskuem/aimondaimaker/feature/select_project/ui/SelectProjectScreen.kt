@@ -157,7 +157,8 @@ class SelectProjectScreen : Screen {
                             if(projects.isEmpty()) {
                                 EmptyProjectsUI(
                                     modifier = Modifier.weight(1f),
-                                    message = stringResource(Res.string.no_project_message)
+                                    message = stringResource(Res.string.no_project_message),
+                                    iconVector = Icons.AutoMirrored.Filled.MenuBook,
                                 )
                             } else {
                                 // プロジェクトグリッド

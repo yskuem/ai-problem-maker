@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EmptyProjectsUI(
     message: String,
+    iconVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -46,7 +48,7 @@ fun EmptyProjectsUI(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.MenuBook,
+                    imageVector = iconVector,
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
                     tint = Color(0xFF3B82F6)

@@ -4,6 +4,8 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
 import ai_problem_maker.composeapp.generated.resources.last_updated_date
+import ai_problem_maker.composeapp.generated.resources.no_note_info
+import ai_problem_maker.composeapp.generated.resources.no_quiz_info
 import ai_problem_maker.composeapp.generated.resources.note_tab_name
 import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
@@ -16,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.automirrored.filled.Note
+import androidx.compose.material.icons.filled.Note
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -26,8 +30,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.lexilabs.basic.ads.BannerAd
+import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
@@ -45,7 +52,7 @@ data class ShowProjectInfoScreen(
     private val projectId: String,
     private val onBack: () -> Unit
 ): Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
         val tabs = listOf(
@@ -116,26 +123,34 @@ data class ShowProjectInfoScreen(
                                 LoadingContent()
                             }
                             is DataUiState.Success -> {
-                                ContentList(
-                                    items = quizInfoList.data.map { it.name },
-                                    icon = Icons.Filled.QuestionAnswer,
-                                    contentType = ContentType.QUIZ,
-                                    updateAtList = quizInfoList.data.map {
-                                        it.updatedAt
-                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                            .toJapaneseMonthDay()
-                                    },
-                                    itemGroupIds = quizInfoList.data.map { it.groupId },
-                                    onTapCard = { groupId ->
-                                        viewModel.onTapQuizInfo(
-                                            groupId = groupId,
-                                            navigator = navigator,
-                                        )
-                                    }
-                                )
-                                CreateNewButton(
-                                    buttonText = stringResource(Res.string.create_new_quiz),
-                                    modifier = Modifier.align(Alignment.BottomEnd)
+                                if(quizInfoList.data.isEmpty()) {
+                                    EmptyProjectsUI(
+                                        message = stringResource(Res.string.no_quiz_info),
+                                        modifier = Modifier.fillMaxSize(),
+                                        iconVector = Icons.Default.QuestionAnswer
+                                    )
+                                } else {
+                                    ContentList(
+                                        items = quizInfoList.data.map { it.name },
+                                        icon = Icons.Filled.QuestionAnswer,
+                                        contentType = ContentType.QUIZ,
+                                        updateAtList = quizInfoList.data.map {
+                                            it.updatedAt
+                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                .toJapaneseMonthDay()
+                                        },
+                                        itemGroupIds = quizInfoList.data.map { it.groupId },
+                                        onTapCard = { groupId ->
+                                            viewModel.onTapQuizInfo(
+                                                groupId = groupId,
+                                                navigator = navigator,
+                                            )
+                                        }
+                                    )
+                                }
+                                BottomContent(
+                                    modifier = Modifier.align(alignment = Alignment.BottomEnd),
+                                    buttonText = stringResource(Res.string.create_new_quiz)
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -157,26 +172,34 @@ data class ShowProjectInfoScreen(
                                 LoadingContent()
                             }
                             is DataUiState.Success -> {
-                                ContentList(
-                                    items = noteList.data.map { it.title },
-                                    icon = Icons.AutoMirrored.Filled.Assignment,
-                                    contentType = ContentType.NOTE,
-                                    updateAtList = noteList.data.map {
-                                        it.updatedAt
-                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                            .toJapaneseMonthDay()
-                                    },
-                                    itemGroupIds = noteList.data.map { it.id },
-                                    onTapCard = { id ->
-                                        val targetNote = noteList.data.first {
-                                            it.id == id
+                                if(noteList.data.isEmpty()) {
+                                    EmptyProjectsUI(
+                                        message = stringResource(Res.string.no_note_info),
+                                        modifier = Modifier.fillMaxSize(),
+                                        iconVector = Icons.AutoMirrored.Filled.Assignment
+                                    )
+                                } else {
+                                    ContentList(
+                                        items = noteList.data.map { it.title },
+                                        icon = Icons.AutoMirrored.Filled.Assignment,
+                                        contentType = ContentType.NOTE,
+                                        updateAtList = noteList.data.map {
+                                            it.updatedAt
+                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                .toJapaneseMonthDay()
+                                        },
+                                        itemGroupIds = noteList.data.map { it.id },
+                                        onTapCard = { id ->
+                                            val targetNote = noteList.data.first {
+                                                it.id == id
+                                            }
+                                            navigator?.push(ShowNoteAppScreen(targetNote))
                                         }
-                                        navigator?.push(ShowNoteAppScreen(targetNote))
-                                    }
-                                )
-                                CreateNewButton(
-                                    buttonText = stringResource(Res.string.create_new_note),
-                                    modifier = Modifier.align(Alignment.BottomEnd)
+                                    )
+                                }
+                                BottomContent(
+                                    modifier = Modifier.align(alignment = Alignment.BottomEnd),
+                                    buttonText = stringResource(Res.string.create_new_note)
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -196,10 +219,6 @@ data class ShowProjectInfoScreen(
             }
         }
     }
-}
-
-enum class ContentType {
-    QUIZ, NOTE
 }
 
 @Composable
@@ -308,4 +327,38 @@ fun ContentList(
             }
         }
     }
+}
+
+
+@OptIn(DependsOnGoogleMobileAds::class)
+@Composable
+private fun BottomContent(
+    modifier: Modifier,
+    buttonText: String,
+    onTapButton: () -> Unit,
+) {
+    Column (
+        modifier = modifier
+    ){
+        CreateNewButton(
+            buttonText = buttonText,
+        ) {
+            onTapButton()
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            BannerAd()
+        }
+    }
+}
+
+
+
+enum class ContentType {
+    QUIZ, NOTE
 }
