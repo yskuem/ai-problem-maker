@@ -9,7 +9,6 @@ import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_how_to_exp
 import ai_problem_maker.composeapp.generated.resources.quiz_mode_page_title
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
-import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.material.icons.outlined.QuestionAnswer
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.StringResource
