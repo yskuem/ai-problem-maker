@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker
 
+import GlobalToastContainer
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.material3.MaterialTheme
@@ -13,11 +14,13 @@ import cafe.adriel.voyager.transitions.FadeTransition
 @Preview
 fun App() {
     MaterialTheme {
-        Navigator(UpdateCheckScreen()) { navigator ->
-            FadeTransition(
-                navigator = navigator,
-                animationSpec = spring(stiffness = Spring.StiffnessLow)
-            )
+        GlobalToastContainer {
+            Navigator(UpdateCheckScreen()) { navigator ->
+                FadeTransition(
+                    navigator = navigator,
+                    animationSpec = spring(stiffness = Spring.StiffnessLow)
+                )
+            }
         }
     }
 }

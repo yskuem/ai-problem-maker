@@ -27,6 +27,19 @@ import kotlin.random.Random
 class UpdateCheckScreen: Screen {
     @Composable
     override fun Content() {
+        LaunchedEffect(Unit) {
+            UpdateToastManager.show(
+                version = "2.0.0",
+                duration = 15000L,
+                onUpdate = {
+                    println("アップデート開始")
+                    // アップデート処理
+                },
+                onDismiss = {
+                    println("トーストが閉じられました")
+                }
+            )
+        }
         ForceUpdateScreen()
     }
 }
