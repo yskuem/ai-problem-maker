@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
@@ -22,25 +23,64 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
+import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
+import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlin.random.Random
 
 class UpdateCheckScreen: Screen {
     @Composable
     override fun Content() {
+        val viewModel = koinScreenModel<UpdateCheckScreenViewModel>()
+        val state = viewModel.updateState.value
+        val navigator = LocalNavigator.current
         LaunchedEffect(Unit) {
-            UpdateToastManager.show(
-                version = "2.0.0",
-                duration = 15000L,
-                onUpdate = {
-                    println("アップデート開始")
-                    // アップデート処理
-                },
-                onDismiss = {
-                    println("トーストが閉じられました")
-                }
-            )
+            viewModel.checkUpdate()
         }
-        ForceUpdateScreen()
+        when(state) {
+            is DataUiState.Error -> {
+                // エラー時はなにもしない
+                navigator?.push(AuthScreen())
+            }
+            is DataUiState.Loading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+            is DataUiState.Success -> {
+                when(state.data) {
+                    CheckUpdateStatus.UPDATED_NEEDED -> {
+                        ForceUpdateScreen()
+                    }
+                    CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> {
+                        LaunchedEffect(Unit) {
+                            UpdateToastManager.show(
+                                version = "",
+                                duration = 15000L,
+                                onUpdate = {
+                                    println("アップデート開始")
+                                    // アップデート処理
+                                },
+                                onDismiss = {
+                                    println("トーストが閉じられました")
+                                }
+                            )
+                        }
+                    }
+                    CheckUpdateStatus.NONE -> {
+                        navigator?.push(AuthScreen())
+                    }
+                }
+
+            }
+        }
     }
 }
 
