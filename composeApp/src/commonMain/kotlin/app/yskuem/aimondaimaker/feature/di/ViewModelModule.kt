@@ -14,6 +14,7 @@ val viewModelModule = module {
             authRepository = get(),
             userRepository = get(),
             userDataStore = get(),
+            checkUpdateUseCase = get(),
         )
     }
     factory {

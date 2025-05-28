@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.google.services)
 }
 
 kotlin {

@@ -10,6 +10,7 @@ class CheckUpdateUseCaseImpl(
     override suspend fun checkUpdate(): CheckUpdateStatus {
         versionRepository.fetchAndActivate()
         val latestVersion = versionRepository.fetchLastestAppVersion()
+        println(latestVersion)
         val requireMinVersion = versionRepository.fetchRequireMinVersion()
         val currentVersion = versionRepository.getCurrentAppVersion()
         if(currentVersion < requireMinVersion) {
