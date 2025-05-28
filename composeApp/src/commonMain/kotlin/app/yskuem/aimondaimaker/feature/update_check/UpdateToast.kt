@@ -184,7 +184,7 @@ fun UpdateToast(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "バージョン $version がリリースされました",
+                            text = "新しいバージョンがリリースされました",
                             color = PastelPurpleTheme.textSecondary,
                             fontSize = 12.sp
                         )
