@@ -33,6 +33,7 @@ google-ads = "24.3.0"
 lexilabs-basic = "0.2.6"
 firebase-gitlive = "2.1.0"
 google-services = "4.4.2"
+desugar-jdk-libs = "2.1.5"
 
 
 [libraries]
@@ -99,6 +100,7 @@ google-ads = { module = "com.google.android.gms:play-services-ads", version.ref 
 basic-ads  = { module = "app.lexilabs.basic:basic-ads",  version.ref = "lexilabs-basic" }
 
 firebase-remote-config = { module = "dev.gitlive:firebase-config", version.ref = "firebase-gitlive"}
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
 
 
