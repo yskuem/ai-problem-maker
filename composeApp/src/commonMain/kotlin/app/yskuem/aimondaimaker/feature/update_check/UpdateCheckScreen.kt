@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +31,6 @@ class UpdateCheckScreen: Screen {
     }
 }
 
-
 @Composable
 fun ForceUpdateScreen() {
     Box(
@@ -39,8 +39,9 @@ fun ForceUpdateScreen() {
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFF667EEA),
-                        Color(0xFF764BA2)
+                        Color(0xFFF8E8FF), // 薄紫
+                        Color(0xFFE8F4FD), // 薄青
+                        Color(0xFFF0F8FF)  // アリスブルー
                     ),
                     start = Offset(0f, 0f),
                     end = Offset(1000f, 1000f)
@@ -52,6 +53,9 @@ fun ForceUpdateScreen() {
 
         // 浮遊する図形
         FloatingShapes()
+
+        // パーティクル効果
+        FloatingParticles()
 
         // メインコンテンツ
         UpdateModal()
@@ -66,7 +70,7 @@ fun AnimatedBackground() {
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(15000, easing = LinearEasing),
+            animation = tween(20000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
         )
     )
@@ -75,17 +79,20 @@ fun AnimatedBackground() {
         modifier = Modifier.fillMaxSize()
     ) {
         val colors = listOf(
-            Color(0xFF667EEA),
-            Color(0xFF764BA2),
-            Color(0xFFF093FB),
-            Color(0xFFF5576C)
+            Color(0xFFF8E8FF), // ラベンダーミスト
+            Color(0xFFE8F4FD), // パウダーブルー
+            Color(0xFFFFF0F5), // ラベンダーブラッシュ
+            Color(0xFFE6F3FF)  // アイスブルー
         )
 
         drawRect(
-            brush = Brush.linearGradient(
+            brush = Brush.radialGradient(
                 colors = colors,
-                start = Offset(size.width * animatedProgress, 0f),
-                end = Offset(size.width * (1 - animatedProgress), size.height)
+                center = Offset(
+                    size.width * (0.3f + animatedProgress * 0.4f),
+                    size.height * (0.2f + animatedProgress * 0.6f)
+                ),
+                radius = size.width * (0.8f + animatedProgress * 0.4f)
             )
         )
     }
@@ -94,11 +101,18 @@ fun AnimatedBackground() {
 @Composable
 fun FloatingShapes() {
     val shapes = remember {
-        (0..3).map {
+        (0..5).map {
             FloatingShape(
-                size = Random.nextInt(60, 120).dp,
+                size = Random.nextInt(40, 80).dp,
                 startX = Random.nextFloat(),
-                animationDelay = Random.nextInt(0, 15000)
+                animationDelay = Random.nextInt(0, 10000),
+                color = listOf(
+                    Color(0xFFFFB6C1), // ライトピンク
+                    Color(0xFFB6E5D8), // ミントグリーン
+                    Color(0xFFDDA0DD), // プラム
+                    Color(0xFFADD8E6), // ライトブルー
+                    Color(0xFFF0E68C)  // カーキ
+                ).random()
             )
         }
     }
@@ -111,7 +125,8 @@ fun FloatingShapes() {
 data class FloatingShape(
     val size: androidx.compose.ui.unit.Dp,
     val startX: Float,
-    val animationDelay: Int
+    val animationDelay: Int,
+    val color: Color
 )
 
 @Composable
@@ -119,10 +134,10 @@ fun AnimatedFloatingShape(shape: FloatingShape) {
     val infiniteTransition = rememberInfiniteTransition()
 
     val animatedY by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = -0.1f,
+        initialValue = 1.2f,
+        targetValue = -0.2f,
         animationSpec = infiniteRepeatable(
-            animation = tween(20000, easing = LinearEasing, delayMillis = shape.animationDelay),
+            animation = tween(25000, easing = LinearEasing, delayMillis = shape.animationDelay),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -131,16 +146,25 @@ fun AnimatedFloatingShape(shape: FloatingShape) {
         initialValue = 0f,
         targetValue = 360f,
         animationSpec = infiniteRepeatable(
-            animation = tween(20000, easing = LinearEasing, delayMillis = shape.animationDelay),
+            animation = tween(30000, easing = LinearEasing, delayMillis = shape.animationDelay),
             repeatMode = RepeatMode.Restart
         )
     )
 
+    val animatedScale by infiniteTransition.animateFloat(
+        initialValue = 0.8f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(8000, easing = LinearEasing, delayMillis = shape.animationDelay),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
     val alpha = when {
-        animatedY > 0.9f -> (1f - animatedY) * 10f
-        animatedY < 0.1f -> animatedY * 10f
+        animatedY > 0.9f -> (1f - animatedY) * 5f
+        animatedY < 0.1f -> (animatedY + 0.2f) * 3f
         else -> 1f
-    }.coerceIn(0f, 0.3f)
+    }.coerceIn(0f, 0.4f)
 
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
@@ -152,12 +176,83 @@ fun AnimatedFloatingShape(shape: FloatingShape) {
                     x = maxWidth * shape.startX,
                     y = maxHeight * animatedY
                 )
+                .scale(animatedScale)
                 .graphicsLayer {
                     rotationZ = animatedRotation
                     this.alpha = alpha
                 }
+                .blur(radius = 1.dp)
                 .background(
-                    color = Color.White.copy(alpha = 0.1f),
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            shape.color.copy(alpha = 0.6f),
+                            shape.color.copy(alpha = 0.2f),
+                            Color.Transparent
+                        )
+                    ),
+                    shape = CircleShape
+                )
+        )
+    }
+}
+
+@Composable
+fun FloatingParticles() {
+    val particles = remember {
+        (0..8).map {
+            Particle(
+                startX = Random.nextFloat(),
+                startY = Random.nextFloat(),
+                animationDelay = Random.nextInt(0, 5000)
+            )
+        }
+    }
+
+    particles.forEach { particle ->
+        AnimatedParticle(particle = particle)
+    }
+}
+
+data class Particle(
+    val startX: Float,
+    val startY: Float,
+    val animationDelay: Int
+)
+
+@Composable
+fun AnimatedParticle(particle: Particle) {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val animatedY by infiniteTransition.animateFloat(
+        initialValue = particle.startY,
+        targetValue = particle.startY - 0.3f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(15000, easing = LinearEasing, delayMillis = particle.animationDelay),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val animatedAlpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 0.8f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = LinearEasing, delayMillis = particle.animationDelay),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .size(4.dp)
+                .offset(
+                    x = maxWidth * particle.startX,
+                    y = maxHeight * animatedY
+                )
+                .background(
+                    color = Color.White.copy(alpha = animatedAlpha * 0.7f),
                     shape = CircleShape
                 )
         )
@@ -183,12 +278,12 @@ fun UpdateModal() {
                 .padding(20.dp)
                 .widthIn(max = 480.dp)
                 .scale(modalScale),
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(32.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White.copy(alpha = 0.95f)
             ),
             elevation = CardDefaults.cardElevation(
-                defaultElevation = 25.dp
+                defaultElevation = 20.dp
             )
         ) {
             Column(
@@ -205,22 +300,22 @@ fun UpdateModal() {
                 // タイトル
                 Text(
                     text = "アップデートが必要です",
-                    fontSize = 28.sp,
+                    fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2D3748),
+                    color = Color(0xFF6B46C1), // パープル
                     textAlign = TextAlign.Center,
-                    lineHeight = 36.sp
+                    lineHeight = 34.sp
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 // サブタイトル
                 Text(
                     text = "アプリケーションを継続してご利用いただくため、最新バージョンへのアップデートをお願いします。",
-                    fontSize = 16.sp,
-                    color = Color(0xFF4A5568),
+                    fontSize = 15.sp,
+                    color = Color(0xFF64748B), // スレートグレー
                     textAlign = TextAlign.Center,
-                    lineHeight = 24.sp
+                    lineHeight = 22.sp
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -238,7 +333,16 @@ fun PulsingUpdateIcon() {
 
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.05f,
+        targetValue = 1.08f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val glowAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 0.8f,
         animationSpec = infiniteRepeatable(
             animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Reverse
@@ -246,41 +350,76 @@ fun PulsingUpdateIcon() {
     )
 
     Box(
-        modifier = Modifier
-            .size(80.dp)
-            .scale(scale)
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFF667EEA),
-                        Color(0xFF764BA2)
-                    )
-                ),
-                shape = CircleShape
-            ),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.Check,
-            contentDescription = "Update",
-            tint = Color.White,
-            modifier = Modifier.size(40.dp)
+        // グロー効果
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .background(
+                    brush = Brush.radialGradient(
+                        colors = listOf(
+                            Color(0xFFE879F9).copy(alpha = glowAlpha * 0.3f),
+                            Color.Transparent
+                        ),
+                        radius = 50.dp.value
+                    ),
+                    shape = CircleShape
+                )
         )
+
+        // メインアイコン
+        Box(
+            modifier = Modifier
+                .size(75.dp)
+                .scale(scale)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(0xFFF8BBD9), // ピンク
+                            Color(0xFFDDD6FE), // ラベンダー
+                            Color(0xFFBFDBFE)  // ブルー
+                        )
+                    ),
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = "Update",
+                tint = Color(0xFF6B46C1),
+                modifier = Modifier.size(35.dp)
+            )
+        }
     }
 }
 
 @Composable
 fun UpdateButton() {
+    val buttonScale by animateFloatAsState(
+        targetValue = 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    )
+
     Button(
         onClick = { /* ここに実際のアップデート処理を実装 */ },
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp),
-        shape = RoundedCornerShape(16.dp),
+            .height(52.dp)
+            .scale(buttonScale),
+        shape = RoundedCornerShape(26.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent
         ),
-        contentPadding = PaddingValues(0.dp)
+        contentPadding = PaddingValues(0.dp),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 8.dp,
+            pressedElevation = 2.dp
+        )
     ) {
         Box(
             modifier = Modifier
@@ -288,17 +427,18 @@ fun UpdateButton() {
                 .background(
                     brush = Brush.linearGradient(
                         colors = listOf(
-                            Color(0xFF667EEA),
-                            Color(0xFF764BA2)
+                            Color(0xFFF8BBD9), // ソフトピンク
+                            Color(0xFFDDD6FE), // ソフトラベンダー
+                            Color(0xFFBFDBFE)  // ソフトブルー
                         )
                     ),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(26.dp)
                 ),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "今すぐアップデート",
-                color = Color.White,
+                color = Color(0xFF6B46C1),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
