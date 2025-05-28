@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.feature.update_check
 
+import ToastPosition
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.animation.core.*
@@ -34,12 +35,12 @@ class UpdateCheckScreen: Screen {
     @Composable
     override fun Content() {
         val viewModel = koinScreenModel<UpdateCheckScreenViewModel>()
-        val state = viewModel.updateState.value
+        val state by viewModel.updateState.collectAsState()
         val navigator = LocalNavigator.current
         LaunchedEffect(Unit) {
             viewModel.checkUpdate()
         }
-        when(state) {
+        when(val res = state) {
             is DataUiState.Error -> {
                 // エラー時はなにもしない
                 navigator?.push(AuthScreen())
@@ -55,7 +56,7 @@ class UpdateCheckScreen: Screen {
                 }
             }
             is DataUiState.Success -> {
-                when(state.data) {
+                when(res.data) {
                     CheckUpdateStatus.UPDATED_NEEDED -> {
                         ForceUpdateScreen()
                     }
@@ -70,15 +71,16 @@ class UpdateCheckScreen: Screen {
                                 },
                                 onDismiss = {
                                     println("トーストが閉じられました")
-                                }
+                                },
+                                position = ToastPosition.TOP
                             )
+                            navigator?.push(AuthScreen())
                         }
                     }
                     CheckUpdateStatus.NONE -> {
                         navigator?.push(AuthScreen())
                     }
                 }
-
             }
         }
     }

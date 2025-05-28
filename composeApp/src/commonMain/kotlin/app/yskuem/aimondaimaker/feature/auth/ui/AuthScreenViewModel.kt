@@ -24,7 +24,6 @@ class AuthScreenViewModel(
 
     fun login() {
         screenModelScope.launch {
-            checkUpdateUseCase.checkUpdate()
             val result = runCatching {
                 val currentUser = authRepository.getUser()
                 if (currentUser == null) {

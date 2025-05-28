@@ -331,9 +331,12 @@ object UpdateToastManager {
 fun GlobalToastContainer(
     content: @Composable () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 30.dp),
+    ) {
         content()
-
         val toastData by UpdateToastManager.toastState
         toastData?.let { data ->
             ToastContainer(position = data.position) {

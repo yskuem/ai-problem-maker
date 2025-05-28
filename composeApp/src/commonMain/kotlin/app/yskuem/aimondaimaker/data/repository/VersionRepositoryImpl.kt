@@ -4,6 +4,7 @@ import app.yskuem.aimondaimaker.core.util.getCurrentAppVersionString
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import app.yskuem.aimondaimaker.domain.entity.Version
 import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
+import kotlin.time.Duration
 
 class VersionRepositoryImpl(
     private val remoteConfig: FirebaseRemoteConfig,
@@ -15,7 +16,8 @@ class VersionRepositoryImpl(
     }
 
     override suspend fun fetchAndActivate() {
-        remoteConfig.fetchAndActivate()
+        remoteConfig.fetch(minimumFetchInterval = Duration.ZERO)
+        remoteConfig.activate()
     }
 
     override suspend fun fetchLastestAppVersion(): Version {
