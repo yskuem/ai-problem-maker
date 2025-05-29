@@ -7,7 +7,6 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCam
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreenViewModel
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreenViewModel
-import app.yskuem.aimondaimaker.usecase.CheckUpdateUseCaseImpl
 import org.koin.dsl.module
 
 val viewModelModule = module {

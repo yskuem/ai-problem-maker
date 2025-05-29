@@ -2,7 +2,6 @@ package app.yskuem.aimondaimaker.core.util
 
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
-import platform.Foundation.NSDictionary
 
 
 class IosOpenUrl : OpenUrl {
