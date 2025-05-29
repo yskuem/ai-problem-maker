@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.data.repository
 import app.yskuem.aimondaimaker.core.util.getCurrentAppVersionString
 import app.yskuem.aimondaimaker.data.remote_config.getLastestVersionKey
 import app.yskuem.aimondaimaker.data.remote_config.getRequireMinVersionKey
+import app.yskuem.aimondaimaker.data.remote_config.getStoreUrlKey
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import app.yskuem.aimondaimaker.domain.entity.Version
 import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
@@ -36,6 +37,12 @@ class VersionRepositoryImpl(
                 getRequireMinVersionKey()
             ).asString()
         )
+    }
+
+    override suspend fun fetchStoreUrl(): String {
+        return remoteConfig.getValue(
+            getStoreUrlKey()
+        ).asString()
     }
 
 }

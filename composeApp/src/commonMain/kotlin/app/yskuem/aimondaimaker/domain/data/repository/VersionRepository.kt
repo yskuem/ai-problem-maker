@@ -4,8 +4,12 @@ import app.yskuem.aimondaimaker.domain.entity.Version
 
 interface VersionRepository {
     suspend fun getCurrentAppVersion(): Version
+
     suspend fun fetchAndActivate()
+
     suspend fun fetchLastestAppVersion(): Version
 
     suspend fun fetchRequireMinVersion(): Version
+
+    suspend fun fetchStoreUrl(): String
 }
