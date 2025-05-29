@@ -57,6 +57,7 @@ val viewModelModule = module {
         UpdateCheckScreenViewModel(
             checkUpdateUseCase = get(),
             openUrl = get(),
+            versionRepository = get(),
         )
     }
 }
