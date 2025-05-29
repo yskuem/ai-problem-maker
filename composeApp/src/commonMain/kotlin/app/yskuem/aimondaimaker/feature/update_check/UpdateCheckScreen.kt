@@ -58,7 +58,9 @@ class UpdateCheckScreen: Screen {
             is DataUiState.Success -> {
                 when(res.data) {
                     CheckUpdateStatus.UPDATED_NEEDED -> {
-                        ForceUpdateScreen()
+                        ForceUpdateScreen(
+                            openStorePage = viewModel::openStorePage
+                        )
                     }
                     CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> {
                         LaunchedEffect(Unit) {
@@ -87,7 +89,9 @@ class UpdateCheckScreen: Screen {
 }
 
 @Composable
-fun ForceUpdateScreen() {
+fun ForceUpdateScreen(
+    openStorePage: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -113,7 +117,9 @@ fun ForceUpdateScreen() {
         FloatingParticles()
 
         // メインコンテンツ
-        UpdateModal()
+        UpdateModal(
+            openStorePage = openStorePage,
+        )
     }
 }
 
@@ -315,7 +321,9 @@ fun AnimatedParticle(particle: Particle) {
 }
 
 @Composable
-fun UpdateModal() {
+fun UpdateModal(
+    openStorePage: () -> Unit,
+) {
     val modalScale by animateFloatAsState(
         targetValue = 1f,
         animationSpec = spring(
@@ -376,7 +384,9 @@ fun UpdateModal() {
                 Spacer(modifier = Modifier.height(32.dp))
 
                 // アップデートボタン
-                UpdateButton()
+                UpdateButton(
+                    openStorePage = openStorePage
+                )
             }
         }
     }
@@ -451,7 +461,9 @@ fun PulsingUpdateIcon() {
 }
 
 @Composable
-fun UpdateButton() {
+fun UpdateButton(
+    openStorePage: () -> Unit,
+) {
     val buttonScale by animateFloatAsState(
         targetValue = 1f,
         animationSpec = spring(
@@ -461,7 +473,7 @@ fun UpdateButton() {
     )
 
     Button(
-        onClick = { /* ここに実際のアップデート処理を実装 */ },
+        onClick = openStorePage,
         modifier = Modifier
             .fillMaxWidth()
             .height(52.dp)

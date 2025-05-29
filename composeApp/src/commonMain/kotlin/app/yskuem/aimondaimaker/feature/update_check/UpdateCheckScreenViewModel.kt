@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.update_check
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.OpenUrl
 import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
 import app.yskuem.aimondaimaker.domain.usecase.CheckUpdateUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class UpdateCheckScreenViewModel(
     private val checkUpdateUseCase: CheckUpdateUseCase,
+    private val openUrl: OpenUrl,
 ): ScreenModel {
     private val _updateStatus = MutableStateFlow<DataUiState<CheckUpdateStatus>>(
         DataUiState.Loading
@@ -29,6 +31,12 @@ class UpdateCheckScreenViewModel(
             .onFailure {
                 println(it)
             }
+        }
+    }
+
+    fun openStorePage() {
+        screenModelScope.launch {
+            openUrl.handle("https://www.google.com/")
         }
     }
 }
