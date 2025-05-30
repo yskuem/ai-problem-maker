@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
+import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
@@ -85,7 +86,7 @@ class SelectProjectScreen : Screen {
                 }
                 is DataUiState.Error -> {
                     ErrorScreen(
-                        buttonText = "再読み込み",
+                        buttonText = stringResource(Res.string.load_again),
                         onButtonClick = viewModel::refreshProjectList
                     )
                 }

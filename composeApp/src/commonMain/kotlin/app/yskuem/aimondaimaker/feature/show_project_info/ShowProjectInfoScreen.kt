@@ -4,6 +4,7 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
 import ai_problem_maker.composeapp.generated.resources.last_updated_date
+import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.no_note_info
 import ai_problem_maker.composeapp.generated.resources.no_quiz_info
 import ai_problem_maker.composeapp.generated.resources.note_tab_name
@@ -163,7 +164,7 @@ data class ShowProjectInfoScreen(
                             }
                             is DataUiState.Error -> {
                                 ErrorScreen(
-                                    buttonText = "再読み込み",
+                                    buttonText = stringResource(Res.string.load_again),
                                     onButtonClick = viewModel::refreshQuizInfo
                                 )
                             }
@@ -215,7 +216,7 @@ data class ShowProjectInfoScreen(
                             }
                             is DataUiState.Error -> {
                                 ErrorScreen(
-                                    buttonText = "再読み込み",
+                                    buttonText = stringResource(Res.string.load_again),
                                     onButtonClick = viewModel::refreshNoteList
                                 )
                             }

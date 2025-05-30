@@ -44,5 +44,10 @@
     <string name="note_generating">Generating Notes</string>
     <string name="loading_explanation">This may take a moment.\nPlease wait.</string>
 
+    <!-- Error Screen -->
+    <string name="error_occurred">An error has occurred.</string>
+    <string name="load_again">Reload</string>
+    <string name="back_to_pre_screen">Back</string>
+
 </resources>
 
