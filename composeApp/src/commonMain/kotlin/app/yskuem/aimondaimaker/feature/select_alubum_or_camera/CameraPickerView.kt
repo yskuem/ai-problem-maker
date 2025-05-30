@@ -14,6 +14,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,35 +53,13 @@ fun CameraPickerView(
         }
     }
     if (isLoading.value) {
-        // TODO まとめる
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+        LoadingScreen()
     }
     if (hasError.value) {
-        // TODO エラー画面まとめる
-        Box (
-            modifier = Modifier.fillMaxSize()
-        ){
-            Column (
-                modifier = Modifier.align(Alignment.Center)
-            ){
-                Text("エラーが発生しました",
-                    fontSize = 20.sp
-                )
-                Button(
-                    onClick = {
-                        navigator?.pop()
-                    }
-                ) {
-                    Text("戻る")
-                }
-            }
+        ErrorScreen(
+            buttonText = "戻る"
+        ) {
+            navigator?.pop()
         }
     }
 }

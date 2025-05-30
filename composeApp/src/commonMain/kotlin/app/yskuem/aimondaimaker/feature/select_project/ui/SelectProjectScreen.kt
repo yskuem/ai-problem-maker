@@ -40,6 +40,8 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -81,34 +83,13 @@ class SelectProjectScreen : Screen {
         Scaffold { padding ->
             when(val projectState = uiState) {
                 is DataUiState.Loading -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
+                    LoadingScreen()
                 }
                 is DataUiState.Error -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        Text(
-                            text = "エラーが発生しました: ${projectState.throwable.message}",
-                            modifier = Modifier.align(Alignment.Center),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                color = Color.Red,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
+                    ErrorScreen(
+                        buttonText = "再読み込み",
+                        onButtonClick = viewModel::refreshProjectList
+                    )
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data

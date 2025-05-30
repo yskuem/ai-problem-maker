@@ -104,10 +104,12 @@ class ShowProjectInfoScreenViewModel(
     }
 
     fun refreshQuizInfo() {
+        _quizInfoList.value = DataUiState.Loading
         fetchQuizInfo()
     }
 
     fun refreshNoteList() {
+        _quizInfoList.value = DataUiState.Loading
         fetchNoteList()
     }
 }

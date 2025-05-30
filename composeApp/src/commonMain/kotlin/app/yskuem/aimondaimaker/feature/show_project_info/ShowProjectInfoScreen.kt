@@ -33,6 +33,8 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
@@ -118,7 +120,7 @@ data class ShowProjectInfoScreen(
                     0 -> {
                         when (val quizInfoList = uiState.quizInfoList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
                                 if(quizInfoList.data.isEmpty()) {
@@ -160,14 +162,17 @@ data class ShowProjectInfoScreen(
                                 }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = quizInfoList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = "再読み込み",
+                                    onButtonClick = viewModel::refreshQuizInfo
+                                )
                             }
                         }
                     }
                     1 -> {
                         when (val noteList = uiState.noteList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
                                 if(noteList.data.isEmpty()) {
@@ -209,7 +214,10 @@ data class ShowProjectInfoScreen(
                                 }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = noteList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = "再読み込み",
+                                    onButtonClick = viewModel::refreshNoteList
+                                )
                             }
                         }
                     }
@@ -219,27 +227,6 @@ data class ShowProjectInfoScreen(
     }
 }
 
-@Composable
-fun LoadingContent() {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun ErrorContent(message: String?) {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "エラーが発生しました: ${message ?: "不明なエラー"}")
-    }
-}
 
 @Composable
 fun ContentList(
