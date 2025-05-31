@@ -4,6 +4,7 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
 import ai_problem_maker.composeapp.generated.resources.last_updated_date
+import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.no_note_info
 import ai_problem_maker.composeapp.generated.resources.no_quiz_info
 import ai_problem_maker.composeapp.generated.resources.note_tab_name
@@ -33,6 +34,8 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
@@ -118,7 +121,7 @@ data class ShowProjectInfoScreen(
                     0 -> {
                         when (val quizInfoList = uiState.quizInfoList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
                                 if(quizInfoList.data.isEmpty()) {
@@ -160,14 +163,17 @@ data class ShowProjectInfoScreen(
                                 }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = quizInfoList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = stringResource(Res.string.load_again),
+                                    onButtonClick = viewModel::refreshQuizInfo
+                                )
                             }
                         }
                     }
                     1 -> {
                         when (val noteList = uiState.noteList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
                                 if(noteList.data.isEmpty()) {
@@ -209,7 +215,10 @@ data class ShowProjectInfoScreen(
                                 }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = noteList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = stringResource(Res.string.load_again),
+                                    onButtonClick = viewModel::refreshNoteList
+                                )
                             }
                         }
                     }
@@ -219,27 +228,6 @@ data class ShowProjectInfoScreen(
     }
 }
 
-@Composable
-fun LoadingContent() {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun ErrorContent(message: String?) {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "エラーが発生しました: ${message ?: "不明なエラー"}")
-    }
-}
 
 @Composable
 fun ContentList(

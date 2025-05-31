@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.core.di
 
+import app.yskuem.aimondaimaker.core.util.di.openUrlPlatformModule
 import app.yskuem.aimondaimaker.data.local_db.localDbModule
 import app.yskuem.aimondaimaker.data.supabase.di.supabaseModule
 import app.yskuem.aimondaimaker.data.repository.di.repositoryModule
@@ -23,4 +24,5 @@ val diModules = listOf(
     viewModelModule,
     localDbModule,
     useCaseModule,
+    openUrlPlatformModule,
 )

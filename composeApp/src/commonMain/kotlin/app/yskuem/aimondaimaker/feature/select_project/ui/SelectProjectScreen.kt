@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
+import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
@@ -30,9 +31,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.lexilabs.basic.ads.BannerAd
@@ -40,6 +39,8 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -81,34 +82,13 @@ class SelectProjectScreen : Screen {
         Scaffold { padding ->
             when(val projectState = uiState) {
                 is DataUiState.Loading -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
+                    LoadingScreen()
                 }
                 is DataUiState.Error -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        Text(
-                            text = "エラーが発生しました: ${projectState.throwable.message}",
-                            modifier = Modifier.align(Alignment.Center),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                color = Color.Red,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
+                    ErrorScreen(
+                        buttonText = stringResource(Res.string.load_again),
+                        onButtonClick = viewModel::refreshProjectList
+                    )
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data

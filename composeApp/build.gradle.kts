@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.plugin.serialization)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -83,6 +84,7 @@ kotlin {
             implementation(libs.compose.webview.multiplatform)
             implementation(libs.basic.ads)
             implementation(libs.google.ads)
+            implementation(libs.firebase.remote.config)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -99,7 +101,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
     packaging {
         resources {
@@ -114,10 +116,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 

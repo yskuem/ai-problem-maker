@@ -36,6 +36,7 @@ class SelectProjectScreenViewModel(
     }
 
     fun refreshProjectList() {
+        _projects.value = DataUiState.Loading
         onFetchProjectList()
     }
 

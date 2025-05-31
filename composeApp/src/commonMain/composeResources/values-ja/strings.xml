@@ -44,4 +44,9 @@
     <string name="note_generating">ノートを生成中</string>
     <string name="loading_explanation">少し時間がかかります。\n少々お待ちください。</string>
 
+    <!-- エラー画面 -->
+    <string name="error_occurred">エラーが発生しました。</string>
+    <string name="load_again">再読み込み</string>
+    <string name="back_to_pre_screen">戻る</string>
+
 </resources>
