@@ -6,7 +6,6 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
 import platform.UIKit.UIImagePickerController
 import platform.UIKit.UIImagePickerControllerDelegateProtocol
-import platform.UIKit.UIImagePickerControllerEditedImage
 import platform.UIKit.UIImagePickerControllerOriginalImage
 import platform.UIKit.UIImagePickerControllerSourceType
 import platform.UIKit.UINavigationControllerDelegateProtocol
@@ -14,19 +13,26 @@ import platform.darwin.NSObject
 
 @Composable
 actual fun rememberGalleryManager(onResult: (SharedImage?) -> Unit): GalleryManager {
-    val imagePicker = UIImagePickerController()
+    // UIImagePickerController の初期化時に allowsEditing = false を明示する
+    val imagePicker = UIImagePickerController().apply {
+        sourceType = UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypePhotoLibrary
+        allowsEditing = false  // 編集 UI を表示しない
+    }
+
     val galleryDelegate = remember {
         object : NSObject(), UIImagePickerControllerDelegateProtocol,
             UINavigationControllerDelegateProtocol {
             override fun imagePickerController(
-                picker: UIImagePickerController, didFinishPickingMediaWithInfo: Map<Any?, *>
+                picker: UIImagePickerController,
+                didFinishPickingMediaWithInfo: Map<Any?, *>
             ) {
-                val image = didFinishPickingMediaWithInfo.getValue(
-                    UIImagePickerControllerEditedImage
-                ) as? UIImage ?: didFinishPickingMediaWithInfo.getValue(
-                    UIImagePickerControllerOriginalImage
-                ) as? UIImage
+                // 編集後画像キーを使わず、オリジナル画像のみを取得する
+                val image = didFinishPickingMediaWithInfo[UIImagePickerControllerOriginalImage] as? UIImage
                 onResult.invoke(SharedImage(image))
+                picker.dismissViewControllerAnimated(true, null)
+            }
+            override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
+                onResult.invoke(null)
                 picker.dismissViewControllerAnimated(true, null)
             }
         }
@@ -34,9 +40,7 @@ actual fun rememberGalleryManager(onResult: (SharedImage?) -> Unit): GalleryMana
 
     return remember {
         GalleryManager {
-            imagePicker.setSourceType(UIImagePickerControllerSourceType.UIImagePickerControllerSourceTypePhotoLibrary)
-            imagePicker.setAllowsEditing(true)
-            imagePicker.setDelegate(galleryDelegate)
+            imagePicker.delegate = galleryDelegate
             UIApplication.sharedApplication.keyWindow?.rootViewController?.presentViewController(
                 imagePicker, true, null
             )
