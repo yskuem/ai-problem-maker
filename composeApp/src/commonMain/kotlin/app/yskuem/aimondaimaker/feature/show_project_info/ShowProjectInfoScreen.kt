@@ -22,6 +22,7 @@ import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -108,7 +109,8 @@ data class ShowProjectInfoScreen(
                         }
                     }
                 }
-            }
+            },
+            contentWindowInsets = WindowInsets(0)
         ) { paddingValues ->
             // コンテンツエリア
             Box(

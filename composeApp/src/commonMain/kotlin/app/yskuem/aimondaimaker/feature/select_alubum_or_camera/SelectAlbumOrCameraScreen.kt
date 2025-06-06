@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material3.*
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -107,6 +108,7 @@ data class SelectAlbumOrCameraScreen(
                     )
                 )
             },
+            contentWindowInsets = WindowInsets(0)
         ) { paddingValues ->
             Box(
                 modifier = Modifier

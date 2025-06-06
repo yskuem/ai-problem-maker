@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,7 +81,8 @@ data class SelectNoteOrQuizScreen(
                             }
                         }
                     )
-                }
+                },
+                contentWindowInsets = WindowInsets(0)
             ) { innerPadding ->
                 // 既存の StudyModeSelector を表示
                 Box(modifier = Modifier.padding(innerPadding)) {
