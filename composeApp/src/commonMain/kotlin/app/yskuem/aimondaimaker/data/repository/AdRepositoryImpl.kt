@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.data.repository
 
-import app.lexilabs.basic.ads.AdUnitId
 import app.lexilabs.basic.ads.Consent
 import app.lexilabs.basic.ads.ConsentDebugSettings
 import app.lexilabs.basic.ads.ConsentRequestParameters
@@ -8,6 +7,7 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.lexilabs.basic.ads.DependsOnGoogleUserMessagingPlatform
 import app.lexilabs.basic.ads.ExperimentalBasicAds
 import app.lexilabs.basic.ads.InterstitialAd
+import app.yskuem.aimondaimaker.core.config.ADMOB_INTERSTITIAL_ID
 import app.yskuem.aimondaimaker.core.util.ContextFactory
 import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +41,7 @@ class AdRepositoryImpl(
 
     override fun loadInterstitialAds() {
         interstitial.load(
-            adUnitId = AdUnitId.INTERSTITIAL_DEFAULT,
+            adUnitId = ADMOB_INTERSTITIAL_ID,
             onLoad = {
                 _interstitialEnabled.value = true
                 setInterstitialListeners()

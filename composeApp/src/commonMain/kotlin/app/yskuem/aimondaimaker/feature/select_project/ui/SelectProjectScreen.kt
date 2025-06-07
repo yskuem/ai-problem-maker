@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.lexilabs.basic.ads.BannerAd
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
+import app.yskuem.aimondaimaker.core.config.ADMOB_BANNER_ID
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
@@ -295,10 +296,11 @@ class SelectProjectScreen : Screen {
                                         .height(50.dp),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    BannerAd()
+                                    BannerAd(
+                                        adUnitId = ADMOB_BANNER_ID,
+                                    )
                                 }
                             }
-
                         }
                     }
                 }

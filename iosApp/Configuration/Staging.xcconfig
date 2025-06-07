@@ -1,0 +1,15 @@
+//
+//  Staging.xcconfig
+//  iosApp
+//
+//  Created by 上村祐介 on 2025/06/07.
+//  Copyright © 2025 orgName. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "Config.xcconfig"
+
+GAD_APPLICATION_IDENTIFIER=ca-app-pub-3940256099942544~3347511713
+
