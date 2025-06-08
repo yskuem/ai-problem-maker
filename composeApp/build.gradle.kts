@@ -138,6 +138,9 @@ android {
             dimension = "environment"
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
