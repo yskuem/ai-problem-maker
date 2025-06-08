@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">नई परियोजना</string>
+    <string name="search_project">परियोजनाएँ खोजें...</string>
+    <string name="change_project_name">नाम बदलें</string>
+    <string name="last_updated_project_date">अंतिम संपादन:</string>
+    <string name="no_project_message">अभी तक कोई परियोजनाएँ नहीं बनाई गई हैं।\nनीचे दिए गए बटन को टैप करके अपनी पहली परियोजना बनाएं!</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">प्रश्नोत्तरी</string>
+    <string name="create_new_quiz">नई प्रश्नोत्तरी बनाएं</string>
+    <string name="note_tab_name">नोट</string>
+    <string name="create_new_note">नया नोट बनाएं</string>
+    <string name="last_updated_date">आखिरी अपडेट</string>
+    <string name="no_quiz_info">अभी तक कोई क्विज़ नहीं बनाया गया है।\nनीचे दिए बटन पर क्लिक करके नया बनाएं!</string>
+    <string name="no_note_info">अभी तक कोई नोट नहीं बनाया गया है।\nनीचे दिए बटन पर क्लिक करके नया बनाएं!</string>
+
+    <!-- New Project -->
+    <string name="select_mode">मोड चुनें</string>
+    <string name="select_explanation">छवियों से अपनी सीख को समर्थित करें</string>
+    <string name="quiz_mode_title">चित्र से क्विज़ बनाएं</string>
+    <string name="quiz_mode_explanation">नोट्स या पाठ्यपुस्तकों की छवियाँ अपलोड करें और सामग्री के आधार पर स्वतः समझ परीक्षण बनें।</string>
+    <string name="note_mode_title">चित्र से नोट्स सारांशित करें</string>
+    <string name="note_mode_explanation">नोट्स या संदर्भ पुस्तकों की छवियों से प्रमुख बिंदु निकालें और सारांश व संकलन बनाएं।</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">फोटो लें</string>
+    <string name="pick_from_gallery">गैलरी से चुनें</string>
+    <string name="how_to_title">कैसे उपयोग करें</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">एआई प्रश्न जेनरेटर</string>
+    <string name="quiz_mode_page_explanation">अध्ययन सामग्री या नोट्स की फोटो लें\nऔर एआई को आपके लिए प्रश्न बनाने दें</string>
+    <string name="quiz_mode_page_how_to_explanation">1. अध्ययन सामग्री या नोट्स की फोटो लें\n2. एआई स्वतः प्रश्न बनाता है\n3. प्रश्न हल करके अध्ययन करें</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">एआई नोट सारांश</string>
+    <string name="note_mode_page_explanation">अध्ययन सामग्री या नोट्स की फोटो लें\nऔर एआई से इन्हें संक्षेपित करवाएं</string>
+    <string name="note_mode_page_how_to_explanation">1. अध्ययन सामग्री या नोट्स की फोटो लें\n2. एआई नोट्स को स्वचालित रूप से सारांशित करता है\n3. तैयार डिजिटल नोट्स से अध्ययन करें</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">क्विज़ तैयार हो रहा है</string>
+    <string name="note_generating">नोट्स तैयार हो रहे हैं</string>
+    <string name="loading_explanation">इसमें कुछ समय लग सकता है.\nकृपया प्रतीक्षा करें।</string>
+
+    <!-- Error Screen -->
+    <string name="error_occurred">एक त्रुटि उत्पन्न हुई है।</string>
+    <string name="load_again">पुनः लोड करें</string>
+    <string name="back_to_pre_screen">वापस</string>
+
+</resources>

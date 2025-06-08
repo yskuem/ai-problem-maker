@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">Neues Projekt</string>
+    <string name="search_project">Projekte suchen...</string>
+    <string name="change_project_name">Umbenennen</string>
+    <string name="last_updated_project_date">Zuletzt bearbeitet:</string>
+    <string name="no_project_message">Noch keine Projekte erstellt.\nTippe unten auf die Schaltfläche, um dein erstes zu erstellen!</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">Quiz</string>
+    <string name="create_new_quiz">Neues Quiz erstellen</string>
+    <string name="note_tab_name">Notiz</string>
+    <string name="create_new_note">Neue Notiz erstellen</string>
+    <string name="last_updated_date">Zuletzt aktualisiert</string>
+    <string name="no_quiz_info">Es wurden noch keine Quiz erstellt.\nKlicke unten auf die Schaltfläche, um eines zu erstellen!</string>
+    <string name="no_note_info">Es wurden noch keine Notizen erstellt.\nKlicke unten auf die Schaltfläche, um eine zu erstellen!</string>
+
+    <!-- New Project -->
+    <string name="select_mode">Modus wählen</string>
+    <string name="select_explanation">Unterstütze dein Lernen mit Bildern</string>
+    <string name="quiz_mode_title">Quiz aus Bild erstellen</string>
+    <string name="quiz_mode_explanation">Lade Bilder von Notizen oder Lehrbüchern hoch, um automatisch Verständnistests basierend auf dem Inhalt zu erzeugen.</string>
+    <string name="note_mode_title">Notizen aus Bild zusammenfassen</string>
+    <string name="note_mode_explanation">Extrahiere Schlüsselpunkte aus Bildern von Notizen oder Nachschlagewerken und erstelle Zusammenfassungen und Kompilationen.</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">Foto aufnehmen</string>
+    <string name="pick_from_gallery">Aus Galerie wählen</string>
+    <string name="how_to_title">Anleitung</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">KI-Fragengenerator</string>
+    <string name="quiz_mode_page_explanation">Fotografiere Lernmaterial oder Notizen\nund lass die KI Fragen für dich erstellen</string>
+    <string name="quiz_mode_page_how_to_explanation">1. Fotografiere Lernmaterial oder Notizen\n2. Die KI erstellt automatisch Fragen\n3. Löse die erzeugten Fragen zum Lernen</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">KI-Notizzusammenfassung</string>
+    <string name="note_mode_page_explanation">Fotografiere Lernmaterial oder Notizen\nund lass die KI deine Materialien oder Notizen zusammenfassen</string>
+    <string name="note_mode_page_how_to_explanation">1. Fotografiere Lernmaterial oder Notizen\n2. Die KI fasst die Notizen automatisch zusammen\n3. Lerne mit den generierten digitalen Notizen</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">Quiz wird erstellt</string>
+    <string name="note_generating">Notizen werden erstellt</string>
+    <string name="loading_explanation">Dies kann einen Moment dauern.\nBitte warten.</string>
+
+    <!-- Error Screen -->
+    <string name="error_occurred">Ein Fehler ist aufgetreten.</string>
+    <string name="load_again">Neu laden</string>
+    <string name="back_to_pre_screen">Zurück</string>
+
+</resources>
