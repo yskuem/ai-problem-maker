@@ -7,9 +7,9 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.lexilabs.basic.ads.DependsOnGoogleUserMessagingPlatform
 import app.lexilabs.basic.ads.ExperimentalBasicAds
 import app.lexilabs.basic.ads.InterstitialAd
-import app.yskuem.aimondaimaker.feature.ad.config.ADMOB_INTERSTITIAL_ID
 import app.yskuem.aimondaimaker.core.util.ContextFactory
 import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
+import app.yskuem.aimondaimaker.feature.ad.config.getAdmobInterstitialId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +41,7 @@ class AdRepositoryImpl(
 
     override fun loadInterstitialAds() {
         interstitial.load(
-            adUnitId = ADMOB_INTERSTITIAL_ID,
+            adUnitId = getAdmobInterstitialId(),
             onLoad = {
                 _interstitialEnabled.value = true
                 setInterstitialListeners()
