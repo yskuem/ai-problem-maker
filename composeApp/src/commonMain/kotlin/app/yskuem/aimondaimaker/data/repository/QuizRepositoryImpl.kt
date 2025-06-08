@@ -1,8 +1,8 @@
 package app.yskuem.aimondaimaker.data.repository
 
 import app.yskuem.aimondaimaker.data.api.HttpClient
+import app.yskuem.aimondaimaker.data.api.response.QuizApiDto
 import app.yskuem.aimondaimaker.data.extension.toDomain
-import app.yskuem.aimondaimaker.data.api.response.QuizResponse
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName
 import app.yskuem.aimondaimaker.data.supabase.SupabaseTableName
@@ -19,20 +19,21 @@ class QuizRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ): QuizRepository {
 
-    override suspend fun fetchFromImage(
+    override suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
     ): List<Quiz> {
-        val response = HttpClient.postWithImage<List<QuizResponse>>(
+        val response = HttpClient.postWithImage<List<QuizApiDto>>(
             imageBytes = image,
             fileName = fileName,
             extension = extension,
+            path = "/generate_quizzes"
         )
         if(response.isEmpty()) {
             throw IllegalStateException("Response is empty")
         }
-        return response.first().args.map { it.toDomain() }
+        return response.map { it.toDomain() }
     }
 
     override suspend fun saveQuizInfo(
@@ -55,11 +56,11 @@ class QuizRepositoryImpl(
         )
     }
 
-    override suspend fun fetchAnsweredQuizList(projectId: String): List<Quiz> {
+    override suspend fun fetchAnsweredQuizzes(groupId: String): List<Quiz> {
         val res = supabaseClientHelper.fetchListByMatchValue<QuizSupabaseDto>(
             tableName = SupabaseTableName.Quiz.NAME,
-            filterCol = SupabaseColumnName.Quiz.PROJECT_ID,
-            filterVal = projectId,
+            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+            filterVal = groupId,
             orderCol = SupabaseColumnName.CREATED_AT,
         )
         return res.map { it.toDomain() }
@@ -82,12 +83,12 @@ class QuizRepositoryImpl(
     }
 
     override suspend fun fetchQuizInfoList(
-        userId: String,
+        projectId: String,
     ): List<QuizInfo> {
         val res =  supabaseClientHelper.fetchListByMatchValue<QuizInfoDto>(
             tableName = SupabaseTableName.QuizInfo.NAME,
-            filterCol = SupabaseColumnName.Quiz.CREATED_USER_ID,
-            filterVal = userId,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
             orderCol = SupabaseColumnName.UPDATED_AT,
         )
         return res.map { it.toDomain() }

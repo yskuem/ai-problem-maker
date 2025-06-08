@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PixStudy.dev</string>
+    <!-- Test Ads Identifier: ca-app-pub-3940256099942544~3347511713 -->
+    <string name="admob_id">ca-app-pub-3940256099942544~3347511713</string>
+</resources>

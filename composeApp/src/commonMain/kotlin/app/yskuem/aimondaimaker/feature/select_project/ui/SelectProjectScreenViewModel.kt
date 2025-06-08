@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import cafe.adriel.voyager.core.model.ScreenModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class SelectProjectScreenViewModel(
     private val projectRepository: ProjectRepository,
+    adRepository: AdRepository,
 ) : ScreenModel {
     init {
         onFetchProjectList()
@@ -29,6 +31,31 @@ class SelectProjectScreenViewModel(
                 _projects.value = DataUiState.Success(it)
             }.onFailure {
                 _projects.value = DataUiState.Error(it)
+            }
+        }
+    }
+
+    fun refreshProjectList() {
+        _projects.value = DataUiState.Loading
+        onFetchProjectList()
+    }
+
+    fun editProject(
+        targetProject: Project,
+        currentProjects: List<Project>
+    ) {
+        screenModelScope.launch {
+            val result = runCatching {
+                projectRepository.updateProject(targetProject)
+            }
+            result.onSuccess {
+                val updateProjects = currentProjects.map {
+                    if(it.id == targetProject.id) targetProject else it
+                }
+                _projects.value = DataUiState.Success(updateProjects)
+            }
+            .onFailure {
+                println(it)
             }
         }
     }

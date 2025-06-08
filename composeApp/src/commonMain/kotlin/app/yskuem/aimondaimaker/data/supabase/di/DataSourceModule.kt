@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.data.supabase.di
 
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
+import app.yskuem.aimondaimaker.data.supabase.handler.SupabaseConfigHelper
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
@@ -10,8 +11,8 @@ import org.koin.dsl.module
 val supabaseModule = module {
     single {
         createSupabaseClient(
-            supabaseUrl = "https://yexqdytmyenkzpornjhx.supabase.co",
-            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlleHFkeXRteWVua3pwb3Juamh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYyNzY0NDgsImV4cCI6MjA2MTg1MjQ0OH0.MXdfk2WqDCOMmsw9zerJ4KpCicm2Yyl8LhqirKCXZzU",
+            supabaseUrl = SupabaseConfigHelper.getSupabaseUrl(),
+            supabaseKey = SupabaseConfigHelper.getSupabaseAnonKey(),
         ) {
             install(Auth)
             install(Postgrest)

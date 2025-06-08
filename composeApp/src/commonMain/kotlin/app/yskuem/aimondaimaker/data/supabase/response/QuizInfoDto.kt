@@ -3,7 +3,7 @@ package app.yskuem.aimondaimaker.data.supabase.response
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.CREATED_AT
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.CREATED_USER_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.GROUP_ID
-import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.PROJECT_ID
+import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.PROJECT_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.UPDATED_AT
 import kotlinx.datetime.Instant
 import kotlinx.datetime.serializers.InstantIso8601Serializer

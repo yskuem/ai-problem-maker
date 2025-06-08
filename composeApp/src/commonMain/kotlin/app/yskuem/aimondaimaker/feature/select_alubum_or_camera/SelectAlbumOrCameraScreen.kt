@@ -1,5 +1,9 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.how_to_title
+import ai_problem_maker.composeapp.generated.resources.pick_from_gallery
+import ai_problem_maker.composeapp.generated.resources.take_picture
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,30 +27,74 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.feature.note.ui.CreateNoteScreen
 import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.CreateMode
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.toCreateMode
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
 
-class SelectAlbumOrCameraScreen : Screen {
+data class SelectAlbumOrCameraScreen(
+    val navMode: NavCreateMode,
+    val projectId: String? = null,
+    val onBack: () -> Unit = {}
+) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
-        val viewmodel = koinScreenModel<SelectAlbumOrCameraViewModel> ()
+        val mode = navMode.toCreateMode()
+
+        val galleryManager = rememberGalleryManager {
+            scope.launch {
+                val bytes = withContext(Dispatchers.Default) {
+                    it?.toByteArray()
+                }
+                if (bytes == null) {
+                    navigator?.pop()
+                    return@launch
+                }
+                when(mode) {
+                    CreateMode.Note -> {
+                        navigator?.push(
+                            CreateNoteScreen(
+                                imageByte = bytes,
+                                extension = "jpg",
+                                projectId = projectId,
+                            )
+                        )
+                    }
+                    CreateMode.Quiz -> {
+                        navigator?.push(
+                            CreateQuizScreen(
+                                imageByte = bytes,
+                                extension = "jpg",
+                                projectId = projectId,
+                            )
+                        )
+                    }
+                }
+
+            }
+        }
 
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("AI問題作成")
+                        Text(stringResource(mode.title))
                     },
                     navigationIcon = {
                         IconButton(
                             onClick = {
                                 navigator?.pop()
+                                onBack()
                             }
                         ) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
@@ -72,8 +120,8 @@ class SelectAlbumOrCameraScreen : Screen {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Camera,
-                        contentDescription = "カメラアイコン",
+                        imageVector = mode.icon,
+                        contentDescription = "",
                         modifier = Modifier.size(120.dp),
                         tint = MaterialTheme.colorScheme.primary
                     )
@@ -81,7 +129,7 @@ class SelectAlbumOrCameraScreen : Screen {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = "教材やノートを撮影して\nAIに問題を作成してもらいましょう",
+                        text = stringResource(mode.contentDescription),
                         fontSize = 18.sp,
                         textAlign = TextAlign.Center,
                         lineHeight = 28.sp
@@ -91,7 +139,12 @@ class SelectAlbumOrCameraScreen : Screen {
 
                     Button(
                         onClick = {
-                            navigator?.push(CameraPermissionScreen())
+                            navigator?.push(
+                                item = CameraPermissionScreen(
+                                    mode = navMode,
+                                    projectId = projectId
+                                ),
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -106,7 +159,7 @@ class SelectAlbumOrCameraScreen : Screen {
                             contentDescription = "カメラ"
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("写真を撮影", fontSize = 16.sp)
+                        Text(stringResource(Res.string.take_picture), fontSize = 16.sp)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -114,15 +167,7 @@ class SelectAlbumOrCameraScreen : Screen {
                     OutlinedButton(
                         onClick = {
                             scope.launch {
-                                viewmodel.onSelectAlbum { imageByte, fileName, extension ->
-                                    navigator?.push(
-                                        CreateQuizScreen(
-                                            imageByte = imageByte,
-                                            fileName = fileName,
-                                            extension = extension,
-                                        )
-                                    )
-                                }
+                                galleryManager.launch()
                             }
                         },
                         modifier = Modifier
@@ -130,7 +175,7 @@ class SelectAlbumOrCameraScreen : Screen {
                             .height(56.dp),
                         shape = RoundedCornerShape(16.dp)
                     ) {
-                        Text("ギャラリーから選択", fontSize = 16.sp)
+                        Text(stringResource(Res.string.pick_from_gallery), fontSize = 16.sp)
                     }
 
                     Spacer(modifier = Modifier.height(48.dp))
@@ -146,15 +191,13 @@ class SelectAlbumOrCameraScreen : Screen {
                             modifier = Modifier.padding(16.dp)
                         ) {
                             Text(
-                                text = "使い方",
+                                text = stringResource(Res.string.how_to_title),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "1. 教材やノートの写真を撮影\n" +
-                                        "2. AIが自動的に問題を生成\n" +
-                                        "3. 生成された問題を解いて学習しましょう",
+                                text = stringResource(mode.usage),
                                 lineHeight = 24.sp
                             )
                         }
@@ -164,3 +207,4 @@ class SelectAlbumOrCameraScreen : Screen {
         }
     }
 }
+

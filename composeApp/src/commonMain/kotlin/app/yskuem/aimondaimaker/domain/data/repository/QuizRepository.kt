@@ -4,7 +4,7 @@ import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 
 interface QuizRepository {
-    suspend fun fetchFromImage(
+    suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
@@ -17,8 +17,8 @@ interface QuizRepository {
         quizTitle: String,
     )
 
-    suspend fun fetchAnsweredQuizList(
-        projectId: String,
+    suspend fun fetchAnsweredQuizzes(
+        groupId: String,
     ): List<Quiz>
 
     suspend fun saveQuiz(
@@ -27,5 +27,5 @@ interface QuizRepository {
         userId: String,
     )
 
-    suspend fun fetchQuizInfoList(userId: String): List<QuizInfo>
+    suspend fun fetchQuizInfoList(projectId: String): List<QuizInfo>
 }

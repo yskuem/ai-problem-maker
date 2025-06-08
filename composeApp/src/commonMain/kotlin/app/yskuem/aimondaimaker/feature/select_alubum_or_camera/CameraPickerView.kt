@@ -1,23 +1,19 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
-import PastelAppleStyleLoading
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -51,27 +47,13 @@ fun CameraPickerView(
         }
     }
     if (isLoading.value) {
-        PastelAppleStyleLoading()
+        LoadingScreen()
     }
     if (hasError.value) {
-        // TODO エラー画面まとめる
-        Box (
-            modifier = Modifier.fillMaxSize()
-        ){
-            Column (
-                modifier = Modifier.align(Alignment.Center)
-            ){
-                Text("エラーが発生しました",
-                    fontSize = 20.sp
-                )
-                Button(
-                    onClick = {
-                        navigator?.pop()
-                    }
-                ) {
-                    Text("戻る")
-                }
-            }
+        ErrorScreen(
+            buttonText = stringResource(Res.string.back_to_pre_screen)
+        ) {
+            navigator?.pop()
         }
     }
 }

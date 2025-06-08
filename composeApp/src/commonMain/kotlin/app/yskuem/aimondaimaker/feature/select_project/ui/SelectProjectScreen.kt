@@ -1,8 +1,16 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.change_project_name
+import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
+import ai_problem_maker.composeapp.generated.resources.load_again
+import ai_problem_maker.composeapp.generated.resources.new_project
+import ai_problem_maker.composeapp.generated.resources.no_project_message
+import ai_problem_maker.composeapp.generated.resources.search_project
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,21 +29,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.lexilabs.basic.ads.BannerAd
+import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
+import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 class SelectProjectScreen : Screen {
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
@@ -50,7 +67,10 @@ class SelectProjectScreen : Screen {
         // フォーカス用リクエスタ（1つだけでOK）
         val focusRequester = remember { FocusRequester() }
 
-        val projectState by viewModel.projects.collectAsState()
+        // フォーカスマネージャーを取得
+        val focusManager = LocalFocusManager.current
+
+        val uiState by viewModel.projects.collectAsState()
 
         // フォーカス取得のトリガー
         LaunchedEffect(editingId) {
@@ -61,36 +81,15 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold { padding ->
-            when(val projectState = projectState) {
+            when(val projectState = uiState) {
                 is DataUiState.Loading -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.Center)
-                        )
-                    }
+                    LoadingScreen()
                 }
                 is DataUiState.Error -> {
-                    // TODO まとめる
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding)
-                    ) {
-                        Text(
-                            text = "エラーが発生しました: ${projectState.throwable.message}",
-                            modifier = Modifier.align(Alignment.Center),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                color = Color.Red,
-                                textAlign = TextAlign.Center
-                            )
-                        )
-                    }
+                    ErrorScreen(
+                        buttonText = stringResource(Res.string.load_again),
+                        onButtonClick = viewModel::refreshProjectList
+                    )
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data
@@ -101,6 +100,12 @@ class SelectProjectScreen : Screen {
                         modifier = Modifier
                             .fillMaxSize()
                             .systemBarsPadding()
+                            .pointerInput(Unit) {
+                                // 画面全体のタップを検知してフォーカスをクリア
+                                detectTapGestures {
+                                    focusManager.clearFocus()
+                                }
+                            }
                     ) {
                         Column(
                             modifier = Modifier
@@ -118,140 +123,155 @@ class SelectProjectScreen : Screen {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 16.dp),
-                                placeholder = { Text("プロジェクトを検索...") },
+                                placeholder = { Text(stringResource(Res.string.search_project)) },
                                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(onSearch = { /* 検索実行 */ })
+                                keyboardActions = KeyboardActions(
+                                    onSearch = {
+                                        // 検索実行時にフォーカスをクリア
+                                        focusManager.clearFocus()
+                                    }
+                                )
                             )
 
-                            // プロジェクトグリッド
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(1),
-                                state = gridState,
-                                contentPadding = PaddingValues(4.dp),
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .fillMaxWidth()
-                            ) {
-                                items(filtered) { project ->
-                                    // 最終更新日
-                                    val updatedAt = project.updatedAt
-                                        .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                        .toJapaneseMonthDay()
-                                    Card(
-                                        onClick = {
-                                            navigator?.push(ShowProjectInfoScreen())
-                                        },
-                                        shape = RoundedCornerShape(8.dp),
-                                        elevation = 4.dp,
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                            .fillMaxWidth()
-                                    ) {
-                                        Row(
-                                            modifier = Modifier
-                                                .padding(12.dp)
-                                                .fillMaxWidth(),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            // アイコン
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(40.dp)
-                                                    .background(
-                                                        color = Color(0xFFE0F2FF),
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ),
-                                                contentAlignment = Alignment.Center
-                                            ) {
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Filled.MenuBook,
-                                                    contentDescription = null,
-                                                    modifier = Modifier.size(24.dp),
-                                                    tint = Color(0xFF3B82F6)
+                            if(projects.isEmpty()) {
+                                EmptyProjectsUI(
+                                    modifier = Modifier.weight(1f),
+                                    message = stringResource(Res.string.no_project_message),
+                                    iconVector = Icons.AutoMirrored.Filled.MenuBook,
+                                )
+                            } else {
+                                // プロジェクトグリッド
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(1),
+                                    state = gridState,
+                                    contentPadding = PaddingValues(4.dp),
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxWidth()
+                                ) {
+                                    items(filtered) { project ->
+                                        // 最終更新日
+                                        val updatedAt = project.updatedAt
+                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                            .toJapaneseMonthDay()
+                                        Card(
+                                            onClick = {
+                                                navigator?.push(
+                                                    ShowProjectInfoScreen(
+                                                        projectId = project.id,
+                                                        onBack = viewModel::refreshProjectList
+                                                    )
                                                 )
-                                            }
-                                            Spacer(modifier = Modifier.width(12.dp))
-
-                                            // タイトル＆最終編集日
-                                            Column(modifier = Modifier.weight(1f)) {
-                                                if (editingId == project.id) {
-                                                    // 編集モード
-                                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                                        TextField(
-                                                            value = editingTitle,
-                                                            onValueChange = { editingTitle = it },
-                                                            modifier = Modifier
-                                                                .weight(1f)
-                                                                .focusRequester(focusRequester)
-                                                                .padding(end = 8.dp),
-                                                            singleLine = true,
-                                                            colors = TextFieldDefaults.textFieldColors(
-                                                                backgroundColor = Color(0xFFE0F2FF)
-                                                            )
-                                                        )
-                                                        IconButton(onClick = {
-                                                            if (editingTitle.isNotBlank()) {
-                                                                // TODO 名前の変更ロジック
-//                                                                projects = projects.map {
-//                                                                    if (it.id == editingId) {
-//                                                                        it.copy(
-//                                                                            title = editingTitle.trim(),
-//                                                                            lastEdited = "2025年4月22日"
-//                                                                        )
-//                                                                    } else it
-//                                                                }
-                                                            }
-                                                            editingId = null
-                                                            editingTitle = ""
-                                                        }) {
-                                                            Icon(Icons.Default.Check, contentDescription = "Save")
-                                                        }
-                                                        IconButton(onClick = {
-                                                            editingId = null
-                                                            editingTitle = ""
-                                                        }) {
-                                                            Icon(Icons.Default.Close, contentDescription = "Cancel")
-                                                        }
-                                                    }
-                                                } else {
-                                                    // 通常モード
-                                                    Text(
-                                                        text = project.name,
-                                                        fontSize = 16.sp,
-                                                        color = MaterialTheme.colors.onSurface
-                                                    )
-                                                    Text(
-                                                        // TODO わかりやすい日付フォーマットにする
-                                                        text = "最終編集: $updatedAt",
-                                                        fontSize = 12.sp,
-                                                        color = Color.Gray
-                                                    )
-                                                }
-                                            }
-
-                                            // メニューボタン
-                                            Box {
-                                                IconButton(onClick = {
-                                                    expandedMenuFor =
-                                                        if (expandedMenuFor == project.id) null else project.id
-                                                }) {
-                                                    Icon(Icons.Default.MoreVert, contentDescription = "メニュー")
-                                                }
-                                                DropdownMenu(
-                                                    expanded = (expandedMenuFor == project.id),
-                                                    onDismissRequest = { expandedMenuFor = null }
+                                            },
+                                            shape = RoundedCornerShape(8.dp),
+                                            elevation = 4.dp,
+                                            modifier = Modifier
+                                                .padding(8.dp)
+                                                .fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                modifier = Modifier
+                                                    .padding(12.dp)
+                                                    .fillMaxWidth(),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                // アイコン
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(40.dp)
+                                                        .background(
+                                                            color = Color(0xFFE0F2FF),
+                                                            shape = RoundedCornerShape(8.dp)
+                                                        ),
+                                                    contentAlignment = Alignment.Center
                                                 ) {
-                                                    DropdownMenuItem(onClick = {
-                                                        // 編集モード開始
-                                                        editingId = project.id
-                                                        editingTitle = project.name
-                                                        expandedMenuFor = null
-                                                    }) {
-                                                        Text("名前を変更")
+                                                    Icon(
+                                                        imageVector = Icons.AutoMirrored.Filled.MenuBook,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(24.dp),
+                                                        tint = Color(0xFF3B82F6)
+                                                    )
+                                                }
+                                                Spacer(modifier = Modifier.width(12.dp))
+
+                                                // タイトル＆最終編集日
+                                                Column(modifier = Modifier.weight(1f)) {
+                                                    if (editingId == project.id) {
+                                                        // 編集モード
+                                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                            TextField(
+                                                                value = editingTitle,
+                                                                onValueChange = { editingTitle = it },
+                                                                modifier = Modifier
+                                                                    .weight(1f)
+                                                                    .focusRequester(focusRequester)
+                                                                    .padding(end = 8.dp),
+                                                                singleLine = true,
+                                                                colors = TextFieldDefaults.textFieldColors(
+                                                                    backgroundColor = Color(0xFFE0F2FF)
+                                                                )
+                                                            )
+                                                            IconButton(onClick = {
+                                                                if (editingTitle.isNotBlank()) {
+                                                                    viewModel.editProject(
+                                                                        currentProjects = projects,
+                                                                        targetProject = project.copy(
+                                                                            name = editingTitle.trim(),
+                                                                            updatedAt = Clock.System.now()
+                                                                        )
+                                                                    )
+                                                                }
+                                                                editingId = null
+                                                                editingTitle = ""
+                                                            }) {
+                                                                Icon(Icons.Default.Check, contentDescription = "Save")
+                                                            }
+                                                            IconButton(onClick = {
+                                                                editingId = null
+                                                                editingTitle = ""
+                                                            }) {
+                                                                Icon(Icons.Default.Close, contentDescription = "Cancel")
+                                                            }
+                                                        }
+                                                    } else {
+                                                        // 通常モード
+                                                        Text(
+                                                            text = project.name,
+                                                            fontSize = 16.sp,
+                                                            color = MaterialTheme.colors.onSurface
+                                                        )
+                                                        Text(
+                                                            text = stringResource(Res.string.last_updated_project_date) + updatedAt,
+                                                            fontSize = 12.sp,
+                                                            color = Color.Gray
+                                                        )
                                                     }
-                                                    // ここに他のメニュー項目を追加可能
+                                                }
+
+                                                // メニューボタン
+                                                Box {
+                                                    IconButton(onClick = {
+                                                        expandedMenuFor =
+                                                            if (expandedMenuFor == project.id) null else project.id
+                                                    }) {
+                                                        Icon(Icons.Default.MoreVert, contentDescription = "メニュー")
+                                                    }
+                                                    DropdownMenu(
+                                                        expanded = (expandedMenuFor == project.id),
+                                                        onDismissRequest = { expandedMenuFor = null }
+                                                    ) {
+                                                        DropdownMenuItem(onClick = {
+                                                            // 編集モード開始
+                                                            editingId = project.id
+                                                            editingTitle = project.name
+                                                            expandedMenuFor = null
+                                                        }) {
+                                                            Text(stringResource(Res.string.change_project_name))
+                                                        }
+                                                        // ここに他のメニュー項目を追加可能
+                                                    }
                                                 }
                                             }
                                         }
@@ -259,20 +279,27 @@ class SelectProjectScreen : Screen {
                                 }
                             }
 
-                            // 新規プロジェクト作成ボタン
-                            Button(
-                                onClick = {
-                                    // 遷移処理
-                                    navigator?.push(SelectNoteOrQuizScreen())
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 16.dp),
-                                shape = RoundedCornerShape(8.dp)
-                            ) {
-                                Icon(Icons.Default.Add, contentDescription = null)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text("新規プロジェクト")
+                            Column {
+                                CreateNewButton(
+                                    buttonText = stringResource(Res.string.new_project),
+                                ) {
+                                    navigator?.push(
+                                        SelectNoteOrQuizScreen (
+                                            onBack = viewModel::refreshProjectList
+                                        )
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    BannerAd(
+                                        adUnitId = getAdmobBannerId(),
+                                    )
+                                }
                             }
                         }
                     }

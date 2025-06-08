@@ -1,5 +1,12 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.note_mode_explanation
+import ai_problem_maker.composeapp.generated.resources.note_mode_title
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_explanation
+import ai_problem_maker.composeapp.generated.resources.quiz_mode_title
+import ai_problem_maker.composeapp.generated.resources.select_explanation
+import ai_problem_maker.composeapp.generated.resources.select_mode
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,8 +16,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,10 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
 
-class SelectNoteOrQuizScreen: Screen {
+data class SelectNoteOrQuizScreen(
+    val onBack: () -> Unit = {}
+): Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -59,6 +70,7 @@ class SelectNoteOrQuizScreen: Screen {
                             IconButton(
                                 onClick = {
                                     navigator?.pop()
+                                    onBack()
                                 }
                             ) {
                                 Icon(
@@ -100,7 +112,7 @@ class SelectNoteOrQuizScreen: Screen {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "モードの選択",
+                        text = stringResource(Res.string.select_mode),
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF3730A3)
@@ -109,7 +121,7 @@ class SelectNoteOrQuizScreen: Screen {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "画像からあなたの学習をサポートします",
+                        text = stringResource(Res.string.select_explanation),
                         fontSize = 16.sp,
                         color = Color(0xFF6B7280)
                     )
@@ -124,30 +136,38 @@ class SelectNoteOrQuizScreen: Screen {
                 ) {
                     // クイズ作成カード
                     FeatureCard(
-                        title = "画像からクイズを作成",
-                        description = "ノートや教科書の画像をアップロードして、内容に基づいた確認テストを自動生成します。",
-                        icon = Icons.Filled.Psychology,
+                        title = stringResource(Res.string.quiz_mode_title),
+                        description = stringResource(Res.string.quiz_mode_explanation),
+                        icon = Icons.Filled.QuestionAnswer,
                         isHovered = hoveredCard == "quiz",
                         onHoverChange = { isHovered ->
                             hoveredCard = if (isHovered) "quiz" else null
                         },
                         onClick = {
-                            navigator?.push(SelectAlbumOrCameraScreen())
+                            navigator?.push(
+                                SelectAlbumOrCameraScreen(
+                                    navMode = NavCreateMode.Quiz
+                                )
+                            )
                         },
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     // 要約作成カード
                     FeatureCard(
-                        title = "画像からノートを要約",
-                        description = "ノートや参考書の画像から重要なポイントを抽出し、要約とまとめを作成します。",
-                        icon = Icons.Filled.Book,
+                        title = stringResource(Res.string.note_mode_title),
+                        description = stringResource(Res.string.note_mode_explanation),
+                        icon = Icons.AutoMirrored.Filled.Assignment,
                         isHovered = hoveredCard == "summary",
                         onHoverChange = { isHovered ->
                             hoveredCard = if (isHovered) "summary" else null
                         },
                         onClick = {
-                            // ノート要約機能に遷移するロジック
+                            navigator?.push(
+                                SelectAlbumOrCameraScreen(
+                                    navMode = NavCreateMode.Note
+                                )
+                            )
                         },
                         modifier = Modifier.fillMaxWidth()
                     )

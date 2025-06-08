@@ -1,3 +1,5 @@
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.loading_explanation
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -21,16 +23,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 import kotlin.random.Random
 
 @Composable
-fun PastelAppleStyleLoading() {
-    var loadingText by remember { mutableStateOf("問題を生成中") }
+fun PastelAppleStyleLoading(
+    loadingTitle: String
+) {
+    var loadingText by remember { mutableStateOf(loadingTitle) }
     var isVisible by remember { mutableStateOf(false) }
 
     // テキストアニメーション
     LaunchedEffect(key1 = true) {
-        val textStates = listOf("問題を生成中", "問題を生成中.", "問題を生成中..", "問題を生成中...")
+        val textStates = listOf(loadingTitle, "${loadingTitle}.", "${loadingTitle}..", "${loadingTitle}...")
         var index = 0
 
         // 初期フェードイン
@@ -149,7 +154,7 @@ fun PastelAppleStyleLoading() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 FadingText(
-                    text = "少し時間がかかります",
+                    text = stringResource(Res.string.loading_explanation),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Light,
                     color = Color(0xFF6B7280), // gray-500

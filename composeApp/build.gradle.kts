@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.plugin.serialization)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -24,6 +25,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
+            freeCompilerArgs += listOf("-Xbinary=bundleId=app.yskuem.aimondaimaker")
             isStatic = true
         }
     }
@@ -80,9 +82,18 @@ kotlin {
             implementation(libs.multiplatform.settings.core)
             implementation(libs.multiplatform.settings.datastore)
             implementation(libs.multiplatform.settings.coroutines)
+            implementation(libs.compose.webview.multiplatform)
+            implementation(libs.basic.ads)
+            implementation(libs.google.ads)
+            implementation(libs.firebase.remote.config)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.firebase.remote.config)
+            }
         }
     }
 }
@@ -96,7 +107,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
     packaging {
         resources {
@@ -111,10 +122,29 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
+    }
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+        }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".stg"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 

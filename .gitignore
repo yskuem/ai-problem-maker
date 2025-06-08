@@ -16,3 +16,13 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+/composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/core/config/AdmobId.android.kt
+/composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/core/config/AdmobId.ios.kt
+composeApp/src/prod/google-services.json
+composeApp/src/prod/res/values/strings.xml
+iosApp/Configuration/Release.xcconfig
+iosApp/iosApp/GoogleService-Info.plist
+/iosApp/GoogleService/prod/GoogleService-Info.plist
+/composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/data/supabase/config/SupabaseProdSettings.kt
+/composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobAndroidProdConfigs.kt
+/composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobIosProdConfigs.kt

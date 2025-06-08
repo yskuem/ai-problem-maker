@@ -35,11 +35,11 @@ object HttpClient {
             }
             install(HttpTimeout) {
                 // リクエスト全体の許容時間（ミリ秒）
-                requestTimeoutMillis = 60_000
+                requestTimeoutMillis = 150_000
                 // TCP接続確立のタイムアウト
-                connectTimeoutMillis = 60_000
+                connectTimeoutMillis = 150_000
                 // データ受信間隔の最大タイムアウト
-                socketTimeoutMillis = 60_000
+                socketTimeoutMillis = 150_000
             }
             defaultRequest {
                 url {
@@ -53,7 +53,8 @@ object HttpClient {
     suspend inline fun <reified T> postWithImage(
         imageBytes: ByteArray,
         fileName: String,
-        extension: String
+        extension: String,
+        path: String,
     ): T {
         // Determine ContentType based on extension
         val contentType = when (extension.lowercase()) {
@@ -65,7 +66,7 @@ object HttpClient {
             else -> ContentType.Application.OctetStream
         }
 
-        return client.post("/analyze_image") {
+        return client.post(path) {
             // Multipart/form-data body
             setBody(
                 MultiPartFormDataContent(

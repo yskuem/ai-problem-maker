@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "651141078821",
+    "project_id": "ai-study-dev-18d3c",
+    "storage_bucket": "ai-study-dev-18d3c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:651141078821:android:11dad2b106bd4ee1e284cc",
+        "android_client_info": {
+          "package_name": "app.yskuem.aimondaimaker.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgF0nQRHW2qp79lwlFB_rH1JGcXw4dPHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

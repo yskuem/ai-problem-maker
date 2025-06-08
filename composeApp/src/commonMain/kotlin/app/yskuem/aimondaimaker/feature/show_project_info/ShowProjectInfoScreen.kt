@@ -1,5 +1,14 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.create_new_note
+import ai_problem_maker.composeapp.generated.resources.create_new_quiz
+import ai_problem_maker.composeapp.generated.resources.last_updated_date
+import ai_problem_maker.composeapp.generated.resources.load_again
+import ai_problem_maker.composeapp.generated.resources.no_note_info
+import ai_problem_maker.composeapp.generated.resources.no_quiz_info
+import ai_problem_maker.composeapp.generated.resources.note_tab_name
+import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -20,24 +29,42 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.lexilabs.basic.ads.BannerAd
+import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
+import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
+import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
+import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
+import org.koin.core.parameter.parametersOf
 
 
-class ShowProjectInfoScreen(): Screen {
-
-    @OptIn(ExperimentalMaterial3Api::class)
+data class ShowProjectInfoScreen(
+    private val projectId: String,
+    private val onBack: () -> Unit
+): Screen {
+    @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
-        var selectedTabIndex by remember { mutableStateOf(0) }
-        val tabs = listOf("クイズ", "ノート")
-        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>()
-        val uiState = viewModel.uiState.collectAsState()
+        val tabs = listOf(
+            stringResource(Res.string.quiz_tab_name),
+            stringResource(Res.string.note_tab_name),
+        )
+        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
+            parameters = { parametersOf(projectId) }
+        )
+        val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
         Scaffold(
             topBar = {
@@ -60,20 +87,22 @@ class ShowProjectInfoScreen(): Screen {
                         }
                     }
                     TabRow(
-                        selectedTabIndex = selectedTabIndex,
+                        selectedTabIndex = uiState.selectedTabIndex,
                         containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(8.dp)
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
-                                selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
+                                selected = uiState.selectedTabIndex == index,
+                                onClick = {
+                                    viewModel.onTapTab(index)
+                                },
                                 text = {
                                     Text(
                                         text = title,
                                         fontSize = 16.sp,
-                                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (uiState.selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
                                     )
                                 }
                             )
@@ -89,59 +118,108 @@ class ShowProjectInfoScreen(): Screen {
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-                when (selectedTabIndex) {
+                when (uiState.selectedTabIndex) {
                     0 -> {
-                        when (val quizInfoList = uiState.value.quizInfoList) {
+                        when (val quizInfoList = uiState.quizInfoList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
-                                ContentList(
-                                    items = quizInfoList.data.map { it.name },
-                                    icon = Icons.Filled.QuestionAnswer,
-                                    contentType = ContentType.QUIZ,
-                                    updateAtList = quizInfoList.data.map {
-                                        it.updatedAt
-                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                            .toJapaneseMonthDay()
-                                    },
-                                    itemsProjectIds = quizInfoList.data.map { it.projectId },
-                                    onTapCard = { projectId ->
-                                        viewModel.onTapQuizInfo(
+                                if(quizInfoList.data.isEmpty()) {
+                                    EmptyProjectsUI(
+                                        message = stringResource(Res.string.no_quiz_info),
+                                        modifier = Modifier.fillMaxSize(),
+                                        iconVector = Icons.Default.QuestionAnswer
+                                    )
+                                } else {
+                                    ContentList(
+                                        items = quizInfoList.data.map { it.name },
+                                        icon = Icons.Filled.QuestionAnswer,
+                                        contentType = ContentType.QUIZ,
+                                        updateAtList = quizInfoList.data.map {
+                                            it.updatedAt
+                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                .toJapaneseMonthDay()
+                                        },
+                                        itemGroupIds = quizInfoList.data.map { it.groupId },
+                                        onTapCard = { groupId ->
+                                            viewModel.onTapQuizInfo(
+                                                groupId = groupId,
+                                                navigator = navigator,
+                                            )
+                                        }
+                                    )
+                                }
+                                BottomContent(
+                                    modifier = Modifier.align(alignment = Alignment.BottomEnd),
+                                    buttonText = stringResource(Res.string.create_new_quiz)
+                                ) {
+                                    navigator?.push(
+                                        SelectAlbumOrCameraScreen(
+                                            navMode = NavCreateMode.Quiz,
                                             projectId = projectId,
-                                            navigator = navigator,
+                                            onBack = viewModel::refreshQuizInfo
                                         )
-                                    }
-                                )
+                                    )
+                                }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = quizInfoList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = stringResource(Res.string.load_again),
+                                    onButtonClick = viewModel::refreshQuizInfo
+                                )
                             }
                         }
                     }
                     1 -> {
-                        when (val noteInfoList = uiState.value.noteInfoList) {
+                        when (val noteList = uiState.noteList) {
                             is DataUiState.Loading -> {
-                                LoadingContent()
+                                LoadingScreen()
                             }
                             is DataUiState.Success -> {
-                                ContentList(
-                                    items = noteInfoList.data.map { it.name },
-                                    icon = Icons.AutoMirrored.Filled.Assignment,
-                                    contentType = ContentType.NOTE,
-                                    updateAtList = noteInfoList.data.map {
-                                        it.updatedAt
-                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                            .toJapaneseMonthDay()
-                                    },
-                                    itemsProjectIds = noteInfoList.data.map { it.projectId },
-                                    onTapCard = { projectId ->
-                                        // TODO ノートの詳細画面に遷移する処理を実装
-                                    }
-                                )
+                                if(noteList.data.isEmpty()) {
+                                    EmptyProjectsUI(
+                                        message = stringResource(Res.string.no_note_info),
+                                        modifier = Modifier.fillMaxSize(),
+                                        iconVector = Icons.AutoMirrored.Filled.Assignment
+                                    )
+                                } else {
+                                    ContentList(
+                                        items = noteList.data.map { it.title },
+                                        icon = Icons.AutoMirrored.Filled.Assignment,
+                                        contentType = ContentType.NOTE,
+                                        updateAtList = noteList.data.map {
+                                            it.updatedAt
+                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                .toJapaneseMonthDay()
+                                        },
+                                        itemGroupIds = noteList.data.map { it.id },
+                                        onTapCard = { id ->
+                                            val targetNote = noteList.data.first {
+                                                it.id == id
+                                            }
+                                            navigator?.push(ShowNoteAppScreen(targetNote))
+                                        }
+                                    )
+                                }
+                                BottomContent(
+                                    modifier = Modifier.align(alignment = Alignment.BottomEnd),
+                                    buttonText = stringResource(Res.string.create_new_note)
+                                ) {
+                                    navigator?.push(
+                                        SelectAlbumOrCameraScreen(
+                                            navMode = NavCreateMode.Note,
+                                            projectId = projectId,
+                                            onBack = viewModel::refreshNoteList
+                                        )
+                                    )
+                                }
                             }
                             is DataUiState.Error -> {
-                                ErrorContent(message = noteInfoList.throwable.message)
+                                ErrorScreen(
+                                    buttonText = stringResource(Res.string.load_again),
+                                    onButtonClick = viewModel::refreshNoteList
+                                )
                             }
                         }
                     }
@@ -151,37 +229,12 @@ class ShowProjectInfoScreen(): Screen {
     }
 }
 
-enum class ContentType {
-    QUIZ, NOTE
-}
-
-@Composable
-fun LoadingContent() {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun ErrorContent(message: String?) {
-    // TODO まとめる
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "エラーが発生しました: ${message ?: "不明なエラー"}")
-    }
-}
 
 @Composable
 fun ContentList(
     items: List<String>,
     updateAtList: List<String>,
-    itemsProjectIds: List<String>,
+    itemGroupIds: List<String>,
     onTapCard: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType
@@ -192,7 +245,7 @@ fun ContentList(
         itemsIndexed(items) { index, item ->
             Card(
                 onClick = {
-                    onTapCard(itemsProjectIds[index])
+                    onTapCard(itemGroupIds[index])
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -250,7 +303,7 @@ fun ContentList(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = "最終更新: ${updateAtList[index]}",
+                            text = "${stringResource(Res.string.last_updated_date)}: ${updateAtList[index]}",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) // もう少しはっきりした色に
@@ -261,4 +314,40 @@ fun ContentList(
             }
         }
     }
+}
+
+
+@OptIn(DependsOnGoogleMobileAds::class)
+@Composable
+private fun BottomContent(
+    modifier: Modifier,
+    buttonText: String,
+    onTapButton: () -> Unit,
+) {
+    Column (
+        modifier = modifier
+    ){
+        CreateNewButton(
+            buttonText = buttonText,
+        ) {
+            onTapButton()
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            BannerAd(
+                adUnitId = getAdmobBannerId()
+            )
+        }
+    }
+}
+
+
+
+enum class ContentType {
+    QUIZ, NOTE
 }
