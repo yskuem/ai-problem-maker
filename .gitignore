@@ -22,3 +22,4 @@ composeApp/src/prod/google-services.json
 composeApp/src/prod/res/values/strings.xml
 iosApp/Configuration/Release.xcconfig
 iosApp/iosApp/GoogleService-Info.plist
+/iosApp/GoogleService/prod/GoogleService-Info.plist
