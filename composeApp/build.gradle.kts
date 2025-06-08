@@ -25,6 +25,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
+            freeCompilerArgs += listOf("-Xbinary=bundleId=app.yskuem.aimondaimaker")
             isStatic = true
         }
     }
@@ -89,6 +90,11 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.firebase.remote.config)
+            }
+        }
     }
 }
 
@@ -117,6 +123,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
+    }
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+        }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".stg"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 

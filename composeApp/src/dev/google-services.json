@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:651141078821:android:d6953ac55e9cfd2be284cc",
+        "mobilesdk_app_id": "1:651141078821:android:11dad2b106bd4ee1e284cc",
         "android_client_info": {
-          "package_name": "app.yskuem.aimondaimaker"
+          "package_name": "app.yskuem.aimondaimaker.dev"
         }
       },
       "oauth_client": [],
