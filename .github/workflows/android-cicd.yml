@@ -1,0 +1,42 @@
+name: Android CI/CD
+
+on:
+  push:
+    branches: [work]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Build release bundle
+      run: ./gradlew :composeApp:bundleProdRelease
+
+    - name: Sign bundle
+      id: sign
+      uses: r0adkll/sign-android-release@v1
+      with:
+        releaseDirectory: composeApp/build/outputs/bundle/prodRelease
+        signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+    - name: Upload to Google Play
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+        packageName: app.yskuem.aimondaimaker
+        releaseFiles: ${{ steps.sign.outputs.signedReleaseFile }}
+        track: production
