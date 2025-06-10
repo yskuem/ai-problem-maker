@@ -155,19 +155,19 @@
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-                    knownRegions = (
-                                en,
-                                Base,
-                                ja,
-                                zh,
-                                ko,
-                                de,
-                                fr,
-                                pt,
-                                es,
-                                ru,
-                                hi,
-                        );
+			knownRegions = (
+				en,
+				Base,
+				ja,
+				zh,
+				ko,
+				de,
+				fr,
+				pt,
+				es,
+				ru,
+				hi,
+			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				5A0DB59E2DE40EF900AE8EAA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
