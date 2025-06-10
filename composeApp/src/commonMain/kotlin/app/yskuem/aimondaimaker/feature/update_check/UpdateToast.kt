@@ -334,7 +334,6 @@ fun GlobalToastContainer(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 30.dp),
     ) {
         content()
         val toastData by UpdateToastManager.toastState
