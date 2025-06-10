@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">Novo projeto</string>
+    <string name="search_project">Pesquisar projetos...</string>
+    <string name="change_project_name">Renomear</string>
+    <string name="last_updated_project_date">Última edição:</string>
+    <string name="no_project_message">Nenhum projeto criado ainda.\nToque no botão abaixo para criar o seu primeiro!</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">Quiz</string>
+    <string name="create_new_quiz">Criar novo quiz</string>
+    <string name="note_tab_name">Nota</string>
+    <string name="create_new_note">Criar nova nota</string>
+    <string name="last_updated_date">Última atualização</string>
+    <string name="no_quiz_info">Nenhum quiz criado ainda.\nClique no botão abaixo para criar um!</string>
+    <string name="no_note_info">Nenhuma nota criada ainda.\nClique no botão abaixo para criar uma!</string>
+
+    <!-- New Project -->
+    <string name="select_mode">Selecionar modo</string>
+    <string name="select_explanation">Apoie seu aprendizado a partir de imagens</string>
+    <string name="quiz_mode_title">Criar quiz a partir da imagem</string>
+    <string name="quiz_mode_explanation">Envie imagens de anotações ou livros didáticos para gerar automaticamente testes de compreensão com base no conteúdo.</string>
+    <string name="note_mode_title">Resumir notas da imagem</string>
+    <string name="note_mode_explanation">Extraia pontos-chave de imagens de notas ou livros de referência e crie resumos e compilações.</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">Tirar foto</string>
+    <string name="pick_from_gallery">Selecionar da galeria</string>
+    <string name="how_to_title">Como usar</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">Gerador de perguntas por IA</string>
+    <string name="quiz_mode_page_explanation">Fotografe materiais de estudo ou notas\ne deixe a IA criar perguntas para você</string>
+    <string name="quiz_mode_page_how_to_explanation">1. Fotografe materiais ou notas\n2. A IA gera perguntas automaticamente\n3. Resolva as perguntas para estudar</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">Resumo de notas por IA</string>
+    <string name="note_mode_page_explanation">Fotografe materiais de estudo ou notas\ne deixe a IA resumir tudo</string>
+    <string name="note_mode_page_how_to_explanation">1. Fotografe materiais ou notas\n2. A IA resume automaticamente as notas\n3. Estude com as notas digitais geradas</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">Gerando quiz</string>
+    <string name="note_generating">Gerando notas</string>
+    <string name="loading_explanation">Isso pode levar um momento.\nPor favor, aguarde.</string>
+
+    <!-- Error Screen -->
+    <string name="error_occurred">Ocorreu um erro.</string>
+    <string name="load_again">Recarregar</string>
+    <string name="back_to_pre_screen">Voltar</string>
+
+</resources>

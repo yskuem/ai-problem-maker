@@ -159,6 +159,14 @@
 				en,
 				Base,
 				ja,
+				zh,
+				ko,
+				de,
+				fr,
+				pt,
+				es,
+				ru,
+				hi,
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (

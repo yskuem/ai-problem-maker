@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">새 프로젝트</string>
+    <string name="search_project">프로젝트 검색...</string>
+    <string name="change_project_name">이름 변경</string>
+    <string name="last_updated_project_date">마지막 편집:</string>
+    <string name="no_project_message">아직 생성된 프로젝트가 없습니다.\n아래 버튼을 눌러 첫 프로젝트를 만들어보세요!</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">퀴즈</string>
+    <string name="create_new_quiz">새 퀴즈 만들기</string>
+    <string name="note_tab_name">노트</string>
+    <string name="create_new_note">새 노트 만들기</string>
+    <string name="last_updated_date">최근 업데이트</string>
+    <string name="no_quiz_info">아직 퀴즈가 생성되지 않았습니다.\n아래 버튼을 눌러 새로 만들어보세요!</string>
+    <string name="no_note_info">아직 노트가 생성되지 않았습니다.\n아래 버튼을 눌러 새로 만들어보세요!</string>
+
+    <!-- New Project -->
+    <string name="select_mode">모드 선택</string>
+    <string name="select_explanation">이미지로 학습 지원</string>
+    <string name="quiz_mode_title">이미지로 퀴즈 생성</string>
+    <string name="quiz_mode_explanation">노트나 교과서 이미지를 업로드하면 내용에 기반한 이해도 테스트가 자동으로 생성됩니다.</string>
+    <string name="note_mode_title">이미지로 노트 요약</string>
+    <string name="note_mode_explanation">노트나 참고서 이미지에서 핵심 포인트를 추출하여 요약과 정리를 만듭니다.</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">사진 찍기</string>
+    <string name="pick_from_gallery">갤러리에서 선택</string>
+    <string name="how_to_title">사용 방법</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">AI 문제 생성기</string>
+    <string name="quiz_mode_page_explanation">학습 자료나 노트를 촬영하고\nAI가 문제를 만들어줍니다</string>
+    <string name="quiz_mode_page_how_to_explanation">1. 학습 자료나 노트를 촬영\n2. AI가 자동으로 문제 생성\n3. 생성된 문제를 풀며 학습</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">AI 노트 요약</string>
+    <string name="note_mode_page_explanation">학습 자료나 노트를 촬영하고\nAI가 내용을 요약해줍니다</string>
+    <string name="note_mode_page_how_to_explanation">1. 학습 자료나 노트를 촬영\n2. AI가 노트를 자동 요약\n3. 생성된 전자 노트로 학습</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">퀴즈 생성 중</string>
+    <string name="note_generating">노트 생성 중</string>
+    <string name="loading_explanation">잠시만 기다려 주세요.\n곧 완료됩니다.</string>
+
+    <!-- Error Screen -->
+    <string name="error_occurred">오류가 발생했습니다.</string>
+    <string name="load_again">다시 불러오기</string>
+    <string name="back_to_pre_screen">뒤로</string>
+
+</resources>

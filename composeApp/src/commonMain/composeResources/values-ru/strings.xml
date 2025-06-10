@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- New Project -->
+    <string name="new_project">Новый проект</string>
+    <string name="search_project">Поиск проектов...</string>
+    <string name="change_project_name">Переименовать</string>
+    <string name="last_updated_project_date">Последнее редактирование:</string>
+    <string name="no_project_message">Проекты еще не созданы.\nНажмите кнопку ниже, чтобы создать первый!</string>
+
+    <!-- Project Details -->
+    <string name="quiz_tab_name">Викторина</string>
+    <string name="create_new_quiz">Создать новую викторину</string>
+    <string name="note_tab_name">Заметка</string>
+    <string name="create_new_note">Создать новую заметку</string>
+    <string name="last_updated_date">Последнее обновление</string>
+    <string name="no_quiz_info">Викторины еще не созданы.\nНажмите кнопку ниже, чтобы создать новую!</string>
+    <string name="no_note_info">Заметки еще не созданы.\nНажмите кнопку ниже, чтобы создать новую!</string>
+
+    <!-- New Project -->
+    <string name="select_mode">Выберите режим</string>
+    <string name="select_explanation">Поддержите свое обучение с помощью изображений</string>
+    <string name="quiz_mode_title">Создать викторину из изображения</string>
+    <string name="quiz_mode_explanation">Загрузите изображения заметок или учебников, чтобы автоматически создать тесты на понимание по содержанию.</string>
+    <string name="note_mode_title">Суммировать заметки с изображения</string>
+    <string name="note_mode_explanation">Извлекайте ключевые моменты из изображений заметок или справочников и создавайте резюме и компиляции.</string>
+
+    <!-- Common Image Acquisition Mode Pages -->
+    <string name="take_picture">Сделать фото</string>
+    <string name="pick_from_gallery">Выбрать из галереи</string>
+    <string name="how_to_title">Как использовать</string>
+
+    <!-- Quiz Mode -->
+    <string name="quiz_mode_page_title">Генератор вопросов ИИ</string>
+    <string name="quiz_mode_page_explanation">Сфотографируйте учебные материалы или записи\nи позвольте ИИ создать вопросы для вас</string>
+    <string name="quiz_mode_page_how_to_explanation">1. Сфотографируйте учебные материалы или записи\n2. ИИ автоматически создает вопросы\n3. Решайте созданные вопросы для обучения</string>
+
+    <!-- Note Mode -->
+    <string name="note_mode_page_title">ИИ-конспект</string>
+    <string name="note_mode_page_explanation">Сфотографируйте учебные материалы или записи\nи позвольте ИИ их конспектировать</string>
+    <string name="note_mode_page_how_to_explanation">1. Сфотографируйте учебные материалы или записи\n2. ИИ автоматически суммирует записи\n3. Учитесь с созданными электронными записями</string>
+
+    <!-- Loading Screen -->
+    <string name="quiz_generating">Создание викторины</string>
+    <string name="note_generating">Создание заметок</string>
+    <string name="loading_explanation">Это может занять некоторое время.\nПожалуйста, подождите.</string>
+
+    <!-- Error Screen -->
+    <string name="error_occurred">Произошла ошибка.</string>
+    <string name="load_again">Перезагрузить</string>
+    <string name="back_to_pre_screen">Назад</string>
+
+</resources>
