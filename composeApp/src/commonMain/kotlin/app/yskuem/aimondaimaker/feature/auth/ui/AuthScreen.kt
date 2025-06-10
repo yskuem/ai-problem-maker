@@ -10,27 +10,28 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreen
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
+import androidx.navigation.NavController
+import org.koin.compose.koinInject
 
 
-class AuthScreen(): Screen {
-    @Composable
-    override fun Content() {
-        val viewModel = koinScreenModel<AuthScreenViewModel>()
-        val navigator = LocalNavigator.current
-        val isLoginSuccess = viewModel.isLoginSuccess.collectAsState()
-        val hasError = viewModel.hasError.collectAsState()
+@Composable
+fun AuthScreen(
+    navController: NavController,
+) {
+    val viewModel = koinInject<AuthScreenViewModel>()
+    val isLoginSuccess = viewModel.isLoginSuccess.collectAsState()
+    val hasError = viewModel.hasError.collectAsState()
 
-        LaunchedEffect(Unit) {
-            viewModel.login()
-        }
-        LaunchedEffect(isLoginSuccess.value) {
-            if (isLoginSuccess.value) {
-                navigator?.replace(SelectProjectScreen())
+    LaunchedEffect(Unit) {
+        viewModel.login()
+    }
+    LaunchedEffect(isLoginSuccess.value) {
+        if (isLoginSuccess.value) {
+            navController.navigate("select_project") {
+                popUpTo("auth") { inclusive = true }
             }
         }
+    }
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center

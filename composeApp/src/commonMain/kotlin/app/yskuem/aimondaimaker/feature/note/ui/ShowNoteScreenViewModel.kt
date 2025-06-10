@@ -7,8 +7,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +21,7 @@ class ShowNoteScreenViewModel(
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
-) : ScreenModel {
+) : DefaultScreenModel() {
 
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)

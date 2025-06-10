@@ -2,8 +2,7 @@ package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import dev.icerock.moko.permissions.DeniedAlwaysException
 import dev.icerock.moko.permissions.DeniedException
 import dev.icerock.moko.permissions.Permission
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class CameraPermissionViewModel(
     private val permissionsController: PermissionsController
-) : ScreenModel {
+) : DefaultScreenModel() {
 
     private val _state = MutableStateFlow(CameraPermissionState(UiPermissionState.INITIAL))
     val state = _state.asStateFlow()

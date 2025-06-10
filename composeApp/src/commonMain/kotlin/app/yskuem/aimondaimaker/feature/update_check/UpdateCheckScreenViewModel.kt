@@ -5,8 +5,7 @@ import app.yskuem.aimondaimaker.core.util.OpenUrl
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
 import app.yskuem.aimondaimaker.domain.usecase.CheckUpdateUseCase
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -15,7 +14,7 @@ class UpdateCheckScreenViewModel(
     private val checkUpdateUseCase: CheckUpdateUseCase,
     private val openUrl: OpenUrl,
     private val versionRepository: VersionRepository,
-): ScreenModel {
+): DefaultScreenModel() {
     private val _updateStatus = MutableStateFlow<DataUiState<CheckUpdateStatus>>(
         DataUiState.Loading
     )

@@ -7,8 +7,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +20,7 @@ class ShowQuizScreenViewModel(
     private val quizRepository: QuizRepository,
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
-) : ScreenModel {
+) : DefaultScreenModel() {
 
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
