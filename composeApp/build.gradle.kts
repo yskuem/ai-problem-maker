@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -17,6 +18,9 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
+    val name = "ComposeApp"
+    val xcf = XCFramework(name)
     
     listOf(
         iosX64(),
@@ -24,9 +28,10 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            freeCompilerArgs += listOf("-Xbinary=bundleId=app.yskuem.aimondaimaker")
+            baseName = name
+            binaryOption("bundleId", "app.yskuem.aimondaimaker")
             isStatic = true
+            xcf.add(this)
         }
     }
     
