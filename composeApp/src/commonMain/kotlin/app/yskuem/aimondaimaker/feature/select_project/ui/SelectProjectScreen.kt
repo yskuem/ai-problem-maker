@@ -293,8 +293,9 @@ class SelectProjectScreen : Screen {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(50.dp),
-                                    contentAlignment = Alignment.Center
+                                        .height(50.dp)
+                                        .background(color = Color.White),
+                                    contentAlignment = Alignment.Center,
                                 ) {
                                     BannerAd(
                                         adUnitId = getAdmobBannerId(),
