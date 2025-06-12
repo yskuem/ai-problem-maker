@@ -1,8 +1,10 @@
-# .github/workflows/auto-lint-fix.yml
+
 name: Auto Lint Fix
 
 on:
   push:
+    branches:
+      - develop
     branches-ignore:
       - 'lint-auto/**'
   workflow_dispatch:
@@ -15,12 +17,9 @@ permissions:
 jobs:
   lint-and-pr:
     runs-on: macos-latest
-
-
     concurrency:
-      group: lint-auto-${{ github.ref_name }}
+      group: lint-auto-develop
       cancel-in-progress: false
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,12 +43,13 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: 'chore(format): apply lint fixes'
-          branch: lint-auto/${{ github.ref_name }}
-          title: 'chore(format): apply lint fixes for ${{ github.ref_name }}'
+          branch: lint-auto/develop
+          title: 'chore(format): apply lint fixes for develop'
           body: |
-            🤖 Automated lint fixes for `${{ github.ref_name }}` by GitHub Actions  
-            - Kotlin: ktlint `-F`  
+            🤖 Automated lint fixes for develop by GitHub Actions  
+            - Kotlin: ktlint -F  
             - Swift/Obj-C: swiftformat
-          base: ${{ github.ref_name }}
+          base: develop
           labels: auto-format
           draft: false
+
