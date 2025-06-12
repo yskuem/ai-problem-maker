@@ -1,12 +1,10 @@
-
 name: Auto Lint Fix
 
 on:
   push:
     branches:
       - develop
-    branches-ignore:
-      - 'lint-auto/**'
+      - '!lint-auto/**'
   workflow_dispatch:
 
 permissions:
@@ -52,4 +50,3 @@ jobs:
           base: develop
           labels: auto-format
           draft: false
-
