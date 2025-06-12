@@ -1,0 +1,55 @@
+# .github/workflows/auto-lint-fix.yml
+name: Auto Lint Fix
+
+on:
+  push:
+    branches-ignore:
+      - 'lint-auto/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  lint-and-pr:
+    runs-on: macos-latest
+
+
+    concurrency:
+      group: lint-auto-${{ github.ref_name }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install linters
+        run: |
+          brew update --quiet
+          brew install --quiet ktlint swiftformat
+
+      - name: Run ktlint
+        run: ktlint -F "**/*.kt"
+        continue-on-error: true
+
+      - name: Run swiftformat
+        run: swiftformat .
+        continue-on-error: true
+
+      - name: Create or update PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'chore(format): apply lint fixes'
+          branch: lint-auto/${{ github.ref_name }}
+          title: 'chore(format): apply lint fixes for ${{ github.ref_name }}'
+          body: |
+            🤖 Automated lint fixes for `${{ github.ref_name }}` by GitHub Actions  
+            - Kotlin: ktlint `-F`  
+            - Swift/Obj-C: swiftformat
+          base: ${{ github.ref_name }}
+          labels: auto-format
+          draft: false

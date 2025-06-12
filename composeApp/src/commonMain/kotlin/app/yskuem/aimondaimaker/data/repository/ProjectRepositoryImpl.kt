@@ -17,16 +17,16 @@ class ProjectRepositoryImpl(
     private val authRepository: AuthRepository,
     private val supabaseClientHelper: SupabaseClientHelper,
 ) : ProjectRepository {
-
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun addProject(projectName: String): Project {
-        val project = Project(
-            id = Uuid.random().toString(),
-            createdUserId = authRepository.getUserId(),
-            updatedAt = Clock.System.now(),
-            createdAt = Clock.System.now(),
-            name = projectName,
-        )
+        val project =
+            Project(
+                id = Uuid.random().toString(),
+                createdUserId = authRepository.getUserId(),
+                updatedAt = Clock.System.now(),
+                createdAt = Clock.System.now(),
+                name = projectName,
+            )
         supabaseClientHelper.addItem<ProjectDto>(
             tableName = SupabaseTableName.Project.NAME,
             item = project.toDTO(),
@@ -34,28 +34,25 @@ class ProjectRepositoryImpl(
         return project
     }
 
-
     override suspend fun fetchProjectList(): List<Project> {
-        val res = supabaseClientHelper.fetchListByMatchValue<ProjectDto>(
-            tableName = SupabaseTableName.Project.NAME,
-            filterCol = SupabaseColumnName.Project.CREATE_USER_ID,
-            filterVal = authRepository.getUserId(),
-            orderCol = SupabaseColumnName.CREATED_AT,
-        )
+        val res =
+            supabaseClientHelper.fetchListByMatchValue<ProjectDto>(
+                tableName = SupabaseTableName.Project.NAME,
+                filterCol = SupabaseColumnName.Project.CREATE_USER_ID,
+                filterVal = authRepository.getUserId(),
+                orderCol = SupabaseColumnName.CREATED_AT,
+            )
         return res.map { it.toDomain() }
     }
 
-
-    override suspend fun updateProject(
-        targetProject: Project,
-    ): Project? {
-        val res = supabaseClientHelper.updateItemById<ProjectDto>(
-            tableName = SupabaseTableName.Project.NAME,
-            idCol = SupabaseColumnName.Project.ID,
-            idVal = targetProject.id,
-            changes = targetProject.toDTO()
-        )
+    override suspend fun updateProject(targetProject: Project): Project? {
+        val res =
+            supabaseClientHelper.updateItemById<ProjectDto>(
+                tableName = SupabaseTableName.Project.NAME,
+                idCol = SupabaseColumnName.Project.ID,
+                idVal = targetProject.id,
+                changes = targetProject.toDTO(),
+            )
         return res?.toDomain()
     }
-
 }

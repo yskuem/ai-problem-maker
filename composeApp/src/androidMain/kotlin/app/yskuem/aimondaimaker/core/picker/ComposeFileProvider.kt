@@ -7,17 +7,22 @@ import app.yskuem.aimondaimaker.R
 import java.io.File
 import java.util.Objects
 
-class ComposeFileProvider : FileProvider(
-    R.xml.path_provider
-) {
+class ComposeFileProvider :
+    FileProvider(
+        R.xml.path_provider,
+    ) {
     companion object {
         fun getImageUri(context: Context): Uri {
             // 1
-            val tempFile = File.createTempFile(
-                "picture_${System.currentTimeMillis()}", ".png", context.cacheDir
-            ).apply {
-                createNewFile()
-            }
+            val tempFile =
+                File
+                    .createTempFile(
+                        "picture_${System.currentTimeMillis()}",
+                        ".png",
+                        context.cacheDir,
+                    ).apply {
+                        createNewFile()
+                    }
             // 2
             val authority = context.applicationContext.packageName + ".provider"
             // 3

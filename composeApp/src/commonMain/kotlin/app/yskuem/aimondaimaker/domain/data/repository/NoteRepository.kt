@@ -2,9 +2,7 @@ package app.yskuem.aimondaimaker.domain.data.repository
 
 import app.yskuem.aimondaimaker.domain.entity.Note
 
-
 interface NoteRepository {
-
     /**
      * ノートを画像から作成
      */
@@ -17,10 +15,7 @@ interface NoteRepository {
     /**
      * プロジェクトのノートの取得
      */
-    suspend fun fetchNotes(
-        projectId: String,
-    ): List<Note>
-
+    suspend fun fetchNotes(projectId: String): List<Note>
 
     /**
      * ノートの保存

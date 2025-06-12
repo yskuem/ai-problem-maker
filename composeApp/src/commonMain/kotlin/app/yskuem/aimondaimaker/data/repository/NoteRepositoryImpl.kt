@@ -14,38 +14,45 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 
 class NoteRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
-): NoteRepository {
+) : NoteRepository {
     override suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
-        extension: String
+        extension: String,
     ): Note {
-        val response = HttpClient.postWithImage<NoteApiDto>(
-            imageBytes = image,
-            fileName = fileName,
-            extension = extension,
-            path = "/generate_note"
-        )
+        val response =
+            HttpClient.postWithImage<NoteApiDto>(
+                imageBytes = image,
+                fileName = fileName,
+                extension = extension,
+                path = "/generate_note",
+            )
         return response.toDomain()
     }
 
     override suspend fun fetchNotes(projectId: String): List<Note> {
-        val res = supabaseClientHelper.fetchListByMatchValue<NoteSupabaseDto>(
-            tableName = SupabaseTableName.Note.NAME,
-            filterCol = SupabaseColumnName.PROJECT_ID,
-            filterVal = projectId,
-            orderCol = SupabaseColumnName.CREATED_AT,
-        )
+        val res =
+            supabaseClientHelper.fetchListByMatchValue<NoteSupabaseDto>(
+                tableName = SupabaseTableName.Note.NAME,
+                filterCol = SupabaseColumnName.PROJECT_ID,
+                filterVal = projectId,
+                orderCol = SupabaseColumnName.CREATED_AT,
+            )
         return res.map { it.toDomain() }
     }
 
-    override suspend fun saveNote(note: Note, projectId: String, userId: String) {
+    override suspend fun saveNote(
+        note: Note,
+        projectId: String,
+        userId: String,
+    ) {
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.Note.NAME,
-            item = note.toDTO(
-                projectId = projectId,
-                createdUserId = userId,
-            ),
+            item =
+                note.toDTO(
+                    projectId = projectId,
+                    createdUserId = userId,
+                ),
         )
     }
 }

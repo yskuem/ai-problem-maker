@@ -7,4 +7,3 @@ data class QuizUiState(
     val quizList: DataUiState<List<Quiz>> = DataUiState.Loading,
     val currentQuizListIndex: Int = 0,
 )
-

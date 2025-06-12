@@ -15,31 +15,32 @@ class UpdateCheckScreenViewModel(
     private val checkUpdateUseCase: CheckUpdateUseCase,
     private val openUrl: OpenUrl,
     private val versionRepository: VersionRepository,
-): ScreenModel {
-    private val _updateStatus = MutableStateFlow<DataUiState<CheckUpdateStatus>>(
-        DataUiState.Loading
-    )
+) : ScreenModel {
+    private val _updateStatus =
+        MutableStateFlow<DataUiState<CheckUpdateStatus>>(
+            DataUiState.Loading,
+        )
     val updateState = _updateStatus.asStateFlow()
-
 
     fun checkUpdate() {
         screenModelScope.launch {
-            val res = runCatching {
-                checkUpdateUseCase.checkUpdate()
-            }
-            res.onSuccess {
-                _updateStatus.emit(DataUiState.Success(it))
-            }
-            .onFailure {
-                println("あああ${it}")
-            }
+            val res =
+                runCatching {
+                    checkUpdateUseCase.checkUpdate()
+                }
+            res
+                .onSuccess {
+                    _updateStatus.emit(DataUiState.Success(it))
+                }.onFailure {
+                    println("あああ$it")
+                }
         }
     }
 
     fun openStorePage() {
         screenModelScope.launch {
             openUrl.handle(
-                url = versionRepository.fetchStoreUrl()
+                url = versionRepository.fetchStoreUrl(),
             )
         }
     }
