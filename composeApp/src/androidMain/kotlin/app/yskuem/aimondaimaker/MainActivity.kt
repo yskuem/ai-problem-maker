@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
             App()
         }
     }
+
     companion object {
         lateinit var instance: MainActivity
             private set

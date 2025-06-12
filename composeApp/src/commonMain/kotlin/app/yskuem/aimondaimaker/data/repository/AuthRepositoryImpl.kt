@@ -6,8 +6,8 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.user.UserInfo
 
 class AuthRepositoryImpl(
-    private val supabaseClient: SupabaseClient
-): AuthRepository {
+    private val supabaseClient: SupabaseClient,
+) : AuthRepository {
     override suspend fun signInAnonymous() {
         supabaseClient.auth.signInAnonymously()
     }

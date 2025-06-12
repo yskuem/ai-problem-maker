@@ -3,7 +3,6 @@ package app.yskuem.aimondaimaker.core.util
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 
-
 class IosOpenUrl : OpenUrl {
     override fun handle(url: String) {
         val nsUrl = NSURL(string = url)
@@ -12,7 +11,7 @@ class IosOpenUrl : OpenUrl {
             .openURL(
                 nsUrl,
                 options = emptyMap<Any?, Any?>(),
-                completionHandler = null
+                completionHandler = null,
             )
     }
 }

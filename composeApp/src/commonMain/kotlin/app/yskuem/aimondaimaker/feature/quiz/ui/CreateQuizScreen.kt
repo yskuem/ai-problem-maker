@@ -19,11 +19,11 @@ data class CreateQuizScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String,
-    val projectId: String? = null
-): Screen {
+    val projectId: String? = null,
+) : Screen {
     @Composable
     override fun Content() {
-        val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
+        val viewmodel = koinScreenModel<ShowQuizScreenViewModel>()
         val state by viewmodel.uiState.collectAsState()
         val navigator = LocalNavigator.current
 
@@ -32,7 +32,7 @@ data class CreateQuizScreen(
                 imageByte = imageByte,
                 fileName = fileName,
                 extension = extension,
-                projectId = projectId
+                projectId = projectId,
             )
         }
 
@@ -40,13 +40,13 @@ data class CreateQuizScreen(
             viewmodel.showInterstitialAd()
         }
 
-        when(val quizList = state.quizList) {
+        when (val quizList = state.quizList) {
             is DataUiState.Error -> {
                 Text(quizList.throwable.toString())
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
-                    loadingTitle = stringResource(Res.string.quiz_generating)
+                    loadingTitle = stringResource(Res.string.quiz_generating),
                 )
             }
             is DataUiState.Success -> {
@@ -77,4 +77,3 @@ data class CreateQuizScreen(
         return result
     }
 }
-

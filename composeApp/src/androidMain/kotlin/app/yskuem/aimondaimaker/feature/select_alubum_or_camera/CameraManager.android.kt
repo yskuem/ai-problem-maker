@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
-
 import android.content.ContentResolver
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,28 +18,29 @@ actual fun rememberCameraManager(onResult: (SharedImage?) -> Unit): CameraManage
     val context = LocalContext.current
     val contentResolver: ContentResolver = context.contentResolver
     var tempPhotoUri by remember { mutableStateOf(value = Uri.EMPTY) }
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture(),
-        onResult = { success ->
-            if (success) {
-                onResult.invoke(SharedImage(BitmapUtils.getBitmapFromUri(tempPhotoUri, contentResolver)))
-            } else {
-                onResult.invoke(null)
-            }
-        },
-    )
+    val cameraLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.TakePicture(),
+            onResult = { success ->
+                if (success) {
+                    onResult.invoke(SharedImage(BitmapUtils.getBitmapFromUri(tempPhotoUri, contentResolver)))
+                } else {
+                    onResult.invoke(null)
+                }
+            },
+        )
     return remember {
         CameraManager(
             onLaunch = {
                 tempPhotoUri = ComposeFileProvider.getImageUri(context)
                 cameraLauncher.launch(tempPhotoUri)
-            }
+            },
         )
     }
 }
 
 actual class CameraManager actual constructor(
-    private val onLaunch: () -> Unit
+    private val onLaunch: () -> Unit,
 ) {
     actual fun launch() {
         onLaunch()

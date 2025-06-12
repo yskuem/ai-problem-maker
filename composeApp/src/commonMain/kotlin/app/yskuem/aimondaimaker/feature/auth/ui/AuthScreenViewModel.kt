@@ -16,7 +16,7 @@ class AuthScreenViewModel(
     private val userRepository: UserRepository,
     private val userDataStore: UserDataStore,
     private val checkUpdateUseCase: CheckUpdateUseCase,
-): ScreenModel {
+) : ScreenModel {
     private val _hasError = MutableStateFlow(false)
     private val _isLoginSuccess = MutableStateFlow(false)
     val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
@@ -24,21 +24,23 @@ class AuthScreenViewModel(
 
     fun login() {
         screenModelScope.launch {
-            val result = runCatching {
-                val currentUser = authRepository.getUser()
-                if (currentUser == null) {
-                    authRepository.signInAnonymous()
-                    userRepository.saveUser()
+            val result =
+                runCatching {
+                    val currentUser = authRepository.getUser()
+                    if (currentUser == null) {
+                        authRepository.signInAnonymous()
+                        userRepository.saveUser()
+                    }
+                    println("Login successful: ${authRepository.getUserId()}")
                 }
-                println("Login successful: ${authRepository.getUserId()}")
-            }
-            result.onSuccess {
-                _isLoginSuccess.value = true
-                println("Login successful")
-            }.onFailure {
-                _hasError.value = true
-                println("Login failed: ${it.message}")
-            }
+            result
+                .onSuccess {
+                    _isLoginSuccess.value = true
+                    println("Login successful")
+                }.onFailure {
+                    _hasError.value = true
+                    println("Login failed: ${it.message}")
+                }
         }
     }
 }
