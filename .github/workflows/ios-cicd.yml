@@ -1,0 +1,72 @@
+# .github/workflows/gen-app-configs.yml
+name: GenAppConfigs
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: macos-latest
+    env:
+      ADMOB_INTERSTITIAL_ID:      ${{ secrets.ADMOB_INTERSTITIAL_ID }}
+      ADMOB_BANNER_ID:            ${{ secrets.ADMOB_BANNER_ID }}
+      SUPABASE_URL:               ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON:              ${{ secrets.SUPABASE_ANON }}
+      GAD_APPLICATION_IDENTIFIER: ${{ secrets.GAD_APPLICATION_IDENTIFIER }}
+      GOOGLE_SERVICE_INFO_PLIST:  ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------- Kotlin: AdMob ----------
+      - name: Generate AdmobIosProdConfigs.kt
+        run: |
+          FILE=composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobIosProdConfigs.kt
+          mkdir -p "$(dirname "$FILE")"
+          cat > "$FILE" <<EOF
+          package app.yskuem.aimondaimaker.feature.ad.config
+
+          object AdmobIosProdConfigs {
+              const val INTERSTITIAL_ID: String = "$ADMOB_INTERSTITIAL_ID"
+              const val BANNER_ID: String       = "$ADMOB_BANNER_ID"
+          }
+          EOF
+
+      # ---------- Kotlin: Supabase ----------
+      - name: Generate SupabaseProdSettings.kt
+        run: |
+          FILE=composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/data/supabase/config/SupabaseProdSettings.kt
+          mkdir -p "$(dirname "$FILE")"
+          cat > "$FILE" <<EOF
+          package app.yskuem.aimondaimaker.data.supabase.config
+
+          object SupabaseProdSettings {
+              const val URL  = "$SUPABASE_URL"
+              const val ANON = "$SUPABASE_ANON"
+          }
+          EOF
+
+      # ---------- iOS xcconfig ----------
+      - name: Generate Config.xcconfig
+        run: |
+          FILE=iosApp/Configuration/Release.xcconfig
+          mkdir -p "$(dirname "$FILE")"
+          cat > "$FILE" <<EOF
+          FLAVOR=prod
+          GAD_APPLICATION_IDENTIFIER=$GAD_APPLICATION_IDENTIFIER
+          BUNDLE_ID=app.yskuem.aimondaimaker
+          APP_NAME=PixStudy
+          EOF
+
+      # ---------- GoogleService-Info ----------
+      - name: Generate GoogleService-Info.plist
+        run: |
+          FILE=iosApp/GoogleService/prod/GoogleService-Info.plist
+          mkdir -p "$(dirname "$FILE")"
+          echo "$GOOGLE_SERVICE_INFO_PLIST" | base64 --decode > "$FILE"
+
+      # ---------- Build (XCFramework) ----------
+      - name: Build iOS XCFramework
+        run: ./gradlew :composeApp:assembleComposeAppReleaseXCFramework
+
