@@ -17,20 +17,20 @@ import kotlinx.datetime.Clock
 
 class QuizRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
-): QuizRepository {
-
+) : QuizRepository {
     override suspend fun generateFromImage(
         image: ByteArray,
         fileName: String,
         extension: String,
     ): List<Quiz> {
-        val response = HttpClient.postWithImage<List<QuizApiDto>>(
-            imageBytes = image,
-            fileName = fileName,
-            extension = extension,
-            path = "/generate_quizzes"
-        )
-        if(response.isEmpty()) {
+        val response =
+            HttpClient.postWithImage<List<QuizApiDto>>(
+                imageBytes = image,
+                fileName = fileName,
+                extension = extension,
+                path = "/generate_quizzes",
+            )
+        if (response.isEmpty()) {
             throw IllegalStateException("Response is empty")
         }
         return response.map { it.toDomain() }
@@ -42,27 +42,29 @@ class QuizRepositoryImpl(
         groupId: String,
         quizTitle: String,
     ) {
-        val quizInfo = QuizInfo(
-            projectId = projectId,
-            groupId = groupId,
-            name = quizTitle,
-            createdAt = Clock.System.now(),
-            updatedAt = Clock.System.now(),
-            createdUserId = userId,
-        )
+        val quizInfo =
+            QuizInfo(
+                projectId = projectId,
+                groupId = groupId,
+                name = quizTitle,
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+                createdUserId = userId,
+            )
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.QuizInfo.NAME,
-            item = quizInfo.toDTO()
+            item = quizInfo.toDTO(),
         )
     }
 
     override suspend fun fetchAnsweredQuizzes(groupId: String): List<Quiz> {
-        val res = supabaseClientHelper.fetchListByMatchValue<QuizSupabaseDto>(
-            tableName = SupabaseTableName.Quiz.NAME,
-            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
-            filterVal = groupId,
-            orderCol = SupabaseColumnName.CREATED_AT,
-        )
+        val res =
+            supabaseClientHelper.fetchListByMatchValue<QuizSupabaseDto>(
+                tableName = SupabaseTableName.Quiz.NAME,
+                filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+                filterVal = groupId,
+                orderCol = SupabaseColumnName.CREATED_AT,
+            )
         return res.map { it.toDomain() }
     }
 
@@ -71,27 +73,26 @@ class QuizRepositoryImpl(
         projectId: String,
         userId: String,
     ) {
-        val upLoadQuiz = quiz.copy(
-            projectId = projectId,
-            createdUserId = userId,
-            groupId = quiz.groupId,
-        )
+        val upLoadQuiz =
+            quiz.copy(
+                projectId = projectId,
+                createdUserId = userId,
+                groupId = quiz.groupId,
+            )
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.Quiz.NAME,
-            item = upLoadQuiz.toDTO()
+            item = upLoadQuiz.toDTO(),
         )
     }
 
-    override suspend fun fetchQuizInfoList(
-        projectId: String,
-    ): List<QuizInfo> {
-        val res =  supabaseClientHelper.fetchListByMatchValue<QuizInfoDto>(
-            tableName = SupabaseTableName.QuizInfo.NAME,
-            filterCol = SupabaseColumnName.PROJECT_ID,
-            filterVal = projectId,
-            orderCol = SupabaseColumnName.UPDATED_AT,
-        )
+    override suspend fun fetchQuizInfoList(projectId: String): List<QuizInfo> {
+        val res =
+            supabaseClientHelper.fetchListByMatchValue<QuizInfoDto>(
+                tableName = SupabaseTableName.QuizInfo.NAME,
+                filterCol = SupabaseColumnName.PROJECT_ID,
+                filterVal = projectId,
+                orderCol = SupabaseColumnName.UPDATED_AT,
+            )
         return res.map { it.toDomain() }
     }
-
 }

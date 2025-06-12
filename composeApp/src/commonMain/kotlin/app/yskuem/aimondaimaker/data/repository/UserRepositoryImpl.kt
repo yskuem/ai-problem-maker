@@ -14,9 +14,11 @@ class UserRepositoryImpl(
     override suspend fun saveUser() {
         supabaseClientHelper.addItem(
             tableName = SupabaseTableName.User.NAME,
-            item = User.initialState(
-                id = authRepository.getUserId()
-            ).toDTO()
+            item =
+                User
+                    .initialState(
+                        id = authRepository.getUserId(),
+                    ).toDTO(),
         )
     }
 }

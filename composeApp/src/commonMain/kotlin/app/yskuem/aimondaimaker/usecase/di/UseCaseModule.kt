@@ -6,15 +6,16 @@ import app.yskuem.aimondaimaker.usecase.AdUseCaseImpl
 import app.yskuem.aimondaimaker.usecase.CheckUpdateUseCaseImpl
 import org.koin.dsl.module
 
-val useCaseModule = module {
-    single<AdUseCase> {
-        AdUseCaseImpl(
-            adRepository = get(),
-        )
+val useCaseModule =
+    module {
+        single<AdUseCase> {
+            AdUseCaseImpl(
+                adRepository = get(),
+            )
+        }
+        single<CheckUpdateUseCase> {
+            CheckUpdateUseCaseImpl(
+                versionRepository = get(),
+            )
+        }
     }
-    single<CheckUpdateUseCase> {
-        CheckUpdateUseCaseImpl(
-            versionRepository = get(),
-        )
-    }
-}

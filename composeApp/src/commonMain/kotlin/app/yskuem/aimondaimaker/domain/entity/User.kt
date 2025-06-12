@@ -11,12 +11,13 @@ data class User(
     val updatedAt: Instant,
 ) {
     companion object {
-        fun initialState(id: String): User = User(
-            id = id,
-            name = "",
-            avatarUrl = "",
-            createdAt = Clock.System.now(),
-            updatedAt = Clock.System.now()
-        )
+        fun initialState(id: String): User =
+            User(
+                id = id,
+                name = "",
+                avatarUrl = "",
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+            )
     }
 }

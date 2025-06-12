@@ -16,46 +16,46 @@ import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import org.koin.dsl.module
 
-val repositoryModule = module {
-     single<QuizRepository> {
-         QuizRepositoryImpl(
-             supabaseClientHelper = get(),
-         )
-     }
-    single<AuthRepository> {
-        AuthRepositoryImpl(
-            supabaseClient = get(),
-        )
+val repositoryModule =
+    module {
+        single<QuizRepository> {
+            QuizRepositoryImpl(
+                supabaseClientHelper = get(),
+            )
+        }
+        single<AuthRepository> {
+            AuthRepositoryImpl(
+                supabaseClient = get(),
+            )
+        }
+        single<NoteRepository> {
+            NoteRepositoryImpl(
+                supabaseClientHelper = get(),
+            )
+        }
+        single<ProjectRepository> {
+            ProjectRepositoryImpl(
+                authRepository = get(),
+                supabaseClientHelper = get(),
+            )
+        }
+        single<UserRepository> {
+            UserRepositoryImpl(
+                supabaseClientHelper = get(),
+                authRepository = get(),
+            )
+        }
+        single<AdRepository> {
+            AdRepositoryImpl(
+                contextFactory = ContextFactory(),
+            )
+        }
+        single<VersionRepository> {
+            VersionRepositoryImpl(
+                remoteConfig = Firebase.remoteConfig,
+            )
+        }
     }
-    single<NoteRepository> {
-        NoteRepositoryImpl(
-            supabaseClientHelper = get(),
-        )
-    }
-    single<ProjectRepository> {
-        ProjectRepositoryImpl(
-            authRepository = get(),
-            supabaseClientHelper = get(),
-        )
-    }
-    single<UserRepository> {
-        UserRepositoryImpl(
-            supabaseClientHelper = get(),
-            authRepository = get(),
-        )
-    }
-    single<AdRepository> {
-        AdRepositoryImpl(
-            contextFactory = ContextFactory()
-        )
-    }
-    single<VersionRepository> {
-        VersionRepositoryImpl(
-            remoteConfig = Firebase.remoteConfig
-        )
-    }
-}

@@ -9,54 +9,55 @@ import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreenV
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreenViewModel
 import org.koin.dsl.module
 
-val viewModelModule = module {
-    factory {
-        AuthScreenViewModel(
-            authRepository = get(),
-            userRepository = get(),
-            userDataStore = get(),
-            checkUpdateUseCase = get(),
-        )
+val viewModelModule =
+    module {
+        factory {
+            AuthScreenViewModel(
+                authRepository = get(),
+                userRepository = get(),
+                userDataStore = get(),
+                checkUpdateUseCase = get(),
+            )
+        }
+        factory {
+            ShowQuizScreenViewModel(
+                quizRepository = get(),
+                authRepository = get(),
+                projectRepository = get(),
+                adUseCase = get(),
+            )
+        }
+        factory {
+            ShowNoteScreenViewModel(
+                noteRepository = get(),
+                authRepository = get(),
+                projectRepository = get(),
+                adUseCase = get(),
+            )
+        }
+        factory {
+            SelectAlbumOrCameraViewModel(
+                imagePicker = get(),
+            )
+        }
+        factory {
+            SelectProjectScreenViewModel(
+                projectRepository = get(),
+                adRepository = get(),
+            )
+        }
+        factory { (projectId: String) ->
+            ShowProjectInfoScreenViewModel(
+                quizRepository = get(),
+                noteRepository = get(),
+                projectId = projectId,
+            )
+        }
+        factory {
+            UpdateCheckScreenViewModel(
+                checkUpdateUseCase = get(),
+                openUrl = get(),
+                versionRepository = get(),
+            )
+        }
     }
-    factory {
-        ShowQuizScreenViewModel(
-            quizRepository = get(),
-            authRepository = get(),
-            projectRepository = get(),
-            adUseCase = get(),
-        )
-    }
-    factory {
-        ShowNoteScreenViewModel(
-            noteRepository = get(),
-            authRepository = get(),
-            projectRepository = get(),
-            adUseCase = get(),
-        )
-    }
-    factory {
-        SelectAlbumOrCameraViewModel(
-            imagePicker = get(),
-        )
-    }
-    factory {
-        SelectProjectScreenViewModel(
-            projectRepository = get(),
-            adRepository = get(),
-        )
-    }
-    factory { (projectId: String) ->
-        ShowProjectInfoScreenViewModel(
-            quizRepository = get(),
-            noteRepository = get(),
-            projectId = projectId,
-        )
-    }
-    factory {
-        UpdateCheckScreenViewModel(
-            checkUpdateUseCase = get(),
-            openUrl = get(),
-            versionRepository = get(),
-        )
-    }
-}

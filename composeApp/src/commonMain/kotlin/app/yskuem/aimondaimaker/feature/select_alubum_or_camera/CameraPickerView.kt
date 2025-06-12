@@ -15,29 +15,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
-fun CameraPickerView(
-    upLoadImage: (ByteArray) -> Unit
-) {
+fun CameraPickerView(upLoadImage: (ByteArray) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
     val navigator = LocalNavigator.current
     val isLoading = remember { mutableStateOf(false) }
     val hasError = remember { mutableStateOf(false) }
-    val cameraManager = rememberCameraManager {
-        coroutineScope.launch {
-            isLoading.value = true
-            val bytes = withContext(Dispatchers.Default) {
-                it?.toByteArray()
+    val cameraManager =
+        rememberCameraManager {
+            coroutineScope.launch {
+                isLoading.value = true
+                val bytes =
+                    withContext(Dispatchers.Default) {
+                        it?.toByteArray()
+                    }
+                if (bytes == null) {
+                    navigator?.pop()
+                    return@launch
+                }
+                upLoadImage(bytes)
+                isLoading.value = false
             }
-            if (bytes == null) {
-                navigator?.pop()
-                return@launch
-            }
-            upLoadImage(bytes)
-            isLoading.value = false
         }
-    }
 
     LaunchedEffect(Unit) {
         try {
@@ -51,7 +50,7 @@ fun CameraPickerView(
     }
     if (hasError.value) {
         ErrorScreen(
-            buttonText = stringResource(Res.string.back_to_pre_screen)
+            buttonText = stringResource(Res.string.back_to_pre_screen),
         ) {
             navigator?.pop()
         }

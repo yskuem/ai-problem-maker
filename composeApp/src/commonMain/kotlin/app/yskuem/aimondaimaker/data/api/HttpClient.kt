@@ -11,11 +11,11 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.http.*
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
-import kotlinx.serialization.json.Json
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.http.*
+import kotlinx.serialization.json.Json
 
 object HttpClient {
     private const val HOST = "ai-problem-maker-mu.vercel.app"
@@ -24,11 +24,13 @@ object HttpClient {
     val client: HttpClient by lazy {
         HttpClient(engine) {
             install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                    coerceInputValues = true
-                })
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                        coerceInputValues = true
+                    },
+                )
             }
             install(Logging) {
                 level = LogLevel.INFO
@@ -44,7 +46,7 @@ object HttpClient {
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTPS
-                    host     = HOST
+                    host = HOST
                 }
             }
         }
@@ -57,33 +59,38 @@ object HttpClient {
         path: String,
     ): T {
         // Determine ContentType based on extension
-        val contentType = when (extension.lowercase()) {
-            "png" -> ContentType.Image.PNG
-            "jpg", "jpeg" -> ContentType.Image.JPEG
-            "gif" -> ContentType.Image.GIF
-            "svg" -> ContentType.Image.SVG
-            "bmp" -> ContentType.parse("image/bmp")
-            else -> ContentType.Application.OctetStream
-        }
+        val contentType =
+            when (extension.lowercase()) {
+                "png" -> ContentType.Image.PNG
+                "jpg", "jpeg" -> ContentType.Image.JPEG
+                "gif" -> ContentType.Image.GIF
+                "svg" -> ContentType.Image.SVG
+                "bmp" -> ContentType.parse("image/bmp")
+                else -> ContentType.Application.OctetStream
+            }
 
-        return client.post(path) {
-            // Multipart/form-data body
-            setBody(
-                MultiPartFormDataContent(
-                    formData {
-                        append(
-                            key = "file",
-                            value = imageBytes,
-                            headers = Headers.build {
-                                // Name and filename set dynamically
-                                append(HttpHeaders.ContentDisposition, "form-data; name=\"file\"; filename=\"$fileName.$extension\"")
-                                append(HttpHeaders.ContentType, contentType.toString())
-                            }
-                        )
-                    }
+        return client
+            .post(path) {
+                // Multipart/form-data body
+                setBody(
+                    MultiPartFormDataContent(
+                        formData {
+                            append(
+                                key = "file",
+                                value = imageBytes,
+                                headers =
+                                    Headers.build {
+                                        // Name and filename set dynamically
+                                        append(
+                                            HttpHeaders.ContentDisposition,
+                                            "form-data; name=\"file\"; filename=\"$fileName.$extension\"",
+                                        )
+                                        append(HttpHeaders.ContentType, contentType.toString())
+                                    },
+                            )
+                        },
+                    ),
                 )
-            )
-        }.body()
+            }.body()
     }
 }
-

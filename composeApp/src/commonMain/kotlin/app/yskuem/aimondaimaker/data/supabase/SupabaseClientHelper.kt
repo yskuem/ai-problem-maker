@@ -7,9 +7,8 @@ import kotlinx.serialization.json.Json
 
 class SupabaseClientHelper(
     private val supabase: SupabaseClient,
-    private val json: Json
+    private val json: Json,
 ) {
-
     /**
      * テーブルに新しいアイテムを挿入します。
      *
@@ -20,12 +19,11 @@ class SupabaseClientHelper(
     internal suspend inline fun <reified T : Any> addItem(
         tableName: String,
         item: T,
-    ): String {
-        return supabase.from(tableName)
+    ): String =
+        supabase
+            .from(tableName)
             .insert<T>(item)
             .data
-    }
-
 
     /**
      * 指定したカラム(filterCol)が filterVal と一致するレコードを取得し、
@@ -41,16 +39,14 @@ class SupabaseClientHelper(
         tableName: String,
         filterCol: String,
         filterVal: String,
-        orderCol: String
-    ): List<T> {
-        return supabase
+        orderCol: String,
+    ): List<T> =
+        supabase
             .from(tableName)
             .select {
                 filter { eq(filterCol, filterVal) }
                 order(column = orderCol, order = Order.DESCENDING)
-            }
-            .decodeList<T>()
-    }
+            }.decodeList<T>()
 
     /**
      * 指定したカラム(filterCol)が filterVal と一致するレコードを
@@ -66,15 +62,13 @@ class SupabaseClientHelper(
         tableName: String,
         filterCol: String,
         filterVal: String,
-        changes: T
-    ): List<T> {
-        return supabase
+        changes: T,
+    ): List<T> =
+        supabase
             .from(tableName)
             .update<T>(changes) {
                 filter { eq(filterCol, filterVal) }
-            }
-            .decodeList<T>()
-    }
+            }.decodeList<T>()
 
     /**
      * 主キー(idCol)で一意にレコードを指定して、
@@ -90,14 +84,12 @@ class SupabaseClientHelper(
         tableName: String,
         idCol: String,
         idVal: String,
-        changes: T
-    ): T? {
-        return supabase
+        changes: T,
+    ): T? =
+        supabase
             .from(tableName)
             .update<T>(changes) {
                 select()
                 filter { eq(idCol, idVal) }
-            }
-            .decodeSingleOrNull<T>()
-    }
+            }.decodeSingleOrNull<T>()
 }

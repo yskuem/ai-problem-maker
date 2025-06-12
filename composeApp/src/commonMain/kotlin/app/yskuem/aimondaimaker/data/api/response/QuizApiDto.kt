@@ -3,8 +3,6 @@ package app.yskuem.aimondaimaker.data.api.response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
-
 @Serializable
 data class QuizApiDto(
     val id: String,
@@ -16,6 +14,3 @@ data class QuizApiDto(
     @SerialName("group_id")
     val groupId: String,
 )
-
-
-

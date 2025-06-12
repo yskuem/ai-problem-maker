@@ -11,38 +11,36 @@ import kotlin.time.Duration
 
 class VersionRepositoryImpl(
     private val remoteConfig: FirebaseRemoteConfig,
-): VersionRepository {
-    override suspend fun getCurrentAppVersion(): Version {
-        return Version(
-            getCurrentAppVersionString()
+) : VersionRepository {
+    override suspend fun getCurrentAppVersion(): Version =
+        Version(
+            getCurrentAppVersionString(),
         )
-    }
 
     override suspend fun fetchAndActivate() {
         remoteConfig.fetch(minimumFetchInterval = Duration.ZERO)
         remoteConfig.activate()
     }
 
-    override suspend fun fetchLastestAppVersion(): Version {
-        return Version(
-            remoteConfig.getValue(
-                getLastestVersionKey()
-            ).asString()
+    override suspend fun fetchLastestAppVersion(): Version =
+        Version(
+            remoteConfig
+                .getValue(
+                    getLastestVersionKey(),
+                ).asString(),
         )
-    }
 
-    override suspend fun fetchRequireMinVersion(): Version {
-        return Version(
-            remoteConfig.getValue(
-                getRequireMinVersionKey()
-            ).asString()
+    override suspend fun fetchRequireMinVersion(): Version =
+        Version(
+            remoteConfig
+                .getValue(
+                    getRequireMinVersionKey(),
+                ).asString(),
         )
-    }
 
-    override suspend fun fetchStoreUrl(): String {
-        return remoteConfig.getValue(
-            getStoreUrlKey()
-        ).asString()
-    }
-
+    override suspend fun fetchStoreUrl(): String =
+        remoteConfig
+            .getValue(
+                getStoreUrlKey(),
+            ).asString()
 }

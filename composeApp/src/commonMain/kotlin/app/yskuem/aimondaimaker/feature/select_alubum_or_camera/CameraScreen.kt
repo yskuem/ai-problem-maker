@@ -42,7 +42,7 @@ import org.koin.core.parameter.parametersOf
 
 data class CameraPermissionScreen(
     val mode: NavCreateMode,
-    val projectId: String? = null
+    val projectId: String? = null,
 ) : Screen {
     @Composable
     override fun Content() {
@@ -52,28 +52,29 @@ data class CameraPermissionScreen(
 
         BindEffect(permissionsController)
 
-        val viewModel: CameraPermissionViewModel = koinScreenModel<CameraPermissionViewModel>(
-            parameters = { parametersOf(permissionsController) }
-        )
+        val viewModel: CameraPermissionViewModel =
+            koinScreenModel<CameraPermissionViewModel>(
+                parameters = { parametersOf(permissionsController) },
+            )
         val state by viewModel.state.collectAsState()
         var hasPermissionAlready by rememberSaveable { mutableStateOf(false) }
         /*
-        * hasPermissionAlready can be take time to return the value as it is suspend
-        * so we should show place holder like CircularProgressIndicator
-        * */
+         * hasPermissionAlready can be take time to return the value as it is suspend
+         * so we should show place holder like CircularProgressIndicator
+         * */
         var isPermissionChecked by rememberSaveable { mutableStateOf(false) }
 
         val navigator = LocalNavigator.current
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
-            when(mode) {
+            when (mode) {
                 NavCreateMode.Note -> {
                     navigator?.push(
                         CreateNoteScreen(
                             imageByte = bytes,
                             extension = "jpg",
                             projectId = projectId,
-                        )
+                        ),
                     )
                 }
                 NavCreateMode.Quiz -> {
@@ -82,12 +83,11 @@ data class CameraPermissionScreen(
                             imageByte = bytes,
                             extension = "jpg",
                             projectId = projectId,
-                        )
+                        ),
                     )
                 }
             }
         }
-
 
         LaunchedEffect(Unit) {
             hasPermissionAlready = viewModel.checkIfHavePermission()
@@ -99,7 +99,7 @@ data class CameraPermissionScreen(
                 AnimatedContent(hasPermissionAlready) { hasPermission ->
                     if (hasPermission) {
                         CameraPickerView(
-                            upLoadImage = onImageReady
+                            upLoadImage = onImageReady,
                         )
                     } else {
                         CameraPermission(
@@ -107,7 +107,7 @@ data class CameraPermissionScreen(
                             onRequestPermission = viewModel::requestPermission,
                             openSettings = viewModel::openSettings,
                             onDismiss = viewModel::onDismissDialog,
-                            onImageReady = onImageReady
+                            onImageReady = onImageReady,
                         )
                     }
                 }
@@ -127,9 +127,8 @@ fun CameraPermission(
     onRequestPermission: () -> Unit,
     openSettings: () -> Unit,
     onDismiss: () -> Unit,
-    onImageReady: (ByteArray) -> Unit
+    onImageReady: (ByteArray) -> Unit,
 ) {
-
     LaunchedEffect(Unit) {
         if (state.uiPermissionState == UiPermissionState.INITIAL) {
             onRequestPermission()
@@ -140,31 +139,33 @@ fun CameraPermission(
         Column(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = "カメラのアクセスを許可してください。",
                 textAlign = TextAlign.Center,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 16.sp),
             )
         }
     }
 
     when {
-        state.uiPermissionState == UiPermissionState.GRANTED -> CameraPickerView(
-            upLoadImage = onImageReady
-        )
-        state.isAlwaysDeniedDialogVisible -> AlwaysDeniedDialog(
-            onOpenSettings = openSettings,
-            onDismiss = onDismiss
-        )
+        state.uiPermissionState == UiPermissionState.GRANTED ->
+            CameraPickerView(
+                upLoadImage = onImageReady,
+            )
+        state.isAlwaysDeniedDialogVisible ->
+            AlwaysDeniedDialog(
+                onOpenSettings = openSettings,
+                onDismiss = onDismiss,
+            )
     }
 }
 
 @Composable
 fun AlwaysDeniedDialog(
     onOpenSettings: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -172,7 +173,6 @@ fun AlwaysDeniedDialog(
             TextButton(onClick = {
                 onOpenSettings()
                 onDismiss()
-
             }) {
                 Text("Open app settings")
             }
@@ -183,7 +183,6 @@ fun AlwaysDeniedDialog(
             }
         },
         title = { Text(text = "Camera permission required") },
-        text = { Text("We need camera permission in order to use the camera") }
+        text = { Text("We need camera permission in order to use the camera") },
     )
-
 }
