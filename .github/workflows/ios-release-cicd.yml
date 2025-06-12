@@ -3,7 +3,12 @@ name: GenAppConfigs
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   generate:
@@ -70,3 +75,21 @@ jobs:
       - name: Build iOS XCFramework
         run: ./gradlew :composeApp:assembleComposeAppReleaseXCFramework
 
+      # ---------- iOS App ビルド・提出 ----------
+      - name: Set up Ruby & fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Run fastlane release
+        env:
+          ASC_KEY_ID:              ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID:           ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY_BASE64:  ${{ secrets.ASC_PRIVATE_KEY_BASE64 }}
+          ITC_TEAM_ID:             ${{ secrets.ITC_TEAM_ID }}
+          DEV_TEAM_ID:             ${{ secrets.DEV_TEAM_ID }}
+          MATCH_PASSWORD:          ${{ secrets.MATCH_PASSWORD }}
+        run: |
+          gem install fastlane -NV
+          fastlane ios release
