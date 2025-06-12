@@ -1,0 +1,37 @@
+name: Auto Lint Fix
+
+on:
+  push:
+    branches-ignore:
+      - 'lint-auto/**'
+
+jobs:
+  lint-and-pr:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install linters
+        run: |
+          brew update
+          brew install ktlint swiftformat
+
+      - name: Run ktlint
+        run: ktlint -F '**/*.kt'
+        continue-on-error: true
+
+      - name: Run swiftformat
+        run: swiftformat .
+        continue-on-error: true
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Apply lint fixes'
+          branch: lint-auto/${{ github.ref_name }}
+          title: 'Apply lint fixes for ${{ github.ref_name }}'
+          body: |
+            Automated lint fixes for `${{ github.ref_name }}` by GitHub Actions.
+          base: ${{ github.ref_name }}
