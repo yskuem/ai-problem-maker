@@ -18,11 +18,11 @@ data class CreateNoteScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String,
-    val projectId: String? = null
-): Screen {
+    val projectId: String? = null,
+) : Screen {
     @Composable
     override fun Content() {
-        val viewmodel = koinScreenModel<ShowNoteScreenViewModel> ()
+        val viewmodel = koinScreenModel<ShowNoteScreenViewModel>()
         val state by viewmodel.uiState.collectAsState()
         val navigator = LocalNavigator.current
 
@@ -39,13 +39,13 @@ data class CreateNoteScreen(
             viewmodel.showInterstitialAd()
         }
 
-        when(val result = state.note) {
+        when (val result = state.note) {
             is DataUiState.Error -> {
                 Text(result.throwable.toString())
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
-                    loadingTitle = stringResource(Res.string.note_generating)
+                    loadingTitle = stringResource(Res.string.note_generating),
                 )
             }
             is DataUiState.Success -> {
@@ -75,5 +75,4 @@ data class CreateNoteScreen(
         result = 31 * result + extension.hashCode()
         return result
     }
-
 }

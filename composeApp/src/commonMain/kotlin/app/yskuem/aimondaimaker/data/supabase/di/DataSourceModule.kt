@@ -8,27 +8,28 @@ import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-val supabaseModule = module {
-    single {
-        createSupabaseClient(
-            supabaseUrl = SupabaseConfigHelper.getSupabaseUrl(),
-            supabaseKey = SupabaseConfigHelper.getSupabaseAnonKey(),
-        ) {
-            install(Auth)
-            install(Postgrest)
+val supabaseModule =
+    module {
+        single {
+            createSupabaseClient(
+                supabaseUrl = SupabaseConfigHelper.getSupabaseUrl(),
+                supabaseKey = SupabaseConfigHelper.getSupabaseAnonKey(),
+            ) {
+                install(Auth)
+                install(Postgrest)
+            }
+        }
+        single<Json> {
+            Json {
+                ignoreUnknownKeys = true
+                prettyPrint = true
+                isLenient = true
+            }
+        }
+        single {
+            SupabaseClientHelper(
+                supabase = get(),
+                json = get(),
+            )
         }
     }
-    single<Json> {
-        Json {
-            ignoreUnknownKeys = true
-            prettyPrint = true
-            isLenient = true
-        }
-    }
-    single {
-        SupabaseClientHelper(
-            supabase = get(),
-            json = get()
-        )
-    }
-}

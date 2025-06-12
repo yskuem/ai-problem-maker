@@ -29,20 +29,22 @@ class ShowProjectInfoScreenViewModel(
         fetchQuizInfo()
     }
 
-
-    val uiState: StateFlow<ProjectInfoScreenState> = combine(
-        _quizInfoList, _noteList, _selectedTabIndex,
-    ) { quizInfoList, noteList, selectedTabIndex ->
-        ProjectInfoScreenState(
-            quizInfoList = quizInfoList,
-            noteList = noteList,
-            selectedTabIndex = selectedTabIndex,
+    val uiState: StateFlow<ProjectInfoScreenState> =
+        combine(
+            _quizInfoList,
+            _noteList,
+            _selectedTabIndex,
+        ) { quizInfoList, noteList, selectedTabIndex ->
+            ProjectInfoScreenState(
+                quizInfoList = quizInfoList,
+                noteList = noteList,
+                selectedTabIndex = selectedTabIndex,
+            )
+        }.stateIn(
+            scope = screenModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = ProjectInfoScreenState(),
         )
-    }.stateIn(
-        scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ProjectInfoScreenState()
-    )
 
     fun onTapQuizInfo(
         groupId: String,
@@ -52,53 +54,56 @@ class ShowProjectInfoScreenViewModel(
             val currentState = _quizInfoList.value
             _quizInfoList.value = DataUiState.Loading
 
-            val res = runCatching {
-                quizRepository.fetchAnsweredQuizzes(groupId = groupId)
-            }
-            res.onSuccess { quizList ->
-                navigator?.push(ShowAnsweredQuizzesScreen(quizList = quizList))
-                _quizInfoList.value = currentState
-            }.onFailure { exception ->
-                _quizInfoList.value = DataUiState.Error(exception)
-            }
+            val res =
+                runCatching {
+                    quizRepository.fetchAnsweredQuizzes(groupId = groupId)
+                }
+            res
+                .onSuccess { quizList ->
+                    navigator?.push(ShowAnsweredQuizzesScreen(quizList = quizList))
+                    _quizInfoList.value = currentState
+                }.onFailure { exception ->
+                    _quizInfoList.value = DataUiState.Error(exception)
+                }
         }
     }
 
     private fun fetchQuizInfo() {
         screenModelScope.launch {
-            val res = runCatching {
-                quizRepository.fetchQuizInfoList(
-                    projectId = projectId
-                )
-            }
-            res.onSuccess { quizInfoList ->
-                _quizInfoList.value = DataUiState.Success(quizInfoList)
-            }.onFailure { exception ->
-                _quizInfoList.value = DataUiState.Error(exception)
-            }
+            val res =
+                runCatching {
+                    quizRepository.fetchQuizInfoList(
+                        projectId = projectId,
+                    )
+                }
+            res
+                .onSuccess { quizInfoList ->
+                    _quizInfoList.value = DataUiState.Success(quizInfoList)
+                }.onFailure { exception ->
+                    _quizInfoList.value = DataUiState.Error(exception)
+                }
         }
     }
 
     private fun fetchNoteList() {
         screenModelScope.launch {
             // noteのfetchをする
-            val result = runCatching {
-                noteRepository.fetchNotes(projectId = projectId)
-            }
-            result.onSuccess { notes ->
-                _noteList.value = DataUiState.Success(data = notes)
-            }
-            .onFailure {
-                _noteList.value = DataUiState.Error(it)
-            }
+            val result =
+                runCatching {
+                    noteRepository.fetchNotes(projectId = projectId)
+                }
+            result
+                .onSuccess { notes ->
+                    _noteList.value = DataUiState.Success(data = notes)
+                }.onFailure {
+                    _noteList.value = DataUiState.Error(it)
+                }
         }
     }
 
-    fun onTapTab(
-        tabIndex: Int,
-    ) {
+    fun onTapTab(tabIndex: Int) {
         _selectedTabIndex.value = tabIndex
-        if(tabIndex != 0) {
+        if (tabIndex != 0) {
             fetchNoteList()
         }
     }

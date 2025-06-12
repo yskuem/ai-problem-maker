@@ -25,7 +25,7 @@ import kotlin.math.roundToInt
 enum class ToastPosition {
     TOP,
     BOTTOM,
-    CENTER
+    CENTER,
 }
 
 // パステル紫のカラーパレット
@@ -46,7 +46,7 @@ fun UpdateToast(
     onUpdate: () -> Unit = {},
     onDismiss: () -> Unit = {},
     duration: Long = 5000L,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var isVisible by remember { mutableStateOf(true) }
     var offsetX by remember { mutableStateOf(0f) }
@@ -60,16 +60,17 @@ fun UpdateToast(
         animationSpec = tween(300, easing = EaseOutCubic),
         finishedListener = {
             if (it == 0f) onDismiss()
-        }
+        },
     )
 
     // スライドアニメーション
     val slideOffset by animateIntAsState(
         targetValue = if (isDismissing) -1000 else offsetX.roundToInt(),
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
-        )
+        animationSpec =
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow,
+            ),
     )
 
     // 自動消去タイマー
@@ -90,83 +91,91 @@ fun UpdateToast(
 
     AnimatedVisibility(
         visible = isVisible,
-        enter = slideInVertically(
-            initialOffsetY = { -it },
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessMedium
-            )
-        ) + fadeIn(animationSpec = tween(300)),
-        exit = slideOutVertically(
-            targetOffsetY = { -it },
-            animationSpec = tween(300)
-        ) + fadeOut(animationSpec = tween(300))
+        enter =
+            slideInVertically(
+                initialOffsetY = { -it },
+                animationSpec =
+                    spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessMedium,
+                    ),
+            ) + fadeIn(animationSpec = tween(300)),
+        exit =
+            slideOutVertically(
+                targetOffsetY = { -it },
+                animationSpec = tween(300),
+            ) + fadeOut(animationSpec = tween(300)),
     ) {
         Card(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .offset { IntOffset(slideOffset, 0) }
-                .pointerInput(Unit) {
-                    detectHorizontalDragGestures(
-                        onDragEnd = {
-                            if (offsetX < -100) {
-                                dismissToast()
-                            } else {
-                                offsetX = 0f
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .offset { IntOffset(slideOffset, 0) }
+                    .pointerInput(Unit) {
+                        detectHorizontalDragGestures(
+                            onDragEnd = {
+                                if (offsetX < -100) {
+                                    dismissToast()
+                                } else {
+                                    offsetX = 0f
+                                }
+                            },
+                        ) { _, dragAmount ->
+                            if (!isDismissing) {
+                                offsetX = (offsetX + dragAmount).coerceAtMost(0f)
                             }
                         }
-                    ) { _, dragAmount ->
-                        if (!isDismissing) {
-                            offsetX = (offsetX + dragAmount).coerceAtMost(0f)
-                        }
-                    }
-                }
-                .shadow(
-                    elevation = 12.dp,
-                    shape = RoundedCornerShape(16.dp),
-                    spotColor = PastelPurpleTheme.accentPurple.copy(alpha = 0.3f)
-                ),
+                    }.shadow(
+                        elevation = 12.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        spotColor = PastelPurpleTheme.accentPurple.copy(alpha = 0.3f),
+                    ),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Transparent
-            )
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = Color.Transparent,
+                ),
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = androidx.compose.ui.graphics.Brush.linearGradient(
-                            colors = listOf(
-                                PastelPurpleTheme.primaryBackground,
-                                PastelPurpleTheme.secondaryBackground
-                            )
-                        ),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .clip(RoundedCornerShape(16.dp))
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .background(
+                            brush =
+                                androidx.compose.ui.graphics.Brush.linearGradient(
+                                    colors =
+                                        listOf(
+                                            PastelPurpleTheme.primaryBackground,
+                                            PastelPurpleTheme.secondaryBackground,
+                                        ),
+                                ),
+                            shape = RoundedCornerShape(16.dp),
+                        ).clip(RoundedCornerShape(16.dp)),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // アイコン部分
                     Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                PastelPurpleTheme.accentPurple.copy(alpha = 0.3f),
-                                RoundedCornerShape(12.dp)
-                            ),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .size(48.dp)
+                                .background(
+                                    PastelPurpleTheme.accentPurple.copy(alpha = 0.3f),
+                                    RoundedCornerShape(12.dp),
+                                ),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Icon(
                             imageVector = Icons.Default.SystemUpdate,
                             contentDescription = "アップデート",
                             tint = PastelPurpleTheme.darkPurple,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                     }
 
@@ -174,19 +183,19 @@ fun UpdateToast(
 
                     // テキスト部分
                     Column(
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     ) {
                         Text(
                             text = "アップデートが利用可能です",
                             color = PastelPurpleTheme.textPrimary,
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "新しいバージョンがリリースされました",
                             color = PastelPurpleTheme.textSecondary,
-                            fontSize = 12.sp
+                            fontSize = 12.sp,
                         )
                     }
 
@@ -198,35 +207,37 @@ fun UpdateToast(
                             onUpdate()
                             dismissToast()
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = PastelPurpleTheme.buttonBackground,
-                            contentColor = PastelPurpleTheme.buttonText
-                        ),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = PastelPurpleTheme.buttonBackground,
+                                contentColor = PastelPurpleTheme.buttonText,
+                            ),
                         shape = RoundedCornerShape(12.dp),
-                        elevation = ButtonDefaults.buttonElevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 2.dp
-                        ),
-                        modifier = Modifier.height(40.dp)
+                        elevation =
+                            ButtonDefaults.buttonElevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 2.dp,
+                            ),
+                        modifier = Modifier.height(40.dp),
                     ) {
                         Text(
                             text = "アップデート",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
                         )
                     }
                 }
 
                 // 装飾的な要素
                 Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .offset(x = (-20).dp, y = (-20).dp)
-                        .background(
-                            PastelPurpleTheme.accentPurple.copy(alpha = 0.1f),
-                            RoundedCornerShape(40.dp)
-                        )
-                        .align(Alignment.TopEnd)
+                    modifier =
+                        Modifier
+                            .size(80.dp)
+                            .offset(x = (-20).dp, y = (-20).dp)
+                            .background(
+                                PastelPurpleTheme.accentPurple.copy(alpha = 0.1f),
+                                RoundedCornerShape(40.dp),
+                            ).align(Alignment.TopEnd),
                 )
             }
         }
@@ -236,15 +247,16 @@ fun UpdateToast(
 @Composable
 fun ToastContainer(
     position: ToastPosition = ToastPosition.TOP,
-    content: @Composable BoxScope.() -> Unit
+    content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = when (position) {
-            ToastPosition.TOP -> Alignment.TopCenter
-            ToastPosition.BOTTOM -> Alignment.BottomCenter
-            ToastPosition.CENTER -> Alignment.Center
-        }
+        contentAlignment =
+            when (position) {
+                ToastPosition.TOP -> Alignment.TopCenter
+                ToastPosition.BOTTOM -> Alignment.BottomCenter
+                ToastPosition.CENTER -> Alignment.Center
+            },
     ) {
         content()
     }
@@ -256,14 +268,15 @@ fun UpdateToastExample() {
     var showToast by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Button(
-            onClick = { showToast = true }
+            onClick = { showToast = true },
         ) {
             Text("トーストを表示")
         }
@@ -280,7 +293,7 @@ fun UpdateToastExample() {
                 onDismiss = {
                     showToast = false
                 },
-                duration = 5000L
+                duration = 5000L,
             )
         }
     }
@@ -296,7 +309,7 @@ object UpdateToastManager {
         val onUpdate: () -> Unit = {},
         val onDismiss: () -> Unit = {},
         val duration: Long = 5000L,
-        val position: ToastPosition = ToastPosition.TOP
+        val position: ToastPosition = ToastPosition.TOP,
     )
 
     fun show(
@@ -304,18 +317,19 @@ object UpdateToastManager {
         onUpdate: () -> Unit = {},
         onDismiss: () -> Unit = {},
         duration: Long = 5000L,
-        position: ToastPosition = ToastPosition.TOP
+        position: ToastPosition = ToastPosition.TOP,
     ) {
-        _toastState.value = ToastData(
-            version = version,
-            onUpdate = onUpdate,
-            onDismiss = {
-                dismiss()
-                onDismiss()
-            },
-            duration = duration,
-            position = position
-        )
+        _toastState.value =
+            ToastData(
+                version = version,
+                onUpdate = onUpdate,
+                onDismiss = {
+                    dismiss()
+                    onDismiss()
+                },
+                duration = duration,
+                position = position,
+            )
     }
 
     fun dismiss() {
@@ -328,12 +342,11 @@ object UpdateToastManager {
 
 // グローバルトーストコンテナ
 @Composable
-fun GlobalToastContainer(
-    content: @Composable () -> Unit
-) {
+fun GlobalToastContainer(content: @Composable () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         content()
         val toastData by UpdateToastManager.toastState
@@ -343,7 +356,7 @@ fun GlobalToastContainer(
                     version = data.version,
                     onUpdate = data.onUpdate,
                     onDismiss = data.onDismiss,
-                    duration = data.duration
+                    duration = data.duration,
                 )
             }
         }

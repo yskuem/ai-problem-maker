@@ -22,10 +22,11 @@ fun CreateNewButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp),
-        shape = RoundedCornerShape(8.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+        shape = RoundedCornerShape(8.dp),
     ) {
         Icon(Icons.Default.Add, contentDescription = null)
         Spacer(modifier = Modifier.width(8.dp))

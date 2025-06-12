@@ -1,7 +1,6 @@
 package app.yskuem.aimondaimaker.feature.note.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
@@ -9,7 +8,6 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,49 +21,50 @@ class ShowNoteScreenViewModel(
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
 ) : ScreenModel {
-
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
 
-
-    val uiState: StateFlow<NoteUiState> = combine(
-        _note, _currentQuizIndex,
-    ) { note, currentNoteIndex ->
-        NoteUiState(
-            note = note,
-            currentNoteIndex = currentNoteIndex
+    val uiState: StateFlow<NoteUiState> =
+        combine(
+            _note,
+            _currentQuizIndex,
+        ) { note, currentNoteIndex ->
+            NoteUiState(
+                note = note,
+                currentNoteIndex = currentNoteIndex,
+            )
+        }.stateIn(
+            scope = screenModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = NoteUiState(),
         )
-    }.stateIn(
-        scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = NoteUiState()
-    )
 
     fun onLoadPage(
         imageByte: ByteArray,
         fileName: String,
         extension: String,
-        projectId: String? = null
+        projectId: String? = null,
     ) {
         screenModelScope.launch {
             _note.value = DataUiState.Loading
 
             // 画像からNoteを取得
-            val noteResult = onFetchQuizList(
-                imageByte = imageByte,
-                fileName = fileName,
-                extension = extension,
-            )
-            noteResult.onSuccess { note ->
-                _note.value = DataUiState.Success(note)
-                onSaveData(
-                    note = note,
-                    projectId = projectId
+            val noteResult =
+                onFetchQuizList(
+                    imageByte = imageByte,
+                    fileName = fileName,
+                    extension = extension,
                 )
-            }
-            .onFailure {
-                _note.value = DataUiState.Error(it)
-            }
+            noteResult
+                .onSuccess { note ->
+                    _note.value = DataUiState.Success(note)
+                    onSaveData(
+                        note = note,
+                        projectId = projectId,
+                    )
+                }.onFailure {
+                    _note.value = DataUiState.Error(it)
+                }
         }
     }
 
@@ -79,38 +78,39 @@ class ShowNoteScreenViewModel(
     private suspend fun onFetchQuizList(
         imageByte: ByteArray,
         fileName: String,
-        extension: String
-    ): Result<Note> {
-        return runCatching {
+        extension: String,
+    ): Result<Note> =
+        runCatching {
             noteRepository.generateFromImage(imageByte, fileName, extension)
         }
-    }
 
     private suspend fun onSaveData(
         note: Note,
-        projectId: String? = null
+        projectId: String? = null,
     ) {
-        val res = runCatching {
+        val res =
+            runCatching {
+                val userId = authRepository.getUserId()
 
-            val userId = authRepository.getUserId()
+                // 新規の場合はプロジェクトの作成
+                val finalProjectId =
+                    projectId ?: projectRepository
+                        .addProject(
+                            projectName = note.title,
+                        ).id
 
-            // 新規の場合はプロジェクトの作成
-            val finalProjectId = projectId ?: projectRepository.addProject(
-                projectName = note.title,
-            ).id
-
-            // Noteの保存
-            noteRepository.saveNote(
-                projectId = finalProjectId,
-                userId = userId,
-                note = note,
-            )
-
-        }
-        res.onSuccess {
-            println("success save")
-        }.onFailure { e ->
-            println("$e")
-        }
+                // Noteの保存
+                noteRepository.saveNote(
+                    projectId = finalProjectId,
+                    userId = userId,
+                    note = note,
+                )
+            }
+        res
+            .onSuccess {
+                println("success save")
+            }.onFailure { e ->
+                println("$e")
+            }
     }
 }

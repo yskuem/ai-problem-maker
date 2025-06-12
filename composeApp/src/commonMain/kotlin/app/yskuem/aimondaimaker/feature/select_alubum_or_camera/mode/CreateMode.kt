@@ -30,6 +30,7 @@ sealed class CreateMode(
         usage = Res.string.quiz_mode_page_how_to_explanation,
         icon = Icons.Outlined.QuestionAnswer,
     )
+
     data object Note : CreateMode(
         title = Res.string.note_mode_page_title,
         contentDescription = Res.string.note_mode_page_explanation,

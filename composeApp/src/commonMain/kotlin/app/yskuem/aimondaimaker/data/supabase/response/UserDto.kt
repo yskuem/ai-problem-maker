@@ -11,17 +11,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserDto(
     val id: String,
-
     @SerialName(AVATAR_URL)
     val avatarUrl: String,
-
     val name: String,
-
     @SerialName(CREATED_AT)
     @Serializable(with = InstantIso8601Serializer::class)
     val createdAt: Instant,
-
     @SerialName(UPDATED_AT)
     @Serializable(with = InstantIso8601Serializer::class)
-    val updatedAt: Instant
+    val updatedAt: Instant,
 )

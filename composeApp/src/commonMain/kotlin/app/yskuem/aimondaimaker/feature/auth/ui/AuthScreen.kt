@@ -14,8 +14,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 
-
-class AuthScreen(): Screen {
+class AuthScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = koinScreenModel<AuthScreenViewModel>()
@@ -33,9 +32,9 @@ class AuthScreen(): Screen {
         }
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
-            if(hasError.value) {
+            if (hasError.value) {
                 Text("エラーが発生しました。")
             } else {
                 CircularProgressIndicator()
