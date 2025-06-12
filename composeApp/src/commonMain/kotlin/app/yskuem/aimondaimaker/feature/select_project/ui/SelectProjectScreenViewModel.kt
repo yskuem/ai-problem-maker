@@ -4,8 +4,7 @@ import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +12,7 @@ import kotlinx.coroutines.launch
 class SelectProjectScreenViewModel(
     private val projectRepository: ProjectRepository,
     adRepository: AdRepository,
-) : ScreenModel {
+) : DefaultScreenModel() {
     init {
         onFetchProjectList()
     }

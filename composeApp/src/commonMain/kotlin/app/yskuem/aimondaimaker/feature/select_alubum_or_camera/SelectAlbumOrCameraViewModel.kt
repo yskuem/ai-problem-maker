@@ -1,14 +1,14 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import app.yskuem.aimondaimaker.core.data.picker.ImagePicker
-import cafe.adriel.voyager.core.model.ScreenModel
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import io.github.vinceglb.filekit.extension
 import io.github.vinceglb.filekit.nameWithoutExtension
 import io.github.vinceglb.filekit.readBytes
 
 class SelectAlbumOrCameraViewModel(
     private val imagePicker: ImagePicker,
-): ScreenModel {
+): DefaultScreenModel() {
 
     suspend fun onSelectAlbum(
         onNavigateNextPage: (ByteArray,String,String) -> Unit

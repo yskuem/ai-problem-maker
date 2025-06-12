@@ -6,20 +6,28 @@ import androidx.compose.animation.core.spring
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreen
+import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.transitions.FadeTransition
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
         GlobalToastContainer {
-            Navigator(UpdateCheckScreen()) { navigator ->
-                FadeTransition(
-                    navigator = navigator,
-                    animationSpec = spring(stiffness = Spring.StiffnessLow)
-                )
+            val navController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = "update_check",
+            ) {
+                composable("update_check") {
+                    UpdateCheckScreen(navController)
+                }
+                composable("auth") {
+                    AuthScreen(navController)
+                }
             }
         }
     }

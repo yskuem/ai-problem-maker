@@ -9,22 +9,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
+import androidx.navigation.NavController
+import org.koin.compose.koinInject
 import org.jetbrains.compose.resources.stringResource
 
-data class CreateNoteScreen(
+@Composable
+fun CreateNoteScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String,
-    val projectId: String? = null
-): Screen {
-    @Composable
-    override fun Content() {
-        val viewmodel = koinScreenModel<ShowNoteScreenViewModel> ()
-        val state by viewmodel.uiState.collectAsState()
-        val navigator = LocalNavigator.current
+    val projectId: String? = null,
+    navController: NavController,
+) {
+    val viewmodel = koinInject<ShowNoteScreenViewModel>()
+    val state by viewmodel.uiState.collectAsState()
 
         LaunchedEffect(Unit) {
             viewmodel.onLoadPage(
@@ -50,30 +48,8 @@ data class CreateNoteScreen(
             }
             is DataUiState.Success -> {
                 NoteApp(note = result.data) {
-                    navigator?.pop()
+                    navController.popBackStack()
                 }
             }
         }
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as CreateNoteScreen
-
-        if (!imageByte.contentEquals(other.imageByte)) return false
-        if (fileName != other.fileName) return false
-        if (extension != other.extension) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = imageByte.contentHashCode()
-        result = 31 * result + fileName.hashCode()
-        result = 31 * result + extension.hashCode()
-        return result
-    }
-
 }

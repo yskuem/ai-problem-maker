@@ -6,8 +6,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.feature.quiz.ui.ShowAnsweredQuizzesScreen
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import app.yskuem.aimondaimaker.core.navigation.DefaultScreenModel
 import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,7 +19,7 @@ class ShowProjectInfoScreenViewModel(
     private val quizRepository: QuizRepository,
     private val noteRepository: NoteRepository,
     private val projectId: String,
-) : ScreenModel {
+) : DefaultScreenModel() {
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
     private val _noteList = MutableStateFlow<DataUiState<List<Note>>>(DataUiState.Loading)
     private val _selectedTabIndex = MutableStateFlow(0)

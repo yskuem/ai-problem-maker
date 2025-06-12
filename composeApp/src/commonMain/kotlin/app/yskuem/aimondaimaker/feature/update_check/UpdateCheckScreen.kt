@@ -2,7 +2,6 @@ package app.yskuem.aimondaimaker.feature.update_check
 
 import ToastPosition
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -27,23 +26,22 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
-import cafe.adriel.voyager.koin.koinScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
+import androidx.navigation.NavController
+import org.koin.compose.koinInject
 import kotlin.random.Random
 
-class UpdateCheckScreen: Screen {
-    @Composable
-    override fun Content() {
-        val viewModel = koinScreenModel<UpdateCheckScreenViewModel>()
-        val state by viewModel.updateState.collectAsState()
-        val navigator = LocalNavigator.current
-        LaunchedEffect(Unit) {
-            viewModel.checkUpdate()
-        }
+@Composable
+fun UpdateCheckScreen(
+    navController: NavController,
+) {
+    val viewModel = koinInject<UpdateCheckScreenViewModel>()
+    val state by viewModel.updateState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.checkUpdate()
+    }
         when(val res = state) {
             is DataUiState.Error -> {
-                // エラー時はなにもしない
-                navigator?.push(AuthScreen())
+                navController.navigate("auth")
             }
             is DataUiState.Loading -> {
                 Box(
@@ -76,11 +74,11 @@ class UpdateCheckScreen: Screen {
                                 },
                                 position = ToastPosition.TOP
                             )
-                            navigator?.push(AuthScreen())
+                            navController.navigate("auth")
                         }
                     }
                     CheckUpdateStatus.NONE -> {
-                        navigator?.push(AuthScreen())
+                        navController.navigate("auth")
                     }
                 }
             }
