@@ -7,12 +7,12 @@ updates:
       day: "sunday"
       time: "06:00"
     open-pull-requests-limit: 10
-    insecure-external-code-execution: "deny"
     groups:
       kotlin-and-compose:
         patterns:
           - "org.jetbrains.kotlin*"
           - "org.jetbrains.compose*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
