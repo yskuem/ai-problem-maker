@@ -14,9 +14,6 @@ class SelectProjectScreenViewModel(
     private val projectRepository: ProjectRepository,
     adRepository: AdRepository,
 ) : ScreenModel {
-    init {
-        onFetchProjectList()
-    }
 
     private val _projects = MutableStateFlow<DataUiState<List<Project>>>(DataUiState.Loading)
     val projects = _projects.asStateFlow()
