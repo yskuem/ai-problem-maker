@@ -38,6 +38,6 @@ actual class SharedImage(private val image: UIImage?) {
     }
 
     private companion object {
-        const val COMPRESSION_QUALITY = 0.99
+        const val COMPRESSION_QUALITY = 0.9
     }
 }
