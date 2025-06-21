@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.note.ui
 import PastelAppleStyleLoading
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.note_generating
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,11 +41,7 @@ data class CreateNoteScreen(
 
         when (val result = state.note) {
             is DataUiState.Error -> {
-                ErrorScreen(
-                    buttonText = "戻る",
-                ) {
-                    navigator?.pop()
-                }
+                Text(result.throwable.toString())
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
