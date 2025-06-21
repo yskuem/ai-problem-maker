@@ -33,7 +33,6 @@ import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
-import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator

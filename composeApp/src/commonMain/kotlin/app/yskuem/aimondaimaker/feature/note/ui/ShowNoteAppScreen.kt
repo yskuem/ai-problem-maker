@@ -6,6 +6,7 @@ import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.domain.entity.Note
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+
 data class ShowNoteAppScreen(
     val note: Note,
 ) : Screen {
