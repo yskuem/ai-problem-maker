@@ -23,7 +23,9 @@ import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -56,7 +58,11 @@ import org.koin.core.parameter.parametersOf
 data class ShowProjectInfoScreen(
     private val projectId: String,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
+    @OptIn(
+        ExperimentalMaterial3Api::class,
+        DependsOnGoogleMobileAds::class,
+        ExperimentalComposeUiApi::class,
+    )
     @Composable
     override fun Content() {
         val tabs =
@@ -70,6 +76,10 @@ data class ShowProjectInfoScreen(
             )
         val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
+
+        BackHandler {
+            navigator?.pop()
+        }
 
         // 初回表示と前の画面に戻ってきたときにデータフェッチ
         LaunchedEffect(navigator) {

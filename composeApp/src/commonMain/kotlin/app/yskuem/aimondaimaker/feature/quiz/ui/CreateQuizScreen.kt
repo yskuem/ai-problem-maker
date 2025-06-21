@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
@@ -21,6 +23,7 @@ data class CreateQuizScreen(
     val extension: String,
     val projectId: String? = null,
 ) : Screen {
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val viewmodel = koinScreenModel<ShowQuizScreenViewModel>()
@@ -38,6 +41,10 @@ data class CreateQuizScreen(
 
         LaunchedEffect(Unit) {
             viewmodel.showInterstitialAd()
+        }
+
+        BackHandler {
+            navigator?.pop()
         }
 
         when (val quizList = state.quizList) {
