@@ -18,6 +18,7 @@ jobs:
     concurrency:
       group: lint-auto-${{ github.event.pull_request.head.ref }}
       cancel-in-progress: false
+
     steps:
       - name: Checkout head branch
         uses: actions/checkout@v4
@@ -38,7 +39,7 @@ jobs:
         run: swiftformat .
         continue-on-error: true
 
-      - name: Create or update lint-PR to develop
+      - name: Create or update lint-PR to source branch
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,9 +47,10 @@ jobs:
           branch: lint-auto/${{ github.event.pull_request.head.ref }}
           title: 'chore(format): auto-lint for ${{ github.event.pull_request.head.ref }}'
           body: |
-            🤖 Automated lint fixes for `${{ github.event.pull_request.head.ref }}`  
-            - Kotlin: ktlint `-F`  
+            🤖 Automated lint fixes for `${{ github.event.pull_request.head.ref }}`
+            
+            - Kotlin: ktlint `-F`
             - Swift/Obj-C: swiftformat
-          base: ${{ github.event.pull_request.base.ref }}
+          base: ${{ github.event.pull_request.head.ref }}
           labels: auto-format
           draft: false
