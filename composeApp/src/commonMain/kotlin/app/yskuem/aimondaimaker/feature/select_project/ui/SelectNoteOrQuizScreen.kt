@@ -37,9 +37,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
 
-data class SelectNoteOrQuizScreen(
-    val onBack: () -> Unit = {},
-) : Screen {
+class SelectNoteOrQuizScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -74,7 +72,6 @@ data class SelectNoteOrQuizScreen(
                             IconButton(
                                 onClick = {
                                     navigator?.pop()
-                                    onBack()
                                 },
                             ) {
                                 Icon(

@@ -42,7 +42,6 @@ import org.jetbrains.compose.resources.stringResource
 data class SelectAlbumOrCameraScreen(
     val navMode: NavCreateMode,
     val projectId: String? = null,
-    val onBack: () -> Unit = {},
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -95,7 +94,6 @@ data class SelectAlbumOrCameraScreen(
                         IconButton(
                             onClick = {
                                 navigator?.pop()
-                                onBack()
                             },
                         ) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")

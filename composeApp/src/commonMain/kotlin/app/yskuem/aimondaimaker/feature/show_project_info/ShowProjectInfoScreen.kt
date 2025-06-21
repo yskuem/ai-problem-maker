@@ -43,8 +43,11 @@ import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
@@ -52,7 +55,6 @@ import org.koin.core.parameter.parametersOf
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
-    private val onBack: () -> Unit,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
     @Composable
@@ -68,6 +70,17 @@ data class ShowProjectInfoScreen(
             )
         val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
+
+        // 初回表示と前の画面に戻ってきたときにデータフェッチ
+        LaunchedEffect(navigator) {
+            snapshotFlow { navigator?.lastEvent }
+                .distinctUntilChanged()
+                .filter { it == StackEvent.Idle }
+                .collect {
+                    viewModel.refreshQuizInfo()
+                    viewModel.refreshNoteList()
+                }
+        }
         Scaffold(
             topBar = {
                 Column {
@@ -163,7 +176,6 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Quiz,
                                             projectId = projectId,
-                                            onBack = viewModel::refreshQuizInfo,
                                         ),
                                     )
                                 }
@@ -217,7 +229,6 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Note,
                                             projectId = projectId,
-                                            onBack = viewModel::refreshNoteList,
                                         ),
                                     )
                                 }

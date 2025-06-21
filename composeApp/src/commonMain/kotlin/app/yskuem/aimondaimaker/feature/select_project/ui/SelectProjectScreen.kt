@@ -44,8 +44,12 @@ import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -57,7 +61,7 @@ class SelectProjectScreen : Screen {
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
         var expandedMenuFor by remember { mutableStateOf<String?>(null) }
-        val navigator = LocalNavigator.current
+        val navigator = LocalNavigator.currentOrThrow
         val viewModel = koinScreenModel<SelectProjectScreenViewModel>()
 
         var searchTerm by remember { mutableStateOf("") }
@@ -71,6 +75,16 @@ class SelectProjectScreen : Screen {
         val focusManager = LocalFocusManager.current
 
         val uiState by viewModel.projects.collectAsState()
+
+        // 初回表示と前の画面に戻ってきたときにデータフェッチ
+        LaunchedEffect(navigator) {
+            snapshotFlow { navigator.lastEvent }
+                .distinctUntilChanged()
+                .filter { it == StackEvent.Idle }
+                .collect {
+                    viewModel.refreshProjectList()
+                }
+        }
 
         // フォーカス取得のトリガー
         LaunchedEffect(editingId) {
@@ -165,10 +179,9 @@ class SelectProjectScreen : Screen {
                                                 .toJapaneseMonthDay()
                                         Card(
                                             onClick = {
-                                                navigator?.push(
+                                                navigator.push(
                                                     ShowProjectInfoScreen(
                                                         projectId = project.id,
-                                                        onBack = viewModel::refreshProjectList,
                                                     ),
                                                 )
                                             },
@@ -296,10 +309,8 @@ class SelectProjectScreen : Screen {
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
                                 ) {
-                                    navigator?.push(
-                                        SelectNoteOrQuizScreen(
-                                            onBack = viewModel::refreshProjectList,
-                                        ),
+                                    navigator.push(
+                                        SelectNoteOrQuizScreen(),
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
