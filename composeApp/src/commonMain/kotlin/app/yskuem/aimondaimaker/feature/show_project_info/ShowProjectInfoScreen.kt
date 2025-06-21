@@ -58,8 +58,10 @@ import org.koin.core.parameter.parametersOf
 data class ShowProjectInfoScreen(
     private val projectId: String,
 ) : Screen {
-    @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class,
-        ExperimentalComposeUiApi::class
+    @OptIn(
+        ExperimentalMaterial3Api::class,
+        DependsOnGoogleMobileAds::class,
+        ExperimentalComposeUiApi::class,
     )
     @Composable
     override fun Content() {

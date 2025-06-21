@@ -12,7 +12,6 @@ import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
-import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -24,7 +23,7 @@ data class CreateQuizScreen(
     val extension: String,
     val projectId: String? = null,
 ) : Screen {
-    @OptIn( ExperimentalComposeUiApi::class)
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val viewmodel = koinScreenModel<ShowQuizScreenViewModel>()
