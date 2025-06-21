@@ -49,6 +49,6 @@ jobs:
             🤖 Automated lint fixes for `${{ github.event.pull_request.head.ref }}`  
             - Kotlin: ktlint `-F`  
             - Swift/Obj-C: swiftformat
-          base: develop
+          base: ${{ github.event.pull_request.base.ref }}
           labels: auto-format
           draft: false
