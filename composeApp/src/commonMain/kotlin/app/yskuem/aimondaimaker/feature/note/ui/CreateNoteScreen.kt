@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -41,7 +42,11 @@ data class CreateNoteScreen(
 
         when (val result = state.note) {
             is DataUiState.Error -> {
-                Text(result.throwable.toString())
+                ErrorScreen(
+                    buttonText = "戻る"
+                ) {
+                    navigator?.pop()
+                }
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
