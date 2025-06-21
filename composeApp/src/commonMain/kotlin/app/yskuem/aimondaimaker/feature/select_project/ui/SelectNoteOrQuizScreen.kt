@@ -37,8 +37,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
 
-
-class SelectNoteOrQuizScreen: Screen {
+class SelectNoteOrQuizScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -73,7 +72,7 @@ class SelectNoteOrQuizScreen: Screen {
                             IconButton(
                                 onClick = {
                                     navigator?.pop()
-                                }
+                                },
                             ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,

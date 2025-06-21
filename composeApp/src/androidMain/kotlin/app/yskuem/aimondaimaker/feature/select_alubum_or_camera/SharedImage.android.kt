@@ -1,8 +1,8 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
 import android.graphics.Bitmap
-import androidx.compose.ui.graphics.ImageBitmap
 import android.graphics.BitmapFactory
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayOutputStream
 
@@ -15,7 +15,7 @@ actual class SharedImage(
             bitmap.compress(
                 Bitmap.CompressFormat.JPEG,
                 COMPRESSION_QUALITY,
-                byteArrayOutputStream
+                byteArrayOutputStream,
             )
             byteArrayOutputStream.toByteArray()
         } else {
@@ -32,6 +32,7 @@ actual class SharedImage(
             null
         }
     }
+
     private companion object {
         const val COMPRESSION_QUALITY = 90
     }
