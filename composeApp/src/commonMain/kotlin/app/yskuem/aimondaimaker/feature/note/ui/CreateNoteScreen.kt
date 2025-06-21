@@ -42,7 +42,7 @@ data class CreateNoteScreen(
         when (val result = state.note) {
             is DataUiState.Error -> {
                 ErrorScreen(
-                    buttonText = "戻る"
+                    buttonText = "戻る",
                 ) {
                     navigator?.pop()
                 }
