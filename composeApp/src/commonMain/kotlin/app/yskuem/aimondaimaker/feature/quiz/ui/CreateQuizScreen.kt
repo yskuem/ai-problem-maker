@@ -43,7 +43,7 @@ data class CreateQuizScreen(
         when (val quizList = state.quizList) {
             is DataUiState.Error -> {
                 ErrorScreen(
-                    buttonText = "戻る"
+                    buttonText = "戻る",
                 ) {
                     navigator?.pop()
                 }
