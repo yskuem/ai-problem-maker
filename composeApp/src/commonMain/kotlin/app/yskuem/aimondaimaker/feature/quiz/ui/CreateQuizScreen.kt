@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -42,7 +43,11 @@ data class CreateQuizScreen(
 
         when (val quizList = state.quizList) {
             is DataUiState.Error -> {
-                Text(quizList.throwable.toString())
+                ErrorScreen(
+                    buttonText = "戻る"
+                ) {
+                    navigator?.pop()
+                }
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
