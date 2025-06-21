@@ -17,7 +17,7 @@ import org.jetbrains.compose.resources.stringResource
 
 data class CreateNoteScreen(
     val imageByte: ByteArray,
-    val fileName: String = "image",
+    val fileName: String = "imag",
     val extension: String,
     val projectId: String? = null,
 ) : Screen {
