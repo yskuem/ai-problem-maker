@@ -55,7 +55,7 @@ import org.koin.core.parameter.parametersOf
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
-): Screen {
+) : Screen {
     @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
@@ -176,7 +176,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Quiz,
                                             projectId = projectId,
-                                        )
+                                        ),
                                     )
                                 }
                             }
@@ -229,7 +229,7 @@ data class ShowProjectInfoScreen(
                                         SelectAlbumOrCameraScreen(
                                             navMode = NavCreateMode.Note,
                                             projectId = projectId,
-                                        )
+                                        ),
                                     )
                                 }
                             }

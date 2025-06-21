@@ -94,7 +94,7 @@ data class SelectAlbumOrCameraScreen(
                         IconButton(
                             onClick = {
                                 navigator?.pop()
-                            }
+                            },
                         ) {
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
                         }

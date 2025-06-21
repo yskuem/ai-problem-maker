@@ -43,8 +43,8 @@ import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
-import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -182,7 +182,7 @@ class SelectProjectScreen : Screen {
                                                 navigator.push(
                                                     ShowProjectInfoScreen(
                                                         projectId = project.id,
-                                                    )
+                                                    ),
                                                 )
                                             },
                                             shape = RoundedCornerShape(8.dp),
@@ -310,7 +310,7 @@ class SelectProjectScreen : Screen {
                                     buttonText = stringResource(Res.string.new_project),
                                 ) {
                                     navigator.push(
-                                        SelectNoteOrQuizScreen()
+                                        SelectNoteOrQuizScreen(),
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
