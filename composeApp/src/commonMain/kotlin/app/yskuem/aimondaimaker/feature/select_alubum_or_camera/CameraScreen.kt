@@ -20,7 +20,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +33,7 @@ import app.yskuem.aimondaimaker.feature.quiz.ui.CreateQuizScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.CameraPermissionState
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.state.UiPermissionState
+import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -44,6 +47,7 @@ data class CameraPermissionScreen(
     val mode: NavCreateMode,
     val projectId: String? = null,
 ) : Screen {
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
@@ -65,6 +69,10 @@ data class CameraPermissionScreen(
         var isPermissionChecked by rememberSaveable { mutableStateOf(false) }
 
         val navigator = LocalNavigator.current
+
+        BackHandler {
+            navigator?.pop()
+        }
 
         val onImageReady: (ByteArray) -> Unit = { bytes ->
             when (mode) {

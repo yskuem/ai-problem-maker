@@ -21,7 +21,9 @@ import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -38,10 +40,14 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
 
 class SelectNoteOrQuizScreen : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
+
+        BackHandler {
+            navigator?.pop()
+        }
         Box(
             modifier =
                 Modifier

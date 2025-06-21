@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import cafe.adriel.voyager.core.screen.Screen
@@ -20,6 +22,7 @@ data class CreateNoteScreen(
     val extension: String,
     val projectId: String? = null,
 ) : Screen {
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
         val viewmodel = koinScreenModel<ShowNoteScreenViewModel>()
@@ -37,6 +40,10 @@ data class CreateNoteScreen(
 
         LaunchedEffect(Unit) {
             viewmodel.showInterstitialAd()
+        }
+
+        BackHandler {
+            navigator?.pop()
         }
 
         when (val result = state.note) {
