@@ -18,18 +18,18 @@ fun ErrorScreen(
     buttonText: String,
     onButtonClick: () -> Unit,
 ) {
-    Box (
-        modifier = Modifier.fillMaxSize()
-    ){
-        Column (
-            modifier = Modifier.align(Alignment.Center)
-        ){
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+        ) {
             Text(
                 stringResource(Res.string.error_occurred),
-                fontSize = 20.sp
+                fontSize = 20.sp,
             )
             Button(
-                onClick = onButtonClick
+                onClick = onButtonClick,
             ) {
                 Text(buttonText)
             }

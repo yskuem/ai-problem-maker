@@ -6,9 +6,11 @@ import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.asImageBitmap
 import java.io.ByteArrayOutputStream
 
-actual class SharedImage(private val bitmap: android.graphics.Bitmap?) {
-    actual fun toByteArray(): ByteArray? {
-        return if (bitmap != null) {
+actual class SharedImage(
+    private val bitmap: android.graphics.Bitmap?,
+) {
+    actual fun toByteArray(): ByteArray? =
+        if (bitmap != null) {
             val byteArrayOutputStream = ByteArrayOutputStream()
             bitmap.compress(
                 Bitmap.CompressFormat.JPEG,
@@ -20,7 +22,6 @@ actual class SharedImage(private val bitmap: android.graphics.Bitmap?) {
             println("toByteArray null")
             null
         }
-    }
 
     actual fun toImageBitmap(): ImageBitmap? {
         val byteArray = toByteArray()
@@ -31,7 +32,6 @@ actual class SharedImage(private val bitmap: android.graphics.Bitmap?) {
             null
         }
     }
-
     private companion object {
         const val COMPRESSION_QUALITY = 90
     }

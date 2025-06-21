@@ -7,4 +7,3 @@ object AdmobIosDevConfigs {
     // テスト用バナー広告ユニットID（iOS）
     const val BANNER_ID: String = "ca-app-pub-3940256099942544/2934735716"
 }
-

@@ -6,20 +6,19 @@ import app.yskuem.aimondaimaker.domain.usecase.CheckUpdateUseCase
 
 class CheckUpdateUseCaseImpl(
     private val versionRepository: VersionRepository,
-): CheckUpdateUseCase {
+) : CheckUpdateUseCase {
     override suspend fun checkUpdate(): CheckUpdateStatus {
         versionRepository.fetchAndActivate()
         val currentVersion = versionRepository.getCurrentAppVersion()
         println(currentVersion)
         val latestVersion = versionRepository.fetchLastestAppVersion()
         val requireMinVersion = versionRepository.fetchRequireMinVersion()
-        if(currentVersion < requireMinVersion) {
+        if (currentVersion < requireMinVersion) {
             return CheckUpdateStatus.UPDATED_NEEDED
         }
-        if(currentVersion < latestVersion) {
+        if (currentVersion < latestVersion) {
             return CheckUpdateStatus.HAVE_LATEST_APP_VERSION
         }
         return CheckUpdateStatus.NONE
     }
-
 }

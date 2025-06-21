@@ -53,20 +53,21 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
 
-
 data class ShowProjectInfoScreen(
     private val projectId: String,
 ): Screen {
     @OptIn(ExperimentalMaterial3Api::class, DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
-        val tabs = listOf(
-            stringResource(Res.string.quiz_tab_name),
-            stringResource(Res.string.note_tab_name),
-        )
-        val viewModel = koinScreenModel<ShowProjectInfoScreenViewModel>(
-            parameters = { parametersOf(projectId) }
-        )
+        val tabs =
+            listOf(
+                stringResource(Res.string.quiz_tab_name),
+                stringResource(Res.string.note_tab_name),
+            )
+        val viewModel =
+            koinScreenModel<ShowProjectInfoScreenViewModel>(
+                parameters = { parametersOf(projectId) },
+            )
         val uiState by viewModel.uiState.collectAsState()
         val navigator = LocalNavigator.current
 
@@ -84,19 +85,20 @@ data class ShowProjectInfoScreen(
             topBar = {
                 Column {
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         IconButton(
                             onClick = {
                                 navigator?.pop()
-                            }
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "戻る"
+                                contentDescription = "戻る",
                             )
                         }
                     }
@@ -104,7 +106,7 @@ data class ShowProjectInfoScreen(
                         selectedTabIndex = uiState.selectedTabIndex,
                         containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
@@ -116,21 +118,22 @@ data class ShowProjectInfoScreen(
                                     Text(
                                         text = title,
                                         fontSize = 16.sp,
-                                        fontWeight = if (uiState.selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (uiState.selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal,
                                     )
-                                }
+                                },
                             )
                         }
                     }
                 }
-            }
+            },
         ) { paddingValues ->
             // コンテンツエリア
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(16.dp),
             ) {
                 when (uiState.selectedTabIndex) {
                     0 -> {
@@ -139,34 +142,35 @@ data class ShowProjectInfoScreen(
                                 LoadingScreen()
                             }
                             is DataUiState.Success -> {
-                                if(quizInfoList.data.isEmpty()) {
+                                if (quizInfoList.data.isEmpty()) {
                                     EmptyProjectsUI(
                                         message = stringResource(Res.string.no_quiz_info),
                                         modifier = Modifier.fillMaxSize(),
-                                        iconVector = Icons.Default.QuestionAnswer
+                                        iconVector = Icons.Default.QuestionAnswer,
                                     )
                                 } else {
                                     ContentList(
                                         items = quizInfoList.data.map { it.name },
                                         icon = Icons.Filled.QuestionAnswer,
                                         contentType = ContentType.QUIZ,
-                                        updateAtList = quizInfoList.data.map {
-                                            it.updatedAt
-                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                                .toJapaneseMonthDay()
-                                        },
+                                        updateAtList =
+                                            quizInfoList.data.map {
+                                                it.updatedAt
+                                                    .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                    .toJapaneseMonthDay()
+                                            },
                                         itemGroupIds = quizInfoList.data.map { it.groupId },
                                         onTapCard = { groupId ->
                                             viewModel.onTapQuizInfo(
                                                 groupId = groupId,
                                                 navigator = navigator,
                                             )
-                                        }
+                                        },
                                     )
                                 }
                                 BottomContent(
                                     modifier = Modifier.align(alignment = Alignment.BottomEnd),
-                                    buttonText = stringResource(Res.string.create_new_quiz)
+                                    buttonText = stringResource(Res.string.create_new_quiz),
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -179,7 +183,7 @@ data class ShowProjectInfoScreen(
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     buttonText = stringResource(Res.string.load_again),
-                                    onButtonClick = viewModel::refreshQuizInfo
+                                    onButtonClick = viewModel::refreshQuizInfo,
                                 )
                             }
                         }
@@ -190,34 +194,36 @@ data class ShowProjectInfoScreen(
                                 LoadingScreen()
                             }
                             is DataUiState.Success -> {
-                                if(noteList.data.isEmpty()) {
+                                if (noteList.data.isEmpty()) {
                                     EmptyProjectsUI(
                                         message = stringResource(Res.string.no_note_info),
                                         modifier = Modifier.fillMaxSize(),
-                                        iconVector = Icons.AutoMirrored.Filled.Assignment
+                                        iconVector = Icons.AutoMirrored.Filled.Assignment,
                                     )
                                 } else {
                                     ContentList(
                                         items = noteList.data.map { it.title },
                                         icon = Icons.AutoMirrored.Filled.Assignment,
                                         contentType = ContentType.NOTE,
-                                        updateAtList = noteList.data.map {
-                                            it.updatedAt
-                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                                .toJapaneseMonthDay()
-                                        },
+                                        updateAtList =
+                                            noteList.data.map {
+                                                it.updatedAt
+                                                    .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                    .toJapaneseMonthDay()
+                                            },
                                         itemGroupIds = noteList.data.map { it.id },
                                         onTapCard = { id ->
-                                            val targetNote = noteList.data.first {
-                                                it.id == id
-                                            }
+                                            val targetNote =
+                                                noteList.data.first {
+                                                    it.id == id
+                                                }
                                             navigator?.push(ShowNoteAppScreen(targetNote))
-                                        }
+                                        },
                                     )
                                 }
                                 BottomContent(
                                     modifier = Modifier.align(alignment = Alignment.BottomEnd),
-                                    buttonText = stringResource(Res.string.create_new_note)
+                                    buttonText = stringResource(Res.string.create_new_note),
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -230,7 +236,7 @@ data class ShowProjectInfoScreen(
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     buttonText = stringResource(Res.string.load_again),
-                                    onButtonClick = viewModel::refreshNoteList
+                                    onButtonClick = viewModel::refreshNoteList,
                                 )
                             }
                         }
@@ -241,7 +247,6 @@ data class ShowProjectInfoScreen(
     }
 }
 
-
 @Composable
 fun ContentList(
     items: List<String>,
@@ -249,53 +254,58 @@ fun ContentList(
     itemGroupIds: List<String>,
     onTapCard: (String) -> Unit,
     icon: ImageVector,
-    contentType: ContentType
+    contentType: ContentType,
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp) // 間隔を広げる
+        verticalArrangement = Arrangement.spacedBy(16.dp), // 間隔を広げる
     ) {
         itemsIndexed(items) { index, item ->
             Card(
                 onClick = {
                     onTapCard(itemGroupIds[index])
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp) // カードを大きくする
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outlineVariant,
-                        shape = RoundedCornerShape(12.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(100.dp) // カードを大きくする
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            shape = RoundedCornerShape(12.dp),
+                        ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface, // 白い背景を維持
                     ),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface, // 白い背景を維持
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 3.dp // 影を少し強くして立体感を出す
-                ),
-                shape = RoundedCornerShape(12.dp) // 角を少し丸くする
+                elevation =
+                    CardDefaults.cardElevation(
+                        defaultElevation = 3.dp, // 影を少し強くして立体感を出す
+                    ),
+                shape = RoundedCornerShape(12.dp), // 角を少し丸くする
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // アイコン部分を円形の背景で装飾
                     Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .size(48.dp)
+                                .background(
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                    shape = CircleShape,
+                                ),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Icon(
                             imageVector = icon,
                             contentDescription = if (contentType == ContentType.QUIZ) "クイズ" else "ノート",
                             tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                     }
 
@@ -305,21 +315,23 @@ fun ContentList(
                     Column {
                         Text(
                             text = item,
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = MaterialTheme.colorScheme.onSurface // テキスト色をはっきりさせる
-                            )
+                            style =
+                                TextStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = MaterialTheme.colorScheme.onSurface, // テキスト色をはっきりさせる
+                                ),
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
                             text = "${stringResource(Res.string.last_updated_date)}: ${updateAtList[index]}",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) // もう少しはっきりした色に
-                            )
+                            style =
+                                TextStyle(
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f), // もう少しはっきりした色に
+                                ),
                         )
                     }
                 }
@@ -328,7 +340,6 @@ fun ContentList(
     }
 }
 
-
 @OptIn(DependsOnGoogleMobileAds::class)
 @Composable
 private fun BottomContent(
@@ -336,9 +347,9 @@ private fun BottomContent(
     buttonText: String,
     onTapButton: () -> Unit,
 ) {
-    Column (
-        modifier = modifier
-    ){
+    Column(
+        modifier = modifier,
+    ) {
         CreateNewButton(
             buttonText = buttonText,
         ) {
@@ -346,21 +357,21 @@ private fun BottomContent(
         }
         Spacer(modifier = Modifier.height(10.dp))
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .background(color = Color.White),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .background(color = Color.White),
+            contentAlignment = Alignment.Center,
         ) {
             BannerAd(
-                adUnitId = getAdmobBannerId()
+                adUnitId = getAdmobBannerId(),
             )
         }
     }
 }
 
-
-
 enum class ContentType {
-    QUIZ, NOTE
+    QUIZ,
+    NOTE,
 }

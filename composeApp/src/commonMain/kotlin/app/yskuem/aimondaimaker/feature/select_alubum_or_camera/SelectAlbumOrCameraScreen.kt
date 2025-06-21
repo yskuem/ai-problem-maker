@@ -50,38 +50,39 @@ data class SelectAlbumOrCameraScreen(
         val scope = rememberCoroutineScope()
         val mode = navMode.toCreateMode()
 
-        val galleryManager = rememberGalleryManager {
-            scope.launch {
-                val bytes = withContext(Dispatchers.Default) {
-                    it?.toByteArray()
-                }
-                if (bytes == null) {
-                    navigator?.pop()
-                    return@launch
-                }
-                when(mode) {
-                    CreateMode.Note -> {
-                        navigator?.push(
-                            CreateNoteScreen(
-                                imageByte = bytes,
-                                extension = "jpg",
-                                projectId = projectId,
-                            )
-                        )
+        val galleryManager =
+            rememberGalleryManager {
+                scope.launch {
+                    val bytes =
+                        withContext(Dispatchers.Default) {
+                            it?.toByteArray()
+                        }
+                    if (bytes == null) {
+                        navigator?.pop()
+                        return@launch
                     }
-                    CreateMode.Quiz -> {
-                        navigator?.push(
-                            CreateQuizScreen(
-                                imageByte = bytes,
-                                extension = "jpg",
-                                projectId = projectId,
+                    when (mode) {
+                        CreateMode.Note -> {
+                            navigator?.push(
+                                CreateNoteScreen(
+                                    imageByte = bytes,
+                                    extension = "jpg",
+                                    projectId = projectId,
+                                ),
                             )
-                        )
+                        }
+                        CreateMode.Quiz -> {
+                            navigator?.push(
+                                CreateQuizScreen(
+                                    imageByte = bytes,
+                                    extension = "jpg",
+                                    projectId = projectId,
+                                ),
+                            )
+                        }
                     }
                 }
-
             }
-        }
 
         Scaffold(
             topBar = {
@@ -98,30 +99,32 @@ data class SelectAlbumOrCameraScreen(
                             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = Color.Transparent,
-                        titleContentColor = MaterialTheme.colorScheme.onSurface,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onSurface
-                    )
+                    colors =
+                        TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = Color.Transparent,
+                            titleContentColor = MaterialTheme.colorScheme.onSurface,
+                            navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
+                        ),
                 )
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(16.dp),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Icon(
                         imageVector = mode.icon,
                         contentDescription = "",
                         modifier = Modifier.size(120.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.primary,
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -130,7 +133,7 @@ data class SelectAlbumOrCameraScreen(
                         text = stringResource(mode.contentDescription),
                         fontSize = 18.sp,
                         textAlign = TextAlign.Center,
-                        lineHeight = 28.sp
+                        lineHeight = 28.sp,
                     )
 
                     Spacer(modifier = Modifier.height(32.dp))
@@ -138,23 +141,26 @@ data class SelectAlbumOrCameraScreen(
                     Button(
                         onClick = {
                             navigator?.push(
-                                item = CameraPermissionScreen(
-                                    mode = navMode,
-                                    projectId = projectId
-                                ),
+                                item =
+                                    CameraPermissionScreen(
+                                        mode = navMode,
+                                        projectId = projectId,
+                                    ),
                             )
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        ),
-                        shape = RoundedCornerShape(16.dp)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                            ),
+                        shape = RoundedCornerShape(16.dp),
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Camera,
-                            contentDescription = "カメラ"
+                            contentDescription = "カメラ",
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(stringResource(Res.string.take_picture), fontSize = 16.sp)
@@ -168,10 +174,11 @@ data class SelectAlbumOrCameraScreen(
                                 galleryManager.launch()
                             }
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp),
-                        shape = RoundedCornerShape(16.dp)
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
                     ) {
                         Text(stringResource(Res.string.pick_from_gallery), fontSize = 16.sp)
                     }
@@ -181,22 +188,23 @@ data class SelectAlbumOrCameraScreen(
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant
-                        )
+                        colors =
+                            CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            ),
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(16.dp),
                         ) {
                             Text(
                                 text = stringResource(Res.string.how_to_title),
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
+                                fontSize = 18.sp,
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
                                 text = stringResource(mode.usage),
-                                lineHeight = 24.sp
+                                lineHeight = 24.sp,
                             )
                         }
                     }
@@ -205,4 +213,3 @@ data class SelectAlbumOrCameraScreen(
         }
     }
 }
-

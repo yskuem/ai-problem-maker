@@ -15,9 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CameraPermissionViewModel(
-    private val permissionsController: PermissionsController
+    private val permissionsController: PermissionsController,
 ) : ScreenModel {
-
     private val _state = MutableStateFlow(CameraPermissionState(UiPermissionState.INITIAL))
     val state = _state.asStateFlow()
 
@@ -30,7 +29,7 @@ class CameraPermissionViewModel(
                 _state.update {
                     it.copy(
                         uiPermissionState = UiPermissionState.ALWAYS_DENIED,
-                        isAlwaysDeniedDialogVisible = true
+                        isAlwaysDeniedDialogVisible = true,
                     )
                 }
             } catch (denied: DeniedException) {
@@ -47,7 +46,5 @@ class CameraPermissionViewModel(
         _state.update { it.copy(isAlwaysDeniedDialogVisible = false) }
     }
 
-    suspend fun checkIfHavePermission(): Boolean {
-        return permissionsController.isPermissionGranted(Permission.CAMERA)
-    }
+    suspend fun checkIfHavePermission(): Boolean = permissionsController.isPermissionGranted(Permission.CAMERA)
 }

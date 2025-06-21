@@ -7,7 +7,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 
 data class ShowNoteAppScreen(
     val note: Note,
-): Screen {
+) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current

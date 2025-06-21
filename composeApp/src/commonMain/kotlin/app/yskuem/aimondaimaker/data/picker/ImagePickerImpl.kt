@@ -6,7 +6,5 @@ import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.openFilePicker
 
 class ImagePickerImpl : ImagePicker {
-    override suspend fun pickImage(): PlatformFile? {
-        return FileKit.openFilePicker()
-    }
+    override suspend fun pickImage(): PlatformFile? = FileKit.openFilePicker()
 }

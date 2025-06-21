@@ -18,17 +18,18 @@ class SelectProjectScreenViewModel(
     private val _projects = MutableStateFlow<DataUiState<List<Project>>>(DataUiState.Loading)
     val projects = _projects.asStateFlow()
 
-
     private fun onFetchProjectList() {
         screenModelScope.launch {
-            val result = runCatching {
-                projectRepository.fetchProjectList()
-            }
-            result.onSuccess {
-                _projects.value = DataUiState.Success(it)
-            }.onFailure {
-                _projects.value = DataUiState.Error(it)
-            }
+            val result =
+                runCatching {
+                    projectRepository.fetchProjectList()
+                }
+            result
+                .onSuccess {
+                    _projects.value = DataUiState.Success(it)
+                }.onFailure {
+                    _projects.value = DataUiState.Error(it)
+                }
         }
     }
 
@@ -39,21 +40,23 @@ class SelectProjectScreenViewModel(
 
     fun editProject(
         targetProject: Project,
-        currentProjects: List<Project>
+        currentProjects: List<Project>,
     ) {
         screenModelScope.launch {
-            val result = runCatching {
-                projectRepository.updateProject(targetProject)
-            }
-            result.onSuccess {
-                val updateProjects = currentProjects.map {
-                    if(it.id == targetProject.id) targetProject else it
+            val result =
+                runCatching {
+                    projectRepository.updateProject(targetProject)
                 }
-                _projects.value = DataUiState.Success(updateProjects)
-            }
-            .onFailure {
-                println(it)
-            }
+            result
+                .onSuccess {
+                    val updateProjects =
+                        currentProjects.map {
+                            if (it.id == targetProject.id) targetProject else it
+                        }
+                    _projects.value = DataUiState.Success(updateProjects)
+                }.onFailure {
+                    println(it)
+                }
         }
     }
 }
