@@ -2,6 +2,7 @@ package app.yskuem.aimondaimaker.feature.note.ui
 
 import PastelAppleStyleLoading
 import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
 import ai_problem_maker.composeapp.generated.resources.note_generating
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,7 +50,7 @@ data class CreateNoteScreen(
         when (val result = state.note) {
             is DataUiState.Error -> {
                 ErrorScreen(
-                    buttonText = "戻る",
+                    buttonText = stringResource(Res.string.back_to_pre_screen),
                 ) {
                     navigator?.pop()
                 }
