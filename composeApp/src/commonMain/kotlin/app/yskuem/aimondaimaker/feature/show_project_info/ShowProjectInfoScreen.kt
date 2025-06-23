@@ -38,6 +38,7 @@ import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
@@ -192,9 +193,10 @@ data class ShowProjectInfoScreen(
                             }
                             is DataUiState.Error -> {
                                 ErrorScreen(
-                                    buttonText = stringResource(Res.string.load_again),
-                                    onButtonClick = viewModel::refreshQuizInfo,
-                                )
+                                    type = ErrorScreenType.RELOAD,
+                                ) {
+                                    viewModel.refreshQuizInfo()
+                                }
                             }
                         }
                     }
@@ -245,9 +247,10 @@ data class ShowProjectInfoScreen(
                             }
                             is DataUiState.Error -> {
                                 ErrorScreen(
-                                    buttonText = stringResource(Res.string.load_again),
-                                    onButtonClick = viewModel::refreshNoteList,
-                                )
+                                    type = ErrorScreenType.RELOAD,
+                                ) {
+                                    viewModel.refreshNoteList()
+                                }
                             }
                         }
                     }

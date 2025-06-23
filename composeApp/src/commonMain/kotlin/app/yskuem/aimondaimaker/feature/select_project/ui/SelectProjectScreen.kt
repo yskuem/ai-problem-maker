@@ -39,6 +39,7 @@ import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
@@ -101,9 +102,10 @@ class SelectProjectScreen : Screen {
                 }
                 is DataUiState.Error -> {
                     ErrorScreen(
-                        buttonText = stringResource(Res.string.load_again),
-                        onButtonClick = viewModel::refreshProjectList,
-                    )
+                        type = ErrorScreenType.RELOAD,
+                    ) {
+                        viewModel.refreshProjectList()
+                    }
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data

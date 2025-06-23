@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
@@ -50,9 +51,7 @@ fun CameraPickerView(upLoadImage: (ByteArray) -> Unit) {
     }
     if (hasError.value) {
         ErrorScreen(
-            buttonText = stringResource(Res.string.back_to_pre_screen),
-        ) {
-            navigator?.pop()
-        }
+            type = ErrorScreenType.BACK,
+        )
     }
 }
