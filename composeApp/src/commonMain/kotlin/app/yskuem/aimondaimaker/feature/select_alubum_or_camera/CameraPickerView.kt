@@ -1,7 +1,5 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
-import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +12,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CameraPickerView(upLoadImage: (ByteArray) -> Unit) {

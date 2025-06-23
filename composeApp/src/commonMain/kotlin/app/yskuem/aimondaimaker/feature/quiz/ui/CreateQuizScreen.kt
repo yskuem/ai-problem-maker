@@ -2,7 +2,6 @@ package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import PastelAppleStyleLoading
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
 import ai_problem_maker.composeapp.generated.resources.quiz_generating
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
