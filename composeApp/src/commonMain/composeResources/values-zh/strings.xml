@@ -45,7 +45,8 @@
     <string name="loading_explanation">需要一点时间.\n请稍候.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">发生错误.</string>
+    <string name="error_screen_back_action">很抱歉，发生了错误。请使用下方按钮返回并重试。</string>
+    <string name="error_screen_reload_action">很抱歉，发生了错误。请使用下方的刷新按钮再试一次。</string>
     <string name="load_again">再加载</string>
     <string name="back_to_pre_screen">返回</string>
 
