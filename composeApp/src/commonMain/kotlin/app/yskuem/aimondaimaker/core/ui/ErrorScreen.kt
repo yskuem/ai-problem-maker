@@ -41,104 +41,116 @@ fun ErrorScreen(
     val darkPurple = Color(0xFF8B7BB8)
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        lightPurple,
-                        mediumPurple
-                    )
-                )
-            )
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    lightPurple,
+                                    mediumPurple,
+                                ),
+                        ),
+                ),
     ) {
         Card(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(32.dp)
-                .shadow(
-                    elevation = 16.dp,
-                    shape = RoundedCornerShape(24.dp)
-                ),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .padding(32.dp)
+                    .shadow(
+                        elevation = 16.dp,
+                        shape = RoundedCornerShape(24.dp),
+                    ),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White.copy(alpha = 0.9f)
-            )
+            colors =
+                CardDefaults.cardColors(
+                    containerColor = Color.White.copy(alpha = 0.9f),
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .padding(32.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(32.dp)
+                        .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 // エラーアイコン
                 Icon(
                     imageVector = Icons.Default.Warning,
                     contentDescription = null,
                     modifier = Modifier.size(64.dp),
-                    tint = deepPurple
+                    tint = deepPurple,
                 )
 
                 // エラーメッセージ
                 Text(
-                    text = when(type) {
-                        ErrorScreenType.RELOAD
+                    text =
+                        when (type) {
+                            ErrorScreenType.RELOAD,
                             -> stringResource(Res.string.error_screen_reload_action)
-                        ErrorScreenType.BACK
+                            ErrorScreenType.BACK,
                             -> stringResource(Res.string.error_screen_back_action)
-                    },
+                        },
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = darkPurple,
                     textAlign = TextAlign.Center,
-                    lineHeight = 24.sp
+                    lineHeight = 24.sp,
                 )
 
                 // アクションボタン
                 Button(
                     onClick = {
-                        when(type) {
+                        when (type) {
                             ErrorScreenType.RELOAD -> onRefresh()
                             ErrorScreenType.BACK -> {
                                 navigator?.pop()
                             }
                         }
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = deepPurple,
-                        contentColor = Color.White
-                    ),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 8.dp,
-                        pressedElevation = 4.dp
-                    )
+                    colors =
+                        ButtonDefaults.buttonColors(
+                            containerColor = deepPurple,
+                            contentColor = Color.White,
+                        ),
+                    elevation =
+                        ButtonDefaults.buttonElevation(
+                            defaultElevation = 8.dp,
+                            pressedElevation = 4.dp,
+                        ),
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         Icon(
-                            imageVector = when(type) {
-                                ErrorScreenType.RELOAD -> Icons.Default.Refresh
-                                ErrorScreenType.BACK -> Icons.Default.ArrowBack
-                            },
+                            imageVector =
+                                when (type) {
+                                    ErrorScreenType.RELOAD -> Icons.Default.Refresh
+                                    ErrorScreenType.BACK -> Icons.Default.ArrowBack
+                                },
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
                         )
                         Text(
-                            text = when(type) {
-                                ErrorScreenType.RELOAD ->
-                                    stringResource(Res.string.load_again)
-                                ErrorScreenType.BACK ->
-                                    stringResource(Res.string.back_to_pre_screen)
-                            },
+                            text =
+                                when (type) {
+                                    ErrorScreenType.RELOAD ->
+                                        stringResource(Res.string.load_again)
+                                    ErrorScreenType.BACK ->
+                                        stringResource(Res.string.back_to_pre_screen)
+                                },
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }
@@ -153,12 +165,11 @@ enum class ErrorScreenType {
     BACK,
 }
 
-
 @Preview
 @Composable
 fun ErrorScreenPreview() {
     ErrorScreen(
         type = ErrorScreenType.BACK,
-        onRefresh = {}
+        onRefresh = {},
     )
 }
