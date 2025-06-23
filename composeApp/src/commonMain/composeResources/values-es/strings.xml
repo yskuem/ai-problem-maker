@@ -45,7 +45,8 @@
     <string name="loading_explanation">Esto puede tardar un momento.\nPor favor, espera.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">Ha ocurrido un error.</string>
+    <string name="error_screen_back_action">Lo sentimos, ha ocurrido un error. Usa el botón de abajo para volver e intentarlo de nuevo.</string>
+    <string name="error_screen_reload_action">Lo sentimos, ha ocurrido un error. Inténtalo de nuevo con el botón de actualizar de abajo.</string>
     <string name="load_again">Recargar</string>
     <string name="back_to_pre_screen">Atrás</string>
 

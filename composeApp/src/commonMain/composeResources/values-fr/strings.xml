@@ -45,7 +45,8 @@
     <string name="loading_explanation">Cela peut prendre un moment.\nVeuillez patienter.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">Une erreur est survenue.</string>
+    <string name="error_screen_back_action">Désolé, une erreur est survenue. Veuillez revenir en arrière avec le bouton ci-dessous et réessayer.</string>
+    <string name="error_screen_reload_action">Désolé, une erreur est survenue. Veuillez réessayer en utilisant le bouton de mise à jour ci-dessous.</string>
     <string name="load_again">Recharger</string>
     <string name="back_to_pre_screen">Retour</string>
 

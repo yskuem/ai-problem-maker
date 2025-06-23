@@ -45,7 +45,8 @@
     <string name="loading_explanation">Это может занять некоторое время.\nПожалуйста, подождите.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">Произошла ошибка.</string>
+    <string name="error_screen_back_action">Извините, произошла ошибка. Вернитесь с помощью кнопки ниже и попробуйте снова.</string>
+    <string name="error_screen_reload_action">Извините, произошла ошибка. Попробуйте снова с помощью кнопки обновления ниже.</string>
     <string name="load_again">Перезагрузить</string>
     <string name="back_to_pre_screen">Назад</string>
 

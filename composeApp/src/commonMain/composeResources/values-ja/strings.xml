@@ -45,7 +45,8 @@
     <string name="loading_explanation">少し時間がかかります。\n少々お待ちください。</string>
 
     <!-- エラー画面 -->
-    <string name="error_occurred">エラーが発生しました。</string>
+    <string name="error_screen_back_action">申し訳ありません。エラーが発生しました。下記のボタンより戻って再度お試しください。</string>
+    <string name="error_screen_reload_action">申し訳ありません。エラーが発生しました。下記の更新ボタンよりもう一度お試しください。</string>
     <string name="load_again">再読み込み</string>
     <string name="back_to_pre_screen">戻る</string>
 
