@@ -7,19 +7,18 @@ import ai_problem_maker.composeapp.generated.resources.error_screen_reload_actio
 import ai_problem_maker.composeapp.generated.resources.load_again
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,25 +35,10 @@ fun ErrorScreen(
     val navigator = LocalNavigator.current
 
     // パステルパープルのカラーパレット
-    val lightPurple = Color(0xFFE6E1FF)
-    val mediumPurple = Color(0xFFD1C9FF)
-    val darkPurple = Color(0xFFB19CFF)
-    val accentPurple = Color(0xFF9B85FF)
-    val softPurple = Color(0xFFE9E4FF)
-
-    // エラータイプに応じたアイコンとカラーの設定
-    val (icon, iconColor, buttonColor) = when (type) {
-        ErrorScreenType.RELOAD -> Triple(
-            Icons.Default.Refresh,
-            Color(0xFF7C6FFF),
-            accentPurple
-        )
-        ErrorScreenType.BACK -> Triple(
-            Icons.Default.ArrowBack,
-            Color(0xFF9B85FF),
-            darkPurple
-        )
-    }
+    val lightPurple = Color(0xFFE8D5FF)
+    val mediumPurple = Color(0xFFD4BFFF)
+    val deepPurple = Color(0xFFB19AE8)
+    val darkPurple = Color(0xFF8B7BB8)
 
     Box(
         modifier = Modifier
@@ -63,172 +47,103 @@ fun ErrorScreen(
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         lightPurple,
-                        softPurple.copy(alpha = 0.8f),
-                        mediumPurple.copy(alpha = 0.6f)
+                        mediumPurple
                     )
                 )
-            ),
+            )
     ) {
-        Column(
+        Card(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            // アイコンの背景とアニメーション効果
-            Box(
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .background(
-                        brush = Brush.radialGradient(
-                            colors = listOf(
-                                iconColor.copy(alpha = 0.15f),
-                                iconColor.copy(alpha = 0.05f),
-                                Color.Transparent
-                            )
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                // 内側の円
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .background(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    iconColor.copy(alpha = 0.2f),
-                                    iconColor.copy(alpha = 0.1f)
-                                )
-                            )
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier.size(40.dp),
-                        tint = iconColor
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // エラーメッセージ
-            Text(
-                text = when (type) {
-                    ErrorScreenType.RELOAD ->
-                        stringResource(Res.string.error_screen_reload_action)
-                    ErrorScreenType.BACK ->
-                        stringResource(Res.string.error_screen_back_action)
-                },
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF6B4EFF),
-                textAlign = TextAlign.Center,
-                lineHeight = 30.sp
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // メインアクションボタン
-            Button(
-                onClick = {
-                    when (type) {
-                        ErrorScreenType.RELOAD -> onRefresh()
-                        ErrorScreenType.BACK -> navigator?.pop()
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(28.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = buttonColor
+                .padding(32.dp)
+                .shadow(
+                    elevation = 16.dp,
+                    shape = RoundedCornerShape(24.dp)
                 ),
-                elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 8.dp,
-                    pressedElevation = 4.dp
-                )
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White.copy(alpha = 0.9f)
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(32.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                // エラーアイコン
                 Icon(
-                    imageVector = icon,
+                    imageVector = Icons.Default.Warning,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 8.dp),
-                    tint = Color.White
+                    modifier = Modifier.size(64.dp),
+                    tint = deepPurple
                 )
+
+                // エラーメッセージ
                 Text(
-                    text = when (type) {
-                        ErrorScreenType.RELOAD ->
-                            stringResource(Res.string.load_again)
-                        ErrorScreenType.BACK ->
-                            stringResource(Res.string.back_to_pre_screen)
+                    text = when(type) {
+                        ErrorScreenType.RELOAD
+                            -> stringResource(Res.string.error_screen_reload_action)
+                        ErrorScreenType.BACK
+                            -> stringResource(Res.string.error_screen_back_action)
                     },
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.White
+                    color = darkPurple,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 24.sp
                 )
-            }
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // 装飾的な要素
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                repeat(3) { index ->
-                    Box(
-                        modifier = Modifier
-                            .size(if (index == 1) 10.dp else 6.dp)
-                            .clip(CircleShape)
-                            .background(
-                                iconColor.copy(
-                                    alpha = if (index == 1) 0.6f else 0.3f
-                                )
-                            )
+                // アクションボタン
+                Button(
+                    onClick = {
+                        when(type) {
+                            ErrorScreenType.RELOAD -> onRefresh()
+                            ErrorScreenType.BACK -> {
+                                navigator?.pop()
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = deepPurple,
+                        contentColor = Color.White
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 4.dp
                     )
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = when(type) {
+                                ErrorScreenType.RELOAD -> Icons.Default.Refresh
+                                ErrorScreenType.BACK -> Icons.Default.ArrowBack
+                            },
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Text(
+                            text = when(type) {
+                                ErrorScreenType.RELOAD ->
+                                    stringResource(Res.string.load_again)
+                                ErrorScreenType.BACK ->
+                                    stringResource(Res.string.back_to_pre_screen)
+                            },
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
         }
-
-        // 背景の装飾的なサークル
-        Box(
-            modifier = Modifier
-                .size(200.dp)
-                .offset((-50).dp, (-50).dp)
-                .clip(CircleShape)
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            lightPurple.copy(alpha = 0.3f),
-                            Color.Transparent
-                        )
-                    )
-                )
-        )
-
-        Box(
-            modifier = Modifier
-                .size(150.dp)
-                .align(Alignment.BottomEnd)
-                .offset(50.dp, 50.dp)
-                .clip(CircleShape)
-                .background(
-                    brush = Brush.radialGradient(
-                        colors = listOf(
-                            mediumPurple.copy(alpha = 0.2f),
-                            Color.Transparent
-                        )
-                    )
-                )
-        )
     }
 }
 
@@ -243,7 +158,7 @@ enum class ErrorScreenType {
 @Composable
 fun ErrorScreenPreview() {
     ErrorScreen(
-        type = ErrorScreenType.RELOAD,
+        type = ErrorScreenType.BACK,
         onRefresh = {}
     )
 }
