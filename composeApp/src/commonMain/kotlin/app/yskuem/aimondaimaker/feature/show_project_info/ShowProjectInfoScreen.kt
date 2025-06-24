@@ -373,7 +373,7 @@ private fun BottomContent(
                     .fillMaxWidth()
                     .height(if (bannerLoaded) 50.dp else 0.dp)
                     .background(
-                        color = if (bannerLoaded) Color.White else Color.Transparent
+                        color = if (bannerLoaded) Color.White else Color.Transparent,
                     ),
             contentAlignment = Alignment.Center,
         ) {
