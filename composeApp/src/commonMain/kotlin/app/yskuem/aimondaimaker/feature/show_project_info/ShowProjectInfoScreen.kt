@@ -357,6 +357,7 @@ private fun BottomContent(
     buttonText: String,
     onTapButton: () -> Unit,
 ) {
+    var bannerLoaded by remember { mutableStateOf(false) }
     Column(
         modifier = modifier,
     ) {
@@ -370,12 +371,18 @@ private fun BottomContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .background(color = Color.White),
+                    .let { base ->
+                        if (bannerLoaded) {
+                            base.height(50.dp).background(color = Color.White)
+                        } else {
+                            base.height(0.dp)
+                        }
+                    },
             contentAlignment = Alignment.Center,
         ) {
             BannerAd(
                 adUnitId = getAdmobBannerId(),
+                onLoad = { bannerLoaded = true },
             )
         }
     }
