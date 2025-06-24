@@ -11,6 +11,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -50,10 +51,8 @@ data class CreateQuizScreen(
         when (val quizList = state.quizList) {
             is DataUiState.Error -> {
                 ErrorScreen(
-                    buttonText = "戻る",
-                ) {
-                    navigator?.pop()
-                }
+                    type = ErrorScreenType.BACK,
+                )
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(

@@ -3,7 +3,6 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
-import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
@@ -39,6 +38,7 @@ import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
@@ -101,9 +101,10 @@ class SelectProjectScreen : Screen {
                 }
                 is DataUiState.Error -> {
                     ErrorScreen(
-                        buttonText = stringResource(Res.string.load_again),
-                        onButtonClick = viewModel::refreshProjectList,
-                    )
+                        type = ErrorScreenType.RELOAD,
+                    ) {
+                        viewModel.refreshProjectList()
+                    }
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data
