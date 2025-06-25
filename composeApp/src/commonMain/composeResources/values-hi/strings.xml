@@ -45,7 +45,8 @@
     <string name="loading_explanation">इसमें कुछ समय लग सकता है.\nकृपया प्रतीक्षा करें।</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">एक त्रुटि उत्पन्न हुई है।</string>
+    <string name="error_screen_back_action">क्षमा करें, एक त्रुटि हुई है। कृपया नीचे दिए गए बटन से वापस जाकर फिर से प्रयास करें।</string>
+    <string name="error_screen_reload_action">क्षमा करें, एक त्रुटि हुई है। कृपया नीचे दिए गए रीलोड बटन से फिर से प्रयास करें।</string>
     <string name="load_again">पुनः लोड करें</string>
     <string name="back_to_pre_screen">वापस</string>
 

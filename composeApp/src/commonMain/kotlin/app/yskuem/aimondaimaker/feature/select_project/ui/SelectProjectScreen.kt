@@ -3,12 +3,9 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
-import ai_problem_maker.composeapp.generated.resources.load_again
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
-import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.screen.Screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -24,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -40,12 +38,18 @@ import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -57,7 +61,7 @@ class SelectProjectScreen : Screen {
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
         var expandedMenuFor by remember { mutableStateOf<String?>(null) }
-        val navigator = LocalNavigator.current
+        val navigator = LocalNavigator.currentOrThrow
         val viewModel = koinScreenModel<SelectProjectScreenViewModel>()
 
         var searchTerm by remember { mutableStateOf("") }
@@ -72,6 +76,16 @@ class SelectProjectScreen : Screen {
 
         val uiState by viewModel.projects.collectAsState()
 
+        // 初回表示と前の画面に戻ってきたときにデータフェッチ
+        LaunchedEffect(navigator) {
+            snapshotFlow { navigator.lastEvent }
+                .distinctUntilChanged()
+                .filter { it == StackEvent.Idle }
+                .collect {
+                    viewModel.refreshProjectList()
+                }
+        }
+
         // フォーカス取得のトリガー
         LaunchedEffect(editingId) {
             if (editingId != null) {
@@ -81,38 +95,42 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold { padding ->
-            when(val projectState = uiState) {
+            when (val projectState = uiState) {
                 is DataUiState.Loading -> {
                     LoadingScreen()
                 }
                 is DataUiState.Error -> {
                     ErrorScreen(
-                        buttonText = stringResource(Res.string.load_again),
-                        onButtonClick = viewModel::refreshProjectList
-                    )
+                        type = ErrorScreenType.RELOAD,
+                    ) {
+                        viewModel.refreshProjectList()
+                    }
                 }
                 is DataUiState.Success -> {
                     val projects = projectState.data
-                    val filtered = projects.filter {
-                        it.name.contains(searchTerm, ignoreCase = true)
-                    }
+                    val filtered =
+                        projects.filter {
+                            it.name.contains(searchTerm, ignoreCase = true)
+                        }
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .systemBarsPadding()
-                            .pointerInput(Unit) {
-                                // 画面全体のタップを検知してフォーカスをクリア
-                                detectTapGestures {
-                                    focusManager.clearFocus()
-                                }
-                            }
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .systemBarsPadding()
+                                .pointerInput(Unit) {
+                                    // 画面全体のタップを検知してフォーカスをクリア
+                                    detectTapGestures {
+                                        focusManager.clearFocus()
+                                    }
+                                },
                     ) {
                         Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color(0xFFF9FAFB))
-                                .padding(padding)
-                                .padding(16.dp)
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(Color(0xFFF9FAFB))
+                                    .padding(padding)
+                                    .padding(16.dp),
                         ) {
                             Spacer(modifier = Modifier.height(30.dp))
 
@@ -120,22 +138,24 @@ class SelectProjectScreen : Screen {
                             OutlinedTextField(
                                 value = searchTerm,
                                 onValueChange = { searchTerm = it },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 16.dp),
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 16.dp),
                                 placeholder = { Text(stringResource(Res.string.search_project)) },
                                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                                 singleLine = true,
                                 keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(
-                                    onSearch = {
-                                        // 検索実行時にフォーカスをクリア
-                                        focusManager.clearFocus()
-                                    }
-                                )
+                                keyboardActions =
+                                    KeyboardActions(
+                                        onSearch = {
+                                            // 検索実行時にフォーカスをクリア
+                                            focusManager.clearFocus()
+                                        },
+                                    ),
                             )
 
-                            if(projects.isEmpty()) {
+                            if (projects.isEmpty()) {
                                 EmptyProjectsUI(
                                     modifier = Modifier.weight(1f),
                                     message = stringResource(Res.string.no_project_message),
@@ -147,51 +167,55 @@ class SelectProjectScreen : Screen {
                                     columns = GridCells.Fixed(1),
                                     state = gridState,
                                     contentPadding = PaddingValues(4.dp),
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth()
+                                    modifier =
+                                        Modifier
+                                            .weight(1f)
+                                            .fillMaxWidth(),
                                 ) {
                                     items(filtered) { project ->
                                         // 最終更新日
-                                        val updatedAt = project.updatedAt
-                                            .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                            .toJapaneseMonthDay()
+                                        val updatedAt =
+                                            project.updatedAt
+                                                .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
+                                                .toJapaneseMonthDay()
                                         Card(
                                             onClick = {
-                                                navigator?.push(
+                                                navigator.push(
                                                     ShowProjectInfoScreen(
                                                         projectId = project.id,
-                                                        onBack = viewModel::refreshProjectList
-                                                    )
+                                                    ),
                                                 )
                                             },
                                             shape = RoundedCornerShape(8.dp),
                                             elevation = 4.dp,
-                                            modifier = Modifier
-                                                .padding(8.dp)
-                                                .fillMaxWidth()
+                                            modifier =
+                                                Modifier
+                                                    .padding(8.dp)
+                                                    .fillMaxWidth(),
                                         ) {
                                             Row(
-                                                modifier = Modifier
-                                                    .padding(12.dp)
-                                                    .fillMaxWidth(),
-                                                verticalAlignment = Alignment.CenterVertically
+                                                modifier =
+                                                    Modifier
+                                                        .padding(12.dp)
+                                                        .fillMaxWidth(),
+                                                verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 // アイコン
                                                 Box(
-                                                    modifier = Modifier
-                                                        .size(40.dp)
-                                                        .background(
-                                                            color = Color(0xFFE0F2FF),
-                                                            shape = RoundedCornerShape(8.dp)
-                                                        ),
-                                                    contentAlignment = Alignment.Center
+                                                    modifier =
+                                                        Modifier
+                                                            .size(40.dp)
+                                                            .background(
+                                                                color = Color(0xFFE0F2FF),
+                                                                shape = RoundedCornerShape(8.dp),
+                                                            ),
+                                                    contentAlignment = Alignment.Center,
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.AutoMirrored.Filled.MenuBook,
                                                         contentDescription = null,
                                                         modifier = Modifier.size(24.dp),
-                                                        tint = Color(0xFF3B82F6)
+                                                        tint = Color(0xFF3B82F6),
                                                     )
                                                 }
                                                 Spacer(modifier = Modifier.width(12.dp))
@@ -204,23 +228,26 @@ class SelectProjectScreen : Screen {
                                                             TextField(
                                                                 value = editingTitle,
                                                                 onValueChange = { editingTitle = it },
-                                                                modifier = Modifier
-                                                                    .weight(1f)
-                                                                    .focusRequester(focusRequester)
-                                                                    .padding(end = 8.dp),
+                                                                modifier =
+                                                                    Modifier
+                                                                        .weight(1f)
+                                                                        .focusRequester(focusRequester)
+                                                                        .padding(end = 8.dp),
                                                                 singleLine = true,
-                                                                colors = TextFieldDefaults.textFieldColors(
-                                                                    backgroundColor = Color(0xFFE0F2FF)
-                                                                )
+                                                                colors =
+                                                                    TextFieldDefaults.textFieldColors(
+                                                                        backgroundColor = Color(0xFFE0F2FF),
+                                                                    ),
                                                             )
                                                             IconButton(onClick = {
                                                                 if (editingTitle.isNotBlank()) {
                                                                     viewModel.editProject(
                                                                         currentProjects = projects,
-                                                                        targetProject = project.copy(
-                                                                            name = editingTitle.trim(),
-                                                                            updatedAt = Clock.System.now()
-                                                                        )
+                                                                        targetProject =
+                                                                            project.copy(
+                                                                                name = editingTitle.trim(),
+                                                                                updatedAt = Clock.System.now(),
+                                                                            ),
                                                                     )
                                                                 }
                                                                 editingId = null
@@ -240,12 +267,12 @@ class SelectProjectScreen : Screen {
                                                         Text(
                                                             text = project.name,
                                                             fontSize = 16.sp,
-                                                            color = MaterialTheme.colors.onSurface
+                                                            color = MaterialTheme.colors.onSurface,
                                                         )
                                                         Text(
                                                             text = stringResource(Res.string.last_updated_project_date) + updatedAt,
                                                             fontSize = 12.sp,
-                                                            color = Color.Gray
+                                                            color = Color.Gray,
                                                         )
                                                     }
                                                 }
@@ -260,7 +287,7 @@ class SelectProjectScreen : Screen {
                                                     }
                                                     DropdownMenu(
                                                         expanded = (expandedMenuFor == project.id),
-                                                        onDismissRequest = { expandedMenuFor = null }
+                                                        onDismissRequest = { expandedMenuFor = null },
                                                     ) {
                                                         DropdownMenuItem(onClick = {
                                                             // 編集モード開始
@@ -283,18 +310,18 @@ class SelectProjectScreen : Screen {
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
                                 ) {
-                                    navigator?.push(
-                                        SelectNoteOrQuizScreen (
-                                            onBack = viewModel::refreshProjectList
-                                        )
+                                    navigator.push(
+                                        SelectNoteOrQuizScreen(),
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
                                 Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(50.dp),
-                                    contentAlignment = Alignment.Center
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .height(50.dp)
+                                            .background(color = Color.White),
+                                    contentAlignment = Alignment.Center,
                                 ) {
                                     BannerAd(
                                         adUnitId = getAdmobBannerId(),

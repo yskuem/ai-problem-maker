@@ -7,7 +7,8 @@ import platform.Foundation.NSUserDefaults
 
 @OptIn(ExperimentalSettingsApi::class)
 class IosUserDataStore : UserDataStore() {
-    override val flowSettings = NSUserDefaultsSettings(
-        NSUserDefaults.standardUserDefaults
-    ).toFlowSettings()
+    override val flowSettings =
+        NSUserDefaultsSettings(
+            NSUserDefaults.standardUserDefaults,
+        ).toFlowSettings()
 }

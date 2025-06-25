@@ -45,7 +45,8 @@
     <string name="loading_explanation">잠시만 기다려 주세요.\n곧 완료됩니다.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">오류가 발생했습니다.</string>
+    <string name="error_screen_back_action">죄송합니다. 오류가 발생했습니다. 아래 버튼을 눌러 뒤로 가서 다시 시도해주세요.</string>
+    <string name="error_screen_reload_action">죄송합니다. 오류가 발생했습니다. 아래 새로고침 버튼을 눌러 다시 시도해주세요.</string>
     <string name="load_again">다시 불러오기</string>
     <string name="back_to_pre_screen">뒤로</string>
 

@@ -14,5 +14,5 @@
 FLAVOR=staging
 GAD_APPLICATION_IDENTIFIER=ca-app-pub-3940256099942544~3347511713
 BUNDLE_ID=app.yskuem.aimondaimaker.staging
-APP_NAME=PixStudy.staging
+APP_NAME=AI Note Scan.staging
 KOTLIN_FRAMEWORK_BUILD_TYPE = debug

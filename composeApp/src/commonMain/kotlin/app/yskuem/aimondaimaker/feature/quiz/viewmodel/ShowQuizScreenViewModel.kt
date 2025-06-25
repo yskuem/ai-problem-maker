@@ -22,42 +22,43 @@ class ShowQuizScreenViewModel(
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
 ) : ScreenModel {
-
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
 
-
-    val uiState: StateFlow<QuizUiState> = combine(
-        _quizList, _currentQuizIndex,
-    ) { quizList, currentQuizListIndex ->
-        QuizUiState(
-            quizList = quizList,
-            currentQuizListIndex = currentQuizListIndex
+    val uiState: StateFlow<QuizUiState> =
+        combine(
+            _quizList,
+            _currentQuizIndex,
+        ) { quizList, currentQuizListIndex ->
+            QuizUiState(
+                quizList = quizList,
+                currentQuizListIndex = currentQuizListIndex,
+            )
+        }.stateIn(
+            scope = screenModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = QuizUiState(),
         )
-    }.stateIn(
-        scope = screenModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = QuizUiState()
-    )
 
     fun onLoadPage(
         imageByte: ByteArray,
         fileName: String,
         extension: String,
-        projectId: String? = null
+        projectId: String? = null,
     ) {
         screenModelScope.launch {
             _quizList.value = DataUiState.Loading
 
             // 画像からQuizを取得
-            val quizList = onFetchQuizList(
-                imageByte = imageByte,
-                fileName = fileName,
-                extension = extension,
-            )
+            val quizList =
+                onFetchQuizList(
+                    imageByte = imageByte,
+                    fileName = fileName,
+                    extension = extension,
+                )
             onSaveData(
                 quizList = quizList,
-                projectId = projectId
+                projectId = projectId,
             )
         }
     }
@@ -65,9 +66,9 @@ class ShowQuizScreenViewModel(
     private suspend fun onFetchQuizList(
         imageByte: ByteArray,
         fileName: String,
-        extension: String
-    ): List<Quiz> {
-        return try {
+        extension: String,
+    ): List<Quiz> =
+        try {
             val quizList = quizRepository.generateFromImage(imageByte, fileName, extension)
             _quizList.value = DataUiState.Success(quizList)
             quizList
@@ -75,42 +76,44 @@ class ShowQuizScreenViewModel(
             _quizList.value = DataUiState.Error(e)
             emptyList()
         }
-    }
 
     private suspend fun onSaveData(
         quizList: List<Quiz>,
-        projectId: String? = null
+        projectId: String? = null,
     ) {
-        val res = runCatching {
+        val res =
+            runCatching {
+                val userId = authRepository.getUserId()
 
-            val userId = authRepository.getUserId()
+                val finalProjectId =
+                    projectId ?: projectRepository
+                        .addProject(
+                            projectName = quizList[0].title,
+                        ).id
 
-            val finalProjectId = projectId ?: projectRepository.addProject(
-                projectName = quizList[0].title
-            ).id
-
-            // QuizInfoの保存
-            quizRepository.saveQuizInfo(
-                projectId = finalProjectId,
-                userId = userId,
-                groupId = quizList[0].groupId,
-                quizTitle = quizList[0].title,
-            )
-
-            // Quizの保存
-            quizList.map {
-                quizRepository.saveQuiz(
-                    quiz = it,
+                // QuizInfoの保存
+                quizRepository.saveQuizInfo(
                     projectId = finalProjectId,
                     userId = userId,
+                    groupId = quizList[0].groupId,
+                    quizTitle = quizList[0].title,
                 )
+
+                // Quizの保存
+                quizList.map {
+                    quizRepository.saveQuiz(
+                        quiz = it,
+                        projectId = finalProjectId,
+                        userId = userId,
+                    )
+                }
             }
-        }
-        res.onSuccess {
-            println("success save")
-        }.onFailure { e ->
-            println("$e")
-        }
+        res
+            .onSuccess {
+                println("success save")
+            }.onFailure { e ->
+                println("$e")
+            }
     }
 
     fun showInterstitialAd() {

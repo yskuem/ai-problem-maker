@@ -1,11 +1,10 @@
 package app.yskuem.aimondaimaker.feature.select_alubum_or_camera
 
-import androidx.compose.runtime.Composable
-
 import android.content.ContentResolver
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import app.yskuem.aimondaimaker.core.util.BitmapUtils
@@ -25,14 +24,16 @@ actual fun rememberGalleryManager(onResult: (SharedImage?) -> Unit): GalleryMana
         GalleryManager(onLaunch = {
             galleryLauncher.launch(
                 PickVisualMediaRequest(
-                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
+                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
+                ),
             )
         })
     }
 }
 
-actual class GalleryManager actual constructor(private val onLaunch: () -> Unit) {
+actual class GalleryManager actual constructor(
+    private val onLaunch: () -> Unit,
+) {
     actual fun launch() {
         onLaunch()
     }

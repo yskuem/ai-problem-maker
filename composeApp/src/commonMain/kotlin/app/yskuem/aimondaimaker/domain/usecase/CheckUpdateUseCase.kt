@@ -5,4 +5,3 @@ import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
 interface CheckUpdateUseCase {
     suspend fun checkUpdate(): CheckUpdateStatus
 }
-

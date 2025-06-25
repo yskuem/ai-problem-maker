@@ -45,7 +45,8 @@
     <string name="loading_explanation">Dies kann einen Moment dauern.\nBitte warten.</string>
 
     <!-- Error Screen -->
-    <string name="error_occurred">Ein Fehler ist aufgetreten.</string>
+    <string name="error_screen_back_action">Entschuldigung, es ist ein Fehler aufgetreten. Bitte gehe über die untenstehende Schaltfläche zurück und versuche es erneut.</string>
+    <string name="error_screen_reload_action">Entschuldigung, es ist ein Fehler aufgetreten. Bitte versuche es erneut über die untenstehende Aktualisieren-Schaltfläche.</string>
     <string name="load_again">Neu laden</string>
     <string name="back_to_pre_screen">Zurück</string>
 

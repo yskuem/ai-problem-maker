@@ -8,17 +8,14 @@ import io.github.vinceglb.filekit.readBytes
 
 class SelectAlbumOrCameraViewModel(
     private val imagePicker: ImagePicker,
-): ScreenModel {
-
-    suspend fun onSelectAlbum(
-        onNavigateNextPage: (ByteArray,String,String) -> Unit
-    ) {
+) : ScreenModel {
+    suspend fun onSelectAlbum(onNavigateNextPage: (ByteArray, String, String) -> Unit) {
         val image = imagePicker.pickImage()
-        if(image != null) {
+        if (image != null) {
             onNavigateNextPage(
                 image.readBytes(),
                 image.nameWithoutExtension,
-                image.extension
+                image.extension,
             )
         }
     }

@@ -6,10 +6,11 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val openUrlPlatformModule: Module = module {
-    single<OpenUrl> {
-        AndroidOpenUrl(
-            context = androidContext()
-        )
+actual val openUrlPlatformModule: Module =
+    module {
+        single<OpenUrl> {
+            AndroidOpenUrl(
+                context = androidContext(),
+            )
+        }
     }
-}

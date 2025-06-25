@@ -3,12 +3,15 @@ package app.yskuem.aimondaimaker.feature.quiz.ui
 import PastelAppleStyleLoading
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.quiz_generating
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.ErrorScreen
+import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -19,11 +22,12 @@ data class CreateQuizScreen(
     val imageByte: ByteArray,
     val fileName: String = "image",
     val extension: String,
-    val projectId: String? = null
-): Screen {
+    val projectId: String? = null,
+) : Screen {
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun Content() {
-        val viewmodel = koinScreenModel<ShowQuizScreenViewModel> ()
+        val viewmodel = koinScreenModel<ShowQuizScreenViewModel>()
         val state by viewmodel.uiState.collectAsState()
         val navigator = LocalNavigator.current
 
@@ -32,7 +36,7 @@ data class CreateQuizScreen(
                 imageByte = imageByte,
                 fileName = fileName,
                 extension = extension,
-                projectId = projectId
+                projectId = projectId,
             )
         }
 
@@ -40,13 +44,19 @@ data class CreateQuizScreen(
             viewmodel.showInterstitialAd()
         }
 
-        when(val quizList = state.quizList) {
+        BackHandler {
+            navigator?.pop()
+        }
+
+        when (val quizList = state.quizList) {
             is DataUiState.Error -> {
-                Text(quizList.throwable.toString())
+                ErrorScreen(
+                    type = ErrorScreenType.BACK,
+                )
             }
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
-                    loadingTitle = stringResource(Res.string.quiz_generating)
+                    loadingTitle = stringResource(Res.string.quiz_generating),
                 )
             }
             is DataUiState.Success -> {
@@ -77,4 +87,3 @@ data class CreateQuizScreen(
         return result
     }
 }
-

@@ -24,32 +24,34 @@ import androidx.compose.ui.unit.sp
 fun EmptyProjectsUI(
     message: String,
     iconVector: ImageVector,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .padding(32.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .padding(32.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             // アイコン表示
             Box(
-                modifier = Modifier
-                    .size(80.dp)
-                    .background(
-                        color = Color(0xFFE0F2FF),
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .size(80.dp)
+                        .background(
+                            color = Color(0xFFE0F2FF),
+                            shape = RoundedCornerShape(16.dp),
+                        ),
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = iconVector,
                     contentDescription = null,
                     modifier = Modifier.size(40.dp),
-                    tint = Color(0xFF3B82F6)
+                    tint = Color(0xFF3B82F6),
                 )
             }
 
@@ -61,7 +63,7 @@ fun EmptyProjectsUI(
                 fontSize = 16.sp,
                 color = Color.Gray,
                 textAlign = TextAlign.Center,
-                lineHeight = 24.sp
+                lineHeight = 24.sp,
             )
         }
     }

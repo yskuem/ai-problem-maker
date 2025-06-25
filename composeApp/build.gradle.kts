@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -17,6 +19,9 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
+    val name = "ComposeApp"
+    val xcf = XCFramework(name)
     
     listOf(
         iosX64(),
@@ -24,9 +29,10 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            freeCompilerArgs += listOf("-Xbinary=bundleId=app.yskuem.aimondaimaker")
+            baseName = name
+            binaryOption("bundleId", "app.yskuem.aimondaimaker")
             isStatic = true
+            xcf.add(this)
         }
     }
     
@@ -56,6 +62,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
+            implementation(libs.ui.backhandler)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
@@ -98,6 +105,9 @@ kotlin {
     }
 }
 
+val keystorePropertiesFile = rootProject.file("key.properties")
+
+
 android {
     namespace = "app.yskuem.aimondaimaker"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -106,7 +116,7 @@ android {
         applicationId = "app.yskuem.aimondaimaker"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
+        versionCode = 4
         versionName = "1.0.0"
     }
     packaging {
@@ -114,9 +124,25 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        if(keystorePropertiesFile.exists()) {
+            val keystoreProperties = Properties().apply {
+                load(keystorePropertiesFile.inputStream())
+            }
+            create("release") {
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+            }
+        } else {
+            create("release") {}
+        }
+    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

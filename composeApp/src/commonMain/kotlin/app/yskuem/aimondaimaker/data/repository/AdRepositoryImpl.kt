@@ -16,19 +16,16 @@ import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(DependsOnGoogleMobileAds::class, DependsOnGoogleUserMessagingPlatform::class, ExperimentalBasicAds::class)
 class AdRepositoryImpl(
-    contextFactory: ContextFactory
+    contextFactory: ContextFactory,
 ) : AdRepository {
-
     private val interstitial = InterstitialAd(contextFactory.getActivity())
 
     private val _interstitialEnabled = MutableStateFlow(false)
     override val interstitialEnabled: StateFlow<Boolean> = _interstitialEnabled.asStateFlow()
 
-
     private val consent = Consent(contextFactory.getActivity())
 
     private val _userConsented = MutableStateFlow(false)
-
 
     private val debugSettings = ConsentDebugSettings.Builder(contextFactory.getActivity()).build()
 
@@ -48,7 +45,7 @@ class AdRepositoryImpl(
             },
             onFailure = { error ->
                 println("ロードエラー$error")
-            }
+            },
         )
     }
 
@@ -61,7 +58,7 @@ class AdRepositoryImpl(
                 // ユーザーが広告を閉じたら次のロードを行う
                 _interstitialEnabled.value = false
                 loadInterstitialAds()
-            }
+            },
         )
     }
 
@@ -74,10 +71,9 @@ class AdRepositoryImpl(
         }
     }
 
-
     private fun checkForConsent() {
         consent.requestConsentInfoUpdate(params) {
-            //Log.e("AdRepo", "Consent update failed: $it")
+            // Log.e("AdRepo", "Consent update failed: $it")
         }
         _userConsented.value = consent.canRequestAds()
     }
