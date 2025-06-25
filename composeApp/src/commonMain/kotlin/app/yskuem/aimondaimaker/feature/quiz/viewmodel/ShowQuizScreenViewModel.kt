@@ -9,6 +9,7 @@ import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.gitlive.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +22,7 @@ class ShowQuizScreenViewModel(
     private val quizRepository: QuizRepository,
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
+    private val crashlytics: FirebaseCrashlytics,
 ) : ScreenModel {
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
@@ -73,6 +75,7 @@ class ShowQuizScreenViewModel(
             _quizList.value = DataUiState.Success(quizList)
             quizList
         } catch (e: Exception) {
+            crashlytics.log(e.toString())
             _quizList.value = DataUiState.Error(e)
             emptyList()
         }
