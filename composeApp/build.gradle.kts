@@ -93,6 +93,8 @@ kotlin {
             implementation(libs.basic.ads)
             implementation(libs.google.ads)
             implementation(libs.firebase.remote.config)
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

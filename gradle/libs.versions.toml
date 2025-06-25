@@ -101,6 +101,8 @@ google-ads = { module = "com.google.android.gms:play-services-ads", version.ref 
 basic-ads  = { module = "app.lexilabs.basic:basic-ads",  version.ref = "lexilabs-basic" }
 
 firebase-remote-config = { module = "dev.gitlive:firebase-config", version.ref = "firebase-gitlive"}
+firebase-analytics = { module = "dev.gitlive:firebase-analytics", version.ref = "firebase-gitlive"}
+firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive"}
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
 
