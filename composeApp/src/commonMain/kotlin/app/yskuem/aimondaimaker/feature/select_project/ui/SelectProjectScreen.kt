@@ -315,20 +315,16 @@ class SelectProjectScreen : Screen {
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(10.dp))
-                                var bannerLoaded by remember { mutableStateOf(false) }
                                 Box(
                                     modifier =
                                         Modifier
                                             .fillMaxWidth()
-                                            .height(if (bannerLoaded) 50.dp else 0.dp)
-                                            .background(
-                                                color = if (bannerLoaded) Color.White else Color.Transparent,
-                                            ),
+                                            .height(50.dp)
+                                            .background(color = Color.White),
                                     contentAlignment = Alignment.Center,
                                 ) {
                                     BannerAd(
                                         adUnitId = getAdmobBannerId(),
-                                        onLoad = { bannerLoaded = true },
                                     )
                                 }
                             }
