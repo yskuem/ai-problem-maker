@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # ───────────── Gradle ─────────────
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
@@ -7,13 +8,16 @@ updates:
       day: "sunday"
       time: "06:00"
     open-pull-requests-limit: 10
+    target-branch: "develop"
     groups:
       kotlin-and-compose:
         patterns:
           - "org.jetbrains.kotlin*"
           - "org.jetbrains.compose*"
 
+  # ───────── GitHub Actions ─────────
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
