@@ -25,6 +25,7 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 adUseCase = get(),
+                crashlytics = get(),
             )
         }
         factory {
@@ -33,6 +34,7 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 adUseCase = get(),
+                crashlytics = get(),
             )
         }
         factory {

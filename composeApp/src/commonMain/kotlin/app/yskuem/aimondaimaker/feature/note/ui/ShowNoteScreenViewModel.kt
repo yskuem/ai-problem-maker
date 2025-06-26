@@ -8,6 +8,7 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import dev.gitlive.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,7 @@ class ShowNoteScreenViewModel(
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
     private val adUseCase: AdUseCase,
+    private val crashlytics: FirebaseCrashlytics,
 ) : ScreenModel {
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
@@ -62,8 +64,9 @@ class ShowNoteScreenViewModel(
                         note = note,
                         projectId = projectId,
                     )
-                }.onFailure {
-                    _note.value = DataUiState.Error(it)
+                }.onFailure { e ->
+                    crashlytics.log(e.toString())
+                    _note.value = DataUiState.Error(e)
                 }
         }
     }
