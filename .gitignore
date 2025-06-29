@@ -27,3 +27,4 @@ iosApp/iosApp/GoogleService-Info.plist
 /composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobAndroidProdConfigs.kt
 /composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobIosProdConfigs.kt
 /key.properties
+/composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/data/api/config/ProdHost.kt

@@ -1,5 +1,8 @@
 package app.yskuem.aimondaimaker.data.api
 
+import app.yskuem.aimondaimaker.core.config.Flavor
+import app.yskuem.aimondaimaker.core.config.getFlavor
+import app.yskuem.aimondaimaker.data.api.config.ApiConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
@@ -18,7 +21,10 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object HttpClient {
-    private const val HOST = "ai-problem-maker-mu.vercel.app"
+    private val HOST = when(getFlavor()) {
+        Flavor.DEV, Flavor.STAGING -> ApiConfig.DEV_HOST
+        Flavor.PROD -> ApiConfig.PROD_HOST
+    }
     private val engine = createHttpClientEngine()
 
     val client: HttpClient by lazy {
