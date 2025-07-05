@@ -12,70 +12,86 @@ import kotlinx.serialization.json.Json
 import kotlin.test.*
 
 class HttpClientTest {
+
     @Serializable
     private data class UploadResponse(
         val success: Boolean,
         val url: String,
     )
 
+    private companion object {
+        val TEST_IMAGE_BYTES = byteArrayOf(0x01, 0x02, 0x03)
+        const val TEST_FILE_NAME = "avatar"
+        const val TEST_FILE_EXTENSION = "png"
+        const val TEST_UPLOAD_PATH = "/v1/upload"
+        const val TEST_RESPONSE_URL = "https://example.com/image.png"
+    }
+
     private val json = Json { ignoreUnknownKeys = true }
 
     @BeforeTest
     fun setUp() {
-        val mockEngine = MockEngine { request -> makeMockResponse(request) }
-        // エンジンを差し替え
+        val mockEngine = MockEngine { request -> handleMockRequest(request) }
         HttpClient.overrideEngine = mockEngine
     }
 
     @AfterTest
     fun tearDown() {
-        HttpClient.overrideEngine = null // 後片付け
+        HttpClient.overrideEngine = null
     }
 
     @Test
-    fun postWithImage_sendsValidMultipart_andReturnsResponse() =
-        runTest {
-            // arrange
-            val bytes = byteArrayOf(0x01, 0x02, 0x03)
-            val response: UploadResponse =
-                HttpClient.postWithImage(
-                    imageBytes = bytes,
-                    fileName = "avatar",
-                    extension = "png",
-                    path = "/v1/upload",
-                )
+    fun postWithImage_sendsValidMultipart_andReturnsResponse() = runTest {
+        // Act
+        val response: UploadResponse = HttpClient.postWithImage(
+            imageBytes = TEST_IMAGE_BYTES,
+            fileName = TEST_FILE_NAME,
+            extension = TEST_FILE_EXTENSION,
+            path = TEST_UPLOAD_PATH,
+        )
 
-            // assert
-            assertTrue(response.success)
-            assertEquals("https://example.com/image.png", response.url)
-        }
+        // Assert
+        assertTrue(response.success)
+        assertEquals(TEST_RESPONSE_URL, response.url)
+    }
 
-    /** MockEngine が呼び出されたときに走るロジック */
-    private fun MockRequestHandleScope.makeMockResponse(request: HttpRequestData): HttpResponseData {
-        // ───────── リクエスト検証 ─────────
-        assertEquals("/v1/upload", request.url.fullPath)
+    private fun MockRequestHandleScope.handleMockRequest(request: HttpRequestData): HttpResponseData {
+        validateRequest(request)
+        return createMockResponse()
+    }
+
+    private fun validateRequest(request: HttpRequestData) {
+        assertEquals(TEST_UPLOAD_PATH, request.url.fullPath)
         assertEquals(HttpMethod.Post, request.method)
+        validateMultipartContentType(request)
+    }
 
-        // Content-Type が multipart/form-data であること
-        val ctHeader = request.headers[HttpHeaders.ContentType] ?: error("No Content-Type")
-        assertTrue(ctHeader.startsWith("multipart/form-data"))
-        assertTrue(ctHeader.contains("boundary=")) // boundary= が含まれる
+    private fun validateMultipartContentType(request: HttpRequestData) {
+        val contentTypeHeader = request.headers[HttpHeaders.ContentType] 
+            ?: error("Content-Type header is missing")
+        
+        assertTrue(
+            contentTypeHeader.startsWith("multipart/form-data"),
+            "Expected multipart/form-data, but got: $contentTypeHeader"
+        )
+        assertTrue(
+            contentTypeHeader.contains("boundary="),
+            "Boundary parameter is missing in Content-Type header"
+        )
+    }
 
-        // ───────── モックレスポンス作成 ─────────
-        val bodyJson =
-            json.encodeToString(
-                UploadResponse(success = true, url = "https://example.com/image.png"),
-            )
-        return respond( // respond は MockRequestHandleScope 拡張
-            content = ByteReadChannel(bodyJson),
+    private fun MockRequestHandleScope.createMockResponse(): HttpResponseData {
+        val responseBody = json.encodeToString(
+            UploadResponse(success = true, url = TEST_RESPONSE_URL)
+        )
+        
+        return respond(
+            content = ByteReadChannel(responseBody),
             status = HttpStatusCode.OK,
-            headers =
-                headersOf(
-                    HttpHeaders.ContentType,
-                    ContentType.Application.Json
-                        .withParameter("charset", "utf-8")
-                        .toString(),
-                ),
+            headers = headersOf(
+                HttpHeaders.ContentType,
+                ContentType.Application.Json.withParameter("charset", "utf-8").toString()
+            ),
         )
     }
 }
