@@ -22,10 +22,12 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object HttpClient {
-    private val HOST = when(getFlavor()) {
-        Flavor.DEV, Flavor.STAGING -> ApiConfig.DEV_HOST
-        Flavor.PROD -> ApiConfig.PROD_HOST
-    }
+    private val HOST =
+        when (getFlavor()) {
+            Flavor.DEV, Flavor.STAGING -> ApiConfig.DEV_HOST
+            Flavor.PROD -> ApiConfig.PROD_HOST
+        }
+
     // テスト時にだけ上書き出来るフック
     internal var overrideEngine: HttpClientEngine? = null
 
