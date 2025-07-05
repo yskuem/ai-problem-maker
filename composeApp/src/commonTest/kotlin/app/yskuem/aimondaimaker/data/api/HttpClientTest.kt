@@ -12,7 +12,6 @@ import kotlinx.serialization.json.Json
 import kotlin.test.*
 
 class HttpClientTest {
-
     @Serializable
     private data class UploadResponse(
         val success: Boolean,
@@ -41,19 +40,21 @@ class HttpClientTest {
     }
 
     @Test
-    fun postWithImage_sendsValidMultipart_andReturnsResponse() = runTest {
-        // Act
-        val response: UploadResponse = HttpClient.postWithImage(
-            imageBytes = TEST_IMAGE_BYTES,
-            fileName = TEST_FILE_NAME,
-            extension = TEST_FILE_EXTENSION,
-            path = TEST_UPLOAD_PATH,
-        )
+    fun postWithImage_sendsValidMultipart_andReturnsResponse() =
+        runTest {
+            // Act
+            val response: UploadResponse =
+                HttpClient.postWithImage(
+                    imageBytes = TEST_IMAGE_BYTES,
+                    fileName = TEST_FILE_NAME,
+                    extension = TEST_FILE_EXTENSION,
+                    path = TEST_UPLOAD_PATH,
+                )
 
-        // Assert
-        assertTrue(response.success)
-        assertEquals(TEST_RESPONSE_URL, response.url)
-    }
+            // Assert
+            assertTrue(response.success)
+            assertEquals(TEST_RESPONSE_URL, response.url)
+        }
 
     private fun MockRequestHandleScope.handleMockRequest(request: HttpRequestData): HttpResponseData {
         validateRequest(request)
@@ -67,31 +68,36 @@ class HttpClientTest {
     }
 
     private fun validateMultipartContentType(request: HttpRequestData) {
-        val contentTypeHeader = request.headers[HttpHeaders.ContentType] 
-            ?: error("Content-Type header is missing")
-        
+        val contentTypeHeader =
+            request.headers[HttpHeaders.ContentType]
+                ?: error("Content-Type header is missing")
+
         assertTrue(
             contentTypeHeader.startsWith("multipart/form-data"),
-            "Expected multipart/form-data, but got: $contentTypeHeader"
+            "Expected multipart/form-data, but got: $contentTypeHeader",
         )
         assertTrue(
             contentTypeHeader.contains("boundary="),
-            "Boundary parameter is missing in Content-Type header"
+            "Boundary parameter is missing in Content-Type header",
         )
     }
 
     private fun MockRequestHandleScope.createMockResponse(): HttpResponseData {
-        val responseBody = json.encodeToString(
-            UploadResponse(success = true, url = TEST_RESPONSE_URL)
-        )
-        
+        val responseBody =
+            json.encodeToString(
+                UploadResponse(success = true, url = TEST_RESPONSE_URL),
+            )
+
         return respond(
             content = ByteReadChannel(responseBody),
             status = HttpStatusCode.OK,
-            headers = headersOf(
-                HttpHeaders.ContentType,
-                ContentType.Application.Json.withParameter("charset", "utf-8").toString()
-            ),
+            headers =
+                headersOf(
+                    HttpHeaders.ContentType,
+                    ContentType.Application.Json
+                        .withParameter("charset", "utf-8")
+                        .toString(),
+                ),
         )
     }
 }
