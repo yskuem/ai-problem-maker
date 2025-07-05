@@ -39,5 +39,6 @@ jobs:
           claude_expires_at: ${{ secrets.CLAUDE_EXPIRES_AT }}
 
           model: 'claude-sonnet-4-20250514'
+          base_branch: 'develop'
 
           timeout_minutes: "60"
