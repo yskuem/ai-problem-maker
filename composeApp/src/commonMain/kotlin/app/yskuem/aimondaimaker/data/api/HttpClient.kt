@@ -5,6 +5,7 @@ import app.yskuem.aimondaimaker.core.config.getFlavor
 import app.yskuem.aimondaimaker.data.api.config.ApiConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -25,7 +26,10 @@ object HttpClient {
         Flavor.DEV, Flavor.STAGING -> ApiConfig.DEV_HOST
         Flavor.PROD -> ApiConfig.PROD_HOST
     }
-    private val engine = createHttpClientEngine()
+    // テスト時にだけ上書き出来るフック
+    internal var overrideEngine: HttpClientEngine? = null
+
+    private val engine get() = overrideEngine ?: createHttpClientEngine()
 
     val client: HttpClient by lazy {
         HttpClient(engine) {

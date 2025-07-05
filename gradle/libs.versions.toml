@@ -15,7 +15,7 @@ compose-multiplatform = "1.8.1"
 composeWebviewMultiplatform = "2.0.0"
 htmlconverter = "1.0.4"
 junit = "4.13.2"
-kotlin = "2.2.0-RC2"
+kotlin = "2.2.0"
 ktorSerializationKotlinxJson = "2.3.12"
 permissionsCompose = "0.19.1"
 voyager = "1.1.0-beta03"
@@ -85,6 +85,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 supabase-bom = { group="io.github.jan-tennert.supabase", name="bom", version.ref = "supabase" }
 supabase-auth = { group="io.github.jan-tennert.supabase", name="auth-kt", version.ref ="supabase" }
