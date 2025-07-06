@@ -6,11 +6,10 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.user.UserInfo
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class AuthRepositoryImplTest {
-
     @Test
     fun `should sign in anonymously`() {
         val mockAuth = MockAuth()
@@ -31,9 +30,10 @@ class AuthRepositoryImplTest {
         val mockSupabaseClient = MockSupabaseClient(mockAuth)
         val repository: AuthRepository = AuthRepositoryImpl(mockSupabaseClient)
 
-        val result = kotlinx.coroutines.test.runTest {
-            repository.getUser()
-        }
+        val result =
+            kotlinx.coroutines.test.runTest {
+                repository.getUser()
+            }
 
         assertEquals(mockUser, result)
         assertEquals(1, mockAuth.awaitInitializationCallCount)
@@ -45,9 +45,10 @@ class AuthRepositoryImplTest {
         val mockSupabaseClient = MockSupabaseClient(mockAuth)
         val repository: AuthRepository = AuthRepositoryImpl(mockSupabaseClient)
 
-        val result = kotlinx.coroutines.test.runTest {
-            repository.getUser()
-        }
+        val result =
+            kotlinx.coroutines.test.runTest {
+                repository.getUser()
+            }
 
         assertNull(result)
         assertEquals(1, mockAuth.awaitInitializationCallCount)
@@ -60,9 +61,10 @@ class AuthRepositoryImplTest {
         val mockSupabaseClient = MockSupabaseClient(mockAuth)
         val repository: AuthRepository = AuthRepositoryImpl(mockSupabaseClient)
 
-        val result = kotlinx.coroutines.test.runTest {
-            repository.getUserId()
-        }
+        val result =
+            kotlinx.coroutines.test.runTest {
+                repository.getUserId()
+            }
 
         assertEquals("user-123", result)
     }
@@ -86,25 +88,31 @@ class AuthRepositoryImplTest {
         val mockSupabaseClient = MockSupabaseClient(mockAuth)
         val repository: AuthRepository = AuthRepositoryImpl(mockSupabaseClient)
 
-        val exception = assertFailsWith<IllegalStateException> {
-            kotlinx.coroutines.test.runTest {
-                repository.getUserId()
+        val exception =
+            assertFailsWith<IllegalStateException> {
+                kotlinx.coroutines.test.runTest {
+                    repository.getUserId()
+                }
             }
-        }
 
         assertEquals("User is not signed in", exception.message)
     }
 
-    private class MockSupabaseClient(private val mockAuth: Auth) : SupabaseClient {
+    private class MockSupabaseClient(
+        private val mockAuth: Auth,
+    ) : SupabaseClient {
         override val auth: Auth = mockAuth
-        
+
         // We only need to implement the auth property for our tests
         override fun close() = Unit
+
         override val supabaseUrl: String = "https://mock.supabase.co"
         override val supabaseKey: String = "mock-key"
     }
 
-    private class MockAuth(private val currentUser: UserInfo? = null) : Auth {
+    private class MockAuth(
+        private val currentUser: UserInfo? = null,
+    ) : Auth {
         var signInAnonymouslyCallCount = 0
             private set
         var awaitInitializationCallCount = 0
@@ -118,12 +126,12 @@ class AuthRepositoryImplTest {
             awaitInitializationCallCount++
         }
 
-        override fun currentUserOrNull(): UserInfo? {
-            return currentUser
-        }
+        override fun currentUserOrNull(): UserInfo? = currentUser
     }
 
-    private class MockUserInfo(override val id: String) : UserInfo {
+    private class MockUserInfo(
+        override val id: String,
+    ) : UserInfo {
         override val email: String? = null
         override val phone: String? = null
         override val createdAt: String = ""

@@ -9,22 +9,21 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class MapperExtensionsTest {
-
     @Test
     fun `should map QuizApiDto to Quiz domain model`() {
-        val quizApiDto = QuizApiDto(
-            id = "quiz-1",
-            answer = "Option B",
-            question = "What is the correct answer?",
-            choices = listOf("Option A", "Option B", "Option C", "Option D"),
-            explanation = "This is the explanation",
-            title = "Test Quiz",
-            groupId = "group-1"
-        )
+        val quizApiDto =
+            QuizApiDto(
+                id = "quiz-1",
+                answer = "Option B",
+                question = "What is the correct answer?",
+                choices = listOf("Option A", "Option B", "Option C", "Option D"),
+                explanation = "This is the explanation",
+                title = "Test Quiz",
+                groupId = "group-1",
+            )
 
         val quiz = quizApiDto.toDomain()
 
@@ -36,7 +35,7 @@ class MapperExtensionsTest {
         assertEquals("group-1", quiz.groupId)
         assertEquals("", quiz.projectId) // Default value
         assertEquals("", quiz.createdUserId) // Default value
-        
+
         // Verify choices are shuffled (not necessarily in original order)
         assertEquals(4, quiz.choices.size)
         assertTrue(quiz.choices.contains("Option A"))
@@ -48,19 +47,20 @@ class MapperExtensionsTest {
     @Test
     fun `should shuffle choices when mapping QuizApiDto to Quiz`() {
         val originalChoices = listOf("A", "B", "C", "D")
-        val quizApiDto = QuizApiDto(
-            id = "quiz-1",
-            answer = "B",
-            question = "Test?",
-            choices = originalChoices,
-            explanation = "Test explanation",
-            title = "Test Quiz",
-            groupId = "group-1"
-        )
+        val quizApiDto =
+            QuizApiDto(
+                id = "quiz-1",
+                answer = "B",
+                question = "Test?",
+                choices = originalChoices,
+                explanation = "Test explanation",
+                title = "Test Quiz",
+                groupId = "group-1",
+            )
 
         // Map multiple times to increase chance of different ordering
         val mappedQuizzes = (1..20).map { quizApiDto.toDomain() }
-        
+
         // At least one should have different ordering (statistically very likely)
         val hasShuffled = mappedQuizzes.any { it.choices != originalChoices }
         assertTrue(hasShuffled, "Choices should be shuffled")
@@ -70,13 +70,14 @@ class MapperExtensionsTest {
     fun `should map Project to ProjectDto`() {
         val createdAt = Instant.parse("2024-01-01T00:00:00Z")
         val updatedAt = Instant.parse("2024-01-02T00:00:00Z")
-        val project = Project(
-            id = "project-1",
-            createdUserId = "user-1",
-            name = "Test Project",
-            createdAt = createdAt,
-            updatedAt = updatedAt
-        )
+        val project =
+            Project(
+                id = "project-1",
+                createdUserId = "user-1",
+                name = "Test Project",
+                createdAt = createdAt,
+                updatedAt = updatedAt,
+            )
 
         val projectDto = project.toDTO()
 
@@ -91,13 +92,14 @@ class MapperExtensionsTest {
     fun `should map ProjectDto to Project domain model`() {
         val createdAt = Instant.parse("2024-01-01T00:00:00Z")
         val updatedAt = Instant.parse("2024-01-02T00:00:00Z")
-        val projectDto = ProjectDto(
-            id = "project-1",
-            createdUserId = "user-1",
-            name = "Test Project",
-            createdAt = createdAt,
-            updatedAt = updatedAt
-        )
+        val projectDto =
+            ProjectDto(
+                id = "project-1",
+                createdUserId = "user-1",
+                name = "Test Project",
+                createdAt = createdAt,
+                updatedAt = updatedAt,
+            )
 
         val project = projectDto.toDomain()
 
@@ -110,11 +112,12 @@ class MapperExtensionsTest {
 
     @Test
     fun `should map NoteApiDto to Note domain model`() {
-        val noteApiDto = NoteApiDto(
-            id = "note-1",
-            title = "Test Note",
-            html = "<p>Test content</p>"
-        )
+        val noteApiDto =
+            NoteApiDto(
+                id = "note-1",
+                title = "Test Note",
+                html = "<p>Test content</p>",
+            )
 
         val note = noteApiDto.toDomain()
 
@@ -128,15 +131,16 @@ class MapperExtensionsTest {
 
     @Test
     fun `should handle empty choices list in QuizApiDto`() {
-        val quizApiDto = QuizApiDto(
-            id = "quiz-1",
-            answer = "True",
-            question = "True or False?",
-            choices = emptyList(),
-            explanation = "This is true",
-            title = "Boolean Quiz",
-            groupId = "group-1"
-        )
+        val quizApiDto =
+            QuizApiDto(
+                id = "quiz-1",
+                answer = "True",
+                question = "True or False?",
+                choices = emptyList(),
+                explanation = "This is true",
+                title = "Boolean Quiz",
+                groupId = "group-1",
+            )
 
         val quiz = quizApiDto.toDomain()
 
@@ -145,15 +149,16 @@ class MapperExtensionsTest {
 
     @Test
     fun `should handle Unicode characters in mapping`() {
-        val quizApiDto = QuizApiDto(
-            id = "quiz-1",
-            answer = "選択肢B",
-            question = "正しい答えは何ですか？",
-            choices = listOf("選択肢A", "選択肢B", "選択肢C"),
-            explanation = "これが正しい答えです",
-            title = "日本語クイズ",
-            groupId = "group-1"
-        )
+        val quizApiDto =
+            QuizApiDto(
+                id = "quiz-1",
+                answer = "選択肢B",
+                question = "正しい答えは何ですか？",
+                choices = listOf("選択肢A", "選択肢B", "選択肢C"),
+                explanation = "これが正しい答えです",
+                title = "日本語クイズ",
+                groupId = "group-1",
+            )
 
         val quiz = quizApiDto.toDomain()
 
@@ -165,7 +170,8 @@ class MapperExtensionsTest {
 
     @Test
     fun `should handle HTML content in NoteApiDto`() {
-        val htmlContent = """
+        val htmlContent =
+            """
             <div>
                 <h1>Title</h1>
                 <p>Paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
@@ -174,13 +180,14 @@ class MapperExtensionsTest {
                     <li>Item 2</li>
                 </ul>
             </div>
-        """.trimIndent()
+            """.trimIndent()
 
-        val noteApiDto = NoteApiDto(
-            id = "note-1",
-            title = "HTML Note",
-            html = htmlContent
-        )
+        val noteApiDto =
+            NoteApiDto(
+                id = "note-1",
+                title = "HTML Note",
+                html = htmlContent,
+            )
 
         val note = noteApiDto.toDomain()
 
@@ -189,19 +196,21 @@ class MapperExtensionsTest {
     }
 
     @Test
-    fun `should create different timestamps for multiple mappings`() = runTest {
-        val noteApiDto = NoteApiDto(
-            id = "note-1",
-            title = "Test Note",
-            html = "<p>Test</p>"
-        )
+    fun `should create different timestamps for multiple mappings`() =
+        runTest {
+            val noteApiDto =
+                NoteApiDto(
+                    id = "note-1",
+                    title = "Test Note",
+                    html = "<p>Test</p>",
+                )
 
-        val note1 = noteApiDto.toDomain()
-        delay(1) // Ensure different timestamps
-        val note2 = noteApiDto.toDomain()
+            val note1 = noteApiDto.toDomain()
+            delay(1) // Ensure different timestamps
+            val note2 = noteApiDto.toDomain()
 
-        // While timestamps might be the same due to precision, they should be close
-        assertTrue(note1.createdAt.epochSeconds <= note2.createdAt.epochSeconds)
-        assertTrue(note1.updatedAt.epochSeconds <= note2.updatedAt.epochSeconds)
-    }
+            // While timestamps might be the same due to precision, they should be close
+            assertTrue(note1.createdAt.epochSeconds <= note2.createdAt.epochSeconds)
+            assertTrue(note1.updatedAt.epochSeconds <= note2.updatedAt.epochSeconds)
+        }
 }

@@ -5,7 +5,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class CheckUpdateStatusTest {
-
     @Test
     fun `should have UPDATED_NEEDED status`() {
         val status = CheckUpdateStatus.UPDATED_NEEDED
@@ -33,7 +32,7 @@ class CheckUpdateStatusTest {
     @Test
     fun `should contain all expected values`() {
         val values = CheckUpdateStatus.values()
-        
+
         assertTrue(values.contains(CheckUpdateStatus.UPDATED_NEEDED))
         assertTrue(values.contains(CheckUpdateStatus.HAVE_LATEST_APP_VERSION))
         assertTrue(values.contains(CheckUpdateStatus.NONE))
@@ -72,7 +71,7 @@ class CheckUpdateStatusTest {
         val status1 = CheckUpdateStatus.UPDATED_NEEDED
         val status2 = CheckUpdateStatus.UPDATED_NEEDED
         val status3 = CheckUpdateStatus.NONE
-        
+
         assertEquals(status1, status2)
         assertTrue(status1 == status2)
         assertTrue(status1 != status3)
@@ -81,26 +80,28 @@ class CheckUpdateStatusTest {
     @Test
     fun `should support when expression`() {
         val status = CheckUpdateStatus.UPDATED_NEEDED
-        
-        val result = when (status) {
-            CheckUpdateStatus.UPDATED_NEEDED -> "Update required"
-            CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> "Update available"
-            CheckUpdateStatus.NONE -> "Up to date"
-        }
-        
+
+        val result =
+            when (status) {
+                CheckUpdateStatus.UPDATED_NEEDED -> "Update required"
+                CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> "Update available"
+                CheckUpdateStatus.NONE -> "Up to date"
+            }
+
         assertEquals("Update required", result)
     }
 
     @Test
     fun `should handle all cases in when expression`() {
-        val results = CheckUpdateStatus.values().map { status ->
-            when (status) {
-                CheckUpdateStatus.UPDATED_NEEDED -> "critical"
-                CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> "optional"
-                CheckUpdateStatus.NONE -> "current"
+        val results =
+            CheckUpdateStatus.values().map { status ->
+                when (status) {
+                    CheckUpdateStatus.UPDATED_NEEDED -> "critical"
+                    CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> "optional"
+                    CheckUpdateStatus.NONE -> "current"
+                }
             }
-        }
-        
+
         assertEquals(listOf("critical", "optional", "current"), results)
     }
 }
