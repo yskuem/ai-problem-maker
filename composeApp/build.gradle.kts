@@ -100,10 +100,14 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
-        val androidInstrumentedTest by getting {
-            dependencies {
-                implementation(libs.firebase.remote.config)
-            }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+            implementation("junit:junit:4.13.2")
+            implementation(kotlin("test"))
+        }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.firebase.remote.config)
         }
     }
 }
