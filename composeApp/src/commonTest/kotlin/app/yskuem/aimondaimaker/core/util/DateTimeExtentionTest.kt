@@ -5,7 +5,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DateTimeExtentionTest {
-
     @Test
     fun `should format Monday correctly`() {
         // 2024年1月1日は月曜日
@@ -107,10 +106,10 @@ class DateTimeExtentionTest {
         // 同じ日付でも時間が異なる場合の確認
         val dateTime1 = LocalDateTime(2024, 5, 10, 0, 0, 0)
         val dateTime2 = LocalDateTime(2024, 5, 10, 23, 59, 59)
-        
+
         val result1 = dateTime1.toJapaneseMonthDay()
         val result2 = dateTime2.toJapaneseMonthDay()
-        
+
         assertEquals("5月10日（金）", result1)
         assertEquals("5月10日（金）", result2)
         assertEquals(result1, result2)

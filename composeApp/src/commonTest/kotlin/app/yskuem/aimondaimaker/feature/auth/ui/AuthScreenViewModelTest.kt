@@ -18,20 +18,20 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AuthScreenViewModelTest {
-
     @Test
     fun `should initialize with default state`() {
         val mockAuthRepository = MockAuthRepository()
         val mockUserRepository = MockUserRepository()
         val mockUserDataStore = MockUserDataStore()
         val mockCheckUpdateUseCase = MockCheckUpdateUseCase()
-        
-        val viewModel = AuthScreenViewModel(
-            authRepository = mockAuthRepository,
-            userRepository = mockUserRepository,
-            userDataStore = mockUserDataStore,
-            checkUpdateUseCase = mockCheckUpdateUseCase
-        )
+
+        val viewModel =
+            AuthScreenViewModel(
+                authRepository = mockAuthRepository,
+                userRepository = mockUserRepository,
+                userDataStore = mockUserDataStore,
+                checkUpdateUseCase = mockCheckUpdateUseCase,
+            )
 
         runTest {
             assertFalse(viewModel.hasError.first())
@@ -45,17 +45,18 @@ class AuthScreenViewModelTest {
         val mockUserRepository = MockUserRepository()
         val mockUserDataStore = MockUserDataStore()
         val mockCheckUpdateUseCase = MockCheckUpdateUseCase()
-        
-        val viewModel = AuthScreenViewModel(
-            authRepository = mockAuthRepository,
-            userRepository = mockUserRepository,
-            userDataStore = mockUserDataStore,
-            checkUpdateUseCase = mockCheckUpdateUseCase
-        )
+
+        val viewModel =
+            AuthScreenViewModel(
+                authRepository = mockAuthRepository,
+                userRepository = mockUserRepository,
+                userDataStore = mockUserDataStore,
+                checkUpdateUseCase = mockCheckUpdateUseCase,
+            )
 
         runTest {
             viewModel.login()
-            
+
             assertTrue(viewModel.isLoginSuccess.first())
             assertFalse(viewModel.hasError.first())
             assertEquals(1, mockAuthRepository.signInAnonymousCallCount)
@@ -70,17 +71,18 @@ class AuthScreenViewModelTest {
         val mockUserRepository = MockUserRepository()
         val mockUserDataStore = MockUserDataStore()
         val mockCheckUpdateUseCase = MockCheckUpdateUseCase()
-        
-        val viewModel = AuthScreenViewModel(
-            authRepository = mockAuthRepository,
-            userRepository = mockUserRepository,
-            userDataStore = mockUserDataStore,
-            checkUpdateUseCase = mockCheckUpdateUseCase
-        )
+
+        val viewModel =
+            AuthScreenViewModel(
+                authRepository = mockAuthRepository,
+                userRepository = mockUserRepository,
+                userDataStore = mockUserDataStore,
+                checkUpdateUseCase = mockCheckUpdateUseCase,
+            )
 
         runTest {
             viewModel.login()
-            
+
             assertTrue(viewModel.isLoginSuccess.first())
             assertFalse(viewModel.hasError.first())
             assertEquals(0, mockAuthRepository.signInAnonymousCallCount)
@@ -94,17 +96,18 @@ class AuthScreenViewModelTest {
         val mockUserRepository = MockUserRepository()
         val mockUserDataStore = MockUserDataStore()
         val mockCheckUpdateUseCase = MockCheckUpdateUseCase()
-        
-        val viewModel = AuthScreenViewModel(
-            authRepository = mockAuthRepository,
-            userRepository = mockUserRepository,
-            userDataStore = mockUserDataStore,
-            checkUpdateUseCase = mockCheckUpdateUseCase
-        )
+
+        val viewModel =
+            AuthScreenViewModel(
+                authRepository = mockAuthRepository,
+                userRepository = mockUserRepository,
+                userDataStore = mockUserDataStore,
+                checkUpdateUseCase = mockCheckUpdateUseCase,
+            )
 
         runTest {
             viewModel.login()
-            
+
             assertTrue(viewModel.hasError.first())
             assertFalse(viewModel.isLoginSuccess.first())
         }
@@ -116,17 +119,18 @@ class AuthScreenViewModelTest {
         val mockUserRepository = MockUserRepository(shouldThrowOnSave = true)
         val mockUserDataStore = MockUserDataStore()
         val mockCheckUpdateUseCase = MockCheckUpdateUseCase()
-        
-        val viewModel = AuthScreenViewModel(
-            authRepository = mockAuthRepository,
-            userRepository = mockUserRepository,
-            userDataStore = mockUserDataStore,
-            checkUpdateUseCase = mockCheckUpdateUseCase
-        )
+
+        val viewModel =
+            AuthScreenViewModel(
+                authRepository = mockAuthRepository,
+                userRepository = mockUserRepository,
+                userDataStore = mockUserDataStore,
+                checkUpdateUseCase = mockCheckUpdateUseCase,
+            )
 
         runTest {
             viewModel.login()
-            
+
             assertTrue(viewModel.hasError.first())
             assertFalse(viewModel.isLoginSuccess.first())
         }
@@ -134,7 +138,7 @@ class AuthScreenViewModelTest {
 
     private class MockAuthRepository(
         private val currentUser: UserInfo? = null,
-        private val shouldThrowOnSignIn: Boolean = false
+        private val shouldThrowOnSignIn: Boolean = false,
     ) : AuthRepository {
         var signInAnonymousCallCount = 0
             private set
@@ -146,17 +150,13 @@ class AuthScreenViewModelTest {
             }
         }
 
-        override suspend fun getUser(): UserInfo? {
-            return currentUser
-        }
+        override suspend fun getUser(): UserInfo? = currentUser
 
-        override suspend fun getUserId(): String {
-            return currentUser?.id ?: "user-123"
-        }
+        override suspend fun getUserId(): String = currentUser?.id ?: "user-123"
     }
 
     private class MockUserRepository(
-        private val shouldThrowOnSave: Boolean = false
+        private val shouldThrowOnSave: Boolean = false,
     ) : UserRepository {
         var saveUserCallCount = 0
             private set
@@ -171,24 +171,29 @@ class AuthScreenViewModelTest {
 
     @OptIn(ExperimentalSettingsApi::class)
     private class MockUserDataStore : UserDataStore() {
-        override val flowSettings: FlowSettings = object : FlowSettings {
-            override fun getStringFlow(key: String, defaultValue: String): Flow<String> {
-                return MutableStateFlow(defaultValue)
-            }
+        override val flowSettings: FlowSettings =
+            object : FlowSettings {
+                override fun getStringFlow(
+                    key: String,
+                    defaultValue: String,
+                ): Flow<String> = MutableStateFlow(defaultValue)
 
-            override suspend fun putString(key: String, value: String) {
-                // Mock implementation
+                override suspend fun putString(
+                    key: String,
+                    value: String,
+                ) {
+                    // Mock implementation
+                }
             }
-        }
     }
 
     private class MockCheckUpdateUseCase : CheckUpdateUseCase {
-        override suspend fun checkUpdate(): CheckUpdateStatus {
-            return CheckUpdateStatus.NONE
-        }
+        override suspend fun checkUpdate(): CheckUpdateStatus = CheckUpdateStatus.NONE
     }
 
-    private class MockUserInfo(override val id: String) : UserInfo {
+    private class MockUserInfo(
+        override val id: String,
+    ) : UserInfo {
         override val email: String? = null
         override val phone: String? = null
         override val createdAt: String = ""
