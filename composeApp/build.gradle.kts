@@ -97,6 +97,14 @@ kotlin {
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
         }
+        
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlin.test.junit)
+            implementation(libs.multiplatform.settings.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+        }
+        
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
