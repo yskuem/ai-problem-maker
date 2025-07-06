@@ -57,6 +57,9 @@ kotlin {
 
             implementation(libs.datastore.core)
             implementation(libs.datastore)
+            // Google Ads - Android only
+            implementation(libs.basic.ads)
+            implementation(libs.google.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -91,8 +94,6 @@ kotlin {
             implementation(libs.multiplatform.settings.datastore)
             implementation(libs.multiplatform.settings.coroutines)
             implementation(libs.compose.webview.multiplatform)
-            implementation(libs.basic.ads)
-            implementation(libs.google.ads)
             implementation(libs.firebase.remote.config)
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
