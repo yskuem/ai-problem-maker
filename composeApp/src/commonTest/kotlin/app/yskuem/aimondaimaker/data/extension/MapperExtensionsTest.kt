@@ -4,6 +4,8 @@ import app.yskuem.aimondaimaker.data.api.response.NoteApiDto
 import app.yskuem.aimondaimaker.data.api.response.QuizApiDto
 import app.yskuem.aimondaimaker.data.supabase.response.ProjectDto
 import app.yskuem.aimondaimaker.domain.entity.Project
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -187,7 +189,7 @@ class MapperExtensionsTest {
     }
 
     @Test
-    fun `should create different timestamps for multiple mappings`() {
+    fun `should create different timestamps for multiple mappings`() = runTest {
         val noteApiDto = NoteApiDto(
             id = "note-1",
             title = "Test Note",
@@ -195,7 +197,7 @@ class MapperExtensionsTest {
         )
 
         val note1 = noteApiDto.toDomain()
-        Thread.sleep(1) // Ensure different timestamps
+        delay(1) // Ensure different timestamps
         val note2 = noteApiDto.toDomain()
 
         // While timestamps might be the same due to precision, they should be close
