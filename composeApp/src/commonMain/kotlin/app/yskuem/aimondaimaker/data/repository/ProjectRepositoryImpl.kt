@@ -60,22 +60,22 @@ class ProjectRepositoryImpl(
         return res?.toDomain()
     }
 
-    override suspend fun deleteProject(projectId: String): Boolean {
-        return try {
+    override suspend fun deleteProject(projectId: String): Boolean =
+        try {
             // 削除順序: quiz → note → quizinfo → project
             val quizDeleted = quizRepository.deleteQuizzesByProjectId(projectId)
             val noteDeleted = noteRepository.deleteNotesByProjectId(projectId)
             val quizInfoDeleted = quizRepository.deleteQuizInfosByProjectId(projectId)
-            val projectDeleted = supabaseClientHelper.deleteItemById(
-                tableName = SupabaseTableName.Project.NAME,
-                idCol = SupabaseColumnName.Project.ID,
-                idVal = projectId,
-            )
-            
+            val projectDeleted =
+                supabaseClientHelper.deleteItemById(
+                    tableName = SupabaseTableName.Project.NAME,
+                    idCol = SupabaseColumnName.Project.ID,
+                    idVal = projectId,
+                )
+
             // すべての削除が成功した場合のみtrueを返す
             quizDeleted && noteDeleted && quizInfoDeleted && projectDeleted
         } catch (e: Exception) {
             false
         }
-    }
 }

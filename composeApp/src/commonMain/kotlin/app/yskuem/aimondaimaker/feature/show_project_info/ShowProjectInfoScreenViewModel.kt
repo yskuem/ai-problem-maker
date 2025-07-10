@@ -120,9 +120,10 @@ class ShowProjectInfoScreenViewModel(
 
     fun deleteQuizInfo(quizInfoId: String) {
         screenModelScope.launch {
-            val result = runCatching {
-                quizRepository.deleteQuizInfo(quizInfoId)
-            }
+            val result =
+                runCatching {
+                    quizRepository.deleteQuizInfo(quizInfoId)
+                }
             result
                 .onSuccess { success ->
                     if (success) {
@@ -136,9 +137,10 @@ class ShowProjectInfoScreenViewModel(
 
     fun deleteNote(noteId: String) {
         screenModelScope.launch {
-            val result = runCatching {
-                noteRepository.deleteNote(noteId)
-            }
+            val result =
+                runCatching {
+                    noteRepository.deleteNote(noteId)
+                }
             result
                 .onSuccess { success ->
                     if (success) {
