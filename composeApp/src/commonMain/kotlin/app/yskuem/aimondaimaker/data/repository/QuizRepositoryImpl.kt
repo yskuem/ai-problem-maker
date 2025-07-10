@@ -111,4 +111,20 @@ class QuizRepositoryImpl(
             idVal = quizId,
         )
     }
+
+    override suspend fun deleteQuizzesByProjectId(projectId: String): Boolean {
+        return supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.Quiz.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+        )
+    }
+
+    override suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean {
+        return supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.QuizInfo.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+        )
+    }
 }

@@ -63,4 +63,12 @@ class NoteRepositoryImpl(
             idVal = noteId,
         )
     }
+
+    override suspend fun deleteNotesByProjectId(projectId: String): Boolean {
+        return supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.Note.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+        )
+    }
 }
