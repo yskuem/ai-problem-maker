@@ -34,4 +34,6 @@ interface QuizRepository {
     suspend fun deleteQuizzesByProjectId(projectId: String): Boolean
 
     suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean
+
+    suspend fun deleteQuizzesByQuizInfoId(quizInfoId: String): Boolean
 }
