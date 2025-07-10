@@ -55,4 +55,12 @@ class ProjectRepositoryImpl(
             )
         return res?.toDomain()
     }
+
+    override suspend fun deleteProject(projectId: String): Boolean {
+        return supabaseClientHelper.deleteItemById(
+            tableName = SupabaseTableName.Project.NAME,
+            idCol = SupabaseColumnName.Project.ID,
+            idVal = projectId,
+        )
+    }
 }

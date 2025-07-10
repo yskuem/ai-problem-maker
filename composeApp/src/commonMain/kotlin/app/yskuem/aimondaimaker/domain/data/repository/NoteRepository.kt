@@ -25,4 +25,9 @@ interface NoteRepository {
         projectId: String,
         userId: String,
     )
+
+    /**
+     * ノートの削除
+     */
+    suspend fun deleteNote(noteId: String): Boolean
 }

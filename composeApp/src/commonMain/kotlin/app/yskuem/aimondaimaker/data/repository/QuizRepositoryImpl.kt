@@ -95,4 +95,20 @@ class QuizRepositoryImpl(
             )
         return res.map { it.toDomain() }
     }
+
+    override suspend fun deleteQuizInfo(quizInfoId: String): Boolean {
+        return supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.QuizInfo.NAME,
+            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+            filterVal = quizInfoId,
+        )
+    }
+
+    override suspend fun deleteQuiz(quizId: String): Boolean {
+        return supabaseClientHelper.deleteItemById(
+            tableName = SupabaseTableName.Quiz.NAME,
+            idCol = "id",
+            idVal = quizId,
+        )
+    }
 }

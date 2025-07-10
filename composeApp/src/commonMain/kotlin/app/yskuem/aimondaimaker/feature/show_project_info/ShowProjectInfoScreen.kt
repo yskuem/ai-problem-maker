@@ -3,6 +3,8 @@ package app.yskuem.aimondaimaker.feature.show_project_info
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
+import ai_problem_maker.composeapp.generated.resources.delete_note
+import ai_problem_maker.composeapp.generated.resources.delete_quiz
 import ai_problem_maker.composeapp.generated.resources.last_updated_date
 import ai_problem_maker.composeapp.generated.resources.no_note_info
 import ai_problem_maker.composeapp.generated.resources.no_quiz_info
@@ -18,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Assignment
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -176,6 +179,9 @@ data class ShowProjectInfoScreen(
                                                 navigator = navigator,
                                             )
                                         },
+                                        onDeleteItem = { groupId ->
+                                            viewModel.deleteQuizInfo(groupId)
+                                        },
                                     )
                                 }
                                 BottomContent(
@@ -230,6 +236,9 @@ data class ShowProjectInfoScreen(
                                                 }
                                             navigator?.push(ShowNoteAppScreen(targetNote))
                                         },
+                                        onDeleteItem = { id ->
+                                            viewModel.deleteNote(id)
+                                        },
                                     )
                                 }
                                 BottomContent(
@@ -265,9 +274,11 @@ fun ContentList(
     updateAtList: List<String>,
     itemGroupIds: List<String>,
     onTapCard: (String) -> Unit,
+    onDeleteItem: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType,
 ) {
+    var expandedMenuFor by remember { mutableStateOf<String?>(null) }
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp), // 間隔を広げる
     ) {
@@ -324,7 +335,7 @@ fun ContentList(
                     Spacer(modifier = Modifier.width(16.dp))
 
                     // テキスト
-                    Column {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = item,
                             style =
@@ -345,6 +356,34 @@ fun ContentList(
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f), // もう少しはっきりした色に
                                 ),
                         )
+                    }
+
+                    // メニューボタン
+                    Box {
+                        IconButton(onClick = {
+                            expandedMenuFor = if (expandedMenuFor == itemGroupIds[index]) null else itemGroupIds[index]
+                        }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = "メニュー")
+                        }
+                        DropdownMenu(
+                            expanded = (expandedMenuFor == itemGroupIds[index]),
+                            onDismissRequest = { expandedMenuFor = null },
+                        ) {
+                            DropdownMenuItem(
+                                text = { 
+                                    Text(
+                                        stringResource(
+                                            if (contentType == ContentType.QUIZ) Res.string.delete_quiz 
+                                            else Res.string.delete_note
+                                        )
+                                    )
+                                },
+                                onClick = {
+                                    onDeleteItem(itemGroupIds[index])
+                                    expandedMenuFor = null
+                                }
+                            )
+                        }
                     }
                 }
             }

@@ -55,4 +55,12 @@ class NoteRepositoryImpl(
                 ),
         )
     }
+
+    override suspend fun deleteNote(noteId: String): Boolean {
+        return supabaseClientHelper.deleteItemById(
+            tableName = SupabaseTableName.Note.NAME,
+            idCol = "id",
+            idVal = noteId,
+        )
+    }
 }
