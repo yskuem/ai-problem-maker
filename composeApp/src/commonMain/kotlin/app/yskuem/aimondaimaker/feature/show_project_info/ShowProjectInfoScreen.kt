@@ -370,18 +370,21 @@ fun ContentList(
                             onDismissRequest = { expandedMenuFor = null },
                         ) {
                             DropdownMenuItem(
-                                text = { 
+                                text = {
                                     Text(
                                         stringResource(
-                                            if (contentType == ContentType.QUIZ) Res.string.delete_quiz 
-                                            else Res.string.delete_note
-                                        )
+                                            if (contentType == ContentType.QUIZ) {
+                                                Res.string.delete_quiz
+                                            } else {
+                                                Res.string.delete_note
+                                            },
+                                        ),
                                     )
                                 },
                                 onClick = {
                                     onDeleteItem(itemGroupIds[index])
                                     expandedMenuFor = null
-                                }
+                                },
                             )
                         }
                     }

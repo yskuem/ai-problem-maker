@@ -102,7 +102,7 @@ class QuizRepositoryImpl(
         if (!quizzesDeleted) {
             return false
         }
-        
+
         // Then delete the quiz info
         return supabaseClientHelper.deleteItemsByMatch(
             tableName = SupabaseTableName.QuizInfo.NAME,
@@ -111,35 +111,31 @@ class QuizRepositoryImpl(
         )
     }
 
-    override suspend fun deleteQuiz(quizId: String): Boolean {
-        return supabaseClientHelper.deleteItemById(
+    override suspend fun deleteQuiz(quizId: String): Boolean =
+        supabaseClientHelper.deleteItemById(
             tableName = SupabaseTableName.Quiz.NAME,
             idCol = SupabaseColumnName.Quiz.ID,
             idVal = quizId,
         )
-    }
 
-    override suspend fun deleteQuizzesByProjectId(projectId: String): Boolean {
-        return supabaseClientHelper.deleteItemsByMatch(
+    override suspend fun deleteQuizzesByProjectId(projectId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
             tableName = SupabaseTableName.Quiz.NAME,
             filterCol = SupabaseColumnName.PROJECT_ID,
             filterVal = projectId,
         )
-    }
 
-    override suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean {
-        return supabaseClientHelper.deleteItemsByMatch(
+    override suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
             tableName = SupabaseTableName.QuizInfo.NAME,
             filterCol = SupabaseColumnName.PROJECT_ID,
             filterVal = projectId,
         )
-    }
 
-    override suspend fun deleteQuizzesByQuizInfoId(quizInfoId: String): Boolean {
-        return supabaseClientHelper.deleteItemsByMatch(
+    override suspend fun deleteQuizzesByQuizInfoId(quizInfoId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
             tableName = SupabaseTableName.Quiz.NAME,
             filterCol = SupabaseColumnName.Quiz.GROUP_ID,
             filterVal = quizInfoId,
         )
-    }
 }
