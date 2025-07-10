@@ -114,7 +114,7 @@ class QuizRepositoryImpl(
     override suspend fun deleteQuiz(quizId: String): Boolean {
         return supabaseClientHelper.deleteItemById(
             tableName = SupabaseTableName.Quiz.NAME,
-            idCol = "id",
+            idCol = SupabaseColumnName.Quiz.ID,
             idVal = quizId,
         )
     }
