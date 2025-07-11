@@ -58,4 +58,25 @@ class SelectProjectScreenViewModel(
                 }
         }
     }
+
+    fun deleteProject(
+        projectId: String,
+        currentProjects: List<Project>,
+    ) {
+        screenModelScope.launch {
+            val result =
+                runCatching {
+                    projectRepository.deleteProject(projectId)
+                }
+            result
+                .onSuccess { success ->
+                    if (success) {
+                        val updatedProjects = currentProjects.filter { it.id != projectId }
+                        _projects.value = DataUiState.Success(updatedProjects)
+                    }
+                }.onFailure {
+                    println(it)
+                }
+        }
+    }
 }

@@ -2,6 +2,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
+import ai_problem_maker.composeapp.generated.resources.delete_project
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
@@ -297,7 +298,16 @@ class SelectProjectScreen : Screen {
                                                         }) {
                                                             Text(stringResource(Res.string.change_project_name))
                                                         }
-                                                        // ここに他のメニュー項目を追加可能
+                                                        DropdownMenuItem(onClick = {
+                                                            // プロジェクトを削除
+                                                            viewModel.deleteProject(
+                                                                projectId = project.id,
+                                                                currentProjects = projects,
+                                                            )
+                                                            expandedMenuFor = null
+                                                        }) {
+                                                            Text(stringResource(Res.string.delete_project))
+                                                        }
                                                     }
                                                 }
                                             }

@@ -117,4 +117,38 @@ class ShowProjectInfoScreenViewModel(
         _quizInfoList.value = DataUiState.Loading
         fetchNoteList()
     }
+
+    fun deleteQuizInfo(quizInfoId: String) {
+        screenModelScope.launch {
+            val result =
+                runCatching {
+                    quizRepository.deleteQuizInfo(quizInfoId)
+                }
+            result
+                .onSuccess { success ->
+                    if (success) {
+                        refreshQuizInfo()
+                    }
+                }.onFailure { exception ->
+                    _quizInfoList.value = DataUiState.Error(exception)
+                }
+        }
+    }
+
+    fun deleteNote(noteId: String) {
+        screenModelScope.launch {
+            val result =
+                runCatching {
+                    noteRepository.deleteNote(noteId)
+                }
+            result
+                .onSuccess { success ->
+                    if (success) {
+                        refreshNoteList()
+                    }
+                }.onFailure { exception ->
+                    _noteList.value = DataUiState.Error(exception)
+                }
+        }
+    }
 }
