@@ -69,7 +69,7 @@ async def handle_generation(
     )
     contents = [uploaded, "\n\n" + prompt]
     result = client.models.generate_content(
-        model="gemini-2.5-flash-preview-05-20",
+        model="gemini-2.5-flash-lite-preview-06-17",
         contents=contents,
         config=generate_config,
     )
@@ -111,6 +111,7 @@ async def generate_quizzes(file: UploadFile = File(...)):
 async def generate_note(file: UploadFile = File(...)):
     prompt = (
         "画像の資料内容をhtmlで分かりやすくまとめてください。"
+        "サイズはスマホで閲覧することを想定してください。"
         "美しくカラフルなレイアウトで視覚的にわかりやすいデザインにしてください。"
         "内容の漏れはないようにしてください。"
     )
