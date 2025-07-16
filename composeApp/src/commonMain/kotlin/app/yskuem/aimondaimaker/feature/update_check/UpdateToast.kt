@@ -99,12 +99,14 @@ fun UpdateToast(
                         dampingRatio = Spring.DampingRatioMediumBouncy,
                         stiffness = Spring.StiffnessMedium,
                     ),
-            ) + fadeIn(animationSpec = tween(300)),
+            ) +
+                fadeIn(animationSpec = tween(300)),
         exit =
             slideOutVertically(
                 targetOffsetY = { -it },
                 animationSpec = tween(300),
-            ) + fadeOut(animationSpec = tween(300)),
+            ) +
+                fadeOut(animationSpec = tween(300)),
     ) {
         Card(
             modifier =
