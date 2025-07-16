@@ -40,6 +40,8 @@ val repositoryModule =
             ProjectRepositoryImpl(
                 authRepository = get(),
                 supabaseClientHelper = get(),
+                quizRepository = get(),
+                noteRepository = get(),
             )
         }
         single<UserRepository> {

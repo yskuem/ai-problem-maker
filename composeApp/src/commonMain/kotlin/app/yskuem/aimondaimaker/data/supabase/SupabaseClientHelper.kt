@@ -92,4 +92,52 @@ class SupabaseClientHelper(
                 select()
                 filter { eq(idCol, idVal) }
             }.decodeSingleOrNull<T>()
+
+    /**
+     * 主キー(idCol)で一意にレコードを指定して削除します。
+     *
+     * @param tableName 削除対象テーブル名
+     * @param idCol 主キーのカラム名 (例: "id")
+     * @param idVal 主キーの値
+     * @return 削除に成功した場合は true、失敗した場合は false
+     */
+    internal suspend fun deleteItemById(
+        tableName: String,
+        idCol: String,
+        idVal: String,
+    ): Boolean =
+        try {
+            supabase
+                .from(tableName)
+                .delete {
+                    filter { eq(idCol, idVal) }
+                }
+            true
+        } catch (e: Exception) {
+            false
+        }
+
+    /**
+     * 指定したカラム(filterCol)が filterVal と一致するレコードを削除します。
+     *
+     * @param tableName 削除対象テーブル名
+     * @param filterCol フィルタに使用するカラム名
+     * @param filterVal フィルタに使用する値
+     * @return 削除に成功した場合は true、失敗した場合は false
+     */
+    internal suspend fun deleteItemsByMatch(
+        tableName: String,
+        filterCol: String,
+        filterVal: String,
+    ): Boolean =
+        try {
+            supabase
+                .from(tableName)
+                .delete {
+                    filter { eq(filterCol, filterVal) }
+                }
+            true
+        } catch (e: Exception) {
+            false
+        }
 }

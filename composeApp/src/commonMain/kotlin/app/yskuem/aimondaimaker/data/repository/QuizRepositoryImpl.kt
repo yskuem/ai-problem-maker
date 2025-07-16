@@ -95,4 +95,47 @@ class QuizRepositoryImpl(
             )
         return res.map { it.toDomain() }
     }
+
+    override suspend fun deleteQuizInfo(quizInfoId: String): Boolean {
+        // First delete all related quizzes
+        val quizzesDeleted = deleteQuizzesByQuizInfoId(quizInfoId)
+        if (!quizzesDeleted) {
+            return false
+        }
+
+        // Then delete the quiz info
+        return supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.QuizInfo.NAME,
+            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+            filterVal = quizInfoId,
+        )
+    }
+
+    override suspend fun deleteQuiz(quizId: String): Boolean =
+        supabaseClientHelper.deleteItemById(
+            tableName = SupabaseTableName.Quiz.NAME,
+            idCol = SupabaseColumnName.Quiz.ID,
+            idVal = quizId,
+        )
+
+    override suspend fun deleteQuizzesByProjectId(projectId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.Quiz.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+        )
+
+    override suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.QuizInfo.NAME,
+            filterCol = SupabaseColumnName.PROJECT_ID,
+            filterVal = projectId,
+        )
+
+    override suspend fun deleteQuizzesByQuizInfoId(quizInfoId: String): Boolean =
+        supabaseClientHelper.deleteItemsByMatch(
+            tableName = SupabaseTableName.Quiz.NAME,
+            filterCol = SupabaseColumnName.Quiz.GROUP_ID,
+            filterVal = quizInfoId,
+        )
 }

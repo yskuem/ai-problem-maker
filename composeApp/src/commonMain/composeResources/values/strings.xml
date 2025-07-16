@@ -4,6 +4,7 @@
     <string name="new_project">New Project</string>
     <string name="search_project">Search projects...</string>
     <string name="change_project_name">Rename</string>
+    <string name="delete_project">Delete</string>
     <string name="last_updated_project_date">Last edited:</string>
     <string name="no_project_message">No projects created yet.\nTap the button below to create your first one!</string>
 
@@ -49,6 +50,8 @@
     <string name="error_screen_reload_action">Sorry, an error occurred. Please try again using the refresh button below.</string>
     <string name="load_again">Reload</string>
     <string name="back_to_pre_screen">Back</string>
+    <string name="delete_quiz">Delete Quiz</string>
+    <string name="delete_note">Delete Note</string>
 
 </resources>
 

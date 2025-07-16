@@ -15,6 +15,7 @@ object SupabaseColumnName {
     }
 
     object Quiz {
+        const val ID = "id"
         const val CREATED_USER_ID = "created_user_id"
         const val GROUP_ID = "group_id"
     }

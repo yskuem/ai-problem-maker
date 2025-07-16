@@ -69,8 +69,7 @@ class UpdateCheckScreen : Screen {
                                 version = "",
                                 duration = 15000L,
                                 onUpdate = {
-                                    println("アップデート開始")
-                                    // アップデート処理
+                                    viewModel.openStorePage()
                                 },
                                 onDismiss = {
                                     println("トーストが閉じられました")

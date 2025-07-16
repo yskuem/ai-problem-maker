@@ -25,4 +25,14 @@ interface NoteRepository {
         projectId: String,
         userId: String,
     )
+
+    /**
+     * ノートの削除
+     */
+    suspend fun deleteNote(noteId: String): Boolean
+
+    /**
+     * プロジェクトIDによるノートの削除
+     */
+    suspend fun deleteNotesByProjectId(projectId: String): Boolean
 }

@@ -26,4 +26,14 @@ interface QuizRepository {
     )
 
     suspend fun fetchQuizInfoList(projectId: String): List<QuizInfo>
+
+    suspend fun deleteQuizInfo(quizInfoId: String): Boolean
+
+    suspend fun deleteQuiz(quizId: String): Boolean
+
+    suspend fun deleteQuizzesByProjectId(projectId: String): Boolean
+
+    suspend fun deleteQuizInfosByProjectId(projectId: String): Boolean
+
+    suspend fun deleteQuizzesByQuizInfoId(quizInfoId: String): Boolean
 }
