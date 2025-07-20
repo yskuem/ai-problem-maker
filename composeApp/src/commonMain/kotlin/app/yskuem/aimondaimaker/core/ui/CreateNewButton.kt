@@ -2,17 +2,20 @@ package app.yskuem.aimondaimaker.core.ui
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
+import app.yskuem.aimondaimaker.core.ui.theme.Spacing
 
 @Composable
 fun CreateNewButton(
@@ -22,14 +25,27 @@ fun CreateNewButton(
 ) {
     Button(
         onClick = onClick,
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-        shape = RoundedCornerShape(8.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(ComponentSpacing.buttonPadding * 3),
+        shape = MaterialTheme.shapes.medium,
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = Spacing.xs,
+            pressedElevation = Spacing.sm
+        ),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
-        Icon(Icons.Default.Add, contentDescription = null)
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = buttonText)
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = null,
+            modifier = Modifier.padding(end = ComponentSpacing.buttonIconSpacing)
+        )
+        Text(
+            text = buttonText,
+            style = MaterialTheme.typography.labelLarge
+        )
     }
 }
