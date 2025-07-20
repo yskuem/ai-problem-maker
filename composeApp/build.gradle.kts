@@ -57,6 +57,7 @@ kotlin {
 
             implementation(libs.datastore.core)
             implementation(libs.datastore)
+            implementation(libs.play.review)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
