@@ -69,14 +69,32 @@ object CornerRadius {
     val full = 9999.dp  // For circular shapes
 }
 
-// Elevation values for modern depth
+// Premium Elevation System for Sophisticated Depth
 object Elevation {
     val none = 0.dp
-    val xs = 1.dp
-    val sm = 2.dp
-    val md = 4.dp
-    val lg = 6.dp
-    val xl = 8.dp
-    val xxl = 12.dp
-    val huge = 16.dp
+    val xs = 1.dp         // Subtle hover effects
+    val sm = 2.dp         // Card resting state
+    val md = 4.dp         // Card elevated state
+    val lg = 6.dp         // Modal dialogs
+    val xl = 8.dp         // Navigation drawers
+    val xxl = 12.dp       // Floating action buttons
+    val huge = 16.dp      // Overlays and dialogs
+    val premium = 20.dp   // Hero cards and premium elements
+    val dramatic = 24.dp  // Maximum depth for special effects
+}
+
+// Premium Animation Values
+object AnimationDuration {
+    val instant = 0
+    val quick = 150
+    val normal = 300
+    val slow = 500
+    val dramatic = 800
+}
+
+// Glass Morphism Effect Values
+object GlassEffect {
+    val blur = 16.dp
+    val borderWidth = 1.dp
+    val cornerRadius = CornerRadius.lg
 }

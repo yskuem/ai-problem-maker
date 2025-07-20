@@ -1,21 +1,22 @@
 package app.yskuem.aimondaimaker.core.ui
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
-import app.yskuem.aimondaimaker.core.ui.theme.Spacing
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import app.yskuem.aimondaimaker.core.ui.theme.*
 
 @Composable
 fun CreateNewButton(
@@ -23,29 +24,57 @@ fun CreateNewButton(
     buttonText: String,
     onClick: () -> Unit,
 ) {
-    Button(
-        onClick = onClick,
+    var isPressed by remember { mutableStateOf(false) }
+    
+    Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(ComponentSpacing.buttonPadding * 3),
-        shape = MaterialTheme.shapes.medium,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = Spacing.xs,
-            pressedElevation = Spacing.sm
-        ),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        )
+            .height(60.dp)
+            .shadow(
+                elevation = if (isPressed) Elevation.lg else Elevation.xl,
+                shape = RoundedCornerShape(CornerRadius.xl),
+                ambientColor = ShadowBrand,
+                spotColor = ShadowHeavy
+            )
+            .clip(RoundedCornerShape(CornerRadius.xl))
+            .background(
+                brush = Brush.linearGradient(
+                    listOf(
+                        BrandPrimary,
+                        BrandSecondary,
+                        BrandTertiary.copy(alpha = 0.8f)
+                    )
+                )
+            )
+            .border(
+                width = 1.dp,
+                color = Color.White.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(CornerRadius.xl)
+            )
+            .clickable { 
+                isPressed = !isPressed
+                onClick()
+            },
+        contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = null,
-            modifier = Modifier.padding(end = ComponentSpacing.buttonIconSpacing)
-        )
-        Text(
-            text = buttonText,
-            style = MaterialTheme.typography.labelLarge
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(Spacing.sm))
+            Text(
+                text = buttonText,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = Color.White,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
+                )
+            )
+        }
     }
 }

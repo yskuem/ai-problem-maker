@@ -7,13 +7,17 @@ import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -24,15 +28,19 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
-import app.yskuem.aimondaimaker.core.ui.theme.Spacing
+import app.yskuem.aimondaimaker.core.ui.theme.*
+import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
+import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
 import app.lexilabs.basic.ads.BannerAd
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
@@ -96,7 +104,7 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = BackgroundPrimary
         ) { padding ->
             when (val projectState = uiState) {
                 is DataUiState.Loading -> {
@@ -118,6 +126,15 @@ class SelectProjectScreen : Screen {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    listOf(
+                                        BackgroundPrimary,
+                                        BackgroundGradient,
+                                        BackgroundSecondary
+                                    )
+                                )
+                            )
                             .systemBarsPadding()
                             .pointerInput(Unit) {
                                 detectTapGestures {
@@ -128,45 +145,22 @@ class SelectProjectScreen : Screen {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.background)
                                 .padding(padding)
                                 .padding(ComponentSpacing.screenPadding),
                         ) {
                             Spacer(modifier = Modifier.height(ComponentSpacing.screenTopPadding))
 
-                            // Modern search bar
-                            OutlinedTextField(
+                            // Premium search bar with glass morphism
+                            PremiumSearchBar(
                                 value = searchTerm,
                                 onValueChange = { searchTerm = it },
+                                placeholder = stringResource(Res.string.search_project),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = ComponentSpacing.fieldSpacing),
-                                placeholder = { 
-                                    Text(
-                                        stringResource(Res.string.search_project),
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                },
-                                leadingIcon = { 
-                                    Icon(
-                                        Icons.Default.Search, 
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                },
-                                singleLine = true,
-                                shape = MaterialTheme.shapes.medium,
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
-                                ),
-                                textStyle = MaterialTheme.typography.bodyMedium,
-                                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(
-                                    onSearch = {
-                                        focusManager.clearFocus()
-                                    },
-                                ),
+                                onSearch = {
+                                    focusManager.clearFocus()
+                                }
                             )
 
                             if (projects.isEmpty()) {
@@ -176,12 +170,12 @@ class SelectProjectScreen : Screen {
                                     iconVector = Icons.AutoMirrored.Filled.MenuBook,
                                 )
                             } else {
-                                // Modern project grid
+                                // Premium project grid with sophisticated cards
                                 LazyVerticalGrid(
                                     columns = GridCells.Fixed(1),
                                     state = gridState,
-                                    contentPadding = PaddingValues(Spacing.xs),
-                                    verticalArrangement = Arrangement.spacedBy(ComponentSpacing.cardSpacing),
+                                    contentPadding = PaddingValues(Spacing.sm),
+                                    verticalArrangement = Arrangement.spacedBy(Spacing.lg),
                                     modifier = Modifier
                                         .weight(1f)
                                         .fillMaxWidth(),
@@ -192,7 +186,7 @@ class SelectProjectScreen : Screen {
                                             project.updatedAt
                                                 .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                                 .toJapaneseMonthDay()
-                                        Card(
+                                        PremiumCard(
                                             onClick = {
                                                 navigator.push(
                                                     ShowProjectInfoScreen(
@@ -200,14 +194,14 @@ class SelectProjectScreen : Screen {
                                                     ),
                                                 )
                                             },
-                                            shape = MaterialTheme.shapes.medium,
-                                            elevation = CardDefaults.cardElevation(
-                                                defaultElevation = Spacing.xs,
-                                                pressedElevation = Spacing.sm
+                                            elevation = Elevation.md,
+                                            gradientColors = listOf(
+                                                MaterialTheme.colorScheme.surface,
+                                                MaterialTheme.colorScheme.surfaceContainerLow
                                             ),
-                                            colors = CardDefaults.cardColors(
-                                                containerColor = MaterialTheme.colorScheme.surface,
-                                                contentColor = MaterialTheme.colorScheme.onSurface
+                                            borderGradient = listOf(
+                                                BorderAccent,
+                                                BorderAccent.copy(alpha = 0.3f)
                                             ),
                                             modifier = Modifier
                                                 .padding(horizontal = Spacing.xs)
@@ -215,25 +209,40 @@ class SelectProjectScreen : Screen {
                                         ) {
                                             Row(
                                                 modifier = Modifier
-                                                    .padding(ComponentSpacing.cardPadding)
                                                     .fillMaxWidth(),
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
-                                                // Modern icon with theme colors
+                                                // Premium icon with gradient background
                                                 Box(
                                                     modifier = Modifier
-                                                        .size(ComponentSpacing.iconXLarge)
+                                                        .size(ComponentSpacing.iconXXLarge)
+                                                        .shadow(
+                                                            elevation = Elevation.sm,
+                                                            shape = RoundedCornerShape(CornerRadius.lg),
+                                                            ambientColor = ShadowBrand,
+                                                            spotColor = ShadowLight
+                                                        )
                                                         .background(
-                                                            color = MaterialTheme.colorScheme.primaryContainer,
-                                                            shape = MaterialTheme.shapes.medium,
+                                                            brush = Brush.linearGradient(
+                                                                listOf(
+                                                                    BrandPrimary.copy(alpha = 0.9f),
+                                                                    BrandSecondary.copy(alpha = 0.8f)
+                                                                )
+                                                            ),
+                                                            shape = RoundedCornerShape(CornerRadius.lg)
+                                                        )
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = Color.White.copy(alpha = 0.2f),
+                                                            shape = RoundedCornerShape(CornerRadius.lg)
                                                         ),
                                                     contentAlignment = Alignment.Center,
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.AutoMirrored.Filled.MenuBook,
                                                         contentDescription = null,
-                                                        modifier = Modifier.size(ComponentSpacing.iconMedium),
-                                                        tint = MaterialTheme.colorScheme.primary,
+                                                        modifier = Modifier.size(ComponentSpacing.iconLarge),
+                                                        tint = Color.White,
                                                     )
                                                 }
                                                 Spacer(modifier = Modifier.width(ComponentSpacing.listIconSpacing))
@@ -281,16 +290,18 @@ class SelectProjectScreen : Screen {
                                                             }
                                                         }
                                                     } else {
-                                                        // Modern styled text
+                                                        // Premium styled text with enhanced typography
                                                         Text(
                                                             text = project.name,
-                                                            style = MaterialTheme.typography.titleMedium,
-                                                            color = MaterialTheme.colorScheme.onSurface,
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            color = TextPrimary,
                                                         )
+                                                        Spacer(modifier = Modifier.height(2.dp))
                                                         Text(
                                                             text = stringResource(Res.string.last_updated_project_date) + updatedAt,
-                                                            style = MaterialTheme.typography.bodySmall,
-                                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                                color = TextTertiary
+                                                            ),
                                                         )
                                                     }
                                                 }
@@ -359,19 +370,29 @@ class SelectProjectScreen : Screen {
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(Spacing.md))
-                                // Modern ad container
-                                Card(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    shape = MaterialTheme.shapes.medium,
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = MaterialTheme.colorScheme.surface
-                                    )
+                                // Premium ad container with glass morphism
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .shadow(
+                                            elevation = Elevation.xs,
+                                            shape = RoundedCornerShape(CornerRadius.lg),
+                                            ambientColor = GlassShadow,
+                                            spotColor = GlassShadow
+                                        )
+                                        .clip(RoundedCornerShape(CornerRadius.lg))
+                                        .background(GlassSurface)
+                                        .border(
+                                            width = 1.dp,
+                                            color = GlassBorder,
+                                            shape = RoundedCornerShape(CornerRadius.lg)
+                                        )
                                 ) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(50.dp)
-                                            .padding(Spacing.xs),
+                                            .height(60.dp)
+                                            .padding(Spacing.sm),
                                         contentAlignment = Alignment.Center,
                                     ) {
                                         BannerAd(

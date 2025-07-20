@@ -8,32 +8,32 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.shape.RoundedCornerShape
 
-// Light Color Scheme
+// Premium Light Color Scheme
 private val LightColorScheme = lightColorScheme(
-    primary = PrimaryBlue,
+    primary = BrandPrimary,
     onPrimary = BackgroundTertiary,
-    primaryContainer = IconBackgroundBlue,
-    onPrimaryContainer = PrimaryBlueDark,
+    primaryContainer = BrandPrimaryContainer,
+    onPrimaryContainer = BrandPrimaryDark,
     
-    secondary = SecondaryPurple,
+    secondary = BrandSecondary,
     onSecondary = BackgroundTertiary,
-    secondaryContainer = IconBackgroundPurple,
-    onSecondaryContainer = SecondaryPurpleDark,
+    secondaryContainer = BrandSecondaryContainer,
+    onSecondaryContainer = BrandSecondaryDark,
     
-    tertiary = SuccessGreen,
+    tertiary = BrandTertiary,
     onTertiary = BackgroundTertiary,
-    tertiaryContainer = SuccessGreenLight,
-    onTertiaryContainer = SuccessGreen,
+    tertiaryContainer = BrandTertiaryContainer,
+    onTertiaryContainer = BrandTertiaryDark,
     
     error = ErrorRed,
     onError = BackgroundTertiary,
-    errorContainer = ErrorRedLight,
-    onErrorContainer = ErrorRed,
+    errorContainer = ErrorRedContainer,
+    onErrorContainer = ErrorRedOnContainer,
     
     background = BackgroundPrimary,
     onBackground = TextPrimary,
     
-    surface = BackgroundTertiary,
+    surface = SurfacePremium,
     onSurface = TextPrimary,
     surfaceVariant = SurfaceContainer,
     onSurfaceVariant = TextSecondary,
@@ -44,44 +44,61 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainer = SurfaceContainer,
     surfaceContainerLow = SurfaceContainerLow,
     surfaceContainerLowest = BackgroundSecondary,
-    surfaceContainerHigh = SurfaceElevated,
-    surfaceContainerHighest = BackgroundTertiary,
+    surfaceContainerHigh = SurfaceContainerHigh,
+    surfaceContainerHighest = SurfaceElevated,
     
     inverseSurface = TextPrimary,
     inverseOnSurface = BackgroundTertiary,
-    inversePrimary = PrimaryBlueLight,
+    inversePrimary = BrandPrimaryLight,
     
     surfaceDim = SurfaceContainer,
-    surfaceBright = BackgroundTertiary,
+    surfaceBright = SurfaceElevated,
     
     scrim = TextPrimary.copy(alpha = 0.32f)
 )
 
-// Dark Color Scheme (for future implementation)
+// Premium Dark Color Scheme
 private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryBlueLight,
+    primary = BrandPrimaryLight,
     onPrimary = DarkBackgroundPrimary,
-    primaryContainer = PrimaryBlueDark,
-    onPrimaryContainer = PrimaryBlueLight,
+    primaryContainer = BrandPrimaryDark,
+    onPrimaryContainer = BrandPrimaryLight,
     
-    secondary = SecondaryPurpleLight,
+    secondary = BrandSecondaryLight,
     onSecondary = DarkBackgroundPrimary,
-    secondaryContainer = SecondaryPurpleDark,
-    onSecondaryContainer = SecondaryPurpleLight,
+    secondaryContainer = BrandSecondaryDark,
+    onSecondaryContainer = BrandSecondaryLight,
+    
+    tertiary = BrandTertiaryLight,
+    onTertiary = DarkBackgroundPrimary,
+    tertiaryContainer = BrandTertiaryDark,
+    onTertiaryContainer = BrandTertiaryLight,
     
     background = DarkBackgroundPrimary,
     onBackground = DarkTextPrimary,
     
     surface = DarkBackgroundSecondary,
     onSurface = DarkTextPrimary,
-    surfaceVariant = DarkSurface,
+    surfaceVariant = DarkSurfaceVariant,
     onSurfaceVariant = DarkTextSecondary,
     
-    error = ErrorRed,
+    error = ErrorRedLight,
     onError = DarkBackgroundPrimary,
+    errorContainer = ErrorRedOnContainer,
+    onErrorContainer = ErrorRedLight,
     
-    outline = DarkTextSecondary,
-    outlineVariant = DarkSurface
+    outline = DarkBorder,
+    outlineVariant = DarkOutline,
+    
+    surfaceContainer = DarkSurfaceVariant,
+    surfaceContainerLow = DarkBackgroundSecondary,
+    surfaceContainerLowest = DarkBackgroundPrimary,
+    surfaceContainerHigh = DarkSurfaceVariant,
+    surfaceContainerHighest = DarkBackgroundTertiary,
+    
+    inverseSurface = DarkTextPrimary,
+    inverseOnSurface = DarkBackgroundPrimary,
+    inversePrimary = BrandPrimaryDark
 )
 
 // Modern Shape System
