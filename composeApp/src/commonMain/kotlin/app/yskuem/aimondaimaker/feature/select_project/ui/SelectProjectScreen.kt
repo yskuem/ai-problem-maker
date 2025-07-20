@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -56,7 +57,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 class SelectProjectScreen : Screen {
-    @OptIn(ExperimentalMaterialApi::class, DependsOnGoogleMobileAds::class)
+    @OptIn(DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
@@ -252,8 +253,8 @@ class SelectProjectScreen : Screen {
                                                                         .padding(end = 8.dp),
                                                                 singleLine = true,
                                                                 colors = TextFieldDefaults.colors(
-                                                                    focusedContainerColor = androidx.compose.ui.graphics.Color(0xFFE0F2FF),
-                                                                    unfocusedContainerColor = androidx.compose.ui.graphics.Color(0xFFE0F2FF),
+                                                                    focusedContainerColor = Color(0xFFE0F2FF),
+                                                                    unfocusedContainerColor = Color(0xFFE0F2FF),
                                                                 ),
                                                             )
                                                             IconButton(onClick = {
@@ -306,24 +307,40 @@ class SelectProjectScreen : Screen {
                                                         expanded = (expandedMenuFor == project.id),
                                                         onDismissRequest = { expandedMenuFor = null },
                                                     ) {
-                                                        DropdownMenuItem(onClick = {
-                                                            // 編集モード開始
-                                                            editingId = project.id
-                                                            editingTitle = project.name
-                                                            expandedMenuFor = null
-                                                        }) {
-                                                            Text(stringResource(Res.string.change_project_name))
-                                                        }
-                                                        DropdownMenuItem(onClick = {
-                                                            // プロジェクトを削除
-                                                            viewModel.deleteProject(
-                                                                projectId = project.id,
-                                                                currentProjects = projects,
-                                                            )
-                                                            expandedMenuFor = null
-                                                        }) {
-                                                            Text(stringResource(Res.string.delete_project))
-                                                        }
+                                                        DropdownMenuItem(
+                                                            text = { Text(stringResource(Res.string.change_project_name)) },
+                                                            onClick = {
+                                                                // 編集モード開始
+                                                                editingId = project.id
+                                                                editingTitle = project.name
+                                                                expandedMenuFor = null
+                                                            },
+                                                            modifier = Modifier,
+                                                            leadingIcon = null,
+                                                            trailingIcon = null,
+                                                            enabled = true,
+                                                            colors = MenuDefaults.itemColors(),
+                                                            contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
+                                                            interactionSource = null
+                                                        )
+                                                        DropdownMenuItem(
+                                                            text = { Text(stringResource(Res.string.delete_project)) },
+                                                            onClick = {
+                                                                // プロジェクトを削除
+                                                                viewModel.deleteProject(
+                                                                    projectId = project.id,
+                                                                    currentProjects = projects,
+                                                                )
+                                                                expandedMenuFor = null
+                                                            },
+                                                            modifier = Modifier,
+                                                            leadingIcon = null,
+                                                            trailingIcon = null,
+                                                            enabled = true,
+                                                            colors = MenuDefaults.itemColors(),
+                                                            contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
+                                                            interactionSource = null
+                                                        )
                                                     }
                                                 }
                                             }
