@@ -7,19 +7,19 @@ import androidx.compose.ui.unit.dp
 object Spacing {
     // Base unit for consistent spacing
     val base = 8.dp
-    
+
     // Spacing Scale
     val none = 0.dp
-    val xs = 4.dp      // 0.5 * base
-    val sm = 8.dp      // 1 * base
-    val md = 12.dp     // 1.5 * base
-    val lg = 16.dp     // 2 * base
-    val xl = 20.dp     // 2.5 * base
-    val xxl = 24.dp    // 3 * base
-    val xxxl = 32.dp   // 4 * base
-    val huge = 40.dp   // 5 * base
-    val mega = 48.dp   // 6 * base
-    val ultra = 64.dp  // 8 * base
+    val xs = 4.dp // 0.5 * base
+    val sm = 8.dp // 1 * base
+    val md = 12.dp // 1.5 * base
+    val lg = 16.dp // 2 * base
+    val xl = 20.dp // 2.5 * base
+    val xxl = 24.dp // 3 * base
+    val xxxl = 32.dp // 4 * base
+    val huge = 40.dp // 5 * base
+    val mega = 48.dp // 6 * base
+    val ultra = 64.dp // 8 * base
 }
 
 // Component-specific spacing
@@ -28,26 +28,26 @@ object ComponentSpacing {
     val cardPadding = Spacing.lg
     val cardInnerPadding = Spacing.md
     val cardSpacing = Spacing.md
-    
+
     // Button spacing
     val buttonPadding = Spacing.lg
     val buttonIconSpacing = Spacing.sm
     val buttonVerticalSpacing = Spacing.md
-    
+
     // Screen padding
     val screenPadding = Spacing.lg
     val screenTopPadding = Spacing.xxxl
     val sectionSpacing = Spacing.xxl
-    
+
     // List item spacing
     val listItemPadding = Spacing.lg
     val listItemSpacing = Spacing.sm
     val listIconSpacing = Spacing.md
-    
+
     // Form spacing
     val fieldSpacing = Spacing.lg
     val formSectionSpacing = Spacing.xxl
-    
+
     // Icon sizes
     val iconSmall = 16.dp
     val iconMedium = 24.dp
@@ -66,21 +66,21 @@ object CornerRadius {
     val xl = 16.dp
     val xxl = 20.dp
     val round = 50.dp
-    val full = 9999.dp  // For circular shapes
+    val full = 9999.dp // For circular shapes
 }
 
 // Premium Elevation System for Sophisticated Depth
 object Elevation {
     val none = 0.dp
-    val xs = 1.dp         // Subtle hover effects
-    val sm = 2.dp         // Card resting state
-    val md = 4.dp         // Card elevated state
-    val lg = 6.dp         // Modal dialogs
-    val xl = 8.dp         // Navigation drawers
-    val xxl = 12.dp       // Floating action buttons
-    val huge = 16.dp      // Overlays and dialogs
-    val premium = 20.dp   // Hero cards and premium elements
-    val dramatic = 24.dp  // Maximum depth for special effects
+    val xs = 1.dp // Subtle hover effects
+    val sm = 2.dp // Card resting state
+    val md = 4.dp // Card elevated state
+    val lg = 6.dp // Modal dialogs
+    val xl = 8.dp // Navigation drawers
+    val xxl = 12.dp // Floating action buttons
+    val huge = 16.dp // Overlays and dialogs
+    val premium = 20.dp // Hero cards and premium elements
+    val dramatic = 24.dp // Maximum depth for special effects
 }
 
 // Premium Animation Values
