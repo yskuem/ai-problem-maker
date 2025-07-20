@@ -35,12 +35,13 @@ fun EmptyProjectsUI(
         ) {
             // Modern icon display with improved styling
             Box(
-                modifier = Modifier
-                    .size(ComponentSpacing.iconXXLarge * 2)
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = MaterialTheme.shapes.extraLarge,
-                    ),
+                modifier =
+                    Modifier
+                        .size(ComponentSpacing.iconXXLarge * 2)
+                        .background(
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            shape = MaterialTheme.shapes.extraLarge,
+                        ),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(

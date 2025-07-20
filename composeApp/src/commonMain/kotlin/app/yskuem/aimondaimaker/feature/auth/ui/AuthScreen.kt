@@ -36,16 +36,17 @@ class AuthScreen : Screen {
             }
         }
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center,
         ) {
             if (hasError.value) {
                 Text(
                     text = "エラーが発生しました。",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.error,
                 )
             } else {
                 CircularProgressIndicator(

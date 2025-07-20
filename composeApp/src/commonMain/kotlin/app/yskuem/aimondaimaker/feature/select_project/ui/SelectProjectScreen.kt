@@ -20,10 +20,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,16 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import app.yskuem.aimondaimaker.core.ui.theme.*
-import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
-import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
 import app.lexilabs.basic.ads.BannerAd
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
@@ -49,6 +46,9 @@ import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
+import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
+import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
+import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
@@ -104,7 +104,7 @@ class SelectProjectScreen : Screen {
         val gridState = rememberLazyGridState()
 
         Scaffold(
-            containerColor = BackgroundPrimary
+            containerColor = BackgroundPrimary,
         ) { padding ->
             when (val projectState = uiState) {
                 is DataUiState.Loading -> {
@@ -124,29 +124,31 @@ class SelectProjectScreen : Screen {
                             it.name.contains(searchTerm, ignoreCase = true)
                         }
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    listOf(
-                                        BackgroundPrimary,
-                                        BackgroundGradient,
-                                        BackgroundSecondary
-                                    )
-                                )
-                            )
-                            .systemBarsPadding()
-                            .pointerInput(Unit) {
-                                detectTapGestures {
-                                    focusManager.clearFocus()
-                                }
-                            },
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .background(
+                                    brush =
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                BackgroundPrimary,
+                                                BackgroundGradient,
+                                                BackgroundSecondary,
+                                            ),
+                                        ),
+                                ).systemBarsPadding()
+                                .pointerInput(Unit) {
+                                    detectTapGestures {
+                                        focusManager.clearFocus()
+                                    }
+                                },
                     ) {
                         Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(padding)
-                                .padding(ComponentSpacing.screenPadding),
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(padding)
+                                    .padding(ComponentSpacing.screenPadding),
                         ) {
                             Spacer(modifier = Modifier.height(ComponentSpacing.screenTopPadding))
 
@@ -155,12 +157,13 @@ class SelectProjectScreen : Screen {
                                 value = searchTerm,
                                 onValueChange = { searchTerm = it },
                                 placeholder = stringResource(Res.string.search_project),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = ComponentSpacing.fieldSpacing),
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = ComponentSpacing.fieldSpacing),
                                 onSearch = {
                                     focusManager.clearFocus()
-                                }
+                                },
                             )
 
                             if (projects.isEmpty()) {
@@ -176,9 +179,10 @@ class SelectProjectScreen : Screen {
                                     state = gridState,
                                     contentPadding = PaddingValues(Spacing.sm),
                                     verticalArrangement = Arrangement.spacedBy(Spacing.lg),
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .fillMaxWidth(),
+                                    modifier =
+                                        Modifier
+                                            .weight(1f)
+                                            .fillMaxWidth(),
                                 ) {
                                     items(filtered) { project ->
                                         // 最終更新日
@@ -195,47 +199,51 @@ class SelectProjectScreen : Screen {
                                                 )
                                             },
                                             elevation = Elevation.md,
-                                            gradientColors = listOf(
-                                                MaterialTheme.colorScheme.surface,
-                                                MaterialTheme.colorScheme.surfaceContainerLow
-                                            ),
-                                            borderGradient = listOf(
-                                                BorderAccent,
-                                                BorderAccent.copy(alpha = 0.3f)
-                                            ),
-                                            modifier = Modifier
-                                                .padding(horizontal = Spacing.xs)
-                                                .fillMaxWidth(),
+                                            gradientColors =
+                                                listOf(
+                                                    MaterialTheme.colorScheme.surface,
+                                                    MaterialTheme.colorScheme.surfaceContainerLow,
+                                                ),
+                                            borderGradient =
+                                                listOf(
+                                                    BorderAccent,
+                                                    BorderAccent.copy(alpha = 0.3f),
+                                                ),
+                                            modifier =
+                                                Modifier
+                                                    .padding(horizontal = Spacing.xs)
+                                                    .fillMaxWidth(),
                                         ) {
                                             Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
+                                                modifier =
+                                                    Modifier
+                                                        .fillMaxWidth(),
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 // Premium icon with gradient background
                                                 Box(
-                                                    modifier = Modifier
-                                                        .size(ComponentSpacing.iconXXLarge)
-                                                        .shadow(
-                                                            elevation = Elevation.sm,
-                                                            shape = RoundedCornerShape(CornerRadius.lg),
-                                                            ambientColor = ShadowBrand,
-                                                            spotColor = ShadowLight
-                                                        )
-                                                        .background(
-                                                            brush = Brush.linearGradient(
-                                                                listOf(
-                                                                    BrandPrimary.copy(alpha = 0.9f),
-                                                                    BrandSecondary.copy(alpha = 0.8f)
-                                                                )
+                                                    modifier =
+                                                        Modifier
+                                                            .size(ComponentSpacing.iconXXLarge)
+                                                            .shadow(
+                                                                elevation = Elevation.sm,
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                                ambientColor = ShadowBrand,
+                                                                spotColor = ShadowLight,
+                                                            ).background(
+                                                                brush =
+                                                                    Brush.linearGradient(
+                                                                        listOf(
+                                                                            BrandPrimary.copy(alpha = 0.9f),
+                                                                            BrandSecondary.copy(alpha = 0.8f),
+                                                                        ),
+                                                                    ),
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                            ).border(
+                                                                width = 1.dp,
+                                                                color = Color.White.copy(alpha = 0.2f),
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
                                                             ),
-                                                            shape = RoundedCornerShape(CornerRadius.lg)
-                                                        )
-                                                        .border(
-                                                            width = 1.dp,
-                                                            color = Color.White.copy(alpha = 0.2f),
-                                                            shape = RoundedCornerShape(CornerRadius.lg)
-                                                        ),
                                                     contentAlignment = Alignment.Center,
                                                 ) {
                                                     Icon(
@@ -261,10 +269,11 @@ class SelectProjectScreen : Screen {
                                                                         .focusRequester(focusRequester)
                                                                         .padding(end = 8.dp),
                                                                 singleLine = true,
-                                                                colors = TextFieldDefaults.colors(
-                                                                    focusedContainerColor = Color(0xFFE0F2FF),
-                                                                    unfocusedContainerColor = Color(0xFFE0F2FF),
-                                                                ),
+                                                                colors =
+                                                                    TextFieldDefaults.colors(
+                                                                        focusedContainerColor = Color(0xFFE0F2FF),
+                                                                        unfocusedContainerColor = Color(0xFFE0F2FF),
+                                                                    ),
                                                             )
                                                             IconButton(onClick = {
                                                                 if (editingTitle.isNotBlank()) {
@@ -299,9 +308,10 @@ class SelectProjectScreen : Screen {
                                                         Spacer(modifier = Modifier.height(2.dp))
                                                         Text(
                                                             text = stringResource(Res.string.last_updated_project_date) + updatedAt,
-                                                            style = MaterialTheme.typography.bodySmall.copy(
-                                                                color = TextTertiary
-                                                            ),
+                                                            style =
+                                                                MaterialTheme.typography.bodySmall.copy(
+                                                                    color = TextTertiary,
+                                                                ),
                                                         )
                                                     }
                                                 }
@@ -332,7 +342,7 @@ class SelectProjectScreen : Screen {
                                                             enabled = true,
                                                             colors = MenuDefaults.itemColors(),
                                                             contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
-                                                            interactionSource = null
+                                                            interactionSource = null,
                                                         )
                                                         DropdownMenuItem(
                                                             text = { Text(stringResource(Res.string.delete_project)) },
@@ -350,7 +360,7 @@ class SelectProjectScreen : Screen {
                                                             enabled = true,
                                                             colors = MenuDefaults.itemColors(),
                                                             contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
-                                                            interactionSource = null
+                                                            interactionSource = null,
                                                         )
                                                     }
                                                 }
@@ -363,7 +373,7 @@ class SelectProjectScreen : Screen {
                             Column {
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
-                                    modifier = Modifier.padding(top = ComponentSpacing.sectionSpacing)
+                                    modifier = Modifier.padding(top = ComponentSpacing.sectionSpacing),
                                 ) {
                                     navigator.push(
                                         SelectNoteOrQuizScreen(),
@@ -372,27 +382,28 @@ class SelectProjectScreen : Screen {
                                 Spacer(modifier = Modifier.height(Spacing.md))
                                 // Premium ad container with glass morphism
                                 Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .shadow(
-                                            elevation = Elevation.xs,
-                                            shape = RoundedCornerShape(CornerRadius.lg),
-                                            ambientColor = GlassShadow,
-                                            spotColor = GlassShadow
-                                        )
-                                        .clip(RoundedCornerShape(CornerRadius.lg))
-                                        .background(GlassSurface)
-                                        .border(
-                                            width = 1.dp,
-                                            color = GlassBorder,
-                                            shape = RoundedCornerShape(CornerRadius.lg)
-                                        )
+                                    modifier =
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .shadow(
+                                                elevation = Elevation.xs,
+                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                ambientColor = GlassShadow,
+                                                spotColor = GlassShadow,
+                                            ).clip(RoundedCornerShape(CornerRadius.lg))
+                                            .background(GlassSurface)
+                                            .border(
+                                                width = 1.dp,
+                                                color = GlassBorder,
+                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                            ),
                                 ) {
                                     Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(60.dp)
-                                            .padding(Spacing.sm),
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .height(60.dp)
+                                                .padding(Spacing.sm),
                                         contentAlignment = Alignment.Center,
                                     ) {
                                         BannerAd(
