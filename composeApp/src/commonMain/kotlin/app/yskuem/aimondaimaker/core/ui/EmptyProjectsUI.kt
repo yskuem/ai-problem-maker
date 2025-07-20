@@ -8,17 +8,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
+import app.yskuem.aimondaimaker.core.ui.theme.Spacing
 
 @Composable
 fun EmptyProjectsUI(
@@ -27,43 +26,40 @@ fun EmptyProjectsUI(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier =
-            modifier
-                .padding(32.dp),
+        modifier = modifier.padding(Spacing.xxxl),
         contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            // アイコン表示
+            // Modern icon display with improved styling
             Box(
                 modifier =
                     Modifier
-                        .size(80.dp)
+                        .size(ComponentSpacing.iconXXLarge * 2)
                         .background(
-                            color = Color(0xFFE0F2FF),
-                            shape = RoundedCornerShape(16.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            shape = MaterialTheme.shapes.extraLarge,
                         ),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = iconVector,
                     contentDescription = null,
-                    modifier = Modifier.size(40.dp),
-                    tint = Color(0xFF3B82F6),
+                    modifier = Modifier.size(ComponentSpacing.iconXXLarge),
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(Spacing.xxl))
 
-            // メッセージテキスト
+            // Improved message text with theme colors
             Text(
                 text = message,
-                fontSize = 16.sp,
-                color = Color.Gray,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
-                lineHeight = 24.sp,
             )
         }
     }
