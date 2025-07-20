@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -252,10 +251,10 @@ class SelectProjectScreen : Screen {
                                                                         .focusRequester(focusRequester)
                                                                         .padding(end = 8.dp),
                                                                 singleLine = true,
-                                                                colors =
-                                                                    TextFieldDefaults.textFieldColors(
-                                                                        backgroundColor = Color(0xFFE0F2FF),
-                                                                    ),
+                                                                colors = TextFieldDefaults.colors(
+                                                                    focusedContainerColor = androidx.compose.ui.graphics.Color(0xFFE0F2FF),
+                                                                    unfocusedContainerColor = androidx.compose.ui.graphics.Color(0xFFE0F2FF),
+                                                                ),
                                                             )
                                                             IconButton(onClick = {
                                                                 if (editingTitle.isNotBlank()) {
