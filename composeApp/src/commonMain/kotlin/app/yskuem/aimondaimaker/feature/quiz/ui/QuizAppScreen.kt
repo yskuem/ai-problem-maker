@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
 
@@ -393,6 +394,18 @@ fun QuizCompletedScreen(
 ) {
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val navigator = LocalNavigator.current
+    
+    // Request store review when quiz is completed
+    LaunchStoreReview(
+        trigger = true,
+        onComplete = { result ->
+            result.onSuccess {
+                println("Store review requested successfully")
+            }.onFailure { error ->
+                println("Store review request failed: $error")
+            }
+        }
+    )
 
     Card(
         modifier =
