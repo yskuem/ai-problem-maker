@@ -73,6 +73,7 @@ private fun ShareDialogContent(
     onDismiss: () -> Unit,
 ) {
     var showCopiedMessage by remember { mutableStateOf(false) }
+    val shareDialogTitle = stringResource(Res.string.share_dialog_title)
 
     Card(
         modifier = Modifier.padding(16.dp),
@@ -87,7 +88,7 @@ private fun ShareDialogContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(Res.string.share_dialog_title),
+                text = shareDialogTitle,
                 style =
                     MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold,
@@ -142,7 +143,7 @@ private fun ShareDialogContent(
                 onClick = {
                     shareManager.shareText(
                         text = quizUrl,
-                        title = stringResource(Res.string.share_dialog_title),
+                        title = shareDialogTitle,
                     )
                 },
                 modifier = Modifier.fillMaxWidth(),
