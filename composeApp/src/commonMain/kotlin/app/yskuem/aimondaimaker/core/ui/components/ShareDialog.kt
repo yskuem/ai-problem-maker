@@ -1,5 +1,11 @@
 package app.yskuem.aimondaimaker.core.ui.components
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.close
+import ai_problem_maker.composeapp.generated.resources.copy_link
+import ai_problem_maker.composeapp.generated.resources.link_copied
+import ai_problem_maker.composeapp.generated.resources.share_dialog_title
+import ai_problem_maker.composeapp.generated.resources.share_with_others
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,12 +39,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import aimondaimaker.composeapp.generated.resources.Res
-import aimondaimaker.composeapp.generated.resources.close
-import aimondaimaker.composeapp.generated.resources.copy_link
-import aimondaimaker.composeapp.generated.resources.link_copied
-import aimondaimaker.composeapp.generated.resources.share_dialog_title
-import aimondaimaker.composeapp.generated.resources.share_with_others
 import app.yskuem.aimondaimaker.core.util.ShareManager
 import org.jetbrains.compose.resources.stringResource
 
