@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.share_quiz
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -54,8 +56,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import aimondaimaker.composeapp.generated.resources.Res
-import aimondaimaker.composeapp.generated.resources.share_quiz
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.domain.entity.Quiz
