@@ -7,7 +7,7 @@ import platform.Foundation.NSString
 import platform.Foundation.arrayWithObjects
 
 class IosShareManager(
-    private val clipboard: IosClipboard,
+    private val clipboard: Clipboard,
 ) : ShareManager {
     override fun copyToClipboard(text: String) {
         clipboard.copyText(text)
