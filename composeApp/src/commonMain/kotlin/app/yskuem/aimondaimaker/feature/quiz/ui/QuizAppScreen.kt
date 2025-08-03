@@ -28,6 +28,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -53,8 +54,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import aimondaimaker.composeapp.generated.resources.Res
+import aimondaimaker.composeapp.generated.resources.share_quiz
+import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
+import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -116,6 +123,7 @@ fun QuizApp(
                     QuizCompletedScreen(
                         score = score,
                         totalQuestions = quizList.size,
+                        groupId = quizList.firstOrNull()?.groupId ?: "",
                         onRestart = {
                             currentQuestion = 0
                             selectedOption = null
@@ -389,10 +397,13 @@ fun OptionItem(
 fun QuizCompletedScreen(
     score: Int,
     totalQuestions: Int,
+    groupId: String,
     onRestart: () -> Unit,
 ) {
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val navigator = LocalNavigator.current
+    val shareManager: ShareManager = koinInject()
+    var showShareDialog by remember { mutableStateOf(false) }
 
     Card(
         modifier =
@@ -436,11 +447,42 @@ fun QuizCompletedScreen(
             )
 
             Button(
-                onClick = onRestart,
+                onClick = { showShareDialog = true },
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    ),
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = null,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(Res.string.share_quiz),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = onRestart,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors =
                     ButtonDefaults.buttonColors(
@@ -454,7 +496,7 @@ fun QuizCompletedScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Button(
                 onClick = {
@@ -463,7 +505,7 @@ fun QuizCompletedScreen(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 8.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors =
                     ButtonDefaults.buttonColors(
@@ -478,4 +520,11 @@ fun QuizCompletedScreen(
             }
         }
     }
+
+    ShareDialog(
+        isVisible = showShareDialog,
+        quizUrl = shareManager.generateQuizUrl(groupId),
+        shareManager = shareManager,
+        onDismiss = { showShareDialog = false },
+    )
 }
