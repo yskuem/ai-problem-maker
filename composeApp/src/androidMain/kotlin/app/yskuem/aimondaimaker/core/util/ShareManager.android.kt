@@ -5,7 +5,7 @@ import android.content.Intent
 
 class AndroidShareManager(
     private val context: Context,
-    private val clipboard: AndroidClipboard,
+    private val clipboard: Clipboard,
 ) : ShareManager {
     override fun copyToClipboard(text: String) {
         clipboard.copyText(text)
