@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,7 +27,9 @@ fun EmptyProjectsUI(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.padding(Spacing.xxxl),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Spacing.xxxl),
         contentAlignment = Alignment.Center,
     ) {
         Column(
