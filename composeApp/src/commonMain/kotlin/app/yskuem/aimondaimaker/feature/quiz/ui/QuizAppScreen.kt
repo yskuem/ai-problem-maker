@@ -394,17 +394,18 @@ fun QuizCompletedScreen(
 ) {
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val navigator = LocalNavigator.current
-    
+
     // Request store review when quiz is completed
     LaunchStoreReview(
         trigger = true,
         onComplete = { result ->
-            result.onSuccess {
-                println("Store review requested successfully")
-            }.onFailure { error ->
-                println("Store review request failed: $error")
-            }
-        }
+            result
+                .onSuccess {
+                    println("Store review requested successfully")
+                }.onFailure { error ->
+                    println("Store review request failed: $error")
+                }
+        },
     )
 
     Card(

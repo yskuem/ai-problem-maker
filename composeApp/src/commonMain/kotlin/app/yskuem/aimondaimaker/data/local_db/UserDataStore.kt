@@ -22,9 +22,7 @@ abstract class UserDataStore {
         flowSettings.putLong(KEY_LAST_REVIEW_REQUEST_TIMESTAMP, timestamp)
     }
 
-    suspend fun getLastReviewRequestTimestamp(): Long {
-        return flowSettings.getLong(KEY_LAST_REVIEW_REQUEST_TIMESTAMP, 0L)
-    }
+    suspend fun getLastReviewRequestTimestamp(): Long = flowSettings.getLong(KEY_LAST_REVIEW_REQUEST_TIMESTAMP, 0L)
 
     companion object {
         const val KEY_USER_ID = "user_id"
