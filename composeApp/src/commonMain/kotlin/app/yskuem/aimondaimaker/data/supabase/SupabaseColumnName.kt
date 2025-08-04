@@ -29,5 +29,6 @@ object SupabaseColumnName {
         const val CHOICES = "choices"
         const val EXPLANATION = "explanation"
         const val TITLE = "title"
+        const val PROJECT_ID = "project_id"
     }
 }

@@ -3,12 +3,10 @@ package app.yskuem.aimondaimaker.data.supabase.extension
 import app.yskuem.aimondaimaker.data.supabase.response.NoteSupabaseDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizInfoDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
-import app.yskuem.aimondaimaker.data.supabase.response.SharedQuizDto
 import app.yskuem.aimondaimaker.data.supabase.response.UserDto
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
-import app.yskuem.aimondaimaker.domain.entity.SharedQuiz
 import app.yskuem.aimondaimaker.domain.entity.User
 
 // Quiz
@@ -106,46 +104,3 @@ fun User.toDTO(): UserDto =
         updatedAt = updatedAt,
     )
 
-// SharedQuiz
-fun SharedQuiz.toDTO(): SharedQuizDto =
-    SharedQuizDto(
-        id = id,
-        groupId = groupId,
-        createdUserId = createdUserId,
-        answer = answer,
-        question = question,
-        choices = choices,
-        explanation = explanation,
-        title = title,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-    )
-
-fun SharedQuizDto.toDomain(): SharedQuiz =
-    SharedQuiz(
-        id = id,
-        groupId = groupId,
-        createdUserId = createdUserId,
-        answer = answer,
-        question = question,
-        choices = choices,
-        explanation = explanation,
-        title = title,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-    )
-
-// Quiz to SharedQuiz conversion (for saving individual quizzes to shared_quiz table)
-fun Quiz.toSharedQuiz(sharedQuizId: String): SharedQuiz =
-    SharedQuiz(
-        id = sharedQuizId,
-        groupId = groupId,
-        createdUserId = createdUserId,
-        answer = answer,
-        question = question,
-        choices = choices,
-        explanation = explanation,
-        title = title,
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-    )
