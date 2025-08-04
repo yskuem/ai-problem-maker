@@ -11,10 +11,11 @@ actual fun initKoinPlatform(): KoinApplication =
     startKoin {
         androidContext(MainActivity.instance)
         modules(
-            diModules + listOf(
-                module {
-                    single<ComponentActivity> { MainActivity.instance }
-                }
-            )
+            diModules +
+                listOf(
+                    module {
+                        single<ComponentActivity> { MainActivity.instance }
+                    },
+                ),
         )
     }
