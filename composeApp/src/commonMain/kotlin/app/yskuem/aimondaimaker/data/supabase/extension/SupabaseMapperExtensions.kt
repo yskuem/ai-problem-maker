@@ -3,10 +3,12 @@ package app.yskuem.aimondaimaker.data.supabase.extension
 import app.yskuem.aimondaimaker.data.supabase.response.NoteSupabaseDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizInfoDto
 import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
+import app.yskuem.aimondaimaker.data.supabase.response.SharedQuizDto
 import app.yskuem.aimondaimaker.data.supabase.response.UserDto
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
+import app.yskuem.aimondaimaker.domain.entity.SharedQuiz
 import app.yskuem.aimondaimaker.domain.entity.User
 
 // Quiz
@@ -102,4 +104,23 @@ fun User.toDTO(): UserDto =
         avatarUrl = avatarUrl,
         createdAt = createdAt,
         updatedAt = updatedAt,
+    )
+
+// SharedQuiz
+fun SharedQuiz.toDTO(): SharedQuizDto =
+    SharedQuizDto(
+        id = id,
+        groupId = groupId,
+        createdUserId = createdUserId,
+        quizData = quizData,
+        createdAt = createdAt,
+    )
+
+fun SharedQuizDto.toDomain(): SharedQuiz =
+    SharedQuiz(
+        id = id,
+        groupId = groupId,
+        createdUserId = createdUserId,
+        quizData = quizData,
+        createdAt = createdAt,
     )

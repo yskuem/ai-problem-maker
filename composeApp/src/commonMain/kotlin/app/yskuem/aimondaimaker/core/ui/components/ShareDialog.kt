@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.yskuem.aimondaimaker.core.util.ShareManager
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -47,6 +49,9 @@ fun ShareDialog(
     isVisible: Boolean,
     quizUrl: String,
     shareManager: ShareManager,
+    groupId: String,
+    quizList: List<app.yskuem.aimondaimaker.domain.entity.Quiz>,
+    userId: String,
     onDismiss: () -> Unit,
 ) {
     if (isVisible) {
@@ -60,6 +65,9 @@ fun ShareDialog(
             ShareDialogContent(
                 quizUrl = quizUrl,
                 shareManager = shareManager,
+                groupId = groupId,
+                quizList = quizList,
+                userId = userId,
                 onDismiss = onDismiss,
             )
         }
@@ -70,10 +78,14 @@ fun ShareDialog(
 private fun ShareDialogContent(
     quizUrl: String,
     shareManager: ShareManager,
+    groupId: String,
+    quizList: List<app.yskuem.aimondaimaker.domain.entity.Quiz>,
+    userId: String,
     onDismiss: () -> Unit,
 ) {
     var showCopiedMessage by remember { mutableStateOf(false) }
     val shareDialogTitle = stringResource(Res.string.share_dialog_title)
+    val coroutineScope = rememberCoroutineScope()
 
     Card(
         modifier = Modifier.padding(16.dp),
@@ -110,6 +122,9 @@ private fun ShareDialogContent(
 
             Button(
                 onClick = {
+                    coroutineScope.launch {
+                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
+                    }
                     shareManager.copyToClipboard(quizUrl)
                     showCopiedMessage = true
                 },
@@ -141,6 +156,9 @@ private fun ShareDialogContent(
 
             OutlinedButton(
                 onClick = {
+                    coroutineScope.launch {
+                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
+                    }
                     shareManager.shareText(
                         text = quizUrl,
                         title = shareDialogTitle,

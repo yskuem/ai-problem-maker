@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.core.util
 
+import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.Foundation.NSArray
@@ -8,6 +10,7 @@ import platform.Foundation.arrayWithObjects
 
 class IosShareManager(
     private val clipboard: Clipboard,
+    private val sharedQuizRepository: SharedQuizRepository,
 ) : ShareManager {
     override fun copyToClipboard(text: String) {
         clipboard.copyText(text)
@@ -31,5 +34,14 @@ class IosShareManager(
     override fun generateQuizUrl(groupId: String): String {
         // TODO: Replace with actual app URL scheme when available
         return "https://aimondaimaker.app/quiz/$groupId"
+    }
+
+    override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
+        try {
+            sharedQuizRepository.saveSharedQuiz(groupId, quizData, userId)
+        } catch (e: Exception) {
+            // Handle error silently for now - could be logged or shown to user
+            println("Failed to save quiz to Supabase: ${e.message}")
+        }
     }
 }

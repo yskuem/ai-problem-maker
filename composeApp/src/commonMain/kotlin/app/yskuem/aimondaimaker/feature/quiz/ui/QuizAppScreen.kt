@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
+import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
@@ -125,6 +127,7 @@ fun QuizApp(
                         score = score,
                         totalQuestions = quizList.size,
                         groupId = quizList.firstOrNull()?.groupId ?: "",
+                        quizList = quizList,
                         onRestart = {
                             currentQuestion = 0
                             selectedOption = null
@@ -399,12 +402,19 @@ fun QuizCompletedScreen(
     score: Int,
     totalQuestions: Int,
     groupId: String,
+    quizList: List<Quiz>,
     onRestart: () -> Unit,
 ) {
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val navigator = LocalNavigator.current
     val shareManager: ShareManager = koinInject()
+    val authRepository: AuthRepository = koinInject()
     var showShareDialog by remember { mutableStateOf(false) }
+    var userId by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        userId = authRepository.getUserId()
+    }
     
     // Request store review when quiz is completed
     LaunchStoreReview(
@@ -538,6 +548,9 @@ fun QuizCompletedScreen(
         isVisible = showShareDialog,
         quizUrl = shareManager.generateQuizUrl(groupId),
         shareManager = shareManager,
+        groupId = groupId,
+        quizList = quizList,
+        userId = userId,
         onDismiss = { showShareDialog = false },
     )
 }

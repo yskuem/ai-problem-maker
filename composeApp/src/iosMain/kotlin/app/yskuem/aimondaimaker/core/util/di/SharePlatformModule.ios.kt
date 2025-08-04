@@ -15,6 +15,7 @@ actual val sharePlatformModule: Module =
         single<ShareManager> {
             IosShareManager(
                 clipboard = get(),
+                sharedQuizRepository = get(),
             )
         }
     }
