@@ -38,7 +38,7 @@ class IosShareManager(
 
     override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
         try {
-            sharedQuizRepository.saveSharedQuiz(groupId, quizData, userId)
+            sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)
         } catch (e: Exception) {
             // Handle error silently for now - could be logged or shown to user
             println("Failed to save quiz to Supabase: ${e.message}")

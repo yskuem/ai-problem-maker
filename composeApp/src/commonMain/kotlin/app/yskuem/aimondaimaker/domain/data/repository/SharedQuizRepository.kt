@@ -1,14 +1,13 @@
 package app.yskuem.aimondaimaker.domain.data.repository
 
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import app.yskuem.aimondaimaker.domain.entity.SharedQuiz
 
 interface SharedQuizRepository {
-    suspend fun saveSharedQuiz(
+    suspend fun saveSharedQuizzes(
         groupId: String,
         quizData: List<Quiz>,
         userId: String,
-    ): SharedQuiz
+    ): List<Quiz>
 
-    suspend fun getSharedQuiz(groupId: String): SharedQuiz?
+    suspend fun getSharedQuizzes(groupId: String): List<Quiz>
 }

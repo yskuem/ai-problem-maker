@@ -112,8 +112,13 @@ fun SharedQuiz.toDTO(): SharedQuizDto =
         id = id,
         groupId = groupId,
         createdUserId = createdUserId,
-        quizData = quizData,
+        answer = answer,
+        question = question,
+        choices = choices,
+        explanation = explanation,
+        title = title,
         createdAt = createdAt,
+        updatedAt = updatedAt,
     )
 
 fun SharedQuizDto.toDomain(): SharedQuiz =
@@ -121,6 +126,26 @@ fun SharedQuizDto.toDomain(): SharedQuiz =
         id = id,
         groupId = groupId,
         createdUserId = createdUserId,
-        quizData = quizData,
+        answer = answer,
+        question = question,
+        choices = choices,
+        explanation = explanation,
+        title = title,
         createdAt = createdAt,
+        updatedAt = updatedAt,
+    )
+
+// Quiz to SharedQuiz conversion (for saving individual quizzes to shared_quiz table)
+fun Quiz.toSharedQuiz(sharedQuizId: String): SharedQuiz =
+    SharedQuiz(
+        id = sharedQuizId,
+        groupId = groupId,
+        createdUserId = createdUserId,
+        answer = answer,
+        question = question,
+        choices = choices,
+        explanation = explanation,
+        title = title,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
     )

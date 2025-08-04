@@ -6,6 +6,11 @@ data class SharedQuiz(
     val id: String,
     val groupId: String,
     val createdUserId: String,
-    val quizData: List<Quiz>,
+    val answer: String,
+    val question: String,
+    val choices: List<String>,
+    val explanation: String,
+    val title: String,
     val createdAt: Instant,
+    val updatedAt: Instant,
 )
