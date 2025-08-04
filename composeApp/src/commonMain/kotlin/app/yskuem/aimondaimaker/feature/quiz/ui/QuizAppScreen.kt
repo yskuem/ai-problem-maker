@@ -58,6 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.ShareManager
+import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
@@ -404,6 +405,18 @@ fun QuizCompletedScreen(
     val navigator = LocalNavigator.current
     val shareManager: ShareManager = koinInject()
     var showShareDialog by remember { mutableStateOf(false) }
+    
+    // Request store review when quiz is completed
+    LaunchStoreReview(
+        trigger = true,
+        onComplete = { result ->
+            result.onSuccess {
+                println("Store review requested successfully")
+            }.onFailure { error ->
+                println("Store review request failed: $error")
+            }
+        }
+    )
 
     Card(
         modifier =
