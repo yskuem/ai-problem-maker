@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import app.yskuem.aimondaimaker.core.util.ShareManager
+import app.yskuem.aimondaimaker.domain.entity.Quiz
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -50,7 +51,7 @@ fun ShareDialog(
     quizUrl: String,
     shareManager: ShareManager,
     groupId: String,
-    quizList: List<app.yskuem.aimondaimaker.domain.entity.Quiz>,
+    quizList: List<Quiz>,
     userId: String,
     onDismiss: () -> Unit,
 ) {
@@ -79,7 +80,7 @@ private fun ShareDialogContent(
     quizUrl: String,
     shareManager: ShareManager,
     groupId: String,
-    quizList: List<app.yskuem.aimondaimaker.domain.entity.Quiz>,
+    quizList: List<Quiz>,
     userId: String,
     onDismiss: () -> Unit,
 ) {
