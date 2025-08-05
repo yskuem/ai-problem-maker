@@ -58,8 +58,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
-import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
+import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -415,17 +415,18 @@ fun QuizCompletedScreen(
     LaunchedEffect(Unit) {
         userId = authRepository.getUserId()
     }
-    
+
     // Request store review when quiz is completed
     LaunchStoreReview(
         trigger = true,
         onComplete = { result ->
-            result.onSuccess {
-                println("Store review requested successfully")
-            }.onFailure { error ->
-                println("Store review request failed: $error")
-            }
-        }
+            result
+                .onSuccess {
+                    println("Store review requested successfully")
+                }.onFailure { error ->
+                    println("Store review request failed: $error")
+                }
+        },
     )
 
     Card(

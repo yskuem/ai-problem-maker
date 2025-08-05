@@ -15,16 +15,20 @@ class AndroidShareManager(
         clipboard.copyText(text)
     }
 
-    override fun shareText(text: String, title: String?) {
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
-            if (title != null) {
-                putExtra(Intent.EXTRA_TITLE, title)
+    override fun shareText(
+        text: String,
+        title: String?,
+    ) {
+        val shareIntent =
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, text)
+                if (title != null) {
+                    putExtra(Intent.EXTRA_TITLE, title)
+                }
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
         val chooser = Intent.createChooser(shareIntent, title ?: "クイズを共有")
         chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(chooser)
@@ -35,10 +39,14 @@ class AndroidShareManager(
         return "${WEB_QUIZ_APP_DOMAIN}?group_id=$groupId"
     }
 
-    override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
+    override suspend fun saveQuizToSupabase(
+        groupId: String,
+        quizData: List<Quiz>,
+        userId: String,
+    ) {
         try {
             sharedQuizRepository.getSharedQuizzes(groupId = groupId)
-            if( quizData.isEmpty()) {
+            if (quizData.isEmpty()) {
                 sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)
             }
         } catch (e: Exception) {
