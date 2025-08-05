@@ -52,6 +52,7 @@ import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
+import app.yskuem.aimondaimaker.getPlatform
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -212,7 +213,17 @@ class SelectProjectScreen : Screen {
                                             modifier =
                                                 Modifier
                                                     .padding(horizontal = Spacing.xs)
-                                                    .fillMaxWidth(),
+                                                    .fillMaxWidth()
+                                                    .pointerInput(project.id) {
+                                                        if (getPlatform().isIPad) {
+                                                            detectTapGestures(
+                                                                onLongPress = {
+                                                                    expandedMenuFor = 
+                                                                        if (expandedMenuFor == project.id) null else project.id
+                                                                }
+                                                            )
+                                                        }
+                                                    },
                                         ) {
                                             Row(
                                                 modifier =
