@@ -33,8 +33,6 @@ class IosShareManager(
     }
 
     override fun generateQuizUrl(groupId: String): String {
-        // TODO: クイズがすでにアップロードされていたらアップロードしないように修正する
-        // TODO: WEB_QUIZ_APP_HOSTを別ファイルにし、gitignoreする
         return "${WEB_QUIZ_APP_DOMAIN}?group_id=$groupId"
     }
 
