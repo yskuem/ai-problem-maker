@@ -2,6 +2,7 @@ package app.yskuem.aimondaimaker.core.util
 
 import android.content.Context
 import android.content.Intent
+import app.yskuem.aimondaimaker.core.config.WEB_QUIZ_APP_DOMAIN
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 
@@ -31,12 +32,15 @@ class AndroidShareManager(
 
     override fun generateQuizUrl(groupId: String): String {
         // TODO: Replace with actual app URL scheme when available
-        return "https://aimondaimaker.app/quiz/$groupId"
+        return "${WEB_QUIZ_APP_DOMAIN}?group_id=$groupId"
     }
 
     override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
         try {
-            sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)
+            sharedQuizRepository.getSharedQuizzes(groupId = groupId)
+            if( quizData.isEmpty()) {
+                sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)
+            }
         } catch (e: Exception) {
             // Handle error silently for now - could be logged or shown to user
             println("Failed to save quiz to Supabase: ${e.message}")
