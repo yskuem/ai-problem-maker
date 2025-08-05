@@ -6,7 +6,6 @@ import app.yskuem.aimondaimaker.domain.entity.Quiz
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.Foundation.NSArray
-import platform.Foundation.NSString
 import platform.Foundation.arrayWithObjects
 
 class IosShareManager(
