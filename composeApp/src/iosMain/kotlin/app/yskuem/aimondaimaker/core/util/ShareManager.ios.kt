@@ -18,7 +18,7 @@ class IosShareManager(
     }
 
     override fun shareText(text: String, title: String?) {
-        val items = NSArray.arrayWithObjects(text as NSString, null)
+        val items = NSArray.arrayWithObjects(text, null)
         val activityController = UIActivityViewController(
             activityItems = items,
             applicationActivities = null
