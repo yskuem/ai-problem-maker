@@ -37,8 +37,8 @@ class AndroidShareManager(
 
     override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
         try {
-            sharedQuizRepository.getSharedQuizzes(groupId = groupId)
-            if( quizData.isEmpty()) {
+            val uploadQuizzes = sharedQuizRepository.getSharedQuizzes(groupId = groupId)
+            if( uploadQuizzes.isEmpty()) {
                 sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)
             }
         } catch (e: Exception) {
