@@ -57,6 +57,7 @@ kotlin {
 
             implementation(libs.datastore.core)
             implementation(libs.datastore)
+            implementation(libs.play.review)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -78,6 +79,7 @@ kotlin {
             implementation(libs.filekit.core)
             implementation(libs.filekit.dialogs)
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -96,6 +98,7 @@ kotlin {
             implementation(libs.firebase.remote.config)
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
+            implementation(libs.kotlinx.datetime)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

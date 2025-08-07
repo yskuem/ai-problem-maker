@@ -19,4 +19,16 @@ object SupabaseColumnName {
         const val CREATED_USER_ID = "created_user_id"
         const val GROUP_ID = "group_id"
     }
+
+    object SharedQuiz {
+        const val ID = "id"
+        const val GROUP_ID = "group_id"
+        const val CREATED_USER_ID = "created_user_id"
+        const val ANSWER = "answer"
+        const val QUESTION = "question"
+        const val CHOICES = "choices"
+        const val EXPLANATION = "explanation"
+        const val TITLE = "title"
+        const val PROJECT_ID = "project_id"
+    }
 }
