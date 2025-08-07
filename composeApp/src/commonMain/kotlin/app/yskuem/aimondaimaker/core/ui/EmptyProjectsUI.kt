@@ -27,9 +27,10 @@ fun EmptyProjectsUI(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(Spacing.xxxl),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(Spacing.xxxl),
         contentAlignment = Alignment.Center,
     ) {
         Column(
