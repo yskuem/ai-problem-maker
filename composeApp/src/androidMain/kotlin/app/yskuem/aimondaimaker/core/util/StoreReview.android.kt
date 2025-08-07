@@ -8,22 +8,23 @@ import kotlin.coroutines.resume
 class AndroidStoreReview(
     private val activity: ComponentActivity,
 ) : StoreReview {
-    override suspend fun requestReview(): Result<Unit> {
-        return try {
+    override suspend fun requestReview(): Result<Unit> =
+        try {
             val manager = ReviewManagerFactory.create(activity)
-            
+
             // Request review info
-            val reviewInfo = suspendCancellableCoroutine { continuation ->
-                val request = manager.requestReviewFlow()
-                request.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        continuation.resume(task.result)
-                    } else {
-                        continuation.resume(null)
+            val reviewInfo =
+                suspendCancellableCoroutine { continuation ->
+                    val request = manager.requestReviewFlow()
+                    request.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            continuation.resume(task.result)
+                        } else {
+                            continuation.resume(null)
+                        }
                     }
                 }
-            }
-            
+
             if (reviewInfo != null) {
                 // Launch the review flow
                 suspendCancellableCoroutine { continuation ->
@@ -40,5 +41,4 @@ class AndroidStoreReview(
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
 }

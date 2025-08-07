@@ -45,11 +45,11 @@ import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
-import app.yskuem.aimondaimaker.getPlatform
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
+import app.yskuem.aimondaimaker.getPlatform
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -298,14 +298,13 @@ fun ContentList(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.outlineVariant,
                             shape = RoundedCornerShape(12.dp),
-                        )
-                        .pointerInput(itemGroupIds[index]) {
+                        ).pointerInput(itemGroupIds[index]) {
                             if (getPlatform().isIPad) {
                                 detectTapGestures(
                                     onLongPress = {
-                                        expandedMenuFor = 
+                                        expandedMenuFor =
                                             if (expandedMenuFor == itemGroupIds[index]) null else itemGroupIds[index]
-                                    }
+                                    },
                                 )
                             }
                         },

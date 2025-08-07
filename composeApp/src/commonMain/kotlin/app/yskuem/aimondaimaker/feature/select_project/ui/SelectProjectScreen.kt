@@ -218,9 +218,9 @@ class SelectProjectScreen : Screen {
                                                         if (getPlatform().isIPad) {
                                                             detectTapGestures(
                                                                 onLongPress = {
-                                                                    expandedMenuFor = 
+                                                                    expandedMenuFor =
                                                                         if (expandedMenuFor == project.id) null else project.id
-                                                                }
+                                                                },
                                                             )
                                                         }
                                                     },
