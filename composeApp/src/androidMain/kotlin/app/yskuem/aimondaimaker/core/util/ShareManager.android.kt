@@ -2,7 +2,6 @@ package app.yskuem.aimondaimaker.core.util
 
 import android.content.Context
 import android.content.Intent
-import app.yskuem.aimondaimaker.core.config.WEB_QUIZ_APP_DOMAIN
 import app.yskuem.aimondaimaker.core.config.getWebQuizAppDomain
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
