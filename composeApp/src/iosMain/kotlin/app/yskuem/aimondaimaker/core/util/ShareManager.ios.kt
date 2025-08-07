@@ -1,6 +1,6 @@
 package app.yskuem.aimondaimaker.core.util
 
-import app.yskuem.aimondaimaker.core.config.WEB_QUIZ_APP_DOMAIN
+import app.yskuem.aimondaimaker.core.config.getWebQuizAppDomain
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import platform.UIKit.UIActivityViewController
@@ -32,7 +32,7 @@ class IosShareManager(
     }
 
     override fun generateQuizUrl(groupId: String): String {
-        return "${WEB_QUIZ_APP_DOMAIN}?group_id=$groupId"
+        return "${getWebQuizAppDomain()}?group_id=$groupId"
     }
 
     override suspend fun saveQuizToSupabase(groupId: String, quizData: List<Quiz>, userId: String) {
