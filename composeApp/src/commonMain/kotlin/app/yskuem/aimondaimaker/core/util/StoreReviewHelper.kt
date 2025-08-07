@@ -16,12 +16,12 @@ private const val TWO_MONTHS_IN_MILLIS = 60L * 24L * 60L * 60L * 1000L // 60 day
 fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
     val storeReview: StoreReview = koinInject()
     val userDataStore: UserDataStore = koinInject()
-    
-    return remember { 
+
+    return remember {
         {
             val currentTime = Clock.System.now().toEpochMilliseconds()
             val lastRequestTime = userDataStore.getLastReviewRequestTimestamp()
-            
+
             if (lastRequestTime == 0L || currentTime - lastRequestTime >= TWO_MONTHS_IN_MILLIS) {
                 val result = storeReview.requestReview()
                 if (result.isSuccess) {
@@ -38,29 +38,30 @@ fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
 @Composable
 fun LaunchStoreReview(
     trigger: Boolean,
-    onComplete: (Result<Unit>) -> Unit = {}
+    onComplete: (Result<Unit>) -> Unit = {},
 ) {
     val storeReview: StoreReview = koinInject()
     val userDataStore: UserDataStore = koinInject()
     var hasLaunched by remember { mutableStateOf(false) }
-    
+
     LaunchedEffect(trigger) {
         if (trigger && !hasLaunched) {
             hasLaunched = true
-            
+
             val currentTime = Clock.System.now().toEpochMilliseconds()
             val lastRequestTime = userDataStore.getLastReviewRequestTimestamp()
-            
-            val result = if (lastRequestTime == 0L || currentTime - lastRequestTime >= TWO_MONTHS_IN_MILLIS) {
-                val reviewResult = storeReview.requestReview()
-                if (reviewResult.isSuccess) {
-                    userDataStore.setLastReviewRequestTimestamp(currentTime)
+
+            val result =
+                if (lastRequestTime == 0L || currentTime - lastRequestTime >= TWO_MONTHS_IN_MILLIS) {
+                    val reviewResult = storeReview.requestReview()
+                    if (reviewResult.isSuccess) {
+                        userDataStore.setLastReviewRequestTimestamp(currentTime)
+                    }
+                    reviewResult
+                } else {
+                    Result.success(Unit) // Skip review request, not enough time has passed
                 }
-                reviewResult
-            } else {
-                Result.success(Unit) // Skip review request, not enough time has passed
-            }
-            
+
             onComplete(result)
         }
     }

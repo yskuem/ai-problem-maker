@@ -58,10 +58,11 @@ fun ShareDialog(
     if (isVisible) {
         Dialog(
             onDismissRequest = onDismiss,
-            properties = DialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true,
-            ),
+            properties =
+                DialogProperties(
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true,
+                ),
         ) {
             ShareDialogContent(
                 quizUrl = quizUrl,
