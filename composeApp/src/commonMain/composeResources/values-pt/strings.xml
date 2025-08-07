@@ -4,6 +4,7 @@
     <string name="new_project">Novo projeto</string>
     <string name="search_project">Pesquisar projetos...</string>
     <string name="change_project_name">Renomear</string>
+    <string name="delete_project">Excluir</string>
     <string name="last_updated_project_date">Última edição:</string>
     <string name="no_project_message">Nenhum projeto criado ainda.\nToque no botão abaixo para criar o seu primeiro!</string>
 
@@ -49,5 +50,19 @@
     <string name="error_screen_reload_action">Desculpe, ocorreu um erro. Tente novamente usando o botão de atualizar abaixo.</string>
     <string name="load_again">Recarregar</string>
     <string name="back_to_pre_screen">Voltar</string>
+
+    <!-- Quiz Result Screen -->
+    <string name="try_again">Tentar novamente</string>
+    <string name="back_to_previous_screen">Voltar para a tela anterior</string>
+    <string name="delete_quiz">Excluir quiz</string>
+    <string name="delete_note">Excluir nota</string>
+
+    <!-- Share Feature -->
+    <string name="share_quiz">Compartilhar quiz</string>
+    <string name="share_dialog_title">Compartilhar quiz</string>
+    <string name="copy_link">Copiar link</string>
+    <string name="share_with_others">Compartilhar com outros</string>
+    <string name="link_copied">Link copiado</string>
+    <string name="close">Fechar</string>
 
 </resources>

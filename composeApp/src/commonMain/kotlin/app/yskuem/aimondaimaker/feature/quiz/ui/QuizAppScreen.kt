@@ -2,6 +2,8 @@ package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.share_quiz
+import ai_problem_maker.composeapp.generated.resources.try_again
+import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -513,7 +515,7 @@ fun QuizCompletedScreen(
                     ),
             ) {
                 Text(
-                    text = "もう一度挑戦する",
+                    text = stringResource(Res.string.try_again),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp),
                 )
@@ -536,7 +538,7 @@ fun QuizCompletedScreen(
                     ),
             ) {
                 Text(
-                    text = "前の画面に戻る",
+                    text = stringResource(Res.string.back_to_previous_screen),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(8.dp),
                 )

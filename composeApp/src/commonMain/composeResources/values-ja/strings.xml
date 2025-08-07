@@ -4,6 +4,7 @@
     <string name="new_project">新規プロジェクト</string>
     <string name="search_project">プロジェクトを検索...</string>
     <string name="change_project_name">名前を変更</string>
+    <string name="delete_project">削除</string>
     <string name="last_updated_project_date">最終編集:</string>
     <string name="no_project_message">まだプロジェクトが作成されていません。\n下のボタンから新規作成してみましょう！</string>
 
@@ -49,6 +50,12 @@
     <string name="error_screen_reload_action">申し訳ありません。エラーが発生しました。下記の更新ボタンよりもう一度お試しください。</string>
     <string name="load_again">再読み込み</string>
     <string name="back_to_pre_screen">戻る</string>
+
+    <!-- Quiz Result Screen -->
+    <string name="try_again">もう一度挑戦する</string>
+    <string name="back_to_previous_screen">前の画面に戻る</string>
+    <string name="delete_quiz">クイズを削除</string>
+    <string name="delete_note">ノートを削除</string>
 
     <!-- 共有機能 -->
     <string name="share_quiz">クイズを共有</string>
