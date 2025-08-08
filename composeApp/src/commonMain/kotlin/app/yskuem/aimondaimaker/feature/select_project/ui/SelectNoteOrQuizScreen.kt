@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.material3.*
@@ -33,6 +32,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.ui.components.AppTopBar
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.mode.NavCreateMode
 import cafe.adriel.voyager.core.screen.Screen
@@ -65,27 +65,9 @@ class SelectNoteOrQuizScreen : Screen {
         ) {
             Scaffold(
                 topBar = {
-                    CenterAlignedTopAppBar(
-                        colors =
-                            TopAppBarDefaults.topAppBarColors(
-                                containerColor = Color.Transparent,
-                                titleContentColor = Color.Black,
-                                navigationIconContentColor = Color.Black,
-                                actionIconContentColor = Color.Black,
-                            ),
-                        title = { Text("") },
-                        navigationIcon = {
-                            IconButton(
-                                onClick = {
-                                    navigator?.pop()
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "戻る",
-                                )
-                            }
-                        },
+                    AppTopBar(
+                        title = "",
+                        onBack = { navigator?.pop() },
                     )
                 },
             ) { innerPadding ->

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import androidx.compose.ui.graphics.Color
+import app.yskuem.aimondaimaker.core.ui.components.AppTopBar
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -92,25 +91,9 @@ data class SelectAlbumOrCameraScreen(
 
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(stringResource(mode.title))
-                    },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                navigator?.pop()
-                            },
-                        ) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
-                        }
-                    },
-                    colors =
-                        TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = Color.Transparent,
-                            titleContentColor = MaterialTheme.colorScheme.onSurface,
-                            navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
-                        ),
+                AppTopBar(
+                    title = stringResource(mode.title),
+                    onBack = { navigator?.pop() },
                 )
             },
         ) { paddingValues ->
