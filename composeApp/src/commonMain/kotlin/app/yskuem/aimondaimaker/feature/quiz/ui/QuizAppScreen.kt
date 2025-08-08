@@ -40,7 +40,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import app.yskuem.aimondaimaker.core.ui.components.AppTopBar
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +55,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import app.yskuem.aimondaimaker.core.ui.components.AppTopBar
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.core.util.ShareManager
