@@ -51,6 +51,9 @@
     <string name="load_again">Recargar</string>
     <string name="back_to_pre_screen">Atrás</string>
 
+    <!-- Quiz Screen -->
+    <string name="next_question">Siguiente pregunta</string>
+    <string name="view_results">Ver resultados</string>
     <!-- Quiz Result Screen -->
     <string name="try_again">Intentar de nuevo</string>
     <string name="back_to_previous_screen">Volver a la pantalla anterior</string>

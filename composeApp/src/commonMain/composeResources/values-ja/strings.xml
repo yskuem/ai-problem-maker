@@ -50,6 +50,9 @@
     <string name="error_screen_reload_action">申し訳ありません。エラーが発生しました。下記の更新ボタンよりもう一度お試しください。</string>
     <string name="load_again">再読み込み</string>
     <string name="back_to_pre_screen">戻る</string>
+    <!-- クイズ画面 -->
+    <string name="next_question">次の問題へ</string>
+    <string name="view_results">結果を見る</string>
 
     <!-- Quiz Result Screen -->
     <string name="try_again">もう一度挑戦する</string>

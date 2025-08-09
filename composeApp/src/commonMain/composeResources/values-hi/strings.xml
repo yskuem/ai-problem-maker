@@ -51,6 +51,9 @@
     <string name="load_again">पुनः लोड करें</string>
     <string name="back_to_pre_screen">वापस</string>
 
+    <!-- Quiz Screen -->
+    <string name="next_question">अगला प्रश्न</string>
+    <string name="view_results">परिणाम देखें</string>
     <!-- Quiz Result Screen -->
     <string name="try_again">फिर से प्रयास करें</string>
     <string name="back_to_previous_screen">पिछली स्क्रीन पर लौटें</string>
