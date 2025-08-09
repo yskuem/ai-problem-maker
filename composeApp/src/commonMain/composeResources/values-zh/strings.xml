@@ -51,6 +51,9 @@
     <string name="load_again">再加载</string>
     <string name="back_to_pre_screen">返回</string>
 
+    <!-- Quiz Screen -->
+    <string name="next_question">下一题</string>
+    <string name="view_results">查看结果</string>
     <!-- Quiz Result Screen -->
     <string name="try_again">再试一次</string>
     <string name="back_to_previous_screen">返回上一屏幕</string>

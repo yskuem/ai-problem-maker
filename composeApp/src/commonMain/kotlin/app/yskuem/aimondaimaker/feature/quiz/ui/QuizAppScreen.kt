@@ -4,6 +4,8 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
 import ai_problem_maker.composeapp.generated.resources.share_quiz
 import ai_problem_maker.composeapp.generated.resources.try_again
+import ai_problem_maker.composeapp.generated.resources.next_question
+import ai_problem_maker.composeapp.generated.resources.view_results
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -319,7 +321,12 @@ fun QuizContentScreen(
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = if (currentQuestionIndex < totalQuestions - 1) "次の問題へ" else "結果を見る",
+                            text =
+                                if (currentQuestionIndex < totalQuestions - 1) {
+                                    stringResource(Res.string.next_question)
+                                } else {
+                                    stringResource(Res.string.view_results)
+                                },
                             style = MaterialTheme.typography.titleMedium,
                         )
                         Spacer(modifier = Modifier.width(8.dp))

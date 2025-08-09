@@ -51,6 +51,9 @@
     <string name="load_again">Neu laden</string>
     <string name="back_to_pre_screen">Zurück</string>
 
+    <!-- Quiz Screen -->
+    <string name="next_question">Nächste Frage</string>
+    <string name="view_results">Ergebnisse anzeigen</string>
     <!-- Quiz Result Screen -->
     <string name="try_again">Erneut versuchen</string>
     <string name="back_to_previous_screen">Zur vorherigen Seite zurückkehren</string>

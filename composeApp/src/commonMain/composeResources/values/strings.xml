@@ -50,6 +50,9 @@
     <string name="error_screen_reload_action">Sorry, an error occurred. Please try again using the refresh button below.</string>
     <string name="load_again">Reload</string>
     <string name="back_to_pre_screen">Back</string>
+    <!-- Quiz Screen -->
+    <string name="next_question">Next Question</string>
+    <string name="view_results">View Results</string>
     <!-- Quiz Result Screen -->
     <string name="try_again">Try Again</string>
     <string name="back_to_previous_screen">Back to Previous Screen</string>
