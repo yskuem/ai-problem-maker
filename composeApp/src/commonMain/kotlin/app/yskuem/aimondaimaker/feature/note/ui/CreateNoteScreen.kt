@@ -44,6 +44,7 @@ data class CreateNoteScreen(
         }
 
         BackHandler {
+            viewmodel.showInterstitialAd()
             navigator?.pop()
         }
 
@@ -60,6 +61,7 @@ data class CreateNoteScreen(
             }
             is DataUiState.Success -> {
                 NoteApp(note = result.data) {
+                    viewmodel.showInterstitialAd()
                     navigator?.pop()
                 }
             }

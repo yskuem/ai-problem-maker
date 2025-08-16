@@ -45,6 +45,7 @@ data class CreateQuizScreen(
         }
 
         BackHandler {
+            viewmodel.showInterstitialAd()
             navigator?.pop()
         }
 
@@ -61,6 +62,7 @@ data class CreateQuizScreen(
             }
             is DataUiState.Success -> {
                 QuizApp(quizList.data) {
+                    viewmodel.showInterstitialAd()
                     navigator?.pop()
                 }
             }
