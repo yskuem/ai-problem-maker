@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
@@ -114,6 +116,7 @@ fun QuizApp(
                             navigationIconContentColor = Color.Black,
                             actionIconContentColor = Color.Black,
                         ),
+                    windowInsets = WindowInsets.statusBars,
                 )
             },
             containerColor = backgroundColor,
