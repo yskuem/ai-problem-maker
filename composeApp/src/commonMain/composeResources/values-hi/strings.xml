@@ -52,9 +52,14 @@
     <string name="back_to_pre_screen">वापस</string>
 
     <!-- Quiz Screen -->
+    <string name="question_number_title">प्रश्न %1$d / %2$d</string>
+    <string name="question_progress">प्रश्न %1$d/%2$d</string>
+    <string name="score_label">स्कोर: %1$d</string>
     <string name="next_question">अगला प्रश्न</string>
     <string name="view_results">परिणाम देखें</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">क्विज़ समाप्त!</string>
+    <string name="score_summary">आपने %2$d में से %1$d प्रश्न सही उत्तर दिए</string>
     <string name="try_again">फिर से प्रयास करें</string>
     <string name="back_to_previous_screen">पिछली स्क्रीन पर लौटें</string>
     <string name="delete_quiz">क्विज़ हटाएँ</string>
