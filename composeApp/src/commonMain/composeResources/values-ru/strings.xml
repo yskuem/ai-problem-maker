@@ -52,9 +52,14 @@
     <string name="back_to_pre_screen">Назад</string>
 
     <!-- Quiz Screen -->
+    <string name="question_number_title">Вопрос %1$d / %2$d</string>
+    <string name="question_progress">Вопрос %1$d/%2$d</string>
+    <string name="score_label">Очки: %1$d</string>
     <string name="next_question">Следующий вопрос</string>
     <string name="view_results">Посмотреть результаты</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">Викторина завершена!</string>
+    <string name="score_summary">Вы ответили правильно на %1$d из %2$d</string>
     <string name="try_again">Попробовать снова</string>
     <string name="back_to_previous_screen">Вернуться к предыдущему экрану</string>
     <string name="delete_quiz">Удалить викторину</string>
