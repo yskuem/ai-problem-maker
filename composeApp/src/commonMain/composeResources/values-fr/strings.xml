@@ -52,9 +52,14 @@
     <string name="back_to_pre_screen">Retour</string>
 
     <!-- Quiz Screen -->
+    <string name="question_number_title">Question %1$d / %2$d</string>
+    <string name="question_progress">Question %1$d/%2$d</string>
+    <string name="score_label">Score : %1$d</string>
     <string name="next_question">Question suivante</string>
     <string name="view_results">Voir les résultats</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">Quiz terminé !</string>
+    <string name="score_summary">Vous avez répondu correctement à %1$d sur %2$d</string>
     <string name="try_again">Réessayer</string>
     <string name="back_to_previous_screen">Revenir à l'écran précédent</string>
     <string name="delete_quiz">Supprimer le quiz</string>

@@ -51,10 +51,15 @@
     <string name="load_again">再読み込み</string>
     <string name="back_to_pre_screen">戻る</string>
     <!-- クイズ画面 -->
+    <string name="question_number_title">%1$d / %2$d 問目</string>
+    <string name="question_progress">問題 %1$d/%2$d</string>
+    <string name="score_label">スコア: %1$d</string>
     <string name="next_question">次の問題へ</string>
     <string name="view_results">結果を見る</string>
 
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">クイズ終了！</string>
+    <string name="score_summary">%2$d問中%1$d問正解</string>
     <string name="try_again">もう一度挑戦する</string>
     <string name="back_to_previous_screen">前の画面に戻る</string>
     <string name="delete_quiz">クイズを削除</string>
