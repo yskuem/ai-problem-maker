@@ -50,6 +50,8 @@ class CameraPermissionViewModelTest : MainDispatcherTestBase() {
         everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedException(Permission.CAMERA)
 
         viewModel.state.test {
+            assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
+
             viewModel.requestPermission()
             testScheduler.advanceUntilIdle()
 
@@ -63,6 +65,8 @@ class CameraPermissionViewModelTest : MainDispatcherTestBase() {
         everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedAlwaysException(Permission.CAMERA)
 
         viewModel.state.test {
+            assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
+
             viewModel.requestPermission()
             testScheduler.advanceUntilIdle()
 
