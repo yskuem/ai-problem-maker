@@ -11,6 +11,7 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import dev.mokkery.answering.returns
+import dev.mokkery.answering.throwsErrorWith
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
@@ -72,6 +73,10 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             )
         } returns Unit
 
+        everySuspend {
+            crashlytics.log(any())
+        } returns Unit
+
 
         viewModel = ShowNoteScreenViewModel(
             authRepository = authRepository,
@@ -82,8 +87,11 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
         )
     }
 
+    /**
+     * ノートのロードで成功した時のパターン
+     */
     @Test
-    fun check_on_load_page() = runTest {
+    fun check_on_load_page_on_success() = runTest {
         viewModel.uiState.test {
 
             assertTrue(expectMostRecentItem().note.isLoading)
@@ -97,6 +105,36 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             testScheduler.advanceUntilIdle()
 
             assertTrue (awaitItem().note is DataUiState.Success<Note>)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    /**
+     * ノートのロードで失敗した時のパターン
+     */
+    @Test
+    fun check_on_load_page_on_failed() = runTest {
+        viewModel.uiState.test {
+            assertTrue(expectMostRecentItem().note.isLoading)
+
+            everySuspend {
+                noteRepository.generateFromImage(
+                    image = any(),
+                    fileName = any(),
+                    extension = any(),
+                )
+            } throwsErrorWith "Failed!"
+
+            viewModel.onLoadPage(
+                imageByte = ByteArray(0),
+                fileName = "",
+                extension = "",
+                projectId = "",
+            )
+
+            testScheduler.advanceUntilIdle()
+
+            assertTrue (awaitItem().note is DataUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
     }
