@@ -107,6 +107,7 @@ kotlin {
             implementation (libs.kotlin.test.common)
             implementation (libs.kotlin.test.annotations.common)
             implementation(libs.mokkery.core)
+            implementation(libs.turbine)
         }
         val androidInstrumentedTest by getting {
             dependencies {

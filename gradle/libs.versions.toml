@@ -37,6 +37,7 @@ desugar-jdk-libs = "2.1.5"
 crashlytics-gradle = "3.0.4"
 mokkery = "2.9.0"
 kotlin-coroutines = "1.10.2"
+turbine = "1.2.1"
 
 
 [libraries]
@@ -112,6 +113,7 @@ firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.re
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
 mokkery-core = { group = "dev.mokkery", name = "mokkery-core", version.ref = "mokkery" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 
 
