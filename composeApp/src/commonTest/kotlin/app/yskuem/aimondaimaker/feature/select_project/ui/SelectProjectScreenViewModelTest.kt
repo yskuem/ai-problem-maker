@@ -96,7 +96,7 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
 
             val result = awaitItem()
             assertTrue(result is DataUiState.Success<List<Project>>)
-            assertEquals("Updated", (result as DataUiState.Success<List<Project>>).data.first().name)
+            assertEquals("Updated", result.data.first().name)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -114,7 +114,7 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
 
             val result = awaitItem()
             assertTrue(result is DataUiState.Success<List<Project>>)
-            assertTrue((result as DataUiState.Success<List<Project>>).data.isEmpty())
+            assertTrue(result.data.isEmpty())
             cancelAndIgnoreRemainingEvents()
         }
     }
