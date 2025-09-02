@@ -78,6 +78,8 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     @Test
     fun check_fetch_quiz_info_on_failed() = runTest {
         everySuspend { quizRepository.fetchQuizInfoList(any()) } throwsErrorWith "Failed!"
+
+        // viewmodelを再定義してinit内のfetchQuizInfoListを実行
         viewModel = ShowProjectInfoScreenViewModel(
             quizRepository = quizRepository,
             noteRepository = noteRepository,
@@ -101,13 +103,11 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     fun check_on_tap_tab_on_success() = runTest {
         viewModel.uiState.test {
             assertTrue(expectMostRecentItem().noteList.isLoading)
-            awaitItem()
 
             viewModel.onTapTab(1)
 
             testScheduler.advanceUntilIdle()
 
-            skipItems(1)
             assertTrue(awaitItem().noteList is DataUiState.Success<List<Note>>)
             cancelAndIgnoreRemainingEvents()
         }
@@ -120,14 +120,12 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     fun check_on_tap_tab_on_failed() = runTest {
         viewModel.uiState.test {
             assertTrue(expectMostRecentItem().noteList.isLoading)
-            awaitItem()
 
             everySuspend { noteRepository.fetchNotes(any()) } throwsErrorWith "Failed!"
             viewModel.onTapTab(1)
 
             testScheduler.advanceUntilIdle()
 
-            skipItems(1)
             assertTrue(awaitItem().noteList is DataUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
