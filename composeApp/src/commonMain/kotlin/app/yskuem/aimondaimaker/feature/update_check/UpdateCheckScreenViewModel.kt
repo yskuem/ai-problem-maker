@@ -32,7 +32,8 @@ class UpdateCheckScreenViewModel(
                 .onSuccess {
                     _updateStatus.emit(DataUiState.Success(it))
                 }.onFailure {
-                    println("あああ$it")
+                    _updateStatus.emit(DataUiState.Error(it))
+                    println("$it")
                 }
         }
     }

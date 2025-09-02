@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.note.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
@@ -8,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dev.gitlive.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -52,7 +52,7 @@ class ShowNoteScreenViewModel(
 
             // 画像からNoteを取得
             val noteResult =
-                onFetchQuizList(
+                onFetchNote(
                     imageByte = imageByte,
                     fileName = fileName,
                     extension = extension,
@@ -78,7 +78,7 @@ class ShowNoteScreenViewModel(
         }
     }
 
-    private suspend fun onFetchQuizList(
+    private suspend fun onFetchNote(
         imageByte: ByteArray,
         fileName: String,
         extension: String,

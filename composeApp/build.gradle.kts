@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics.plugin)
+    alias(libs.plugins.mokkery)
 }
 
 kotlin {
@@ -102,6 +103,14 @@ kotlin {
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+        }
+        commonTest.dependencies {
+            implementation (libs.kotlin.test)
+            implementation (libs.kotlin.coroutines.test)
+            implementation (libs.kotlin.test.common)
+            implementation (libs.kotlin.test.annotations.common)
+            implementation(libs.mokkery.core)
+            implementation(libs.turbine)
         }
         val androidInstrumentedTest by getting {
             dependencies {

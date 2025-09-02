@@ -15,8 +15,6 @@ val viewModelModule =
             AuthScreenViewModel(
                 authRepository = get(),
                 userRepository = get(),
-                userDataStore = get(),
-                checkUpdateUseCase = get(),
             )
         }
         factory {
