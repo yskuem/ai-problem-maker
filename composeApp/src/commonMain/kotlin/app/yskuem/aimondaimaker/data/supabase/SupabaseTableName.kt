@@ -20,4 +20,8 @@ object SupabaseTableName {
     object User {
         const val NAME = "user"
     }
+
+    object SharedQuiz {
+        const val NAME = "shared_quiz"
+    }
 }

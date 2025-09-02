@@ -13,6 +13,7 @@ import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -96,7 +97,7 @@ data class ShowProjectInfoScreen(
         }
         Scaffold(
             topBar = {
-                Column {
+                Column(modifier = Modifier.statusBarsPadding()) {
                     Row(
                         modifier =
                             Modifier

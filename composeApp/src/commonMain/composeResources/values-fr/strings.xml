@@ -4,6 +4,7 @@
     <string name="new_project">Nouveau projet</string>
     <string name="search_project">Rechercher des projets...</string>
     <string name="change_project_name">Renommer</string>
+    <string name="delete_project">Supprimer</string>
     <string name="last_updated_project_date">Dernière édition :</string>
     <string name="no_project_message">Aucun projet créé pour le moment.\nAppuyez sur le bouton ci-dessous pour créer le premier !</string>
 
@@ -49,5 +50,27 @@
     <string name="error_screen_reload_action">Désolé, une erreur est survenue. Veuillez réessayer en utilisant le bouton de mise à jour ci-dessous.</string>
     <string name="load_again">Recharger</string>
     <string name="back_to_pre_screen">Retour</string>
+
+    <!-- Quiz Screen -->
+    <string name="question_number_title">Question %1$d / %2$d</string>
+    <string name="question_progress">Question %1$d/%2$d</string>
+    <string name="score_label">Score : %1$d</string>
+    <string name="next_question">Question suivante</string>
+    <string name="view_results">Voir les résultats</string>
+    <!-- Quiz Result Screen -->
+    <string name="quiz_finished">Quiz terminé !</string>
+    <string name="score_summary">Vous avez répondu correctement à %1$d sur %2$d</string>
+    <string name="try_again">Réessayer</string>
+    <string name="back_to_previous_screen">Revenir à l'écran précédent</string>
+    <string name="delete_quiz">Supprimer le quiz</string>
+    <string name="delete_note">Supprimer la note</string>
+
+    <!-- Share Feature -->
+    <string name="share_quiz">Partager le quiz</string>
+    <string name="share_dialog_title">Partager le quiz</string>
+    <string name="copy_link">Copier le lien</string>
+    <string name="share_with_others">Partager avec les autres</string>
+    <string name="link_copied">Lien copié</string>
+    <string name="close">Fermer</string>
 
 </resources>

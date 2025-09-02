@@ -4,6 +4,7 @@
     <string name="new_project">Новый проект</string>
     <string name="search_project">Поиск проектов...</string>
     <string name="change_project_name">Переименовать</string>
+    <string name="delete_project">Удалить</string>
     <string name="last_updated_project_date">Последнее редактирование:</string>
     <string name="no_project_message">Проекты еще не созданы.\nНажмите кнопку ниже, чтобы создать первый!</string>
 
@@ -49,5 +50,27 @@
     <string name="error_screen_reload_action">Извините, произошла ошибка. Попробуйте снова с помощью кнопки обновления ниже.</string>
     <string name="load_again">Перезагрузить</string>
     <string name="back_to_pre_screen">Назад</string>
+
+    <!-- Quiz Screen -->
+    <string name="question_number_title">Вопрос %1$d / %2$d</string>
+    <string name="question_progress">Вопрос %1$d/%2$d</string>
+    <string name="score_label">Очки: %1$d</string>
+    <string name="next_question">Следующий вопрос</string>
+    <string name="view_results">Посмотреть результаты</string>
+    <!-- Quiz Result Screen -->
+    <string name="quiz_finished">Викторина завершена!</string>
+    <string name="score_summary">Вы ответили правильно на %1$d из %2$d</string>
+    <string name="try_again">Попробовать снова</string>
+    <string name="back_to_previous_screen">Вернуться к предыдущему экрану</string>
+    <string name="delete_quiz">Удалить викторину</string>
+    <string name="delete_note">Удалить заметку</string>
+
+    <!-- Share Feature -->
+    <string name="share_quiz">Поделиться викториной</string>
+    <string name="share_dialog_title">Поделиться викториной</string>
+    <string name="copy_link">Скопировать ссылку</string>
+    <string name="share_with_others">Поделиться с другими</string>
+    <string name="link_copied">Ссылка скопирована</string>
+    <string name="close">Закрыть</string>
 
 </resources>

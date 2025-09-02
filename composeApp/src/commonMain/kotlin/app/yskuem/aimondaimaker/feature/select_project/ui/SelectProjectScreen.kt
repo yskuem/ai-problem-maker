@@ -7,32 +7,37 @@ import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import app.lexilabs.basic.ads.BannerAd
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
@@ -41,6 +46,9 @@ import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
+import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
+import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
+import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
@@ -57,7 +65,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
 class SelectProjectScreen : Screen {
-    @OptIn(ExperimentalMaterialApi::class, DependsOnGoogleMobileAds::class)
+    @OptIn(DependsOnGoogleMobileAds::class)
     @Composable
     override fun Content() {
         // どのプロジェクトのメニューが開いているか
@@ -95,7 +103,9 @@ class SelectProjectScreen : Screen {
         }
         val gridState = rememberLazyGridState()
 
-        Scaffold { padding ->
+        Scaffold(
+            containerColor = BackgroundPrimary,
+        ) { padding ->
             when (val projectState = uiState) {
                 is DataUiState.Loading -> {
                     LoadingScreen()
@@ -117,9 +127,17 @@ class SelectProjectScreen : Screen {
                         modifier =
                             Modifier
                                 .fillMaxSize()
-                                .systemBarsPadding()
+                                .background(
+                                    brush =
+                                        Brush.verticalGradient(
+                                            listOf(
+                                                BackgroundPrimary,
+                                                BackgroundGradient,
+                                                BackgroundSecondary,
+                                            ),
+                                        ),
+                                ).systemBarsPadding()
                                 .pointerInput(Unit) {
-                                    // 画面全体のタップを検知してフォーカスをクリア
                                     detectTapGestures {
                                         focusManager.clearFocus()
                                     }
@@ -129,31 +147,23 @@ class SelectProjectScreen : Screen {
                             modifier =
                                 Modifier
                                     .fillMaxSize()
-                                    .background(Color(0xFFF9FAFB))
                                     .padding(padding)
-                                    .padding(16.dp),
+                                    .padding(ComponentSpacing.screenPadding),
                         ) {
-                            Spacer(modifier = Modifier.height(30.dp))
+                            Spacer(modifier = Modifier.height(ComponentSpacing.screenTopPadding))
 
-                            // 検索バー
-                            OutlinedTextField(
+                            // Premium search bar with glass morphism
+                            PremiumSearchBar(
                                 value = searchTerm,
                                 onValueChange = { searchTerm = it },
+                                placeholder = stringResource(Res.string.search_project),
                                 modifier =
                                     Modifier
                                         .fillMaxWidth()
-                                        .padding(bottom = 16.dp),
-                                placeholder = { Text(stringResource(Res.string.search_project)) },
-                                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                                singleLine = true,
-                                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Search),
-                                keyboardActions =
-                                    KeyboardActions(
-                                        onSearch = {
-                                            // 検索実行時にフォーカスをクリア
-                                            focusManager.clearFocus()
-                                        },
-                                    ),
+                                        .padding(bottom = ComponentSpacing.fieldSpacing),
+                                onSearch = {
+                                    focusManager.clearFocus()
+                                },
                             )
 
                             if (projects.isEmpty()) {
@@ -163,11 +173,12 @@ class SelectProjectScreen : Screen {
                                     iconVector = Icons.AutoMirrored.Filled.MenuBook,
                                 )
                             } else {
-                                // プロジェクトグリッド
+                                // Premium project grid with sophisticated cards
                                 LazyVerticalGrid(
                                     columns = GridCells.Fixed(1),
                                     state = gridState,
-                                    contentPadding = PaddingValues(4.dp),
+                                    contentPadding = PaddingValues(Spacing.sm),
+                                    verticalArrangement = Arrangement.spacedBy(Spacing.lg),
                                     modifier =
                                         Modifier
                                             .weight(1f)
@@ -179,7 +190,7 @@ class SelectProjectScreen : Screen {
                                             project.updatedAt
                                                 .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
                                                 .toJapaneseMonthDay()
-                                        Card(
+                                        PremiumCard(
                                             onClick = {
                                                 navigator.push(
                                                     ShowProjectInfoScreen(
@@ -187,39 +198,62 @@ class SelectProjectScreen : Screen {
                                                     ),
                                                 )
                                             },
-                                            shape = RoundedCornerShape(8.dp),
-                                            elevation = 4.dp,
+                                            elevation = Elevation.md,
+                                            gradientColors =
+                                                listOf(
+                                                    MaterialTheme.colorScheme.surface,
+                                                    MaterialTheme.colorScheme.surfaceContainerLow,
+                                                ),
+                                            borderGradient =
+                                                listOf(
+                                                    BorderAccent,
+                                                    BorderAccent.copy(alpha = 0.3f),
+                                                ),
                                             modifier =
                                                 Modifier
-                                                    .padding(8.dp)
+                                                    .padding(horizontal = Spacing.xs)
                                                     .fillMaxWidth(),
                                         ) {
                                             Row(
                                                 modifier =
                                                     Modifier
-                                                        .padding(12.dp)
                                                         .fillMaxWidth(),
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
-                                                // アイコン
+                                                // Premium icon with gradient background
                                                 Box(
                                                     modifier =
                                                         Modifier
-                                                            .size(40.dp)
-                                                            .background(
-                                                                color = Color(0xFFE0F2FF),
-                                                                shape = RoundedCornerShape(8.dp),
+                                                            .size(ComponentSpacing.iconXXLarge)
+                                                            .shadow(
+                                                                elevation = Elevation.sm,
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                                ambientColor = ShadowBrand,
+                                                                spotColor = ShadowLight,
+                                                            ).background(
+                                                                brush =
+                                                                    Brush.linearGradient(
+                                                                        listOf(
+                                                                            BrandPrimary.copy(alpha = 0.9f),
+                                                                            BrandSecondary.copy(alpha = 0.8f),
+                                                                        ),
+                                                                    ),
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                            ).border(
+                                                                width = 1.dp,
+                                                                color = Color.White.copy(alpha = 0.2f),
+                                                                shape = RoundedCornerShape(CornerRadius.lg),
                                                             ),
                                                     contentAlignment = Alignment.Center,
                                                 ) {
                                                     Icon(
                                                         imageVector = Icons.AutoMirrored.Filled.MenuBook,
                                                         contentDescription = null,
-                                                        modifier = Modifier.size(24.dp),
-                                                        tint = Color(0xFF3B82F6),
+                                                        modifier = Modifier.size(ComponentSpacing.iconLarge),
+                                                        tint = Color.White,
                                                     )
                                                 }
-                                                Spacer(modifier = Modifier.width(12.dp))
+                                                Spacer(modifier = Modifier.width(ComponentSpacing.listIconSpacing))
 
                                                 // タイトル＆最終編集日
                                                 Column(modifier = Modifier.weight(1f)) {
@@ -236,8 +270,9 @@ class SelectProjectScreen : Screen {
                                                                         .padding(end = 8.dp),
                                                                 singleLine = true,
                                                                 colors =
-                                                                    TextFieldDefaults.textFieldColors(
-                                                                        backgroundColor = Color(0xFFE0F2FF),
+                                                                    TextFieldDefaults.colors(
+                                                                        focusedContainerColor = Color(0xFFE0F2FF),
+                                                                        unfocusedContainerColor = Color(0xFFE0F2FF),
                                                                     ),
                                                             )
                                                             IconButton(onClick = {
@@ -264,16 +299,19 @@ class SelectProjectScreen : Screen {
                                                             }
                                                         }
                                                     } else {
-                                                        // 通常モード
+                                                        // Premium styled text with enhanced typography
                                                         Text(
                                                             text = project.name,
-                                                            fontSize = 16.sp,
-                                                            color = MaterialTheme.colors.onSurface,
+                                                            style = MaterialTheme.typography.titleLarge,
+                                                            color = TextPrimary,
                                                         )
+                                                        Spacer(modifier = Modifier.height(2.dp))
                                                         Text(
                                                             text = stringResource(Res.string.last_updated_project_date) + updatedAt,
-                                                            fontSize = 12.sp,
-                                                            color = Color.Gray,
+                                                            style =
+                                                                MaterialTheme.typography.bodySmall.copy(
+                                                                    color = TextTertiary,
+                                                                ),
                                                         )
                                                     }
                                                 }
@@ -290,24 +328,40 @@ class SelectProjectScreen : Screen {
                                                         expanded = (expandedMenuFor == project.id),
                                                         onDismissRequest = { expandedMenuFor = null },
                                                     ) {
-                                                        DropdownMenuItem(onClick = {
-                                                            // 編集モード開始
-                                                            editingId = project.id
-                                                            editingTitle = project.name
-                                                            expandedMenuFor = null
-                                                        }) {
-                                                            Text(stringResource(Res.string.change_project_name))
-                                                        }
-                                                        DropdownMenuItem(onClick = {
-                                                            // プロジェクトを削除
-                                                            viewModel.deleteProject(
-                                                                projectId = project.id,
-                                                                currentProjects = projects,
-                                                            )
-                                                            expandedMenuFor = null
-                                                        }) {
-                                                            Text(stringResource(Res.string.delete_project))
-                                                        }
+                                                        DropdownMenuItem(
+                                                            text = { Text(stringResource(Res.string.change_project_name)) },
+                                                            onClick = {
+                                                                // 編集モード開始
+                                                                editingId = project.id
+                                                                editingTitle = project.name
+                                                                expandedMenuFor = null
+                                                            },
+                                                            modifier = Modifier,
+                                                            leadingIcon = null,
+                                                            trailingIcon = null,
+                                                            enabled = true,
+                                                            colors = MenuDefaults.itemColors(),
+                                                            contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
+                                                            interactionSource = null,
+                                                        )
+                                                        DropdownMenuItem(
+                                                            text = { Text(stringResource(Res.string.delete_project)) },
+                                                            onClick = {
+                                                                // プロジェクトを削除
+                                                                viewModel.deleteProject(
+                                                                    projectId = project.id,
+                                                                    currentProjects = projects,
+                                                                )
+                                                                expandedMenuFor = null
+                                                            },
+                                                            modifier = Modifier,
+                                                            leadingIcon = null,
+                                                            trailingIcon = null,
+                                                            enabled = true,
+                                                            colors = MenuDefaults.itemColors(),
+                                                            contentPadding = MenuDefaults.DropdownMenuItemContentPadding,
+                                                            interactionSource = null,
+                                                        )
                                                     }
                                                 }
                                             }
@@ -319,23 +373,43 @@ class SelectProjectScreen : Screen {
                             Column {
                                 CreateNewButton(
                                     buttonText = stringResource(Res.string.new_project),
+                                    modifier = Modifier.padding(top = ComponentSpacing.sectionSpacing),
                                 ) {
                                     navigator.push(
                                         SelectNoteOrQuizScreen(),
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(10.dp))
+                                Spacer(modifier = Modifier.height(Spacing.md))
+                                // Premium ad container with glass morphism
                                 Box(
                                     modifier =
                                         Modifier
                                             .fillMaxWidth()
-                                            .height(50.dp)
-                                            .background(color = Color.White),
-                                    contentAlignment = Alignment.Center,
+                                            .shadow(
+                                                elevation = Elevation.xs,
+                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                                ambientColor = GlassShadow,
+                                                spotColor = GlassShadow,
+                                            ).clip(RoundedCornerShape(CornerRadius.lg))
+                                            .background(GlassSurface)
+                                            .border(
+                                                width = 1.dp,
+                                                color = GlassBorder,
+                                                shape = RoundedCornerShape(CornerRadius.lg),
+                                            ),
                                 ) {
-                                    BannerAd(
-                                        adUnitId = getAdmobBannerId(),
-                                    )
+                                    Box(
+                                        modifier =
+                                            Modifier
+                                                .fillMaxWidth()
+                                                .height(60.dp)
+                                                .padding(Spacing.sm),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        BannerAd(
+                                            adUnitId = getAdmobBannerId(),
+                                        )
+                                    }
                                 }
                             }
                         }
