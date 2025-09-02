@@ -101,13 +101,13 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     fun check_on_tap_tab_on_success() = runTest {
         viewModel.uiState.test {
             assertTrue(expectMostRecentItem().noteList.isLoading)
+            awaitItem()
 
             viewModel.onTapTab(1)
-            awaitItem()
 
             testScheduler.advanceUntilIdle()
 
-            awaitItem()
+            skipItems(1)
             assertTrue(awaitItem().noteList is DataUiState.Success<List<Note>>)
             cancelAndIgnoreRemainingEvents()
         }
@@ -120,14 +120,14 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     fun check_on_tap_tab_on_failed() = runTest {
         viewModel.uiState.test {
             assertTrue(expectMostRecentItem().noteList.isLoading)
+            awaitItem()
 
             everySuspend { noteRepository.fetchNotes(any()) } throwsErrorWith "Failed!"
             viewModel.onTapTab(1)
-            awaitItem()
 
             testScheduler.advanceUntilIdle()
 
-            awaitItem()
+            skipItems(1)
             assertTrue(awaitItem().noteList is DataUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
