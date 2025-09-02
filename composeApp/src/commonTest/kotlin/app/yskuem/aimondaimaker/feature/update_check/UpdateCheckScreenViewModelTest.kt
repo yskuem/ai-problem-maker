@@ -74,7 +74,7 @@ class UpdateCheckScreenViewModelTest : MainDispatcherTestBase() {
             testScheduler.advanceUntilIdle()
 
             val result = expectMostRecentItem()
-            assertTrue(result is DataUiState.Loading)
+            assertTrue(result is DataUiState.Error)
             cancelAndIgnoreRemainingEvents()
         }
 
