@@ -1,0 +1,30 @@
+name: Android iOS Build and Test
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build-test:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Run Android unit tests
+        run: ./gradlew composeApp:testDevDebugUnitTest
+
+      - name: Build Android app
+        run: ./gradlew composeApp:assembleDevDebug
+
+      - name: Build iOS simulator framework
+        run: ./gradlew composeApp:linkDebugFrameworkIosSimulatorArm64
