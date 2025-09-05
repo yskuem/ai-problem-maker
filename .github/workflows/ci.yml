@@ -13,6 +13,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Prepare config files
+        run: scripts/create-placeholder-configs.sh
       - name: Run Android unit tests
         run: ./gradlew :composeApp:testDevDebugUnitTest :composeApp:testStagingDebugUnitTest :composeApp:testProdDebugUnitTest
 
@@ -25,6 +27,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Prepare config files
+        run: scripts/create-placeholder-configs.sh
       - name: Build Android
         run: ./gradlew :composeApp:assembleDebug
 
@@ -36,6 +40,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Prepare config files
+        run: scripts/create-placeholder-configs.sh
       - name: Build iOS simulator
         run: |
           ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
