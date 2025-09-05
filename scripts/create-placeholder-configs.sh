@@ -44,31 +44,6 @@ object AdmobIosProdConfigs {
     const val BANNER_ID: String = "ca-app-pub-prod-banner-ios"
 }' > composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/feature/ad/config/AdmobIosProdConfigs.kt
 
-# Google services for prod
-mkdir -p composeApp/src/prod
-echo '{
-  "project_info": {
-    "project_number": "000000000000",
-    "project_id": "placeholder-prod",
-    "storage_bucket": "placeholder-prod.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000",
-        "android_client_info": {
-          "package_name": "app.yskuem.aimondaimaker"
-        }
-      },
-      "api_key": [
-        {
-          "current_key": "AIzaSyPlaceholder"
-        }
-      ]
-    }
-  ],
-  "configuration_version": "1"
-}' > composeApp/src/prod/google-services.json
 
 # Android prod strings
 mkdir -p composeApp/src/prod/res/values
@@ -79,46 +54,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>
 </resources>
 ' > composeApp/src/prod/res/values/strings.xml
 
-# key.properties
-echo 'storePassword=dummy
-keyPassword=dummy
-keyAlias=dummy
-storeFile=dummy.jks' > key.properties
 
-# iOS GoogleService files
-mkdir -p iosApp/iosApp
-echo '<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>GOOGLE_APP_ID</key>
-    <string>1:000000000000:ios:0000000000000000</string>
-    <key>GCM_SENDER_ID</key>
-    <string>000000000000</string>
-    <key>API_KEY</key>
-    <string>AIzaSyIOSPlaceholder</string>
-    <key>PROJECT_ID</key>
-    <string>placeholder-prod</string>
-</dict>
-</plist>
-' > iosApp/iosApp/GoogleService-Info.plist
-
-mkdir -p iosApp/GoogleService/prod
-echo '<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>GOOGLE_APP_ID</key>
-    <string>1:000000000000:ios:0000000000000000</string>
-    <key>GCM_SENDER_ID</key>
-    <string>000000000000</string>
-    <key>API_KEY</key>
-    <string>AIzaSyIOSPlaceholder</string>
-    <key>PROJECT_ID</key>
-    <string>placeholder-prod</string>
-</dict>
-</plist>
-' > iosApp/GoogleService/prod/GoogleService-Info.plist
 
 # Optional Release xcconfig
 mkdir -p iosApp/Configuration
