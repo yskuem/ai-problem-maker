@@ -5,12 +5,11 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import kotlin.test.BeforeTest
 import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class MainDispatcherTestBase {
-
     // プラットフォーム共通で使えるテスト用 Dispatcher
     protected lateinit var testDispatcher: TestDispatcher
 
