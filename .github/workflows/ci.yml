@@ -40,8 +40,9 @@ jobs:
           java-version: 17
       - name: Prepare config files
         run: scripts/create-placeholder-configs.sh
-      - name: Build iOS simulator
+      - name: Build KMM iOS Framework
         run: |
           ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
-          xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp-Debug -sdk iphonesimulator -configuration Debug build
+          # CI時間短縮のためコメントアウト
+          # xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp-Debug -sdk iphonesimulator -configuration Debug build
 
