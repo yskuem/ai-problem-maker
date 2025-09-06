@@ -6,6 +6,7 @@ import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.CREATED_US
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.UPDATED_AT
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.InstantComponentSerializer
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -19,8 +20,10 @@ data class NoteSupabaseDto (
     val projectId: String,
     @SerialName(CREATED_USER_ID)
     val createdUserId: String,
+    @Serializable(with = InstantComponentSerializer::class)
     @SerialName(CREATED_AT)
     val createdAt: Instant,
+    @Serializable(with = InstantComponentSerializer::class)
     @SerialName(UPDATED_AT)
     val updatedAt: Instant,
 )
