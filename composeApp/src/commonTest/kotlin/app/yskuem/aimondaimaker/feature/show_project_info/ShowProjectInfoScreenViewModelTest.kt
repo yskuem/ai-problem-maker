@@ -13,14 +13,17 @@ import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     private val quizRepository: QuizRepository = mock()
     private val noteRepository: NoteRepository = mock()
+
 
     private val mockQuizInfoList = listOf(
         QuizInfo(

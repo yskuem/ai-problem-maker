@@ -16,7 +16,9 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class AuthViewModelTest: MainDispatcherTestBase() {
 
     private val authRepository: AuthRepository = mock()
