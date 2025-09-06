@@ -4,7 +4,6 @@ import app.yskuem.aimondaimaker.core.config.Flavor
 import app.yskuem.aimondaimaker.core.config.getFlavor
 import app.yskuem.aimondaimaker.data.api.config.ApiConfig
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -14,10 +13,12 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.*
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 object HttpClient {
@@ -27,17 +28,17 @@ object HttpClient {
             Flavor.PROD -> ApiConfig.PROD_HOST
         }
     private val engine = createHttpClientEngine()
+    private val jsonConfig =
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            coerceInputValues = true
+        }
 
     val client: HttpClient by lazy {
         HttpClient(engine) {
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = true
-                        isLenient = true
-                        coerceInputValues = true
-                    },
-                )
+                json(jsonConfig)
             }
             install(Logging) {
                 level = LogLevel.INFO
@@ -76,8 +77,8 @@ object HttpClient {
                 else -> ContentType.Application.OctetStream
             }
 
-        return client
-            .post(path) {
+        val response =
+            client.post(path) {
                 // Multipart/form-data body
                 setBody(
                     MultiPartFormDataContent(
@@ -98,6 +99,14 @@ object HttpClient {
                         },
                     ),
                 )
-            }.body()
+            }
+
+        val responseText = response.bodyAsText()
+
+        return try {
+            jsonConfig.decodeFromString<T>(responseText)
+        } catch (e: Exception) {
+            throw IllegalArgumentException("Failed to decode response: $responseText", e)
+        }
     }
 }
