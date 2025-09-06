@@ -1,8 +1,11 @@
 package app.yskuem.aimondaimaker.domain.entity
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+
+@OptIn(ExperimentalTime::class)
 data class User(
     val id: String,
     val name: String,

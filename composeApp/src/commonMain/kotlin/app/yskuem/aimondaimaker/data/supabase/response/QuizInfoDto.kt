@@ -5,11 +5,12 @@ import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.PROJECT_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.CREATED_USER_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.GROUP_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.UPDATED_AT
-import kotlinx.datetime.Instant
-import kotlinx.datetime.serializers.InstantIso8601Serializer
+import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Serializable
 data class QuizInfoDto(
     @SerialName(PROJECT_ID)
@@ -19,10 +20,8 @@ data class QuizInfoDto(
     @SerialName(CREATED_USER_ID)
     val createdUserId: String,
     val name: String,
-    @Serializable(with = InstantIso8601Serializer::class)
     @SerialName(UPDATED_AT)
     val updatedAt: Instant,
-    @Serializable(with = InstantIso8601Serializer::class)
     @SerialName(CREATED_AT)
     val createdAt: Instant,
 )

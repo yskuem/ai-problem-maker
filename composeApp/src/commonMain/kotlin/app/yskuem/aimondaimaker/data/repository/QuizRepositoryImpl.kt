@@ -13,8 +13,10 @@ import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class QuizRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ) : QuizRepository {
@@ -35,6 +37,7 @@ class QuizRepositoryImpl(
         }
         return response.map { it.toDomain() }
     }
+
 
     override suspend fun saveQuizInfo(
         projectId: String,

@@ -58,6 +58,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
+import kotlin.time.ExperimentalTime
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
@@ -65,7 +66,7 @@ data class ShowProjectInfoScreen(
     @OptIn(
         ExperimentalMaterial3Api::class,
         DependsOnGoogleMobileAds::class,
-        ExperimentalComposeUiApi::class,
+        ExperimentalComposeUiApi::class, ExperimentalTime::class,
     )
     @Composable
     override fun Content() {
