@@ -39,7 +39,7 @@ crashlytics-gradle = "3.0.6"
 mokkery = "2.9.0"
 kotlin-coroutines = "1.10.2"
 turbine = "1.2.1"
-kotlinx-datetime = "0.7.1"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
 
 
 [libraries]
