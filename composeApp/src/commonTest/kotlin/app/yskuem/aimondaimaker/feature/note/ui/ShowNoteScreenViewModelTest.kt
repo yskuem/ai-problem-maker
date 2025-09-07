@@ -16,11 +16,13 @@ import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.Clock
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val noteRepository: NoteRepository = mock()

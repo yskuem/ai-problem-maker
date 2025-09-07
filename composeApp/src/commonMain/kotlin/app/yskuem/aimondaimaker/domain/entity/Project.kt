@@ -1,7 +1,10 @@
 package app.yskuem.aimondaimaker.domain.entity
 
-import kotlinx.datetime.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+
+@OptIn(ExperimentalTime::class)
 data class Project(
     val id: String,
     val createdUserId: String,

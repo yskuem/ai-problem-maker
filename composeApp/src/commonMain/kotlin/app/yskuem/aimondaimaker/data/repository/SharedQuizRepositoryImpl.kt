@@ -8,13 +8,14 @@ import app.yskuem.aimondaimaker.data.supabase.extension.toDomain
 import app.yskuem.aimondaimaker.data.supabase.response.QuizSupabaseDto
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class SharedQuizRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
 ) : SharedQuizRepository {
-    @OptIn(ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
     override suspend fun saveSharedQuizzes(
         groupId: String,
         quizData: List<Quiz>,
