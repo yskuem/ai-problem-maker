@@ -5,7 +5,7 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 @Serializable
-data class Quiz (
+data class Quiz(
     val id: String,
     val answer: String,
     val question: String,
