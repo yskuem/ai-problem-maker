@@ -18,4 +18,3 @@ object ActivityProvider {
 
     fun getApplication(): Application? = activityRef?.get()?.application
 }
-
