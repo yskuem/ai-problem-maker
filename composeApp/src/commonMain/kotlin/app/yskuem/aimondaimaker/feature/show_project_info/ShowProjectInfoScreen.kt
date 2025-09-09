@@ -66,7 +66,8 @@ data class ShowProjectInfoScreen(
     @OptIn(
         ExperimentalMaterial3Api::class,
         DependsOnGoogleMobileAds::class,
-        ExperimentalComposeUiApi::class, ExperimentalTime::class,
+        ExperimentalComposeUiApi::class,
+        ExperimentalTime::class,
     )
     @Composable
     override fun Content() {
