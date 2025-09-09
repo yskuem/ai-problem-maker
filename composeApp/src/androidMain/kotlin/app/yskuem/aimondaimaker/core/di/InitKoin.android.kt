@@ -1,21 +1,14 @@
 package app.yskuem.aimondaimaker.core.di
 
-import androidx.activity.ComponentActivity
-import app.yskuem.aimondaimaker.MainActivity
+import app.yskuem.aimondaimaker.core.util.ActivityProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
 
 actual fun initKoinPlatform(): KoinApplication =
     startKoin {
-        androidContext(MainActivity.instance)
+        androidContext(requireNotNull(ActivityProvider.getContext()))
         modules(
-            diModules +
-                listOf(
-                    module {
-                        single<ComponentActivity> { MainActivity.instance }
-                    },
-                ),
+            diModules,
         )
     }

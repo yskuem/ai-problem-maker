@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowInsetsControllerCompat
 import app.yskuem.aimondaimaker.core.di.initKoin
+import app.yskuem.aimondaimaker.core.util.ActivityProvider
 import com.google.firebase.FirebaseApp
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.init
@@ -14,7 +15,7 @@ import io.github.vinceglb.filekit.dialogs.init
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        instance = this
+        ActivityProvider.setActivity(this)
 
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
 
@@ -27,10 +28,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    companion object {
-        lateinit var instance: MainActivity
-            private set
-    }
 }
 
 @Preview
