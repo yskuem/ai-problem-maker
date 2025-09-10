@@ -1,21 +1,23 @@
 package app.yskuem.aimondaimaker
 
 import android.app.Application
-import app.yskuem.aimondaimaker.core.di.initKoin
-import io.github.vinceglb.filekit.FileKit
-import io.github.vinceglb.filekit.dialogs.init
+import android.content.Context
+import app.yskuem.aimondaimaker.core.di.diModules
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        instance = this
-
-        FileKit.init(this)
-        initKoin()
+        initKoinForAndroid(context = this@MyApp)
     }
 
-    companion object {
-        lateinit var instance: MyApp
-            private set
+    private fun initKoinForAndroid(context: Context) {
+        startKoin {
+            androidContext(context)
+            modules(
+                diModules
+            )
+        }
     }
 }
