@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.data.supabase.di.supabaseModule
 import app.yskuem.aimondaimaker.feature.di.viewModelModule
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.di.selectAlbumOrCameraModule
 import app.yskuem.aimondaimaker.usecase.di.useCaseModule
-import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
 
 fun initKoinForIos() {
