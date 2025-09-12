@@ -2,8 +2,15 @@ package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
+import ai_problem_maker.composeapp.generated.resources.next_question
 import ai_problem_maker.composeapp.generated.resources.share_quiz
 import ai_problem_maker.composeapp.generated.resources.try_again
+import ai_problem_maker.composeapp.generated.resources.view_results
+import ai_problem_maker.composeapp.generated.resources.quiz_finished
+import ai_problem_maker.composeapp.generated.resources.question_number_title
+import ai_problem_maker.composeapp.generated.resources.question_progress
+import ai_problem_maker.composeapp.generated.resources.score_label
+import ai_problem_maker.composeapp.generated.resources.score_summary
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -14,10 +21,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -95,7 +104,13 @@ fun QuizApp(
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text(text = "${currentQuestion + 1} / ${quizList.size} 問目")
+                        Text(
+                            text = stringResource(
+                                Res.string.question_number_title,
+                                currentQuestion + 1,
+                                quizList.size,
+                            ),
+                        )
                     },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
@@ -112,6 +127,7 @@ fun QuizApp(
                             navigationIconContentColor = Color.Black,
                             actionIconContentColor = Color.Black,
                         ),
+                    windowInsets = WindowInsets.statusBars,
                 )
             },
             containerColor = backgroundColor,
@@ -212,12 +228,16 @@ fun QuizContentScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "問題 ${currentQuestionIndex + 1}/$totalQuestions",
+                    text = stringResource(
+                        Res.string.question_progress,
+                        currentQuestionIndex + 1,
+                        totalQuestions,
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray,
                 )
                 Text(
-                    text = "スコア: $score",
+                    text = stringResource(Res.string.score_label, score),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )
@@ -319,7 +339,12 @@ fun QuizContentScreen(
                         horizontalArrangement = Arrangement.Center,
                     ) {
                         Text(
-                            text = if (currentQuestionIndex < totalQuestions - 1) "次の問題へ" else "結果を見る",
+                            text =
+                                if (currentQuestionIndex < totalQuestions - 1) {
+                                    stringResource(Res.string.next_question)
+                                } else {
+                                    stringResource(Res.string.view_results)
+                                },
                             style = MaterialTheme.typography.titleMedium,
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -448,7 +473,7 @@ fun QuizCompletedScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
-                text = "クイズ終了！",
+                text = stringResource(Res.string.quiz_finished),
                 style =
                     MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold,
@@ -456,7 +481,7 @@ fun QuizCompletedScreen(
             )
 
             Text(
-                text = "${totalQuestions}問中${score}問正解",
+                text = stringResource(Res.string.score_summary, score, totalQuestions),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
             )

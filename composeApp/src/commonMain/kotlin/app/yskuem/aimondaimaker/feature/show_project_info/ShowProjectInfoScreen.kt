@@ -13,6 +13,7 @@ import ai_problem_maker.composeapp.generated.resources.quiz_tab_name
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -57,6 +58,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import org.koin.core.parameter.parametersOf
+import kotlin.time.ExperimentalTime
 
 data class ShowProjectInfoScreen(
     private val projectId: String,
@@ -64,7 +66,7 @@ data class ShowProjectInfoScreen(
     @OptIn(
         ExperimentalMaterial3Api::class,
         DependsOnGoogleMobileAds::class,
-        ExperimentalComposeUiApi::class,
+        ExperimentalComposeUiApi::class, ExperimentalTime::class,
     )
     @Composable
     override fun Content() {
@@ -96,7 +98,7 @@ data class ShowProjectInfoScreen(
         }
         Scaffold(
             topBar = {
-                Column {
+                Column(modifier = Modifier.statusBarsPadding()) {
                     Row(
                         modifier =
                             Modifier

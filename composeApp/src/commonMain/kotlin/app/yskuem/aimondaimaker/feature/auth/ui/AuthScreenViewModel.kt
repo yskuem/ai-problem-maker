@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 class AuthScreenViewModel(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
-    private val userDataStore: UserDataStore,
-    private val checkUpdateUseCase: CheckUpdateUseCase,
 ) : ScreenModel {
     private val _hasError = MutableStateFlow(false)
     private val _isLoginSuccess = MutableStateFlow(false)

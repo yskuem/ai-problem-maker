@@ -7,11 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import app.yskuem.aimondaimaker.data.local_db.UserDataStore
-import kotlinx.datetime.Clock
 import org.koin.compose.koinInject
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 private const val TWO_MONTHS_IN_MILLIS = 60L * 24L * 60L * 60L * 1000L // 60 days in milliseconds
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
     val storeReview: StoreReview = koinInject()
@@ -35,6 +37,7 @@ fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
     }
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun LaunchStoreReview(
     trigger: Boolean,

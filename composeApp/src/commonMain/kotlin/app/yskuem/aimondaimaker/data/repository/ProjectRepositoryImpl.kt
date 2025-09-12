@@ -11,17 +11,18 @@ import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class, ExperimentalTime::class)
 class ProjectRepositoryImpl(
     private val authRepository: AuthRepository,
     private val supabaseClientHelper: SupabaseClientHelper,
     private val quizRepository: QuizRepository,
     private val noteRepository: NoteRepository,
 ) : ProjectRepository {
-    @OptIn(ExperimentalUuidApi::class)
     override suspend fun addProject(projectName: String): Project {
         val project =
             Project(

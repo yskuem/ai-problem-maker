@@ -51,7 +51,15 @@
     <string name="load_again">Recargar</string>
     <string name="back_to_pre_screen">Atrás</string>
 
+    <!-- Quiz Screen -->
+    <string name="question_number_title">Pregunta %1$d / %2$d</string>
+    <string name="question_progress">Pregunta %1$d/%2$d</string>
+    <string name="score_label">Puntuación: %1$d</string>
+    <string name="next_question">Siguiente pregunta</string>
+    <string name="view_results">Ver resultados</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">¡Cuestionario finalizado!</string>
+    <string name="score_summary">Has respondido correctamente %1$d de %2$d</string>
     <string name="try_again">Intentar de nuevo</string>
     <string name="back_to_previous_screen">Volver a la pantalla anterior</string>
     <string name="delete_quiz">Eliminar cuestionario</string>

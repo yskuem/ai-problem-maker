@@ -6,8 +6,10 @@ import app.yskuem.aimondaimaker.data.supabase.response.ProjectDto
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 fun QuizApiDto.toDomain(): Quiz =
     Quiz(
         id = id,
@@ -21,6 +23,7 @@ fun QuizApiDto.toDomain(): Quiz =
         updatedAt = Clock.System.now(),
     )
 
+@OptIn(ExperimentalTime::class)
 fun Project.toDTO(): ProjectDto =
     ProjectDto(
         id = id,
@@ -30,6 +33,7 @@ fun Project.toDTO(): ProjectDto =
         updatedAt = updatedAt,
     )
 
+@OptIn(ExperimentalTime::class)
 fun ProjectDto.toDomain(): Project =
     Project(
         id = id,
@@ -39,6 +43,7 @@ fun ProjectDto.toDomain(): Project =
         updatedAt = updatedAt,
     )
 
+@OptIn(ExperimentalTime::class)
 fun NoteApiDto.toDomain(): Note =
     Note(
         id = id,

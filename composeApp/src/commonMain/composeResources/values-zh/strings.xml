@@ -51,7 +51,15 @@
     <string name="load_again">再加载</string>
     <string name="back_to_pre_screen">返回</string>
 
+    <!-- Quiz Screen -->
+    <string name="question_number_title">第%1$d题 / 共%2$d题</string>
+    <string name="question_progress">第%1$d题/%2$d题</string>
+    <string name="score_label">得分: %1$d</string>
+    <string name="next_question">下一题</string>
+    <string name="view_results">查看结果</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">测验结束！</string>
+    <string name="score_summary">你在 %2$d 道题中答对了 %1$d 道</string>
     <string name="try_again">再试一次</string>
     <string name="back_to_previous_screen">返回上一屏幕</string>
     <string name="delete_quiz">删除测验</string>

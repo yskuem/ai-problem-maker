@@ -51,7 +51,15 @@
     <string name="load_again">다시 불러오기</string>
     <string name="back_to_pre_screen">뒤로</string>
 
+    <!-- Quiz Screen -->
+    <string name="question_number_title">문제 %1$d / %2$d</string>
+    <string name="question_progress">문제 %1$d/%2$d</string>
+    <string name="score_label">점수: %1$d</string>
+    <string name="next_question">다음 문제</string>
+    <string name="view_results">결과 보기</string>
     <!-- Quiz Result Screen -->
+    <string name="quiz_finished">퀴즈 완료!</string>
+    <string name="score_summary">%2$d개 중 %1$d개를 맞혔습니다</string>
     <string name="try_again">다시 시도하기</string>
     <string name="back_to_previous_screen">이전 화면으로 돌아가기</string>
     <string name="delete_quiz">퀴즈 삭제</string>

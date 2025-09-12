@@ -8,8 +8,10 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.domain.entity.User
+import kotlin.time.ExperimentalTime
 
 // Quiz
+@OptIn(ExperimentalTime::class)
 fun Quiz.toDTO(): QuizSupabaseDto =
     QuizSupabaseDto(
         id = id,
@@ -25,6 +27,7 @@ fun Quiz.toDTO(): QuizSupabaseDto =
         createdUserId = createdUserId,
     )
 
+@OptIn(ExperimentalTime::class)
 fun QuizSupabaseDto.toDomain(): Quiz =
     Quiz(
         id = id,
@@ -41,6 +44,7 @@ fun QuizSupabaseDto.toDomain(): Quiz =
     )
 
 // Note
+@OptIn(ExperimentalTime::class)
 fun Note.toDTO(
     projectId: String,
     createdUserId: String,
@@ -55,6 +59,7 @@ fun Note.toDTO(
         updatedAt = updatedAt,
     )
 
+@OptIn(ExperimentalTime::class)
 fun NoteSupabaseDto.toDomain(): Note =
     Note(
         id = id,
@@ -65,6 +70,7 @@ fun NoteSupabaseDto.toDomain(): Note =
     )
 
 // QuizInfo
+@OptIn(ExperimentalTime::class)
 fun QuizInfo.toDTO(): QuizInfoDto =
     QuizInfoDto(
         projectId = projectId,
@@ -75,6 +81,7 @@ fun QuizInfo.toDTO(): QuizInfoDto =
         createdAt = createdAt,
     )
 
+@OptIn(ExperimentalTime::class)
 fun QuizInfoDto.toDomain(): QuizInfo =
     QuizInfo(
         projectId = projectId,
@@ -86,6 +93,7 @@ fun QuizInfoDto.toDomain(): QuizInfo =
     )
 
 // User
+@OptIn(ExperimentalTime::class)
 fun UserDto.toDomain(): User =
     User(
         id = id,
@@ -95,6 +103,7 @@ fun UserDto.toDomain(): User =
         updatedAt = updatedAt,
     )
 
+@OptIn(ExperimentalTime::class)
 fun User.toDTO(): UserDto =
     UserDto(
         id = id,
