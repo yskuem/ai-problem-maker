@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.quiz.viewmodel
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
@@ -9,7 +10,6 @@ import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import dev.gitlive.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

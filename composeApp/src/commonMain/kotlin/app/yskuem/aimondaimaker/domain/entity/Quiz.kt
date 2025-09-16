@@ -1,10 +1,11 @@
 package app.yskuem.aimondaimaker.domain.entity
-import kotlinx.datetime.Instant
-import kotlinx.datetime.serializers.InstantIso8601Serializer
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 @Serializable
-data class Quiz(
+data class Quiz (
     val id: String,
     val answer: String,
     val question: String,
@@ -14,8 +15,6 @@ data class Quiz(
     val createdUserId: String = "",
     val groupId: String,
     val title: String,
-    @Serializable(with = InstantIso8601Serializer::class)
     val createdAt: Instant,
-    @Serializable(with = InstantIso8601Serializer::class)
     val updatedAt: Instant,
 )

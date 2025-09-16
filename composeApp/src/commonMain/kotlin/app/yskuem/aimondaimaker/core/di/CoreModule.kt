@@ -1,6 +1,8 @@
 package app.yskuem.aimondaimaker.core.di
 
 import app.yskuem.aimondaimaker.core.data.picker.ImagePicker
+import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
+import app.yskuem.aimondaimaker.core.util.FirebaseFirebaseCrashlyticsImpl
 import app.yskuem.aimondaimaker.data.picker.ImagePickerImpl
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.crashlytics.crashlytics
@@ -13,5 +15,10 @@ val coreModule =
         }
         single {
             Firebase.crashlytics
+        }
+        single<FirebaseCrashlytics> {
+            FirebaseFirebaseCrashlyticsImpl(
+                firebaseCrashlytics = get(),
+            )
         }
     }
