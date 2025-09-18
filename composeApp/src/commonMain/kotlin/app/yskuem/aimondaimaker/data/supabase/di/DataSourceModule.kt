@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.data.supabase.di
 
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
+import app.yskuem.aimondaimaker.data.supabase.config.configurePlatformHttpEngine
 import app.yskuem.aimondaimaker.data.supabase.handler.SupabaseConfigHelper
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
@@ -15,6 +16,7 @@ val supabaseModule =
                 supabaseUrl = SupabaseConfigHelper.getSupabaseUrl(),
                 supabaseKey = SupabaseConfigHelper.getSupabaseAnonKey(),
             ) {
+                configurePlatformHttpEngine()
                 install(Auth)
                 install(Postgrest)
             }
