@@ -44,7 +44,6 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.ktor.client.cio)
             // CameraX core library
             implementation(libs.androidx.camera.core)
             // CameraX Camera2 extensions
