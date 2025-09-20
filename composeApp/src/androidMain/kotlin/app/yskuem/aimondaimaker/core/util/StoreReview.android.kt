@@ -1,16 +1,18 @@
 package app.yskuem.aimondaimaker.core.util
 
+import android.content.Context
 import androidx.activity.ComponentActivity
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class AndroidStoreReview(
-    private val activity: ComponentActivity,
-) : StoreReview {
-    override suspend fun requestReview(): Result<Unit> =
+class AndroidStoreReview : StoreReview {
+    override suspend fun requestReview(platformActivity: PlatformActivity?): Result<Unit> =
         try {
-            val manager = ReviewManagerFactory.create(activity)
+            if (platformActivity == null) {
+                throw IllegalArgumentException("PlatformActivity is null")
+            }
+            val manager = ReviewManagerFactory.create(platformActivity)
 
             // Request review info
             val reviewInfo =
@@ -28,7 +30,7 @@ class AndroidStoreReview(
             if (reviewInfo != null) {
                 // Launch the review flow
                 suspendCancellableCoroutine { continuation ->
-                    val flow = manager.launchReviewFlow(activity, reviewInfo)
+                    val flow = manager.launchReviewFlow(platformActivity, reviewInfo)
                     flow.addOnCompleteListener {
                         // The review flow has finished, regardless of whether the user reviewed or not
                         continuation.resume(Unit)
