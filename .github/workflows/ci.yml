@@ -2,6 +2,10 @@ name: Build and Test
 
 on:
   pull_request:
+    branches:
+      - develop
+    types:
+      - opened
 
 jobs:
   unit-tests:
@@ -45,4 +49,5 @@ jobs:
           ./gradlew :composeApp:linkDebugFrameworkIosSimulatorArm64
           # CI時間短縮のためコメントアウト
           # xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp-Debug -sdk iphonesimulator -configuration Debug build
+
 

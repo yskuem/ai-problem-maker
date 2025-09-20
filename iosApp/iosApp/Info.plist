@@ -4,8 +4,21 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+        <key>CFBundleDevelopmentRegion</key>
+        <string>$(DEVELOPMENT_LANGUAGE)</string>
+        <key>CFBundleLocalizations</key>
+        <array>
+                <string>ja</string>
+                <string>en</string>
+                <string>zh</string>
+                <string>ko</string>
+                <string>de</string>
+                <string>fr</string>
+                <string>pt</string>
+                <string>es</string>
+                <string>ru</string>
+                <string>hi</string>
+        </array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
