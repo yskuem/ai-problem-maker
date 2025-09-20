@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Project
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
 import dev.mokkery.everySuspend

@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
