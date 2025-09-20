@@ -26,7 +26,6 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val noteRepository: NoteRepository = mock()
     private val projectRepository: ProjectRepository = mock()
-    private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
     private val mockNoteObj = Note(
@@ -83,7 +82,6 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             authRepository = authRepository,
             noteRepository = noteRepository,
             projectRepository = projectRepository,
-            adUseCase = adUseCase,
             crashlytics = crashlytics,
         )
     }

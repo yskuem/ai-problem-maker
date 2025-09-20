@@ -21,7 +21,6 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
     private val projectRepository: ProjectRepository = mock()
-    private val adRepository: AdRepository = mock()
 
     private val mockProjectList = listOf(
         Project(
