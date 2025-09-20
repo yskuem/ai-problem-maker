@@ -27,7 +27,6 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val quizRepository: QuizRepository = mock()
     private val projectRepository: ProjectRepository = mock()
-    private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
     private val mockQuizList = listOf(
@@ -97,7 +96,6 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
             authRepository = authRepository,
             quizRepository = quizRepository,
             projectRepository = projectRepository,
-            adUseCase = adUseCase,
             crashlytics = crashlytics,
         )
     }
