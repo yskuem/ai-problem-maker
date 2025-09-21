@@ -3,7 +3,6 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 import MainDispatcherTestBase
 import app.cash.turbine.test
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.domain.data.repository.AdRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import dev.mokkery.answering.returns
@@ -22,7 +21,6 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
     private val projectRepository: ProjectRepository = mock()
-    private val adRepository: AdRepository = mock()
 
     private val mockProjectList = listOf(
         Project(
@@ -44,7 +42,6 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
 
         viewModel = SelectProjectScreenViewModel(
             projectRepository = projectRepository,
-            adRepository = adRepository,
         )
     }
 

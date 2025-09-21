@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
@@ -28,7 +27,6 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val quizRepository: QuizRepository = mock()
     private val projectRepository: ProjectRepository = mock()
-    private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
     private val mockQuizList = listOf(
@@ -98,7 +96,6 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
             authRepository = authRepository,
             quizRepository = quizRepository,
             projectRepository = projectRepository,
-            adUseCase = adUseCase,
             crashlytics = crashlytics,
         )
     }

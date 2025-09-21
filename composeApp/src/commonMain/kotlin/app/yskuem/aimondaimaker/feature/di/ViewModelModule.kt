@@ -22,7 +22,6 @@ val viewModelModule =
                 quizRepository = get(),
                 authRepository = get(),
                 projectRepository = get(),
-                adUseCase = get(),
                 crashlytics = get(),
             )
         }
@@ -31,7 +30,6 @@ val viewModelModule =
                 noteRepository = get(),
                 authRepository = get(),
                 projectRepository = get(),
-                adUseCase = get(),
                 crashlytics = get(),
             )
         }
@@ -43,7 +41,6 @@ val viewModelModule =
         factory {
             SelectProjectScreenViewModel(
                 projectRepository = get(),
-                adRepository = get(),
             )
         }
         factory { (projectId: String) ->

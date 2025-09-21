@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Project
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
 import dev.mokkery.everySuspend
@@ -27,7 +26,6 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val noteRepository: NoteRepository = mock()
     private val projectRepository: ProjectRepository = mock()
-    private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
     private val mockNoteObj = Note(
@@ -84,7 +82,6 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             authRepository = authRepository,
             noteRepository = noteRepository,
             projectRepository = projectRepository,
-            adUseCase = adUseCase,
             crashlytics = crashlytics,
         )
     }

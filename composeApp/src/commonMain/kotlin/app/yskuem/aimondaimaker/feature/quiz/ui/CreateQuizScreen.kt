@@ -12,6 +12,7 @@ import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
+import app.yskuem.aimondaimaker.feature.ad.ui.InterstitialHost
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -40,9 +41,7 @@ data class CreateQuizScreen(
             )
         }
 
-        LaunchedEffect(Unit) {
-            viewmodel.showInterstitialAd()
-        }
+        InterstitialHost()
 
         BackHandler {
             navigator?.pop()

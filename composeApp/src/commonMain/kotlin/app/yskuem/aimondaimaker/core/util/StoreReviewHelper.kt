@@ -18,6 +18,7 @@ private const val TWO_MONTHS_IN_MILLIS = 60L * 24L * 60L * 60L * 1000L // 60 day
 fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
     val storeReview: StoreReview = koinInject()
     val userDataStore: UserDataStore = koinInject()
+    val platformActivity = currentPlatformActivity()
 
     return remember {
         {
@@ -25,7 +26,7 @@ fun rememberStoreReviewLauncher(): suspend () -> Result<Unit> {
             val lastRequestTime = userDataStore.getLastReviewRequestTimestamp()
 
             if (lastRequestTime == 0L || currentTime - lastRequestTime >= TWO_MONTHS_IN_MILLIS) {
-                val result = storeReview.requestReview()
+                val result = storeReview.requestReview(platformActivity)
                 if (result.isSuccess) {
                     userDataStore.setLastReviewRequestTimestamp(currentTime)
                 }
@@ -46,6 +47,7 @@ fun LaunchStoreReview(
     val storeReview: StoreReview = koinInject()
     val userDataStore: UserDataStore = koinInject()
     var hasLaunched by remember { mutableStateOf(false) }
+    val platformActivity = currentPlatformActivity()
 
     LaunchedEffect(trigger) {
         if (trigger && !hasLaunched) {
@@ -56,7 +58,7 @@ fun LaunchStoreReview(
 
             val result =
                 if (lastRequestTime == 0L || currentTime - lastRequestTime >= TWO_MONTHS_IN_MILLIS) {
-                    val reviewResult = storeReview.requestReview()
+                    val reviewResult = storeReview.requestReview(platformActivity)
                     if (reviewResult.isSuccess) {
                         userDataStore.setLastReviewRequestTimestamp(currentTime)
                     }
