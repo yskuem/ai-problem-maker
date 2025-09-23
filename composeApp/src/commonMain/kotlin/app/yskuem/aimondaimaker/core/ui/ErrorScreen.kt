@@ -30,6 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ErrorScreen(
     type: ErrorScreenType,
+    errorMessage: String,
     onRefresh: () -> Unit = {},
 ) {
     val navigator = LocalNavigator.current
@@ -94,7 +95,7 @@ fun ErrorScreen(
                             -> stringResource(Res.string.error_screen_reload_action)
                             ErrorScreenType.BACK,
                             -> stringResource(Res.string.error_screen_back_action)
-                        },
+                        } + "\n\n" + errorMessage,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = darkPurple,
@@ -171,5 +172,6 @@ fun ErrorScreenPreview() {
     ErrorScreen(
         type = ErrorScreenType.BACK,
         onRefresh = {},
+        errorMessage = "errorMessage",
     )
 }
