@@ -49,6 +49,7 @@ fun CameraPickerView(upLoadImage: (ByteArray) -> Unit) {
     if (hasError.value) {
         ErrorScreen(
             type = ErrorScreenType.BACK,
+            errorMessage = "カメラの起動に失敗しました。",
         )
     }
 }

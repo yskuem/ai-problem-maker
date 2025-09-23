@@ -51,6 +51,7 @@ data class CreateQuizScreen(
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,
+                    errorMessage = quizList.throwable.message ?: "Unknown Error",
                 )
             }
             is DataUiState.Loading -> {
