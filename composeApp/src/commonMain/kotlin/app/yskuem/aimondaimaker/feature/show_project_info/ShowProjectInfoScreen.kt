@@ -201,6 +201,7 @@ data class ShowProjectInfoScreen(
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     type = ErrorScreenType.RELOAD,
+                                    errorMessage = quizInfoList.throwable.message ?: "Unknown Error",
                                 ) {
                                     viewModel.refreshQuizInfo()
                                 }
@@ -258,6 +259,7 @@ data class ShowProjectInfoScreen(
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     type = ErrorScreenType.RELOAD,
+                                    errorMessage = noteList.throwable.message ?: "Unknown Error",
                                 ) {
                                     viewModel.refreshNoteList()
                                 }

@@ -50,6 +50,7 @@ data class CreateNoteScreen(
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,
+                    errorMessage = result.throwable.message ?: "Unknown Error",
                 )
             }
             is DataUiState.Loading -> {

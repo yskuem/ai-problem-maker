@@ -109,6 +109,8 @@ class SelectProjectScreen : Screen {
                 is DataUiState.Error -> {
                     ErrorScreen(
                         type = ErrorScreenType.RELOAD,
+                        errorMessage = projectState.throwable.message
+                            ?: "unknown error",
                     ) {
                         viewModel.refreshProjectList()
                     }
