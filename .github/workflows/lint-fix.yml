@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
+  push:
+    branches: [develop]
   workflow_dispatch:
 
 permissions:
@@ -12,13 +14,15 @@ permissions:
   issues: write
 
 jobs:
-  lint-and-pr:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+  # PR由来: PRのソースブランチに対して自動整形PRを追加
+  lint-and-pr-pr:
+    if: ${{ github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && !startsWith(github.event.pull_request.head.ref, 'lint-auto/') }}
     runs-on: macos-latest
     concurrency:
-      group: lint-auto-${{ github.event.pull_request.head.ref }}
+      group: lint-auto-pr-${{ github.event.pull_request.head.ref }}
       cancel-in-progress: false
-
     steps:
       - name: Checkout head branch
         uses: actions/checkout@v5
@@ -47,10 +51,53 @@ jobs:
           branch: lint-auto/${{ github.event.pull_request.head.ref }}
           title: 'chore(format): auto-lint for ${{ github.event.pull_request.head.ref }}'
           body: |
-            🤖 Automated lint fixes for `${{ github.event.pull_request.head.ref }}`
-            
+            Automated lint fixes for `${{ github.event.pull_request.head.ref }}`
+
             - Kotlin: ktlint `-F`
             - Swift/Obj-C: swiftformat
           base: ${{ github.event.pull_request.head.ref }}
+          labels: auto-format
+          draft: false
+
+  # developへのpush（＝マージ後）で走り、developに向けた自動整形PRを作成
+  lint-and-pr-develop:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+    runs-on: macos-latest
+    concurrency:
+      group: lint-auto-develop
+      cancel-in-progress: false
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v5
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Install linters
+        run: |
+          brew update --quiet
+          brew install --quiet ktlint swiftformat
+
+      - name: Run ktlint
+        run: ktlint -F "**/*.kt"
+        continue-on-error: true
+
+      - name: Run swiftformat
+        run: swiftformat .
+        continue-on-error: true
+
+      - name: Create or update lint PR to develop
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(format): apply lint fixes (develop @ ${{ github.sha }})'
+          branch: lint-auto/develop
+          base: develop
+          title: 'chore(format): auto-lint (develop)'
+          body: |
+            Automated lint fixes for `develop` triggered by push @ `${{ github.sha }}`
+
+            - Kotlin: ktlint `-F`
+            - Swift/Obj-C: swiftformat
           labels: auto-format
           draft: false
