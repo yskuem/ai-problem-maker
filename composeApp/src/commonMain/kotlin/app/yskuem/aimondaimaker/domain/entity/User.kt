@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.domain.entity
 
-
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
