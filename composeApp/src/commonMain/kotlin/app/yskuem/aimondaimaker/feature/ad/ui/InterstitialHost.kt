@@ -6,12 +6,9 @@ import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.lexilabs.basic.ads.InterstitialAdHandler
 import app.lexilabs.basic.ads.composable.InterstitialAd
 
-
 @OptIn(DependsOnGoogleMobileAds::class)
 @Composable
-fun InterstitialHost(
-    onDismissed: () -> Unit = {}
-) {
+fun InterstitialHost(onDismissed: () -> Unit = {}) {
     val interstitial = rememberPlatformInterstitialAd() ?: return
     val onDismissedState by rememberUpdatedState(onDismissed)
     val isFinished = remember { mutableStateOf(false) }
@@ -22,11 +19,10 @@ fun InterstitialHost(
             onDismissed = {
                 onDismissedState()
                 isFinished.value = true
-            }
+            },
         )
     }
 }
-
 
 /** プラットフォーム毎に Interstitial のハンドラを用意して返す薄いシム */
 @OptIn(DependsOnGoogleMobileAds::class)
