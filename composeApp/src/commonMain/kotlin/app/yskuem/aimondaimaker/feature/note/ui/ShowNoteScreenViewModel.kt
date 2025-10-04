@@ -6,7 +6,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,6 @@ class ShowNoteScreenViewModel(
     private val authRepository: AuthRepository,
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
-    private val adUseCase: AdUseCase,
     private val crashlytics: FirebaseCrashlytics,
 ) : ScreenModel {
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
@@ -68,13 +66,6 @@ class ShowNoteScreenViewModel(
                     crashlytics.log(e.toString())
                     _note.value = DataUiState.Error(e)
                 }
-        }
-    }
-
-    fun showInterstitialAd() {
-        screenModelScope.launch {
-            // 広告表示
-            adUseCase.onInterstitialAdLoaded()
         }
     }
 

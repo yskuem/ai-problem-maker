@@ -9,7 +9,6 @@ import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import app.yskuem.aimondaimaker.domain.usecase.AdUseCase
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
@@ -28,30 +27,31 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
     private val authRepository: AuthRepository = mock()
     private val quizRepository: QuizRepository = mock()
     private val projectRepository: ProjectRepository = mock()
-    private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
-    private val mockQuizList = listOf(
-        Quiz(
+    private val mockQuizList =
+        listOf(
+            Quiz(
+                id = "",
+                answer = "",
+                question = "",
+                choices = listOf("", ""),
+                explanation = "",
+                groupId = "",
+                title = "",
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+            ),
+        )
+
+    private val mockProject =
+        Project(
             id = "",
-            answer = "",
-            question = "",
-            choices = listOf("", ""),
-            explanation = "",
-            groupId = "",
-            title = "",
+            createdUserId = "",
+            name = "",
             createdAt = Clock.System.now(),
             updatedAt = Clock.System.now(),
-        ),
-    )
-
-    private val mockProject = Project(
-        id = "",
-        createdUserId = "",
-        name = "",
-        createdAt = Clock.System.now(),
-        updatedAt = Clock.System.now(),
-    )
+        )
 
     private lateinit var viewModel: ShowQuizScreenViewModel
 
@@ -94,63 +94,65 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
             crashlytics.log(any())
         } returns Unit
 
-        viewModel = ShowQuizScreenViewModel(
-            authRepository = authRepository,
-            quizRepository = quizRepository,
-            projectRepository = projectRepository,
-            adUseCase = adUseCase,
-            crashlytics = crashlytics,
-        )
+        viewModel =
+            ShowQuizScreenViewModel(
+                authRepository = authRepository,
+                quizRepository = quizRepository,
+                projectRepository = projectRepository,
+                crashlytics = crashlytics,
+            )
     }
 
     /**
      * クイズのロードで成功した時のパターン
      */
     @Test
-    fun check_on_load_page_on_success() = runTest {
-        viewModel.uiState.test {
-            assertTrue(expectMostRecentItem().quizList.isLoading)
-            viewModel.onLoadPage(
-                imageByte = ByteArray(0),
-                fileName = "",
-                extension = "",
-                projectId = "",
-            )
+    fun check_on_load_page_on_success() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(expectMostRecentItem().quizList.isLoading)
+                viewModel.onLoadPage(
+                    imageByte = ByteArray(0),
+                    fileName = "",
+                    extension = "",
+                    projectId = "",
+                )
 
-            testScheduler.advanceUntilIdle()
+                testScheduler.advanceUntilIdle()
 
-            assertTrue(awaitItem().quizList is DataUiState.Success<List<Quiz>>)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().quizList is DataUiState.Success<List<Quiz>>)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     /**
      * クイズのロードで失敗した時のパターン
      */
     @Test
-    fun check_on_load_page_on_failed() = runTest {
-        viewModel.uiState.test {
-            assertTrue(expectMostRecentItem().quizList.isLoading)
+    fun check_on_load_page_on_failed() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(expectMostRecentItem().quizList.isLoading)
 
-            everySuspend {
-                quizRepository.generateFromImage(
-                    image = any(),
-                    fileName = any(),
-                    extension = any(),
+                everySuspend {
+                    quizRepository.generateFromImage(
+                        image = any(),
+                        fileName = any(),
+                        extension = any(),
+                    )
+                } throwsErrorWith "Failed!"
+
+                viewModel.onLoadPage(
+                    imageByte = ByteArray(0),
+                    fileName = "",
+                    extension = "",
+                    projectId = "",
                 )
-            } throwsErrorWith "Failed!"
 
-            viewModel.onLoadPage(
-                imageByte = ByteArray(0),
-                fileName = "",
-                extension = "",
-                projectId = "",
-            )
+                testScheduler.advanceUntilIdle()
 
-            testScheduler.advanceUntilIdle()
-
-            assertTrue(awaitItem().quizList is DataUiState.Error)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().quizList is DataUiState.Error)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

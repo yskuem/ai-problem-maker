@@ -32,10 +32,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import app.lexilabs.basic.ads.BannerAd
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
+import app.lexilabs.basic.ads.composable.BannerAd
 import app.yskuem.aimondaimaker.core.ui.CreateNewButton
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
@@ -110,6 +109,9 @@ class SelectProjectScreen : Screen {
                 is DataUiState.Error -> {
                     ErrorScreen(
                         type = ErrorScreenType.RELOAD,
+                        errorMessage =
+                            projectState.throwable.message
+                                ?: "unknown error",
                     ) {
                         viewModel.refreshProjectList()
                     }
