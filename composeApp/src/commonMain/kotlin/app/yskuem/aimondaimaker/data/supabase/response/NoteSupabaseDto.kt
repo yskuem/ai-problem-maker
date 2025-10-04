@@ -12,7 +12,7 @@ import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 @Serializable
-data class NoteSupabaseDto (
+data class NoteSupabaseDto(
     val id: String,
     val title: String,
     val html: String,

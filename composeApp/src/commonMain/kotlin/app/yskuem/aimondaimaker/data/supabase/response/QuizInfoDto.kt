@@ -6,10 +6,10 @@ import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.PROJECT_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.CREATED_USER_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.Quiz.GROUP_ID
 import app.yskuem.aimondaimaker.data.supabase.SupabaseColumnName.UPDATED_AT
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 @Serializable

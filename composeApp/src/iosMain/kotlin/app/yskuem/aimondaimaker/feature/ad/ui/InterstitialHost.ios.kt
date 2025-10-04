@@ -6,11 +6,11 @@ import androidx.compose.runtime.remember
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.lexilabs.basic.ads.InterstitialAdHandler
 import app.lexilabs.basic.ads.composable.rememberInterstitialAd
+import platform.UIKit.*
 import platform.UIKit.UIApplication
 import platform.UIKit.UISceneActivationStateForegroundActive
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindowScene
-import platform.UIKit.*
 
 @OptIn(markerClass = [DependsOnGoogleMobileAds::class])
 @Composable
@@ -20,12 +20,12 @@ actual fun rememberPlatformInterstitialAd(): InterstitialAdHandler? {
     return interstitial
 }
 
-
 private fun currentRootViewController(): UIViewController? {
     val scenes = UIApplication.sharedApplication.connectedScenes
-    val scene = scenes.firstOrNull {
-        (it as? UIWindowScene)?.activationState == UISceneActivationStateForegroundActive
-    } as? UIWindowScene ?: return null
+    val scene =
+        scenes.firstOrNull {
+            (it as? UIWindowScene)?.activationState == UISceneActivationStateForegroundActive
+        } as? UIWindowScene ?: return null
 
     val windows: List<UIWindow> =
         scene.windows.filterIsInstance<UIWindow>()
