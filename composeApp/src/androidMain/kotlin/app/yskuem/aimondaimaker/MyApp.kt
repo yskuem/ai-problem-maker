@@ -16,7 +16,7 @@ class MyApp : Application() {
         startKoin {
             androidContext(context)
             modules(
-                diModules
+                diModules,
             )
         }
     }
