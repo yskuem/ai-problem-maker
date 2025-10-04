@@ -11,7 +11,7 @@ import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.di.selectAlbumOr
 import app.yskuem.aimondaimaker.usecase.di.useCaseModule
 import org.koin.core.context.startKoin
 
-fun initKoinForIos() {
+fun initKoin() {
     startKoin {
         modules(diModules)
     }
