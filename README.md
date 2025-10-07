@@ -6,7 +6,7 @@ AI-powered educational application that helps students learn by generating quizz
 
 | Android | iOS |
 | --- | --- |
-| [![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=app.yskuem.aimondaimaker) | [![Download on the App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=2024-09-16)](https://apps.apple.com/jp/app/ai%E3%83%8E%E3%83%BC%E3%83%88%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3-%E5%86%99%E7%9C%9F%E3%81%8B%E3%82%89%E5%BE%A9%E7%BF%92%E5%95%8F%E9%A1%8C-%E9%9B%BB%E5%AD%90%E3%83%8E%E3%83%BC%E3%83%88%E4%BD%9C%E6%88%90/id6746667907) |
+| [<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="250" />](https://play.google.com/store/apps/details?id=app.yskuem.aimondaimaker) | [<img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=2024-09-16" alt="Download on the App Store" width="250" />](https://apps.apple.com/jp/app/ai%E3%83%8E%E3%83%BC%E3%83%88%E3%82%B9%E3%82%AD%E3%83%A3%E3%83%B3-%E5%86%99%E7%9C%9F%E3%81%8B%E3%82%89%E5%BE%A9%E7%BF%92%E5%95%8F%E9%A1%8C-%E9%9B%BB%E5%AD%90%E3%83%8E%E3%83%BC%E3%83%88%E4%BD%9C%E6%88%90/id6746667907) |
 
 ## 🌟 Features
 
