@@ -30,21 +30,23 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
     private val adUseCase: AdUseCase = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
 
-    private val mockNoteObj = Note(
-        id = "",
-        title = "",
-        html = "",
-        createdAt = Clock.System.now(),
-        updatedAt = Clock.System.now()
-    )
+    private val mockNoteObj =
+        Note(
+            id = "",
+            title = "",
+            html = "",
+            createdAt = Clock.System.now(),
+            updatedAt = Clock.System.now(),
+        )
 
-    private val mockProjectObj = Project(
-        id = "",
-        createdUserId = "",
-        name = "",
-        createdAt = Clock.System.now(),
-        updatedAt = Clock.System.now(),
-    )
+    private val mockProjectObj =
+        Project(
+            id = "",
+            createdUserId = "",
+            name = "",
+            createdAt = Clock.System.now(),
+            updatedAt = Clock.System.now(),
+        )
 
     private lateinit var viewModel: ShowNoteScreenViewModel
 
@@ -66,7 +68,6 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             projectRepository.addProject(any())
         } returns mockProjectObj
 
-
         everySuspend {
             noteRepository.saveNote(
                 note = any(),
@@ -79,65 +80,66 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             crashlytics.log(any())
         } returns Unit
 
-
-        viewModel = ShowNoteScreenViewModel(
-            authRepository = authRepository,
-            noteRepository = noteRepository,
-            projectRepository = projectRepository,
-            adUseCase = adUseCase,
-            crashlytics = crashlytics,
-        )
+        viewModel =
+            ShowNoteScreenViewModel(
+                authRepository = authRepository,
+                noteRepository = noteRepository,
+                projectRepository = projectRepository,
+                adUseCase = adUseCase,
+                crashlytics = crashlytics,
+            )
     }
 
     /**
      * ノートのロードで成功した時のパターン
      */
     @Test
-    fun check_on_load_page_on_success() = runTest {
-        viewModel.uiState.test {
+    fun check_on_load_page_on_success() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(expectMostRecentItem().note.isLoading)
+                viewModel.onLoadPage(
+                    imageByte = ByteArray(0),
+                    fileName = "",
+                    extension = "",
+                    projectId = "",
+                )
 
-            assertTrue(expectMostRecentItem().note.isLoading)
-            viewModel.onLoadPage(
-                imageByte = ByteArray(0),
-                fileName = "",
-                extension = "",
-                projectId = "",
-            )
+                testScheduler.advanceUntilIdle()
 
-            testScheduler.advanceUntilIdle()
-
-            assertTrue (awaitItem().note is DataUiState.Success<Note>)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().note is DataUiState.Success<Note>)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     /**
      * ノートのロードで失敗した時のパターン
      */
     @Test
-    fun check_on_load_page_on_failed() = runTest {
-        viewModel.uiState.test {
-            assertTrue(expectMostRecentItem().note.isLoading)
+    fun check_on_load_page_on_failed() =
+        runTest {
+            viewModel.uiState.test {
+                assertTrue(expectMostRecentItem().note.isLoading)
 
-            everySuspend {
-                noteRepository.generateFromImage(
-                    image = any(),
-                    fileName = any(),
-                    extension = any(),
+                everySuspend {
+                    noteRepository.generateFromImage(
+                        image = any(),
+                        fileName = any(),
+                        extension = any(),
+                    )
+                } throwsErrorWith "Failed!"
+
+                viewModel.onLoadPage(
+                    imageByte = ByteArray(0),
+                    fileName = "",
+                    extension = "",
+                    projectId = "",
                 )
-            } throwsErrorWith "Failed!"
 
-            viewModel.onLoadPage(
-                imageByte = ByteArray(0),
-                fileName = "",
-                extension = "",
-                projectId = "",
-            )
+                testScheduler.advanceUntilIdle()
 
-            testScheduler.advanceUntilIdle()
-
-            assertTrue (awaitItem().note is DataUiState.Error)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem().note is DataUiState.Error)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }
