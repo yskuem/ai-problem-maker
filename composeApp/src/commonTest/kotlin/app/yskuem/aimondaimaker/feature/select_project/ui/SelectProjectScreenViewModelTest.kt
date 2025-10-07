@@ -24,15 +24,16 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
     private val projectRepository: ProjectRepository = mock()
     private val adRepository: AdRepository = mock()
 
-    private val mockProjectList = listOf(
-        Project(
-            id = "1",
-            createdUserId = "",
-            name = "Project1",
-            createdAt = Clock.System.now(),
-            updatedAt = Clock.System.now(),
-        ),
-    )
+    private val mockProjectList =
+        listOf(
+            Project(
+                id = "1",
+                createdUserId = "",
+                name = "Project1",
+                createdAt = Clock.System.now(),
+                updatedAt = Clock.System.now(),
+            ),
+        )
 
     private lateinit var viewModel: SelectProjectScreenViewModel
 
@@ -42,83 +43,87 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
         everySuspend { projectRepository.updateProject(any()) } returns mockProjectList.first()
         everySuspend { projectRepository.deleteProject(any()) } returns true
 
-        viewModel = SelectProjectScreenViewModel(
-            projectRepository = projectRepository,
-            adRepository = adRepository,
-        )
+        viewModel =
+            SelectProjectScreenViewModel(
+                projectRepository = projectRepository,
+                adRepository = adRepository,
+            )
     }
 
     /**
      * プロジェクト一覧のロードで成功した時のパターン
      */
     @Test
-    fun check_refresh_project_list_on_success() = runTest {
-        viewModel.projects.test {
-            assertTrue(expectMostRecentItem().isLoading)
+    fun check_refresh_project_list_on_success() =
+        runTest {
+            viewModel.projects.test {
+                assertTrue(expectMostRecentItem().isLoading)
 
-            viewModel.refreshProjectList()
-            testScheduler.advanceUntilIdle()
+                viewModel.refreshProjectList()
+                testScheduler.advanceUntilIdle()
 
-            assertTrue(awaitItem() is DataUiState.Success<List<Project>>)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem() is DataUiState.Success<List<Project>>)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     /**
      * プロジェクト一覧のロードで失敗した時のパターン
      */
     @Test
-    fun check_refresh_project_list_on_failed() = runTest {
-        viewModel.projects.test {
-            assertTrue(expectMostRecentItem().isLoading)
+    fun check_refresh_project_list_on_failed() =
+        runTest {
+            viewModel.projects.test {
+                assertTrue(expectMostRecentItem().isLoading)
 
-            everySuspend { projectRepository.fetchProjectList() } throwsErrorWith "Failed!"
+                everySuspend { projectRepository.fetchProjectList() } throwsErrorWith "Failed!"
 
-            viewModel.refreshProjectList()
-            testScheduler.advanceUntilIdle()
+                viewModel.refreshProjectList()
+                testScheduler.advanceUntilIdle()
 
-            assertTrue(awaitItem() is DataUiState.Error)
-            cancelAndIgnoreRemainingEvents()
+                assertTrue(awaitItem() is DataUiState.Error)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     /**
      * プロジェクトの編集で成功した時のパターン
      */
     @Test
-    fun check_edit_project_on_success() = runTest {
-        viewModel.projects.test {
-            assertTrue(expectMostRecentItem().isLoading)
+    fun check_edit_project_on_success() =
+        runTest {
+            viewModel.projects.test {
+                assertTrue(expectMostRecentItem().isLoading)
 
-            val target = mockProjectList.first().copy(name = "Updated")
-            everySuspend { projectRepository.updateProject(any()) } returns target
+                val target = mockProjectList.first().copy(name = "Updated")
+                everySuspend { projectRepository.updateProject(any()) } returns target
 
-            viewModel.editProject(target, mockProjectList)
-            testScheduler.advanceUntilIdle()
+                viewModel.editProject(target, mockProjectList)
+                testScheduler.advanceUntilIdle()
 
-            val result = awaitItem()
-            assertTrue(result is DataUiState.Success<List<Project>>)
-            assertEquals("Updated", result.data.first().name)
-            cancelAndIgnoreRemainingEvents()
+                val result = awaitItem()
+                assertTrue(result is DataUiState.Success<List<Project>>)
+                assertEquals("Updated", result.data.first().name)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     /**
      * プロジェクトの削除で成功した時のパターン
      */
     @Test
-    fun check_delete_project_on_success() = runTest {
-        viewModel.projects.test {
-            assertTrue(expectMostRecentItem().isLoading)
+    fun check_delete_project_on_success() =
+        runTest {
+            viewModel.projects.test {
+                assertTrue(expectMostRecentItem().isLoading)
 
-            viewModel.deleteProject(mockProjectList.first().id, mockProjectList)
-            testScheduler.advanceUntilIdle()
+                viewModel.deleteProject(mockProjectList.first().id, mockProjectList)
+                testScheduler.advanceUntilIdle()
 
-            val result = awaitItem()
-            assertTrue(result is DataUiState.Success<List<Project>>)
-            assertTrue(result.data.isEmpty())
-            cancelAndIgnoreRemainingEvents()
+                val result = awaitItem()
+                assertTrue(result is DataUiState.Success<List<Project>>)
+                assertTrue(result.data.isEmpty())
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }
-
