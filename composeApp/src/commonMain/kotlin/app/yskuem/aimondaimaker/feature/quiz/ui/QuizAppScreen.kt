@@ -3,14 +3,14 @@ package app.yskuem.aimondaimaker.feature.quiz.ui
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
 import ai_problem_maker.composeapp.generated.resources.next_question
+import ai_problem_maker.composeapp.generated.resources.question_number_title
+import ai_problem_maker.composeapp.generated.resources.question_progress
+import ai_problem_maker.composeapp.generated.resources.quiz_finished
+import ai_problem_maker.composeapp.generated.resources.score_label
+import ai_problem_maker.composeapp.generated.resources.score_summary
 import ai_problem_maker.composeapp.generated.resources.share_quiz
 import ai_problem_maker.composeapp.generated.resources.try_again
 import ai_problem_maker.composeapp.generated.resources.view_results
-import ai_problem_maker.composeapp.generated.resources.quiz_finished
-import ai_problem_maker.composeapp.generated.resources.question_number_title
-import ai_problem_maker.composeapp.generated.resources.question_progress
-import ai_problem_maker.composeapp.generated.resources.score_label
-import ai_problem_maker.composeapp.generated.resources.score_summary
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -105,11 +105,12 @@ fun QuizApp(
                 CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text = stringResource(
-                                Res.string.question_number_title,
-                                currentQuestion + 1,
-                                quizList.size,
-                            ),
+                            text =
+                                stringResource(
+                                    Res.string.question_number_title,
+                                    currentQuestion + 1,
+                                    quizList.size,
+                                ),
                         )
                     },
                     navigationIcon = {
@@ -228,11 +229,12 @@ fun QuizContentScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(
-                        Res.string.question_progress,
-                        currentQuestionIndex + 1,
-                        totalQuestions,
-                    ),
+                    text =
+                        stringResource(
+                            Res.string.question_progress,
+                            currentQuestionIndex + 1,
+                            totalQuestions,
+                        ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray,
                 )

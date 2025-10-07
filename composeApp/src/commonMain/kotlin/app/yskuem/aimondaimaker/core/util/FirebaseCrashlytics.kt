@@ -5,8 +5,8 @@ interface FirebaseCrashlytics {
 }
 
 class FirebaseFirebaseCrashlyticsImpl(
-    private val firebaseCrashlytics: dev.gitlive.firebase.crashlytics.FirebaseCrashlytics
-): FirebaseCrashlytics {
+    private val firebaseCrashlytics: dev.gitlive.firebase.crashlytics.FirebaseCrashlytics,
+) : FirebaseCrashlytics {
     override fun log(message: String) {
         firebaseCrashlytics.log(message = message)
     }

@@ -28,65 +28,69 @@ class CameraPermissionViewModelTest : MainDispatcherTestBase() {
         everySuspend { permissionsController.providePermission(Permission.CAMERA) } returns Unit
         every { permissionsController.openAppSettings() } returns Unit
         everySuspend { permissionsController.isPermissionGranted(Permission.CAMERA) } returns false
-        viewModel = CameraPermissionViewModel(
-            permissionsController = permissionsController,
-        )
+        viewModel =
+            CameraPermissionViewModel(
+                permissionsController = permissionsController,
+            )
     }
 
     @Test
-    fun check_request_permission_on_granted() = runTest {
-        viewModel.state.test {
-            assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
+    fun check_request_permission_on_granted() =
+        runTest {
+            viewModel.state.test {
+                assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
 
-            viewModel.requestPermission()
-            testScheduler.advanceUntilIdle()
+                viewModel.requestPermission()
+                testScheduler.advanceUntilIdle()
 
-            assertEquals(UiPermissionState.GRANTED, awaitItem().uiPermissionState)
-            cancelAndIgnoreRemainingEvents()
+                assertEquals(UiPermissionState.GRANTED, awaitItem().uiPermissionState)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun check_request_permission_on_denied_once() = runTest {
-        everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedException(Permission.CAMERA)
+    fun check_request_permission_on_denied_once() =
+        runTest {
+            everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedException(Permission.CAMERA)
 
-        viewModel.state.test {
-            assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
+            viewModel.state.test {
+                assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
 
-            viewModel.requestPermission()
-            testScheduler.advanceUntilIdle()
+                viewModel.requestPermission()
+                testScheduler.advanceUntilIdle()
 
-            assertEquals(UiPermissionState.DENIED_ONCE, awaitItem().uiPermissionState)
-            cancelAndIgnoreRemainingEvents()
+                assertEquals(UiPermissionState.DENIED_ONCE, awaitItem().uiPermissionState)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun check_request_permission_on_denied_always_and_dismiss_dialog() = runTest {
-        everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedAlwaysException(Permission.CAMERA)
+    fun check_request_permission_on_denied_always_and_dismiss_dialog() =
+        runTest {
+            everySuspend { permissionsController.providePermission(Permission.CAMERA) } throws DeniedAlwaysException(Permission.CAMERA)
 
-        viewModel.state.test {
-            assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
+            viewModel.state.test {
+                assertEquals(UiPermissionState.INITIAL, expectMostRecentItem().uiPermissionState)
 
-            viewModel.requestPermission()
-            testScheduler.advanceUntilIdle()
+                viewModel.requestPermission()
+                testScheduler.advanceUntilIdle()
 
-            val deniedState = awaitItem()
-            assertEquals(UiPermissionState.ALWAYS_DENIED, deniedState.uiPermissionState)
-            assertEquals(true, deniedState.isAlwaysDeniedDialogVisible)
+                val deniedState = awaitItem()
+                assertEquals(UiPermissionState.ALWAYS_DENIED, deniedState.uiPermissionState)
+                assertEquals(true, deniedState.isAlwaysDeniedDialogVisible)
 
-            viewModel.onDismissDialog()
+                viewModel.onDismissDialog()
 
-            assertFalse(awaitItem().isAlwaysDeniedDialogVisible)
-            cancelAndIgnoreRemainingEvents()
+                assertFalse(awaitItem().isAlwaysDeniedDialogVisible)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun check_check_if_have_permission() = runTest {
-        everySuspend { permissionsController.isPermissionGranted(Permission.CAMERA) } returns true
-        val result = viewModel.checkIfHavePermission()
-        assertEquals(true, result)
-    }
+    fun check_check_if_have_permission() =
+        runTest {
+            everySuspend { permissionsController.isPermissionGranted(Permission.CAMERA) } returns true
+            val result = viewModel.checkIfHavePermission()
+            assertEquals(true, result)
+        }
 }
-

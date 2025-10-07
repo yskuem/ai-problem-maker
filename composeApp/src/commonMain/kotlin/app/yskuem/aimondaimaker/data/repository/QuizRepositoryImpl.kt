@@ -38,7 +38,6 @@ class QuizRepositoryImpl(
         return response.map { it.toDomain() }
     }
 
-
     override suspend fun saveQuizInfo(
         projectId: String,
         userId: String,
