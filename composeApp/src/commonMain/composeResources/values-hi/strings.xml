@@ -67,6 +67,7 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">क्विज़ साझा करें</string>
+    <string name="export_quiz_pdf">क्विज़ को PDF में निर्यात करें</string>
     <string name="share_dialog_title">क्विज़ साझा करें</string>
     <string name="copy_link">लिंक कॉपी करें</string>
     <string name="share_with_others">दूसरों के साथ साझा करें</string>

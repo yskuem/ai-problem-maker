@@ -6,6 +6,7 @@ import ai_problem_maker.composeapp.generated.resources.next_question
 import ai_problem_maker.composeapp.generated.resources.share_quiz
 import ai_problem_maker.composeapp.generated.resources.try_again
 import ai_problem_maker.composeapp.generated.resources.view_results
+import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import ai_problem_maker.composeapp.generated.resources.quiz_finished
 import ai_problem_maker.composeapp.generated.resources.question_number_title
 import ai_problem_maker.composeapp.generated.resources.question_progress
@@ -41,6 +42,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -59,6 +61,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,6 +77,7 @@ import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -438,6 +442,8 @@ fun QuizCompletedScreen(
     val authRepository: AuthRepository = koinInject()
     var showShareDialog by remember { mutableStateOf(false) }
     var userId by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    val exportPdfLabel = stringResource(Res.string.export_quiz_pdf)
 
     LaunchedEffect(Unit) {
         userId = authRepository.getUserId()
@@ -521,6 +527,46 @@ fun QuizCompletedScreen(
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(Res.string.share_quiz),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
+                        val pdfUrl = "${shareManager.generateQuizUrl(groupId)}&format=pdf"
+                        shareManager.shareText(
+                            text = pdfUrl,
+                            title = exportPdfLabel,
+                        )
+                    }
+                },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    ),
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PictureAsPdf,
+                        contentDescription = null,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = exportPdfLabel,
                         style = MaterialTheme.typography.titleMedium,
                     )
                 }
