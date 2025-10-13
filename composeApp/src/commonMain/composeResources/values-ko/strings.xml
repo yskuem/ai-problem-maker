@@ -67,6 +67,7 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">퀴즈 공유</string>
+    <string name="export_quiz_pdf">퀴즈를 PDF로 내보내기</string>
     <string name="share_dialog_title">퀴즈 공유</string>
     <string name="copy_link">링크 복사</string>
     <string name="share_with_others">다른 사람과 공유</string>
