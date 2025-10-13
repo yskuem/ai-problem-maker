@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.layout.ContentScale
-import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.graphics.createBitmap
 
 @Composable
 actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
@@ -43,7 +43,7 @@ actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
                     val scale = 2 // 解像度を上げたい場合は倍率を調整
                     val width = page.width * scale
                     val height = page.height * scale
-                    val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                    val bmp = createBitmap(width, height)
                     page.render(bmp, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
                     list += bmp
                 }

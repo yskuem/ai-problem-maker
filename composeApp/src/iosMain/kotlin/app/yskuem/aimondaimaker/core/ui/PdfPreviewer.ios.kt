@@ -5,7 +5,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
-import app.yskuem.aimondaimaker.core.ui.PdfDocument
 // 必要なら有効化： import androidx.compose.ui.interop.UIKitInteropInteractionMode
 
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -21,7 +20,7 @@ import platform.WebKit.WKWebViewConfiguration
 actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
     // ByteArray → 一時ファイル（bytes が変わったときのみ再生成）
     val fileUrl: NSURL = remember(pdf.bytes) {
-        val tempDir = NSTemporaryDirectory() as String
+        val tempDir = NSTemporaryDirectory()
         val name = pdf.fileName ?: "preview_${NSUUID().UUIDString}.pdf"
         val path = "$tempDir/$name"
         val data = pdf.bytes.toNSData()
