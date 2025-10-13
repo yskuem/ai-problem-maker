@@ -537,12 +537,7 @@ fun QuizCompletedScreen(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
-                        val pdfUrl = "${shareManager.generateQuizUrl(groupId)}&format=pdf"
-                        shareManager.shareText(
-                            text = pdfUrl,
-                            title = exportPdfLabel,
-                        )
+                        // TODO Export quiz to PDF
                     }
                 },
                 modifier =
