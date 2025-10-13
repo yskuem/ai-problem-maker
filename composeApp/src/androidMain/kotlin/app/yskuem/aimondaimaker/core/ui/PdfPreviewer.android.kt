@@ -1,4 +1,4 @@
-package app.yskuem.aimondaimaker.feature.pdf_download
+package app.yskuem.aimondaimaker.core.ui
 
 import androidx.compose.runtime.Composable
 import android.graphics.Bitmap

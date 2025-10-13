@@ -1,5 +1,4 @@
-package app.yskuem.aimondaimaker.feature.pdf_download
-
+package app.yskuem.aimondaimaker.core.ui
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -69,4 +68,3 @@ private fun ByteArray.toNSData(): NSData =
     this.usePinned { pinned ->
         NSData.dataWithBytes(pinned.addressOf(0), length = this.size.toULong())
     }
-
