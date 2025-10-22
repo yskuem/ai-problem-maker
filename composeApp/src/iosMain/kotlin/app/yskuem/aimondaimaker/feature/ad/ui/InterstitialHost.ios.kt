@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import app.lexilabs.basic.ads.DependsOnGoogleMobileAds
 import app.lexilabs.basic.ads.InterstitialAdHandler
 import app.lexilabs.basic.ads.composable.rememberInterstitialAd
+import app.yskuem.aimondaimaker.feature.ad.config.getAdmobInterstitialId
 import platform.UIKit.*
 import platform.UIKit.UIApplication
 import platform.UIKit.UISceneActivationStateForegroundActive
@@ -16,7 +17,10 @@ import platform.UIKit.UIWindowScene
 @Composable
 actual fun rememberPlatformInterstitialAd(): InterstitialAdHandler? {
     val vc = remember { currentRootViewController() } ?: return null
-    val interstitial by rememberInterstitialAd(vc)
+    val interstitial by rememberInterstitialAd(
+        vc,
+        adUnitId = getAdmobInterstitialId(),
+    )
     return interstitial
 }
 
