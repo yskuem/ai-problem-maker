@@ -34,8 +34,8 @@ import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
-import kotlin.random.Random
 import org.jetbrains.compose.resources.stringResource
+import kotlin.random.Random
 
 class UpdateCheckScreen : Screen {
     @Composable
