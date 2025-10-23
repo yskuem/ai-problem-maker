@@ -73,4 +73,13 @@
     <string name="link_copied">लिंक कॉपी किया गया</string>
     <string name="close">बंद करें</string>
 
+    <!-- अपडेट -->
+    <string name="force_update_title">अपडेट आवश्यक है</string>
+    <string name="force_update_message">एप को उपयोग करना जारी रखने के लिए कृपया नवीनतम संस्करण पर अपडेट करें।</string>
+    <string name="update_now">अभी अपडेट करें</string>
+    <string name="update_icon_description">अपडेट आइकन</string>
+    <string name="update_toast_title">अपडेट उपलब्ध है</string>
+    <string name="update_toast_title_with_version">संस्करण %1$s उपलब्ध है</string>
+    <string name="update_toast_message">एक नया संस्करण जारी किया गया है।</string>
+
 </resources>

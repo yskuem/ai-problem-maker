@@ -1,3 +1,9 @@
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.update_icon_description
+import ai_problem_maker.composeapp.generated.resources.update_now
+import ai_problem_maker.composeapp.generated.resources.update_toast_message
+import ai_problem_maker.composeapp.generated.resources.update_toast_title
+import ai_problem_maker.composeapp.generated.resources.update_toast_title_with_version
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -14,13 +20,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
+import org.jetbrains.compose.resources.stringResource
 
 enum class ToastPosition {
     TOP,
@@ -52,7 +58,15 @@ fun UpdateToast(
     var offsetX by remember { mutableStateOf(0f) }
     var isDismissing by remember { mutableStateOf(false) }
 
-    val density = LocalDensity.current
+    val titleText =
+        if (version.isNotBlank()) {
+            stringResource(Res.string.update_toast_title_with_version, version)
+        } else {
+            stringResource(Res.string.update_toast_title)
+        }
+    val messageText = stringResource(Res.string.update_toast_message)
+    val buttonLabel = stringResource(Res.string.update_now)
+    val iconDescription = stringResource(Res.string.update_icon_description)
 
     // フェードインアニメーション
     val alpha by animateFloatAsState(
@@ -175,7 +189,7 @@ fun UpdateToast(
                     ) {
                         Icon(
                             imageVector = Icons.Default.SystemUpdate,
-                            contentDescription = "アップデート",
+                            contentDescription = iconDescription,
                             tint = PastelPurpleTheme.darkPurple,
                             modifier = Modifier.size(24.dp),
                         )
@@ -188,14 +202,14 @@ fun UpdateToast(
                         modifier = Modifier.weight(1f),
                     ) {
                         Text(
-                            text = "アップデートが利用可能です",
+                            text = titleText,
                             color = PastelPurpleTheme.textPrimary,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "新しいバージョンがリリースされました",
+                            text = messageText,
                             color = PastelPurpleTheme.textSecondary,
                             fontSize = 12.sp,
                         )
@@ -223,7 +237,7 @@ fun UpdateToast(
                         modifier = Modifier.height(40.dp),
                     ) {
                         Text(
-                            text = "アップデート",
+                            text = buttonLabel,
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp,
                         )
@@ -264,7 +278,7 @@ fun ToastContainer(
     }
 }
 
-// 使用例
+// Example usage
 @Composable
 fun UpdateToastExample() {
     var showToast by remember { mutableStateOf(false) }
@@ -280,7 +294,7 @@ fun UpdateToastExample() {
         Button(
             onClick = { showToast = true },
         ) {
-            Text("トーストを表示")
+            Text("Show toast")
         }
     }
 
@@ -289,8 +303,8 @@ fun UpdateToastExample() {
             UpdateToast(
                 version = "2.1.0",
                 onUpdate = {
-                    println("アップデートが開始されました")
-                    // ここにアップデート処理を追加
+                    println("Update started")
+                    // Add update process here
                 },
                 onDismiss = {
                     showToast = false
@@ -301,7 +315,7 @@ fun UpdateToastExample() {
     }
 }
 
-// Singletonマネージャー
+// Singleton manager
 object UpdateToastManager {
     private val _toastState = mutableStateOf<ToastData?>(null)
     val toastState: State<ToastData?> = _toastState
@@ -342,7 +356,7 @@ object UpdateToastManager {
         get() = _toastState.value != null
 }
 
-// グローバルトーストコンテナ
+// Global toast container
 @Composable
 fun GlobalToastContainer(content: @Composable () -> Unit) {
     Box(
