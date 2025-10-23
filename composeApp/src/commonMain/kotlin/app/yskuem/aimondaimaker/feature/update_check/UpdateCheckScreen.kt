@@ -1,6 +1,11 @@
 package app.yskuem.aimondaimaker.feature.update_check
 
 import ToastPosition
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.force_update_message
+import ai_problem_maker.composeapp.generated.resources.force_update_title
+import ai_problem_maker.composeapp.generated.resources.update_icon_description
+import ai_problem_maker.composeapp.generated.resources.update_now
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -30,6 +35,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import kotlin.random.Random
+import org.jetbrains.compose.resources.stringResource
 
 class UpdateCheckScreen : Screen {
     @Composable
@@ -72,7 +78,7 @@ class UpdateCheckScreen : Screen {
                                     viewModel.openStorePage()
                                 },
                                 onDismiss = {
-                                    println("トーストが閉じられました")
+                                    println("Toast dismissed")
                                 },
                                 position = ToastPosition.TOP,
                             )
@@ -380,7 +386,7 @@ fun UpdateModal(openStorePage: () -> Unit) {
 
                 // タイトル
                 Text(
-                    text = "アップデートが必要です",
+                    text = stringResource(Res.string.force_update_title),
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF6B46C1), // パープル
@@ -392,7 +398,7 @@ fun UpdateModal(openStorePage: () -> Unit) {
 
                 // サブタイトル
                 Text(
-                    text = "アプリケーションを継続してご利用いただくため、最新バージョンへのアップデートをお願いします。",
+                    text = stringResource(Res.string.force_update_message),
                     fontSize = 15.sp,
                     color = Color(0xFF64748B), // スレートグレー
                     textAlign = TextAlign.Center,
@@ -478,7 +484,7 @@ fun PulsingUpdateIcon() {
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = "Update",
+                contentDescription = stringResource(Res.string.update_icon_description),
                 tint = Color(0xFF6B46C1),
                 modifier = Modifier.size(35.dp),
             )
@@ -535,7 +541,7 @@ fun UpdateButton(openStorePage: () -> Unit) {
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = "今すぐアップデート",
+                text = stringResource(Res.string.update_now),
                 color = Color(0xFF6B46C1),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,

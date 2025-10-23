@@ -73,4 +73,13 @@
     <string name="link_copied">Link kopiert</string>
     <string name="close">Schließen</string>
 
+    <!-- Update -->
+    <string name="force_update_title">Aktualisierung erforderlich</string>
+    <string name="force_update_message">Um die App weiterhin zu verwenden, aktualisiere bitte auf die neueste Version.</string>
+    <string name="update_now">Jetzt aktualisieren</string>
+    <string name="update_icon_description">Aktualisierungssymbol</string>
+    <string name="update_toast_title">Ein Update ist verfügbar</string>
+    <string name="update_toast_title_with_version">Version %1$s ist verfügbar</string>
+    <string name="update_toast_message">Eine neue Version wurde veröffentlicht.</string>
+
 </resources>
