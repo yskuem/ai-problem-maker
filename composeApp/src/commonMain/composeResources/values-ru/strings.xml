@@ -73,4 +73,13 @@
     <string name="link_copied">Ссылка скопирована</string>
     <string name="close">Закрыть</string>
 
+    <!-- Обновление -->
+    <string name="force_update_title">Требуется обновление</string>
+    <string name="force_update_message">Чтобы продолжить использование приложения, обновитесь до последней версии.</string>
+    <string name="update_now">Обновить сейчас</string>
+    <string name="update_icon_description">Значок обновления</string>
+    <string name="update_toast_title">Доступно обновление</string>
+    <string name="update_toast_title_with_version">Доступна версия %1$s</string>
+    <string name="update_toast_message">Выпущена новая версия.</string>
+
 </resources>

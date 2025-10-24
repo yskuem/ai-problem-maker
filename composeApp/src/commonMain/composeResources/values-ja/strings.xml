@@ -73,4 +73,13 @@
     <string name="link_copied">リンクをコピーしました</string>
     <string name="close">閉じる</string>
 
+    <!-- アップデート -->
+    <string name="force_update_title">アップデートが必要です</string>
+    <string name="force_update_message">アプリケーションを継続して利用するには、最新バージョンへアップデートしてください。</string>
+    <string name="update_now">今すぐアップデート</string>
+    <string name="update_icon_description">アップデートアイコン</string>
+    <string name="update_toast_title">アップデートが利用可能です</string>
+    <string name="update_toast_title_with_version">バージョン%1$sが利用可能です</string>
+    <string name="update_toast_message">新しいバージョンがリリースされました。</string>
+
 </resources>

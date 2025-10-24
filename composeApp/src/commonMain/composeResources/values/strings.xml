@@ -72,5 +72,14 @@
     <string name="link_copied">Link Copied</string>
     <string name="close">Close</string>
 
+    <!-- Update -->
+    <string name="force_update_title">Update Required</string>
+    <string name="force_update_message">To continue using the application, please update to the latest version.</string>
+    <string name="update_now">Update Now</string>
+    <string name="update_icon_description">Update icon</string>
+    <string name="update_toast_title">An update is available</string>
+    <string name="update_toast_title_with_version">Version %1$s is available</string>
+    <string name="update_toast_message">A new version has been released.</string>
+
 </resources>
 
