@@ -20,6 +20,7 @@ actual val sharePlatformModule: Module =
                 context = androidContext(),
                 clipboard = get(),
                 sharedQuizRepository = get(),
+                authRepository = get(),
             )
         }
     }

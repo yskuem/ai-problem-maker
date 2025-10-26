@@ -103,12 +103,9 @@ fun QuizCompletedScreen(
     onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
 ) {
-    val navigator = LocalNavigator.current
+
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
-    val shareManager: ShareManager = koinInject()
-    val authRepository: AuthRepository = koinInject()
     var showShareDialog by remember { mutableStateOf(false) }
-    var userId by remember { mutableStateOf("") }
 
     val exportPdfLabel = stringResource(Res.string.export_quiz_pdf)
 
@@ -133,7 +130,6 @@ fun QuizCompletedScreen(
     )
 
     LaunchedEffect(Unit) {
-        userId = authRepository.getUserId()
         delay(120)
         isVisible = true
     }
@@ -275,11 +271,8 @@ fun QuizCompletedScreen(
 
     ShareDialog(
         isVisible = showShareDialog,
-        quizUrl = shareManager.generateQuizUrl(groupId),
-        shareManager = shareManager,
         groupId = groupId,
         quizList = quizList,
-        userId = userId,
         onDismiss = { showShareDialog = false },
     )
 
