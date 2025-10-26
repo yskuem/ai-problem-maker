@@ -1,5 +1,6 @@
 package app.yskuem.aimondaimaker.core.ui
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.*
@@ -8,48 +9,60 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 
 /**
  * 共通の PDF プレビュー UI。
  * 左上に Download ボタン（onClickDownload）を配置。
  */
-data class PdfPreviewer(
-    val pdf: PdfDocument,
-    val title: String = pdf.fileName ?: "PDF",
-    val modifier: Modifier = Modifier,
-    val onClickDownload: () -> Unit = {},
-    val onClose: () -> Unit = {},
-): Screen {
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.current
-        BackHandler {
-            onClose()
-            navigator?.pop()
-        }
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(title) },
-                    navigationIcon = {
-                        IconButton(onClick = onClickDownload) {
-                            Icon(imageVector = Icons.Outlined.Download, contentDescription = "Download")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@Composable
+fun PdfPreviewerOverlayDialog(
+    pdf: PdfDocument,
+    title: String = pdf.fileName ?: "PDF",
+    modifier: Modifier = Modifier,
+    onCloseViewer: () -> Unit = {},
+    onClickDownload: () -> Unit = {}
+) {
+    Dialog(
+        onDismissRequest = onCloseViewer,
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false
+        )
+    ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            BackHandler(onBack = onCloseViewer)
+
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(title) },
+                        navigationIcon = {
+                            IconButton(onClick = onClickDownload) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Download,
+                                    contentDescription = "Download"
+                                )
+                            }
                         }
-                    }
+                    )
+                }
+            ) { innerPadding ->
+                PlatformPdfView(
+                    pdf = pdf,
+                    modifier = modifier
+                        .padding(innerPadding)
+                        .fillMaxSize()
                 )
             }
-        ) { innerPadding ->
-            PlatformPdfView(
-                pdf = pdf,
-                modifier = modifier.padding(innerPadding)
-            )
         }
     }
 }
+
 
 /** プラットフォーム別に埋める PDF ビュー本体 */
 @Composable

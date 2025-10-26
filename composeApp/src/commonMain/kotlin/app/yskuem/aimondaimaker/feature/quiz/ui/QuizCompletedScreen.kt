@@ -21,6 +21,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,7 +63,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -73,7 +77,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.PdfDocument
-import app.yskuem.aimondaimaker.core.ui.PdfPreviewer
+import app.yskuem.aimondaimaker.core.ui.PdfPreviewerOverlayDialog
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.core.util.ShareManager
@@ -147,7 +151,7 @@ fun QuizCompletedScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                androidx.compose.ui.graphics.Brush.verticalGradient(
+                Brush.verticalGradient(
                     colors = listOf(
                         MaterialTheme.colorScheme.primary.copy(alpha = 0.04f),
                         MaterialTheme.colorScheme.background,
@@ -287,20 +291,18 @@ fun QuizCompletedScreen(
             PdfGenerateLoading()
         }
         is DataUiState.Success -> {
-            navigator?.push(
-                PdfPreviewer(
-                    pdf = PdfDocument(
-                        bytes = pdfResponse.data.bytes,
-                        fileName = pdfResponse.data.filename,
-                    ),
-                    title = exportPdfLabel,
-                    onClickDownload = {
+            PdfPreviewerOverlayDialog(
+                pdf = PdfDocument(
+                    bytes = pdfResponse.data.bytes,
+                    fileName = pdfResponse.data.filename,
+                ),
+                title = exportPdfLabel,
+                onClickDownload = {
 
-                    },
-                    onClose = {
-                        onClosePdfViewer()
-                    }
-                )
+                },
+                onCloseViewer = {
+                    onClosePdfViewer()
+                },
             )
         }
     }
@@ -340,7 +342,7 @@ fun AnimatedActionButton(
             defaultElevation = elevation,
             pressedElevation = elevation * 1.5f
         ),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+        contentPadding = PaddingValues(
             horizontal = 18.dp,
             vertical = 12.dp
         )
@@ -445,7 +447,7 @@ fun PercentageRing(
         Canvas(modifier = Modifier.fillMaxSize()) {
             val stroke = Stroke(
                 width = strokeWidth.toPx(),
-                cap = androidx.compose.ui.graphics.StrokeCap.Round
+                cap = StrokeCap.Round
             )
             val inset = strokeWidth.toPx() / 2f
 
@@ -462,7 +464,7 @@ fun PercentageRing(
                 useCenter = false,
                 style = stroke,
                 topLeft = Offset(inset, inset),
-                size = androidx.compose.ui.geometry.Size(diameterW, diameterH)
+                size = Size(diameterW, diameterH)
             )
             // プログレス
             if (sweep > 0f) {
