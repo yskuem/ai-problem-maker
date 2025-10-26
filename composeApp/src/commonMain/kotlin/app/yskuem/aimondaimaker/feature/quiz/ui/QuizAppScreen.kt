@@ -11,6 +11,7 @@ import ai_problem_maker.composeapp.generated.resources.score_summary
 import ai_problem_maker.composeapp.generated.resources.share_quiz
 import ai_problem_maker.composeapp.generated.resources.try_again
 import ai_problem_maker.composeapp.generated.resources.view_results
+import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -41,6 +42,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -59,6 +61,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,12 +71,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.core.util.ShareManager
+import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import cafe.adriel.voyager.navigator.LocalNavigator
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -81,6 +87,8 @@ import org.koin.compose.koinInject
 @Composable
 fun QuizApp(
     quizList: List<Quiz>,
+    onPdfExport: () -> Unit,
+    pdfResponse: DataUiState<PdfResponse>,
     onBack: () -> Unit,
 ) {
     var currentQuestion by remember { mutableStateOf(0) }
@@ -154,6 +162,8 @@ fun QuizApp(
                             score = 0
                             quizCompleted = false
                         },
+                        onPdfExport = onPdfExport,
+                        pdfResponse = pdfResponse,
                     )
                 } else {
                     val currentQuiz = quizList[currentQuestion]
@@ -426,161 +436,3 @@ fun OptionItem(
     }
 }
 
-@Composable
-fun QuizCompletedScreen(
-    score: Int,
-    totalQuestions: Int,
-    groupId: String,
-    quizList: List<Quiz>,
-    onRestart: () -> Unit,
-) {
-    val percentage = (score.toFloat() / totalQuestions * 100).toInt()
-    val navigator = LocalNavigator.current
-    val shareManager: ShareManager = koinInject()
-    val authRepository: AuthRepository = koinInject()
-    var showShareDialog by remember { mutableStateOf(false) }
-    var userId by remember { mutableStateOf("") }
-
-    LaunchedEffect(Unit) {
-        userId = authRepository.getUserId()
-    }
-
-    // Request store review when quiz is completed
-    LaunchStoreReview(
-        trigger = true,
-        onComplete = { result ->
-            result
-                .onSuccess {
-                    println("Store review requested successfully")
-                }.onFailure { error ->
-                    println("Store review request failed: $error")
-                }
-        },
-    )
-
-    Card(
-        modifier =
-            Modifier
-                .widthIn(max = 500.dp)
-                .padding(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                text = stringResource(Res.string.quiz_finished),
-                style =
-                    MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
-            )
-
-            Text(
-                text = stringResource(Res.string.score_summary, score, totalQuestions),
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray,
-            )
-
-            Text(
-                text = "$percentage%",
-                style =
-                    MaterialTheme.typography.displayMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                    ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 16.dp),
-            )
-
-            Button(
-                onClick = { showShareDialog = true },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Row(
-                    modifier = Modifier.padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(Res.string.share_quiz),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = onRestart,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.try_again),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(8.dp),
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = {
-                    navigator?.pop()
-                },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.back_to_previous_screen),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(8.dp),
-                )
-            }
-        }
-    }
-
-    ShareDialog(
-        isVisible = showShareDialog,
-        quizUrl = shareManager.generateQuizUrl(groupId),
-        shareManager = shareManager,
-        groupId = groupId,
-        quizList = quizList,
-        userId = userId,
-        onDismiss = { showShareDialog = false },
-    )
-}

@@ -23,6 +23,7 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 crashlytics = get(),
+                pdfRepository = get(),
             )
         }
         factory {
