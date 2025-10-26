@@ -76,6 +76,10 @@
     <string name="share_with_others">与他人分享</string>
     <string name="link_copied">链接已复制</string>
     <string name="close">关闭</string>
+    <string name="pdf_save_success_title">PDF已保存</string>
+    <string name="pdf_save_success_message">PDF已成功保存。</string>
+    <string name="pdf_save_failure_title">保存失败</string>
+    <string name="pdf_save_failure_message">无法保存PDF。请重试。</string>
 
     <!-- 更新 -->
     <string name="force_update_title">需要更新</string>

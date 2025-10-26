@@ -77,6 +77,8 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.core.ui.PdfPreviewerOverlayDialog
+import app.yskuem.aimondaimaker.core.ui.components.PdfSaveResultDialog
+import app.yskuem.aimondaimaker.core.ui.components.PdfSaveResultDialogType
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
@@ -99,6 +101,8 @@ fun QuizCompletedScreen(
     pdfResponse: DataUiState<PdfResponse>,
     isSavingPdf: Boolean,
     onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
+    pdfSaveState: DataUiState<Unit>,
+    onDismissPdfSaveResult: () -> Unit,
 ) {
 
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
@@ -297,6 +301,22 @@ fun QuizCompletedScreen(
                 onCloseViewer = {
                     onClosePdfViewer()
                 },
+            )
+        }
+    }
+
+    when (pdfSaveState) {
+        DataUiState.Initial, DataUiState.Loading -> {}
+        is DataUiState.Success -> {
+            PdfSaveResultDialog(
+                type = PdfSaveResultDialogType.Success,
+                onDismiss = onDismissPdfSaveResult,
+            )
+        }
+        is DataUiState.Error -> {
+            PdfSaveResultDialog(
+                type = PdfSaveResultDialogType.Failure,
+                onDismiss = onDismissPdfSaveResult,
             )
         }
     }

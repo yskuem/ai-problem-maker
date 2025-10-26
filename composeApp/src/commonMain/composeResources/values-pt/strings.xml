@@ -76,6 +76,10 @@
     <string name="share_with_others">Compartilhar com outros</string>
     <string name="link_copied">Link copiado</string>
     <string name="close">Fechar</string>
+    <string name="pdf_save_success_title">PDF salvo</string>
+    <string name="pdf_save_success_message">Seu PDF foi salvo com sucesso.</string>
+    <string name="pdf_save_failure_title">Falha ao salvar</string>
+    <string name="pdf_save_failure_message">Não foi possível salvar o PDF. Tente novamente.</string>
 
     <!-- Atualização -->
     <string name="force_update_title">Atualização necessária</string>

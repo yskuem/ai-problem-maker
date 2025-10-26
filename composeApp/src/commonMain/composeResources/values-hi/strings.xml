@@ -76,6 +76,10 @@
     <string name="share_with_others">दूसरों के साथ साझा करें</string>
     <string name="link_copied">लिंक कॉपी किया गया</string>
     <string name="close">बंद करें</string>
+    <string name="pdf_save_success_title">PDF सहेजा गया</string>
+    <string name="pdf_save_success_message">आपका PDF सफलतापूर्वक सहेजा गया।</string>
+    <string name="pdf_save_failure_title">सहेजना विफल रहा</string>
+    <string name="pdf_save_failure_message">PDF सहेजा नहीं जा सका। कृपया दोबारा प्रयास करें।</string>
 
     <!-- अपडेट -->
     <string name="force_update_title">अपडेट आवश्यक है</string>

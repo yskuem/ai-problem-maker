@@ -76,6 +76,10 @@
     <string name="share_with_others">他の人と共有</string>
     <string name="link_copied">リンクをコピーしました</string>
     <string name="close">閉じる</string>
+    <string name="pdf_save_success_title">PDFの保存完了</string>
+    <string name="pdf_save_success_message">PDFの保存が完了しました。</string>
+    <string name="pdf_save_failure_title">保存に失敗しました</string>
+    <string name="pdf_save_failure_message">PDFを保存できませんでした。もう一度お試しください。</string>
 
     <!-- アップデート -->
     <string name="force_update_title">アップデートが必要です</string>
