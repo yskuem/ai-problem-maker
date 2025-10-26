@@ -98,7 +98,7 @@ fun QuizCompletedScreen(
     onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
     isSavingPdf: Boolean,
-    onSavePdf: (pdf: PdfDocument) -> Unit,
+    onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
 ) {
 
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
@@ -281,17 +281,19 @@ fun QuizCompletedScreen(
             PdfGenerateLoading()
         }
         is DataUiState.Success -> {
+            val byte = pdfResponse.data.bytes
+            val filename = pdfResponse.data.filename ?: "quiz.pdf"
             val pdfDocument = PdfDocument(
-                bytes = pdfResponse.data.bytes,
-                fileName = pdfResponse.data.filename,
+                bytes = byte,
+                fileName = filename,
             )
             PdfPreviewerOverlayDialog(
                 pdf = pdfDocument,
                 title = exportPdfLabel,
                 onClickSave = {
-                    onSavePdf(pdfDocument)
+                    onSavePdf(byte,filename)
                 },
-                isSavingingPdf = isSavingPdf,
+                isSavingPdf = isSavingPdf,
                 onCloseViewer = {
                     onClosePdfViewer()
                 },

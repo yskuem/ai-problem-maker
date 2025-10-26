@@ -75,7 +75,7 @@ fun QuizApp(
     pdfResponse: DataUiState<PdfResponse>,
     onBack: () -> Unit,
     isSavingPdf: Boolean,
-    onSavePdf: (PdfDocument) -> Unit,
+    onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
 ) {
     var currentQuestion by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
