@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.quiz.viewmodel
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
@@ -11,13 +12,20 @@ import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import io.github.vinceglb.filekit.FileKit
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.dialogs.openFileSaver
+import io.github.vinceglb.filekit.write
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ShowQuizScreenViewModel(
     private val authRepository: AuthRepository,
@@ -29,17 +37,21 @@ class ShowQuizScreenViewModel(
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
     private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Initial)
+    private val _savePdfState = MutableStateFlow<DataUiState<Unit>>(DataUiState.Initial)
+    val savePdfState: StateFlow<DataUiState<Unit>> = _savePdfState.asStateFlow()
 
     val uiState: StateFlow<QuizUiState> =
         combine(
             _quizList,
             _currentQuizIndex,
             _pdfData,
-        ) { quizList, currentQuizListIndex, pdfData ->
+            _savePdfState
+        ) { quizList, currentQuizListIndex, pdfData, saveState ->
             QuizUiState(
                 quizList = quizList,
                 currentQuizListIndex = currentQuizListIndex,
                 pdfData = pdfData,
+                pdfSaveState = saveState,
             )
         }.stateIn(
             scope = screenModelScope,
@@ -70,7 +82,7 @@ class ShowQuizScreenViewModel(
         }
     }
 
-    fun onPdfExport(
+    fun onCreatePdf(
         quizList: List<Quiz>,
         isColorMode: Boolean = true,
     ) {
@@ -91,6 +103,41 @@ class ShowQuizScreenViewModel(
     fun onClosePdfViewer() {
         _pdfData.update {
             DataUiState.Initial
+        }
+        _savePdfState.value = DataUiState.Initial
+    }
+
+    fun onSavePdf(pdfDocument: PdfDocument) {
+        val resolvedFileName = pdfDocument.fileName
+        screenModelScope.launch {
+            _savePdfState.value = DataUiState.Loading
+            try {
+                // suggestedName は拡張子なしを渡し、extension で "pdf" を指定
+                val nameNoExt =
+                    if (resolvedFileName?.endsWith(".pdf", ignoreCase = true) == true)
+                        resolvedFileName.substring(0, resolvedFileName.length - 4)
+                    else
+                        resolvedFileName
+
+                val dest: PlatformFile? = FileKit.openFileSaver(
+                    suggestedName = nameNoExt ?: "pdf_file",
+                    extension = "pdf"
+                )
+
+                if (dest == null) {
+                    _savePdfState.value = DataUiState.Initial // キャンセル
+                    return@launch
+                }
+
+                // 実書き込みは重い可能性があるので別ディスパッチャへ
+                withContext(Dispatchers.Default) {
+                    dest.write(pdfDocument.bytes)
+                }
+
+                _savePdfState.value = DataUiState.Success(Unit)
+            } catch (t: Throwable) {
+                _savePdfState.value = DataUiState.Error(t)
+            }
         }
     }
 

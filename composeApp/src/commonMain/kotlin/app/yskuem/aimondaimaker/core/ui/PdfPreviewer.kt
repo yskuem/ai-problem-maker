@@ -38,8 +38,8 @@ fun PdfPreviewerOverlayDialog(
     title: String = pdf.fileName ?: "",
     modifier: Modifier = Modifier,
     onCloseViewer: () -> Unit = {},
-    onClickDownload: () -> Unit = {},
-    isDownloading: Boolean = false,
+    onClickSave: () -> Unit = {},
+    isSavingingPdf: Boolean = false,
 ) {
     Dialog(
         onDismissRequest = onCloseViewer,
@@ -72,10 +72,10 @@ fun PdfPreviewerOverlayDialog(
                                 modifier = Modifier
                                     .padding(end = 12.dp)
                                     .size(30.dp),
-                                enabled = !isDownloading,
-                                onClick = onClickDownload,
+                                enabled = !isSavingingPdf,
+                                onClick = onClickSave,
                             ) {
-                                if (isDownloading) {
+                                if (isSavingingPdf) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(24.dp),
                                         strokeWidth = 2.dp,

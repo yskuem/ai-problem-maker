@@ -5,7 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
-import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -28,16 +27,21 @@ data class ShowAnsweredQuizzesScreen(
         QuizApp(
             quizList = quizList,
             pdfResponse = state.pdfData,
-            onPdfExport = {
-                viewmodel.onPdfExport(
+            onCreatePdf = {
+                viewmodel.onCreatePdf(
                     quizList = quizList
                 )
             },
             onClosePdfViewer = {
                 viewmodel.onClosePdfViewer()
+            },
+            isSavingPdf = state.pdfSaveState.isLoading,
+            onBack = {
+                navigator?.pop()
+            },
+            onSavePdf = {
+                viewmodel.onSavePdf(it)
             }
-        ) {
-            navigator?.pop()
-        }
+        )
     }
 }

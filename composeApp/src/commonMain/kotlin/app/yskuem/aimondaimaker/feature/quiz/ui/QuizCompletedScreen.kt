@@ -50,9 +50,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -79,13 +77,11 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.core.ui.PdfPreviewerOverlayDialog
-import app.yskuem.aimondaimaker.core.ui.PdfViewerDownloadViewModel
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import kotlinx.coroutines.delay
-import org.koin.compose.koinInject
 import org.jetbrains.compose.resources.stringResource
 import kotlin.math.PI
 import kotlin.math.cos
@@ -98,24 +94,17 @@ fun QuizCompletedScreen(
     groupId: String,
     quizList: List<Quiz>,
     onRestart: () -> Unit,
-    onPdfExport: () -> Unit,
+    onCreatePdf: () -> Unit,
     onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
+    isSavingPdf: Boolean,
+    onSavePdf: (pdf: PdfDocument) -> Unit,
 ) {
 
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     var showShareDialog by remember { mutableStateOf(false) }
 
     val exportPdfLabel = stringResource(Res.string.export_quiz_pdf)
-
-    val pdfDownloadViewModel: PdfViewerDownloadViewModel = koinInject()
-    val downloadState by pdfDownloadViewModel.downloadState.collectAsState()
-
-    DisposableEffect(Unit) {
-        onDispose {
-            pdfDownloadViewModel.clear()
-        }
-    }
 
     // アニメーション状態
     var isVisible by remember { mutableStateOf(false) }
@@ -251,7 +240,7 @@ fun QuizCompletedScreen(
 
                         // PDFエクスポート
                         AnimatedActionButton(
-                            onClick = onPdfExport,
+                            onClick = onCreatePdf,
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             icon = Icons.Default.PictureAsPdf,
@@ -299,12 +288,11 @@ fun QuizCompletedScreen(
             PdfPreviewerOverlayDialog(
                 pdf = pdfDocument,
                 title = exportPdfLabel,
-                onClickDownload = {
-                    pdfDownloadViewModel.download(pdfDocument)
+                onClickSave = {
+                    onSavePdf(pdfDocument)
                 },
-                isDownloading = downloadState.isLoading,
+                isSavingingPdf = isSavingPdf,
                 onCloseViewer = {
-                    pdfDownloadViewModel.reset()
                     onClosePdfViewer()
                 },
             )
