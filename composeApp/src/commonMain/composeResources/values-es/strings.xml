@@ -76,6 +76,10 @@
     <string name="share_with_others">Compartir con otros</string>
     <string name="link_copied">Enlace copiado</string>
     <string name="close">Cerrar</string>
+    <string name="pdf_save_success_title">PDF guardado</string>
+    <string name="pdf_save_success_message">Tu PDF se guardó correctamente.</string>
+    <string name="pdf_save_failure_title">Error al guardar</string>
+    <string name="pdf_save_failure_message">No se pudo guardar el PDF. Inténtalo de nuevo.</string>
 
     <!-- Actualización -->
     <string name="force_update_title">Se requiere actualización</string>

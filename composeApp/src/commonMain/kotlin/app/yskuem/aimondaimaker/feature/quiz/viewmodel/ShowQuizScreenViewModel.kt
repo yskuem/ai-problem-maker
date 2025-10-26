@@ -107,6 +107,12 @@ class ShowQuizScreenViewModel(
         _savePdfState.value = DataUiState.Initial
     }
 
+    fun onDismissSavePdfResult() {
+        if (_savePdfState.value !is DataUiState.Loading) {
+            _savePdfState.value = DataUiState.Initial
+        }
+    }
+
     fun onSavePdf(
         pdfData: ByteArray,
         pdfName: String,

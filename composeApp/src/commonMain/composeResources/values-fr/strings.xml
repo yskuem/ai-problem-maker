@@ -76,6 +76,10 @@
     <string name="share_with_others">Partager avec les autres</string>
     <string name="link_copied">Lien copié</string>
     <string name="close">Fermer</string>
+    <string name="pdf_save_success_title">PDF enregistré</string>
+    <string name="pdf_save_success_message">Votre PDF a été enregistré avec succès.</string>
+    <string name="pdf_save_failure_title">Échec de l'enregistrement</string>
+    <string name="pdf_save_failure_message">Impossible d'enregistrer le PDF. Veuillez réessayer.</string>
 
     <!-- Mise à jour -->
     <string name="force_update_title">Mise à jour requise</string>

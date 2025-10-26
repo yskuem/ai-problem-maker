@@ -76,6 +76,8 @@ fun QuizApp(
     onBack: () -> Unit,
     isSavingPdf: Boolean,
     onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
+    pdfSaveState: DataUiState<Unit>,
+    onDismissPdfSaveResult: () -> Unit,
 ) {
     var currentQuestion by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
@@ -153,6 +155,8 @@ fun QuizApp(
                         onClosePdfViewer = onClosePdfViewer,
                         isSavingPdf = isSavingPdf,
                         onSavePdf = onSavePdf,
+                        pdfSaveState = pdfSaveState,
+                        onDismissPdfSaveResult = onDismissPdfSaveResult,
                     )
                 } else {
                     val currentQuiz = quizList[currentQuestion]
