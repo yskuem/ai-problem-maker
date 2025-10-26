@@ -28,7 +28,7 @@ class ShowQuizScreenViewModel(
 ) : ScreenModel {
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
-    private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Loading)
+    private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Initial)
 
     val uiState: StateFlow<QuizUiState> =
         combine(
@@ -75,6 +75,9 @@ class ShowQuizScreenViewModel(
         isColorMode: Boolean = true,
     ) {
         screenModelScope.launch {
+            _pdfData.update {
+                DataUiState.Loading
+            }
             val res = pdfRepository.createQuizPdf(
                 quizList = quizList,
                 isColorModel = isColorMode,
