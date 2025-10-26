@@ -36,14 +36,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.IconButton
+import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PictureAsPdf
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -57,11 +55,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,25 +65,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
-import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
-import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
-import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
-import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import cafe.adriel.voyager.navigator.LocalNavigator
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizApp(
     quizList: List<Quiz>,
     onPdfExport: () -> Unit,
+    onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
     onBack: () -> Unit,
 ) {
@@ -164,6 +153,7 @@ fun QuizApp(
                         },
                         onPdfExport = onPdfExport,
                         pdfResponse = pdfResponse,
+                        onClosePdfViewer = onClosePdfViewer,
                     )
                 } else {
                     val currentQuiz = quizList[currentQuestion]
