@@ -48,6 +48,7 @@ data class CreateQuizScreen(
         }
 
         when (val quizList = state.quizList) {
+            is DataUiState.Initial -> {}
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,

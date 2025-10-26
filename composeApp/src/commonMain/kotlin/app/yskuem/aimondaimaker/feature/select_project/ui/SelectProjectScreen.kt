@@ -108,6 +108,7 @@ class SelectProjectScreen : Screen {
             containerColor = BackgroundPrimary,
         ) { padding ->
             when (val projectState = uiState) {
+                is DataUiState.Initial -> {}
                 is DataUiState.Loading -> {
                     LoadingScreen()
                 }

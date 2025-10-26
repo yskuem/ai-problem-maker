@@ -47,6 +47,7 @@ data class CreateNoteScreen(
         }
 
         when (val result = state.note) {
+            is DataUiState.Initial -> {}
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,
