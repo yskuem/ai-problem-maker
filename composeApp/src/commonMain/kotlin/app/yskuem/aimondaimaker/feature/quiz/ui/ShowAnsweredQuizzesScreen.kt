@@ -33,6 +33,9 @@ data class ShowAnsweredQuizzesScreen(
                     quizList = quizList
                 )
             },
+            onClosePdfViewer = {
+                viewmodel.onClosePdfViewer()
+            }
         ) {
             navigator?.pop()
         }

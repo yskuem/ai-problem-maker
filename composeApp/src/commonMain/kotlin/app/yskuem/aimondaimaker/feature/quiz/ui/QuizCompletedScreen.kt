@@ -1,7 +1,6 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
 import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import ai_problem_maker.composeapp.generated.resources.quiz_finished
 import ai_problem_maker.composeapp.generated.resources.score_summary
@@ -16,7 +15,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,7 +35,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Refresh
@@ -50,7 +47,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -100,15 +96,16 @@ fun QuizCompletedScreen(
     quizList: List<Quiz>,
     onRestart: () -> Unit,
     onPdfExport: () -> Unit,
+    onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
 ) {
-    val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val navigator = LocalNavigator.current
+    val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     val shareManager: ShareManager = koinInject()
     val authRepository: AuthRepository = koinInject()
     var showShareDialog by remember { mutableStateOf(false) }
     var userId by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
+
     val exportPdfLabel = stringResource(Res.string.export_quiz_pdf)
 
     // アニメーション状態
@@ -299,6 +296,9 @@ fun QuizCompletedScreen(
                     title = exportPdfLabel,
                     onClickDownload = {
 
+                    },
+                    onClose = {
+                        onClosePdfViewer()
                     }
                 )
             )

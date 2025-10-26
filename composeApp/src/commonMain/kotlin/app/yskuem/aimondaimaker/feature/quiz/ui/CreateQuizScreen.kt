@@ -68,6 +68,9 @@ data class CreateQuizScreen(
                             quizList = quizList.data
                         )
                     },
+                    onClosePdfViewer = {
+                        viewmodel.onClosePdfViewer()
+                    },
                     pdfResponse = state.pdfData
                 ) {
                     navigator?.pop()

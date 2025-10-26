@@ -88,6 +88,12 @@ class ShowQuizScreenViewModel(
         }
     }
 
+    fun onClosePdfViewer() {
+        _pdfData.update {
+            DataUiState.Initial
+        }
+    }
+
     private suspend fun onFetchQuizList(
         imageByte: ByteArray,
         fileName: String,

@@ -32,23 +32,32 @@ import kotlin.math.*
 fun PdfGenerateLoading() {
     val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
 
-    // Colors
+    // Colors - プライマリーカラーを基調
     val base = MaterialTheme.colorScheme.primary
     val light = lerp(base, Color.White, if (isDark) 0.35f else 0.55f)
     val veryLight = lerp(base, Color.White, if (isDark) 0.80f else 0.92f)
 
+    // 背景グラデーション - プライマリーカラーベース
     val bgGradient = if (isDark) {
-        listOf(Color(0xFF0B0F14), Color(0xFF101622), Color(0xFF17142A))
+        listOf(
+            base.copy(alpha = 0.05f).compositeOver(Color(0xFF0B0F14)),
+            base.copy(alpha = 0.08f).compositeOver(Color(0xFF101622)),
+            base.copy(alpha = 0.12f).compositeOver(Color(0xFF17142A))
+        )
     } else {
-        listOf(Color(0xFFFFF5F3), Color(0xFFFFE8E3), Color(0xFFFFD6CC))
+        listOf(
+            lerp(base, Color.White, 0.95f),
+            lerp(base, Color.White, 0.92f),
+            lerp(base, Color.White, 0.88f)
+        )
     }
 
     val cardBg = if (isDark) Color.White.copy(alpha = 0.06f) else Color.White.copy(alpha = 0.9f)
-    val lineColor = if (isDark) Color(0xFFB39DDB) else Color(0xFFFFCEC2)
+    val lineColor = if (isDark) light else base.copy(alpha = 0.6f)
     val progressTrack = if (isDark) Color.White.copy(alpha = 0.12f) else veryLight
     val aura = base.copy(alpha = if (isDark) 0.18f else 0.10f)
-    val titleColor = if (isDark) lerp(base, Color.White, 0.25f) else base
-    val messageColor = if (isDark) Color.White.copy(alpha = 0.7f) else light
+    val titleColor = if (isDark) light else base
+    val messageColor = if (isDark) Color.White.copy(alpha = 0.7f) else base.copy(alpha = 0.7f)
 
     val dotColors = listOf(
         base,
@@ -101,10 +110,8 @@ fun PdfGenerateLoading() {
 
     // Messages
     val messages = listOf(
-        "最適な問題を生成しています",
-        "難易度を調整しています",
-        "解答を準備しています",
-        "内容を確認しています"
+        "問題のPDFを生成中...",
+        "解答のPDFを生成中..."
     )
 
     var currentMessageIndex by remember { mutableStateOf(0) }
@@ -139,8 +146,10 @@ fun PdfGenerateLoading() {
                         .offset(y = (-floatOffset).dp)
                         .then(
                             if (isDark) {
-                                Modifier.border(1.dp, Color.White.copy(alpha = 0.10f), RoundedCornerShape(30.dp))
-                            } else Modifier
+                                Modifier.border(1.dp, base.copy(alpha = 0.20f), RoundedCornerShape(30.dp))
+                            } else {
+                                Modifier.border(1.dp, base.copy(alpha = 0.10f), RoundedCornerShape(30.dp))
+                            }
                         )
                         .background(cardBg, RoundedCornerShape(30.dp))
                         .padding(horizontal = 40.dp, vertical = 60.dp)
@@ -165,7 +174,7 @@ fun PdfGenerateLoading() {
                         Spacer(modifier = Modifier.height(25.dp))
 
                         Text(
-                            text = "問題作成中",
+                            text = "PDF生成中",
                             fontSize = 24.sp,
                             color = titleColor,
                             fontWeight = FontWeight.Light,
