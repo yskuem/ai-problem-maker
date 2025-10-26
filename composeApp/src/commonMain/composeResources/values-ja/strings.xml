@@ -88,7 +88,7 @@
 
     <!-- 共有機能 -->
     <string name="share_quiz">クイズを共有</string>
-    <string name="export_quiz_pdf">クイズをPDFで出力</string>
+    <string name="export_quiz_pdf">クイズをPDF出力</string>
     <string name="share_dialog_title">クイズを共有</string>
     <string name="copy_link">リンクをコピー</string>
     <string name="share_with_others">他の人と共有</string>
