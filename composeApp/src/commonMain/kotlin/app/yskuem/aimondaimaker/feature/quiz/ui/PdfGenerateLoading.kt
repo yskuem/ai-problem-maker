@@ -1,5 +1,9 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.pdf_generating_answers_message
+import ai_problem_maker.composeapp.generated.resources.pdf_generating_questions_message
+import ai_problem_maker.composeapp.generated.resources.pdf_generating_title
 import androidx.compose.animation.core.*
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlin.math.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PdfGenerateLoading() {
@@ -109,10 +114,9 @@ fun PdfGenerateLoading() {
     )
 
     // Messages
-    val messages = listOf(
-        "問題のPDFを生成中...",
-        "解答のPDFを生成中..."
-    )
+    val problemMessage = stringResource(Res.string.pdf_generating_questions_message)
+    val answerMessage = stringResource(Res.string.pdf_generating_answers_message)
+    val messages = listOf(problemMessage, answerMessage)
 
     var currentMessageIndex by remember { mutableStateOf(0) }
 
@@ -174,7 +178,7 @@ fun PdfGenerateLoading() {
                         Spacer(modifier = Modifier.height(25.dp))
 
                         Text(
-                            text = "PDF生成中",
+                            text = stringResource(Res.string.pdf_generating_title),
                             fontSize = 24.sp,
                             color = titleColor,
                             fontWeight = FontWeight.Light,

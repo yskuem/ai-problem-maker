@@ -1,27 +1,38 @@
 package app.yskuem.aimondaimaker.core.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
+import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.material3.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * 共通の PDF プレビュー UI。
- * 左上に Download ボタン（onClickDownload）を配置。
+ * 左上に Download ボタン（onClickDownload）を配置し、右上に戻るボタンを配置する。
  */
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun PdfPreviewerOverlayDialog(
     pdf: PdfDocument,
-    title: String = pdf.fileName ?: "PDF",
+    title: String = pdf.fileName ?: "",
     modifier: Modifier = Modifier,
     onCloseViewer: () -> Unit = {},
     onClickDownload: () -> Unit = {}
@@ -39,13 +50,24 @@ fun PdfPreviewerOverlayDialog(
 
             Scaffold(
                 topBar = {
-                    TopAppBar(
-                        title = { Text(title) },
+                    CenterAlignedTopAppBar(
+                        title = {
+                            val appBarTitle = title.takeIf { it.isNotBlank() } ?: stringResource(Res.string.export_quiz_pdf)
+                            Text(appBarTitle)
+                        },
                         navigationIcon = {
                             IconButton(onClick = onClickDownload) {
                                 Icon(
                                     imageVector = Icons.Outlined.Download,
-                                    contentDescription = "Download"
+                                    contentDescription = stringResource(Res.string.export_quiz_pdf)
+                                )
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = onCloseViewer) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                                    contentDescription = stringResource(Res.string.back_to_pre_screen)
                                 )
                             }
                         }

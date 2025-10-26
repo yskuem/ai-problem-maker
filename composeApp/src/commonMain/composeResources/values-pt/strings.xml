@@ -68,6 +68,9 @@
     <!-- Share Feature -->
     <string name="share_quiz">Compartilhar quiz</string>
     <string name="export_quiz_pdf">Exportar o quiz em PDF</string>
+    <string name="pdf_generating_title">Gerando PDF</string>
+    <string name="pdf_generating_questions_message">Gerando o PDF das questões...</string>
+    <string name="pdf_generating_answers_message">Gerando o PDF das respostas...</string>
     <string name="share_dialog_title">Compartilhar quiz</string>
     <string name="copy_link">Copiar link</string>
     <string name="share_with_others">Compartilhar com outros</string>

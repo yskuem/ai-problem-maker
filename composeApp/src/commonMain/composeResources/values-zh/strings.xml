@@ -68,6 +68,9 @@
     <!-- Share Feature -->
     <string name="share_quiz">分享测验</string>
     <string name="export_quiz_pdf">将测验导出为PDF</string>
+    <string name="pdf_generating_title">正在生成 PDF</string>
+    <string name="pdf_generating_questions_message">正在生成试题 PDF...</string>
+    <string name="pdf_generating_answers_message">正在生成解答 PDF...</string>
     <string name="share_dialog_title">分享测验</string>
     <string name="copy_link">复制链接</string>
     <string name="share_with_others">与他人分享</string>
