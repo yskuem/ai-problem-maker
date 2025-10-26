@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,7 +38,8 @@ fun PdfPreviewerOverlayDialog(
     title: String = pdf.fileName ?: "",
     modifier: Modifier = Modifier,
     onCloseViewer: () -> Unit = {},
-    onClickDownload: () -> Unit = {}
+    onClickDownload: () -> Unit = {},
+    isDownloading: Boolean = false,
 ) {
     Dialog(
         onDismissRequest = onCloseViewer,
@@ -70,12 +72,21 @@ fun PdfPreviewerOverlayDialog(
                                 modifier = Modifier
                                     .padding(end = 12.dp)
                                     .size(30.dp),
-                                onClick = onClickDownload) {
-                                Icon(
-                                    modifier = Modifier.size(30.dp),
-                                    imageVector = Icons.Filled.Download,
-                                    contentDescription = stringResource(Res.string.export_quiz_pdf)
-                                )
+                                enabled = !isDownloading,
+                                onClick = onClickDownload,
+                            ) {
+                                if (isDownloading) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        strokeWidth = 2.dp,
+                                    )
+                                } else {
+                                    Icon(
+                                        modifier = Modifier.size(30.dp),
+                                        imageVector = Icons.Filled.Download,
+                                        contentDescription = stringResource(Res.string.export_quiz_pdf)
+                                    )
+                                }
                             }
                         }
                     )

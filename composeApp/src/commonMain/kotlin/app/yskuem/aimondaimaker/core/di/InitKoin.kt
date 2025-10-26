@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.core.di
 
 import app.yskuem.aimondaimaker.core.util.di.openUrlPlatformModule
+import app.yskuem.aimondaimaker.core.util.di.pdfSaverPlatformModule
 import app.yskuem.aimondaimaker.core.util.di.sharePlatformModule
 import app.yskuem.aimondaimaker.core.util.di.storeReviewPlatformModule
 import app.yskuem.aimondaimaker.data.local_db.localDbModule
@@ -29,4 +30,5 @@ val diModules =
         openUrlPlatformModule,
         sharePlatformModule,
         storeReviewPlatformModule,
+        pdfSaverPlatformModule,
     )
