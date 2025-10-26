@@ -107,20 +107,22 @@ class ShowQuizScreenViewModel(
         _savePdfState.value = DataUiState.Initial
     }
 
-    fun onSavePdf(pdfDocument: PdfDocument) {
-        val resolvedFileName = pdfDocument.fileName
+    fun onSavePdf(
+        pdfData: ByteArray,
+        pdfName: String,
+    ) {
         screenModelScope.launch {
             _savePdfState.value = DataUiState.Loading
             try {
                 // suggestedName は拡張子なしを渡し、extension で "pdf" を指定
                 val nameNoExt =
-                    if (resolvedFileName?.endsWith(".pdf", ignoreCase = true) == true)
-                        resolvedFileName.substring(0, resolvedFileName.length - 4)
+                    if (pdfName.endsWith(".pdf", ignoreCase = true))
+                        pdfName.substring(0, pdfName.length - 4)
                     else
-                        resolvedFileName
+                        pdfName
 
                 val dest: PlatformFile? = FileKit.openFileSaver(
-                    suggestedName = nameNoExt ?: "pdf_file",
+                    suggestedName = nameNoExt,
                     extension = "pdf"
                 )
 
@@ -131,7 +133,7 @@ class ShowQuizScreenViewModel(
 
                 // 実書き込みは重い可能性があるので別ディスパッチャへ
                 withContext(Dispatchers.Default) {
-                    dest.write(pdfDocument.bytes)
+                    dest.write(pdfData)
                 }
 
                 _savePdfState.value = DataUiState.Success(Unit)

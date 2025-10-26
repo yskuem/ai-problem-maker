@@ -39,7 +39,7 @@ fun PdfPreviewerOverlayDialog(
     modifier: Modifier = Modifier,
     onCloseViewer: () -> Unit = {},
     onClickSave: () -> Unit = {},
-    isSavingingPdf: Boolean = false,
+    isSavingPdf: Boolean = false,
 ) {
     Dialog(
         onDismissRequest = onCloseViewer,
@@ -72,10 +72,10 @@ fun PdfPreviewerOverlayDialog(
                                 modifier = Modifier
                                     .padding(end = 12.dp)
                                     .size(30.dp),
-                                enabled = !isSavingingPdf,
+                                enabled = !isSavingPdf,
                                 onClick = onClickSave,
                             ) {
-                                if (isSavingingPdf) {
+                                if (isSavingPdf) {
                                     CircularProgressIndicator(
                                         modifier = Modifier.size(24.dp),
                                         strokeWidth = 2.dp,
