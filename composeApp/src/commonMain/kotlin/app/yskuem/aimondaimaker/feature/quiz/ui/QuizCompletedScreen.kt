@@ -77,6 +77,8 @@ import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.core.ui.PdfPreviewerOverlayDialog
+import app.yskuem.aimondaimaker.core.ui.components.PdfSaveResultDialog
+import app.yskuem.aimondaimaker.core.ui.components.PdfSaveResultDialogType
 import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
 import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
@@ -94,9 +96,13 @@ fun QuizCompletedScreen(
     groupId: String,
     quizList: List<Quiz>,
     onRestart: () -> Unit,
-    onPdfExport: () -> Unit,
+    onCreatePdf: () -> Unit,
     onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
+    isSavingPdf: Boolean,
+    onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
+    pdfSaveState: DataUiState<Unit>,
+    onDismissPdfSaveResult: () -> Unit,
 ) {
 
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
@@ -238,7 +244,7 @@ fun QuizCompletedScreen(
 
                         // PDFエクスポート
                         AnimatedActionButton(
-                            onClick = onPdfExport,
+                            onClick = onCreatePdf,
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             icon = Icons.Default.PictureAsPdf,
@@ -279,18 +285,38 @@ fun QuizCompletedScreen(
             PdfGenerateLoading()
         }
         is DataUiState.Success -> {
+            val byte = pdfResponse.data.bytes
+            val filename = pdfResponse.data.filename ?: "quiz.pdf"
+            val pdfDocument = PdfDocument(
+                bytes = byte,
+                fileName = filename,
+            )
             PdfPreviewerOverlayDialog(
-                pdf = PdfDocument(
-                    bytes = pdfResponse.data.bytes,
-                    fileName = pdfResponse.data.filename,
-                ),
+                pdf = pdfDocument,
                 title = exportPdfLabel,
-                onClickDownload = {
-
+                onClickSave = {
+                    onSavePdf(byte,filename)
                 },
+                isSavingPdf = isSavingPdf,
                 onCloseViewer = {
                     onClosePdfViewer()
                 },
+            )
+        }
+    }
+
+    when (pdfSaveState) {
+        DataUiState.Initial, DataUiState.Loading -> {}
+        is DataUiState.Success -> {
+            PdfSaveResultDialog(
+                type = PdfSaveResultDialogType.Success,
+                onDismiss = onDismissPdfSaveResult,
+            )
+        }
+        is DataUiState.Error -> {
+            PdfSaveResultDialog(
+                type = PdfSaveResultDialogType.Failure,
+                onDismiss = onDismissPdfSaveResult,
             )
         }
     }
