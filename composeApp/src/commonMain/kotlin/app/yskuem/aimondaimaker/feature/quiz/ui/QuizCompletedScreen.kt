@@ -283,6 +283,7 @@ fun QuizCompletedScreen(
     )
 
     when(pdfResponse) {
+        is DataUiState.Initial -> {}
         is DataUiState.Error -> {
         }
         is DataUiState.Loading -> {

@@ -1,6 +1,8 @@
 package app.yskuem.aimondaimaker.core.ui
 
 sealed class DataUiState<out T> {
+    data object Initial : DataUiState<Nothing>()
+
     data object Loading : DataUiState<Nothing>()
 
     data class Success<out T>(

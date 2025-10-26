@@ -154,6 +154,7 @@ data class ShowProjectInfoScreen(
                 when (uiState.selectedTabIndex) {
                     0 -> {
                         when (val quizInfoList = uiState.quizInfoList) {
+                            is DataUiState.Initial -> {}
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }
@@ -211,6 +212,7 @@ data class ShowProjectInfoScreen(
                     }
                     1 -> {
                         when (val noteList = uiState.noteList) {
+                            is DataUiState.Initial -> {}
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.domain.status.CheckUpdateStatus
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreen
 import cafe.adriel.voyager.core.screen.Screen
@@ -47,20 +48,13 @@ class UpdateCheckScreen : Screen {
             viewModel.checkUpdate()
         }
         when (val res = state) {
+            is DataUiState.Initial -> {}
             is DataUiState.Error -> {
                 // エラー時はなにもしない
                 navigator?.push(AuthScreen())
             }
             is DataUiState.Loading -> {
-                Box(
-                    modifier =
-                        Modifier
-                            .fillMaxSize(),
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
+                LoadingScreen()
             }
             is DataUiState.Success -> {
                 when (res.data) {
