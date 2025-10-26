@@ -63,18 +63,23 @@ data class CreateQuizScreen(
             is DataUiState.Success -> {
                 QuizApp(
                     quizList = quizList.data,
-                    onPdfExport = {
-                        viewmodel.onPdfExport(
+                    onCreatePdf = {
+                        viewmodel.onCreatePdf(
                             quizList = quizList.data
                         )
                     },
                     onClosePdfViewer = {
                         viewmodel.onClosePdfViewer()
                     },
-                    pdfResponse = state.pdfData
-                ) {
-                    navigator?.pop()
-                }
+                    pdfResponse = state.pdfData,
+                    isSavingPdf = state.pdfSaveState.isLoading,
+                    onBack = {
+                        navigator?.pop()
+                    },
+                    onSavePdf = {
+                        viewmodel.onSavePdf(it)
+                    }
+                )
             }
         }
     }

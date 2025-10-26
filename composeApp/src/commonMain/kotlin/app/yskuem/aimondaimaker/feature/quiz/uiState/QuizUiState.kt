@@ -8,4 +8,5 @@ data class QuizUiState(
     val quizList: DataUiState<List<Quiz>> = DataUiState.Loading,
     val currentQuizListIndex: Int = 0,
     val pdfData: DataUiState<PdfResponse> = DataUiState.Loading,
+    val pdfSaveState: DataUiState<Unit> = DataUiState.Initial,
 )

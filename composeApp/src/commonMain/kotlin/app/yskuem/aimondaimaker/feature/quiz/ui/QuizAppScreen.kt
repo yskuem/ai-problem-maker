@@ -1,17 +1,11 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
 import ai_problem_maker.composeapp.generated.resources.next_question
 import ai_problem_maker.composeapp.generated.resources.question_number_title
 import ai_problem_maker.composeapp.generated.resources.question_progress
-import ai_problem_maker.composeapp.generated.resources.quiz_finished
 import ai_problem_maker.composeapp.generated.resources.score_label
-import ai_problem_maker.composeapp.generated.resources.score_summary
-import ai_problem_maker.composeapp.generated.resources.share_quiz
-import ai_problem_maker.composeapp.generated.resources.try_again
 import ai_problem_maker.composeapp.generated.resources.view_results
-import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -67,6 +61,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import org.jetbrains.compose.resources.stringResource
@@ -75,10 +70,12 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun QuizApp(
     quizList: List<Quiz>,
-    onPdfExport: () -> Unit,
+    onCreatePdf: () -> Unit,
     onClosePdfViewer: () -> Unit,
     pdfResponse: DataUiState<PdfResponse>,
     onBack: () -> Unit,
+    isSavingPdf: Boolean,
+    onSavePdf: (PdfDocument) -> Unit,
 ) {
     var currentQuestion by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
@@ -151,9 +148,11 @@ fun QuizApp(
                             score = 0
                             quizCompleted = false
                         },
-                        onPdfExport = onPdfExport,
+                        onCreatePdf = onCreatePdf,
                         pdfResponse = pdfResponse,
                         onClosePdfViewer = onClosePdfViewer,
+                        isSavingPdf = isSavingPdf,
+                        onSavePdf = onSavePdf,
                     )
                 } else {
                     val currentQuiz = quizList[currentQuestion]

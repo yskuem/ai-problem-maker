@@ -1,6 +1,5 @@
 package app.yskuem.aimondaimaker.feature.di
 
-import app.yskuem.aimondaimaker.core.ui.PdfViewerDownloadViewModel
 import app.yskuem.aimondaimaker.feature.auth.ui.AuthScreenViewModel
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteScreenViewModel
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
@@ -25,12 +24,6 @@ val viewModelModule =
                 projectRepository = get(),
                 crashlytics = get(),
                 pdfRepository = get(),
-            )
-        }
-        factory {
-            PdfViewerDownloadViewModel(
-                pdfSaver = get(),
-                crashlytics = get(),
             )
         }
         factory {
