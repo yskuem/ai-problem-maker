@@ -287,6 +287,7 @@ fun QuizCompletedScreen(
         is DataUiState.Error -> {
         }
         is DataUiState.Loading -> {
+            PdfGenerateLoading()
         }
         is DataUiState.Success -> {
             navigator?.push(
