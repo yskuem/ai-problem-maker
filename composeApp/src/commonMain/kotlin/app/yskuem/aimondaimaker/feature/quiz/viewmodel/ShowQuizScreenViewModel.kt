@@ -2,7 +2,9 @@ package app.yskuem.aimondaimaker.feature.quiz.viewmodel
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
+import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.domain.data.repository.PdfRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ShowQuizScreenViewModel(
@@ -21,18 +24,22 @@ class ShowQuizScreenViewModel(
     private val quizRepository: QuizRepository,
     private val projectRepository: ProjectRepository,
     private val crashlytics: FirebaseCrashlytics,
+    private val pdfRepository: PdfRepository,
 ) : ScreenModel {
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
+    private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Loading)
 
     val uiState: StateFlow<QuizUiState> =
         combine(
             _quizList,
             _currentQuizIndex,
-        ) { quizList, currentQuizListIndex ->
+            _pdfData,
+        ) { quizList, currentQuizListIndex, pdfData ->
             QuizUiState(
                 quizList = quizList,
                 currentQuizListIndex = currentQuizListIndex,
+                pdfData = pdfData,
             )
         }.stateIn(
             scope = screenModelScope,
@@ -60,6 +67,21 @@ class ShowQuizScreenViewModel(
                 quizList = quizList,
                 projectId = projectId,
             )
+        }
+    }
+
+    fun onPdfExport(
+        quizList: List<Quiz>,
+        isColorMode: Boolean = true,
+    ) {
+        screenModelScope.launch {
+            val res = pdfRepository.createQuizPdf(
+                quizList = quizList,
+                isColorModel = isColorMode,
+            )
+            _pdfData.update {
+                DataUiState.Success(res)
+            }
         }
     }
 
