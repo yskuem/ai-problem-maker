@@ -463,7 +463,7 @@ fun PercentageRing(
                     useCenter = false,
                     style = stroke,
                     topLeft = Offset(inset, inset),
-                    size = androidx.compose.ui.geometry.Size(diameterW, diameterH)
+                    size = Size(diameterW, diameterH)
                 )
             }
         }
