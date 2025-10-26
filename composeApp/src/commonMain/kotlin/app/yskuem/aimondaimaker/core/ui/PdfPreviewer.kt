@@ -56,18 +56,19 @@ fun PdfPreviewerOverlayDialog(
                             Text(appBarTitle)
                         },
                         navigationIcon = {
-                            IconButton(onClick = onClickDownload) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Download,
-                                    contentDescription = stringResource(Res.string.export_quiz_pdf)
-                                )
-                            }
-                        },
-                        actions = {
                             IconButton(onClick = onCloseViewer) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                                     contentDescription = stringResource(Res.string.back_to_pre_screen)
+                                )
+                            }
+                        },
+                        actions = {
+                            IconButton(
+                                onClick = onClickDownload) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Download,
+                                    contentDescription = stringResource(Res.string.export_quiz_pdf)
                                 )
                             }
                         }
