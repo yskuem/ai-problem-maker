@@ -97,6 +97,10 @@
     <string name="share_with_others">Поделиться с другими</string>
     <string name="link_copied">Ссылка скопирована</string>
     <string name="close">Закрыть</string>
+    <string name="pdf_save_success_title">PDF сохранён</string>
+    <string name="pdf_save_success_message">Ваш PDF успешно сохранён.</string>
+    <string name="pdf_save_failure_title">Сбой сохранения</string>
+    <string name="pdf_save_failure_message">Не удалось сохранить PDF. Попробуйте ещё раз.</string>
 
     <!-- Обновление -->
     <string name="force_update_title">Требуется обновление</string>

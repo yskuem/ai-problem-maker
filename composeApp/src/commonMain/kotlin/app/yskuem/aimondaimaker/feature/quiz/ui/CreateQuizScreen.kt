@@ -81,6 +81,10 @@ data class CreateQuizScreen(
                             pdfData = pdfData,
                             pdfName = pdfName,
                         )
+                    },
+                    pdfSaveState = state.pdfSaveState,
+                    onDismissPdfSaveResult = {
+                        viewmodel.onDismissSavePdfResult()
                     }
                 )
             }

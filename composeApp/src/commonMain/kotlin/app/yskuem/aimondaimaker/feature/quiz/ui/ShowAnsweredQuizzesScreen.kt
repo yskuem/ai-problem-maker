@@ -55,6 +55,10 @@ class ShowAnsweredQuizzesScreen private constructor(
                     pdfData = pdfDate,
                     pdfName = pdfName,
                 )
+            },
+            pdfSaveState = state.pdfSaveState,
+            onDismissPdfSaveResult = {
+                viewmodel.onDismissSavePdfResult()
             }
         )
     }

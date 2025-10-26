@@ -96,6 +96,10 @@
     <string name="share_with_others">Share with Others</string>
     <string name="link_copied">Link Copied</string>
     <string name="close">Close</string>
+    <string name="pdf_save_success_title">PDF Saved</string>
+    <string name="pdf_save_success_message">Your PDF was saved successfully.</string>
+    <string name="pdf_save_failure_title">Save Failed</string>
+    <string name="pdf_save_failure_message">The PDF could not be saved. Please try again.</string>
 
     <!-- Update -->
     <string name="force_update_title">Update Required</string>

@@ -97,6 +97,10 @@
     <string name="share_with_others">Mit anderen teilen</string>
     <string name="link_copied">Link kopiert</string>
     <string name="close">Schließen</string>
+    <string name="pdf_save_success_title">PDF gespeichert</string>
+    <string name="pdf_save_success_message">Dein PDF wurde erfolgreich gespeichert.</string>
+    <string name="pdf_save_failure_title">Speichern fehlgeschlagen</string>
+    <string name="pdf_save_failure_message">Das PDF konnte nicht gespeichert werden. Bitte versuche es erneut.</string>
 
     <!-- Update -->
     <string name="force_update_title">Aktualisierung erforderlich</string>
