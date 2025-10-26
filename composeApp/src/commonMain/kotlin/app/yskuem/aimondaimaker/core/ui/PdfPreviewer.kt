@@ -5,8 +5,10 @@ import ai_problem_maker.composeapp.generated.resources.back_to_pre_screen
 import ai_problem_maker.composeapp.generated.resources.export_quiz_pdf
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
@@ -65,9 +68,13 @@ fun PdfPreviewerOverlayDialog(
                         },
                         actions = {
                             IconButton(
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .size(30.dp),
                                 onClick = onClickDownload) {
                                 Icon(
-                                    imageVector = Icons.Outlined.Download,
+                                    modifier = Modifier.size(30.dp),
+                                    imageVector = Icons.Filled.Download,
                                     contentDescription = stringResource(Res.string.export_quiz_pdf)
                                 )
                             }
