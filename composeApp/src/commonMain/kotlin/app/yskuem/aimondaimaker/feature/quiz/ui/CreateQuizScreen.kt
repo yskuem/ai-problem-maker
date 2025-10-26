@@ -76,9 +76,9 @@ data class CreateQuizScreen(
                     onBack = {
                         navigator?.pop()
                     },
-                    onSavePdf = { pdfDate, pdfName ->
+                    onSavePdf = { pdfData, pdfName ->
                         viewmodel.onSavePdf(
-                            pdfData = pdfDate,
+                            pdfData = pdfData,
                             pdfName = pdfName,
                         )
                     }
