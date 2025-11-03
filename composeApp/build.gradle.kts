@@ -99,6 +99,8 @@ kotlin {
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.compose.multiplatform.media.player)
+            implementation(libs.kmp.onboarding)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

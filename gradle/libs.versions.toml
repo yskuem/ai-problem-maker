@@ -40,6 +40,8 @@ mokkery = "2.9.0"
 kotlin-coroutines = "1.10.2"
 turbine = "1.2.1"
 kotlinx-datetime = "0.7.1-0.6.x-compat"
+composeMultiplatformMediaPlayer = "1.0.35"
+kmp-onboarding = "1.0.2"
 
 
 [libraries]
@@ -119,6 +121,8 @@ desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref 
 mokkery-core = { group = "dev.mokkery", name = "mokkery-core", version.ref = "mokkery" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+compose-multiplatform-media-player = { module = "network.chaintech:compose-multiplatform-media-player", version.ref = "composeMultiplatformMediaPlayer" }
+kmp-onboarding = { module = "io.github.yskuem:kmp-onboarding", version.ref = "kmp-onboarding" }
 
 
 
