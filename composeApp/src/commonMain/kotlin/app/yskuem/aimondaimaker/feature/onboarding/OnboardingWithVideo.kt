@@ -24,6 +24,7 @@ import io.github.yskuem.onboarding.api.PageViewModel
 fun OnboardingWithVideo(
     onDone: () -> Unit = { }
 ) {
+    // TODO: アスペクト比を端末に合わせて変更する（ipadなど）
     val pages = listOf(
         PageViewModel(
             titleWidget = {
