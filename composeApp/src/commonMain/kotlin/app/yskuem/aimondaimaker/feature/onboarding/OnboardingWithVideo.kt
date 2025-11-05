@@ -138,7 +138,7 @@ fun OnboardingWithVideo(
             skip = { Text("Skip") },
             next = { Text("Next") },
             back = { Text("Back") },
-            done = { Text("Done") },
+            done = { Text("Start") },
             onSkip = {},
             onDone = { onDone() },
             dotsContainerStyle = DotsContainerStyle(
