@@ -16,7 +16,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     AiProblemMakerTheme {
         GlobalToastContainer {
-            Navigator(AppIntroductionScreen()) { navigator ->
+            Navigator(UpdateCheckScreen()) { navigator ->
                 FadeTransition(
                     navigator = navigator,
                     animationSpec = spring(stiffness = Spring.StiffnessLow),
