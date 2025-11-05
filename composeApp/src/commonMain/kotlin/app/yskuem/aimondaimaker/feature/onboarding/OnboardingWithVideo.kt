@@ -21,11 +21,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import app.yskuem.aimondaimaker.core.generated.resources.Res
 import app.yskuem.aimondaimaker.core.ui.components.LoopingVideoPlayer
 import io.github.yskuem.onboarding.api.DotsContainerStyle
 import io.github.yskuem.onboarding.api.IntroductionScreen
 import io.github.yskuem.onboarding.api.PageDecoration
 import io.github.yskuem.onboarding.api.PageViewModel
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -56,13 +58,13 @@ fun OnboardingWithVideo(
             PageViewModel(
                 titleWidget = {
                     Text(
-                        text = "写真から復習問題を自動作成！",
+                        text = stringResource(Res.string.onboarding_page1_title),
                         color = Color.Black,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 },
-                body = "参考書やノートの写真を撮るだけで、AIが自動でその内容に基づいた復習問題を作成します。",
+                body = stringResource(Res.string.onboarding_page1_body),
                 image = {
                     LoopingVideoPlayer(
                         url = getOnboardingVideoUrl(pageIndex = 0),
@@ -74,13 +76,13 @@ fun OnboardingWithVideo(
             PageViewModel(
                 titleWidget = {
                     Text(
-                        text = "写真から電子ノートを自動作成！",
+                        text = stringResource(Res.string.onboarding_page2_title),
                         color = Color.Black,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 },
-                body = "参考書やノートの写真を撮るだけで、AIが自動でその内容に基づいた電子ノートを作成します。",
+                body = stringResource(Res.string.onboarding_page2_body),
                 image = {
                     LoopingVideoPlayer(
                         url = getOnboardingVideoUrl(pageIndex = 1),
@@ -92,13 +94,13 @@ fun OnboardingWithVideo(
             PageViewModel(
                 titleWidget = {
                     Text(
-                        text = "参考書を持ち歩かないで電車の中でも勉強ができる！",
+                        text = stringResource(Res.string.onboarding_page3_title),
                         color = Color.Black,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 },
-                body = "AIが作成した復習問題と電子ノートをスマホでいつでもどこでも確認できます。",
+                body = stringResource(Res.string.onboarding_page3_body),
                 image = {
                     LoopingVideoPlayer(
                         url = getOnboardingVideoUrl(pageIndex = 2),
@@ -110,13 +112,13 @@ fun OnboardingWithVideo(
             PageViewModel(
                 titleWidget = {
                     Text(
-                        text = "点数が上がって試験に合格！",
+                        text = stringResource(Res.string.onboarding_page4_title),
                         color = Color.Black,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 },
-                body = "AIが作成した復習問題や電子ノートで効率的に学習し、試験で高得点を目指しましょう！",
+                body = stringResource(Res.string.onboarding_page4_body),
                 image = {
                     LoopingVideoPlayer(
                         url = getOnboardingVideoUrl(pageIndex = 3),
@@ -133,10 +135,10 @@ fun OnboardingWithVideo(
             showNextButton = true,
             showBackButton = true,
             showDoneButton = true,
-            skip = { Text("Skip") },
-            next = { Text("Next") },
-            back = { Text("Back") },
-            done = { Text("Start") },
+            skip = { Text(stringResource(Res.string.onboarding_skip)) },
+            next = { Text(stringResource(Res.string.onboarding_next)) },
+            back = { Text(stringResource(Res.string.onboarding_back)) },
+            done = { Text(stringResource(Res.string.onboarding_start)) },
             onSkip = {},
             onDone = { onDone() },
             dotsContainerStyle = DotsContainerStyle(
