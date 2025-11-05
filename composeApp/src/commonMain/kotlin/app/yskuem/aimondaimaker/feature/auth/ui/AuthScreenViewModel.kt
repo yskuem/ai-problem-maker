@@ -9,36 +9,45 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AuthScreenViewModel(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) : ScreenModel {
-    private val _hasError = MutableStateFlow(false)
-    private val _isLoginSuccess = MutableStateFlow(false)
-    val hasError: StateFlow<Boolean> = _hasError.asStateFlow()
-    val isLoginSuccess: StateFlow<Boolean> = _isLoginSuccess.asStateFlow()
+
+    private val _uiState = MutableStateFlow(AuthScreenState())
+    val uiState: StateFlow<AuthScreenState> = _uiState.asStateFlow()
 
     fun login() {
         screenModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
             val result =
                 runCatching {
                     val currentUser = authRepository.getUser()
                     if (currentUser == null) {
                         authRepository.signInAnonymous()
                         userRepository.saveUser()
+                        _uiState.update {
+                            it.copy(isInitialLoginUser = true)
+                        }
                     }
                     println("Login successful: ${authRepository.getUserId()}")
                 }
             result
                 .onSuccess {
-                    _isLoginSuccess.value = true
+                    _uiState.update {
+                        it.copy(isLoginSuccessful = true)
+                    }
                     println("Login successful")
                 }.onFailure {
-                    _hasError.value = true
+                    _uiState.update { state ->
+                        state.copy(isLoginSuccessful = false)
+                    }
                     println("Login failed: ${it.message}")
                 }
+            _uiState.update { it.copy(isLoading = false) }
         }
     }
 }

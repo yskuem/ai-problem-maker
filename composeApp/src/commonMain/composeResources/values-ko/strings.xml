@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- 온보딩 -->
+    <string name="onboarding_page1_title">사진으로 복습 문제를 자동 생성하세요!</string>
+    <string name="onboarding_page1_body">교재나 노트를 촬영하기만 하면 AI가 내용을 기반으로 복습 문제를 자동으로 만들어 줍니다.</string>
+    <string name="onboarding_page2_title">사진으로 전자 노트를 자동 생성하세요!</string>
+    <string name="onboarding_page2_body">교재나 노트를 촬영하기만 하면 AI가 내용을 기반으로 전자 노트를 자동으로 만들어 줍니다.</string>
+    <string name="onboarding_page3_title">교재 없이도 전철에서 학습하세요!</string>
+    <string name="onboarding_page3_body">AI가 만든 복습 문제와 전자 노트를 스마트폰에서 언제 어디서나 확인할 수 있습니다.</string>
+    <string name="onboarding_page4_title">점수를 올리고 시험에 합격하세요!</string>
+    <string name="onboarding_page4_body">AI가 만든 복습 문제와 전자 노트로 효율적으로 학습하고 시험에서 높은 점수를 목표로 하세요!</string>
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_next">다음</string>
+    <string name="onboarding_back">뒤로</string>
+    <string name="onboarding_start">시작하기</string>
+
     <!-- New Project -->
     <string name="new_project">새 프로젝트</string>
     <string name="search_project">프로젝트 검색...</string>

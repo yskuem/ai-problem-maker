@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Erstelle automatisch Wiederholungsfragen aus Fotos!</string>
+    <string name="onboarding_page1_body">Fotografiere einfach deine Lehrbücher oder Notizen, und die KI erstellt automatisch Wiederholungsfragen basierend auf dem Inhalt.</string>
+    <string name="onboarding_page2_title">Erstelle automatisch digitale Notizen aus Fotos!</string>
+    <string name="onboarding_page2_body">Fotografiere einfach deine Lehrbücher oder Notizen, und die KI erstellt automatisch digitale Notizen basierend auf dem Inhalt.</string>
+    <string name="onboarding_page3_title">Lerne im Zug, ohne Lehrbücher mitzunehmen!</string>
+    <string name="onboarding_page3_body">Überprüfe die von der KI erstellten Wiederholungsfragen und digitalen Notizen jederzeit und überall auf deinem Smartphone.</string>
+    <string name="onboarding_page4_title">Verbessere deine Noten und bestehe Prüfungen!</string>
+    <string name="onboarding_page4_body">Lerne effizient mit den von der KI erstellten Wiederholungsfragen und digitalen Notizen, um in Prüfungen hohe Punktzahlen zu erreichen!</string>
+    <string name="onboarding_skip">Überspringen</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_back">Zurück</string>
+    <string name="onboarding_start">Starten</string>
+
     <!-- New Project -->
     <string name="new_project">Neues Projekt</string>
     <string name="search_project">Projekte suchen...</string>
