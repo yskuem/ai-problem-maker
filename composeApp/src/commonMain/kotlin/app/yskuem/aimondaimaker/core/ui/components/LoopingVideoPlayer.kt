@@ -13,17 +13,17 @@ import chaintech.videoplayer.ui.video.VideoPlayerComposable
 @Composable
 fun LoopingVideoPlayer(
     url: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
-    val playerHost = remember {
-        MediaPlayerHost(
-            mediaUrl = url,
-            isPaused = false,
-            isMuted = false,
-            isLooping = true
-        )
-    }
+    val playerHost =
+        remember {
+            MediaPlayerHost(
+                mediaUrl = url,
+                isPaused = false,
+                isMuted = false,
+                isLooping = true,
+            )
+        }
 
     playerHost.onEvent = { event ->
         if (event == MediaPlayerEvent.MediaEnd) {
@@ -35,15 +35,16 @@ fun LoopingVideoPlayer(
     VideoPlayerComposable(
         modifier = modifier.fillMaxSize(),
         playerHost = playerHost,
-        playerConfig = VideoPlayerConfig(
-            showControls = false,
-            isSeekBarVisible = false,
-            isDurationVisible = false,
-            isSpeedControlEnabled = false,
-            isFullScreenEnabled = false,
-            isMuteControlEnabled = false,
-            isFastForwardBackwardEnabled = false,
-        )
+        playerConfig =
+            VideoPlayerConfig(
+                showControls = false,
+                isSeekBarVisible = false,
+                isDurationVisible = false,
+                isSpeedControlEnabled = false,
+                isFullScreenEnabled = false,
+                isMuteControlEnabled = false,
+                isFastForwardBackwardEnabled = false,
+            ),
     )
 
     DisposableEffect(Unit) {

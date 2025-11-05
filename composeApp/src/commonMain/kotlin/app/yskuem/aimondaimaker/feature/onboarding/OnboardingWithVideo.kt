@@ -29,105 +29,103 @@ import io.github.yskuem.onboarding.api.PageDecoration
 import io.github.yskuem.onboarding.api.PageViewModel
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
-fun OnboardingWithVideo(
-    onDone: () -> Unit = { }
-) {
-
+fun OnboardingWithVideo(onDone: () -> Unit = { }) {
     val density = LocalDensity.current
     var screenHeightDp by remember { mutableStateOf(0.dp) }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .onGloballyPositioned { coords ->
-                screenHeightDp = with(density) { coords.size.height.toDp() }
-            }
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .onGloballyPositioned { coords ->
+                    screenHeightDp = with(density) { coords.size.height.toDp() }
+                },
     ) {
-
         val targetHeight = (screenHeightDp * 0.75f).let { if (it > 0.dp) it else 300.dp }
         val targetWidth = targetHeight * (9f / 16f)
-        val videoModifier = Modifier
-            .width(targetWidth)
-            .height(targetHeight)
-            .clip(RoundedCornerShape(16.dp))
-            .padding(20.dp)
+        val videoModifier =
+            Modifier
+                .width(targetWidth)
+                .height(targetHeight)
+                .clip(RoundedCornerShape(16.dp))
+                .padding(20.dp)
 
-        val pages = listOf(
-            PageViewModel(
-                titleWidget = {
-                    Text(
-                        text = stringResource(Res.string.onboarding_page1_title),
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-                body = stringResource(Res.string.onboarding_page1_body),
-                image = {
-                    LoopingVideoPlayer(
-                        url = getOnboardingVideoUrl(pageIndex = 0),
-                        modifier = videoModifier
-                    )
-                },
-                decoration = PageDecoration(pageColor = Color.White)
-            ),
-            PageViewModel(
-                titleWidget = {
-                    Text(
-                        text = stringResource(Res.string.onboarding_page2_title),
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-                body = stringResource(Res.string.onboarding_page2_body),
-                image = {
-                    LoopingVideoPlayer(
-                        url = getOnboardingVideoUrl(pageIndex = 1),
-                        modifier = videoModifier
-                    )
-                },
-                decoration = PageDecoration(pageColor = Color.White)
-            ),
-            PageViewModel(
-                titleWidget = {
-                    Text(
-                        text = stringResource(Res.string.onboarding_page3_title),
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-                body = stringResource(Res.string.onboarding_page3_body),
-                image = {
-                    LoopingVideoPlayer(
-                        url = getOnboardingVideoUrl(pageIndex = 2),
-                        modifier = videoModifier
-                    )
-                },
-                decoration = PageDecoration(pageColor = Color.White)
-            ),
-            PageViewModel(
-                titleWidget = {
-                    Text(
-                        text = stringResource(Res.string.onboarding_page4_title),
-                        color = Color.Black,
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-                body = stringResource(Res.string.onboarding_page4_body),
-                image = {
-                    LoopingVideoPlayer(
-                        url = getOnboardingVideoUrl(pageIndex = 3),
-                        modifier = videoModifier
-                    )
-                },
-                decoration = PageDecoration(pageColor = Color.White)
+        val pages =
+            listOf(
+                PageViewModel(
+                    titleWidget = {
+                        Text(
+                            text = stringResource(Res.string.onboarding_page1_title),
+                            color = Color.Black,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    },
+                    body = stringResource(Res.string.onboarding_page1_body),
+                    image = {
+                        LoopingVideoPlayer(
+                            url = getOnboardingVideoUrl(pageIndex = 0),
+                            modifier = videoModifier,
+                        )
+                    },
+                    decoration = PageDecoration(pageColor = Color.White),
+                ),
+                PageViewModel(
+                    titleWidget = {
+                        Text(
+                            text = stringResource(Res.string.onboarding_page2_title),
+                            color = Color.Black,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    },
+                    body = stringResource(Res.string.onboarding_page2_body),
+                    image = {
+                        LoopingVideoPlayer(
+                            url = getOnboardingVideoUrl(pageIndex = 1),
+                            modifier = videoModifier,
+                        )
+                    },
+                    decoration = PageDecoration(pageColor = Color.White),
+                ),
+                PageViewModel(
+                    titleWidget = {
+                        Text(
+                            text = stringResource(Res.string.onboarding_page3_title),
+                            color = Color.Black,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    },
+                    body = stringResource(Res.string.onboarding_page3_body),
+                    image = {
+                        LoopingVideoPlayer(
+                            url = getOnboardingVideoUrl(pageIndex = 2),
+                            modifier = videoModifier,
+                        )
+                    },
+                    decoration = PageDecoration(pageColor = Color.White),
+                ),
+                PageViewModel(
+                    titleWidget = {
+                        Text(
+                            text = stringResource(Res.string.onboarding_page4_title),
+                            color = Color.Black,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    },
+                    body = stringResource(Res.string.onboarding_page4_body),
+                    image = {
+                        LoopingVideoPlayer(
+                            url = getOnboardingVideoUrl(pageIndex = 3),
+                            modifier = videoModifier,
+                        )
+                    },
+                    decoration = PageDecoration(pageColor = Color.White),
+                ),
             )
-        )
 
         IntroductionScreen(
             pages = pages,
@@ -141,10 +139,11 @@ fun OnboardingWithVideo(
             done = { Text(stringResource(Res.string.onboarding_start)) },
             onSkip = {},
             onDone = { onDone() },
-            dotsContainerStyle = DotsContainerStyle(
-                containerColor = Color.Transparent,
-                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
-            )
+            dotsContainerStyle =
+                DotsContainerStyle(
+                    containerColor = Color.Transparent,
+                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
+                ),
         )
     }
 }

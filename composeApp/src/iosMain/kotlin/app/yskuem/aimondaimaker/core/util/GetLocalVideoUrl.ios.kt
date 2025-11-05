@@ -8,8 +8,9 @@ actual fun getLocalVideoUrl(
     androidFileId: Int?,
     type: String,
 ): String {
-    if(iOSFilename == null) {
+    if (iOSFilename == null) {
         throw IllegalArgumentException("iOS filename must be provided for iOS platform")
     }
-    return platform.Foundation.NSBundle.mainBundle.pathForResource(name = iOSFilename, ofType = type)!!
+    return platform.Foundation.NSBundle.mainBundle
+        .pathForResource(name = iOSFilename, ofType = type)!!
 }

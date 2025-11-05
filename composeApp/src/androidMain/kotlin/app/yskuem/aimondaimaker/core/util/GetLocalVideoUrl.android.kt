@@ -9,9 +9,9 @@ actual fun getLocalVideoUrl(
     androidFileId: Int?,
     type: String,
 ): String {
-    if(androidFileId == null) {
+    if (androidFileId == null) {
         throw IllegalArgumentException("Android file ID must be provided for Android platform")
     }
     val context = LocalContext.current
-    return "android.resource://${context.packageName}/${androidFileId}"
+    return "android.resource://${context.packageName}/$androidFileId"
 }
