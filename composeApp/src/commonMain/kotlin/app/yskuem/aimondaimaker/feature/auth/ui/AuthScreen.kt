@@ -31,7 +31,7 @@ class AuthScreen : Screen {
             viewModel.login()
         }
         LaunchedEffect(uiState.value.isLoginSuccessful) {
-            if(!uiState.value.isLoginSuccessful) {
+            if (!uiState.value.isLoginSuccessful) {
                 return@LaunchedEffect
             }
             if (uiState.value.isInitialLoginUser) {

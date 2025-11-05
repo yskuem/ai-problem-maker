@@ -16,7 +16,6 @@ class AuthScreenViewModel(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) : ScreenModel {
-
     private val _uiState = MutableStateFlow(AuthScreenState())
     val uiState: StateFlow<AuthScreenState> = _uiState.asStateFlow()
 
