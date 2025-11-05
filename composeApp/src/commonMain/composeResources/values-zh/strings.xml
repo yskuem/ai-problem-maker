@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">拍张照片即可自动生成复习题！</string>
+    <string name="onboarding_page1_body">只需拍下课本或笔记，AI 就会根据内容自动生成复习题。</string>
+    <string name="onboarding_page2_title">拍张照片即可自动生成电子笔记！</string>
+    <string name="onboarding_page2_body">只需拍下课本或笔记，AI 就会根据内容自动生成电子笔记。</string>
+    <string name="onboarding_page3_title">不用带课本也能在电车上学习！</string>
+    <string name="onboarding_page3_body">随时随地在手机上查看 AI 生成的复习题和电子笔记。</string>
+    <string name="onboarding_page4_title">提升分数，顺利通过考试！</string>
+    <string name="onboarding_page4_body">利用 AI 生成的复习题和电子笔记高效学习，冲刺高分通过考试！</string>
+    <string name="onboarding_skip">跳过</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_back">返回</string>
+    <string name="onboarding_start">开始</string>
+
     <!-- New Project -->
     <string name="new_project">新建项目</string>
     <string name="search_project">搜索项目...</string>

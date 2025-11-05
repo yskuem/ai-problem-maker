@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Crie automaticamente questões de revisão a partir de fotos!</string>
+    <string name="onboarding_page1_body">Basta fotografar seus livros ou anotações, e a IA gera automaticamente questões de revisão com base no conteúdo.</string>
+    <string name="onboarding_page2_title">Crie automaticamente notas digitais a partir de fotos!</string>
+    <string name="onboarding_page2_body">Basta fotografar seus livros ou anotações, e a IA gera automaticamente notas digitais com base no conteúdo.</string>
+    <string name="onboarding_page3_title">Estude no trem sem carregar livros!</string>
+    <string name="onboarding_page3_body">Acesse a qualquer hora no seu smartphone as questões de revisão e as notas digitais geradas pela IA.</string>
+    <string name="onboarding_page4_title">Melhore suas notas e passe nas provas!</string>
+    <string name="onboarding_page4_body">Estude de forma eficiente com as questões de revisão e as notas digitais geradas pela IA para conquistar altas pontuações nas provas!</string>
+    <string name="onboarding_skip">Pular</string>
+    <string name="onboarding_next">Avançar</string>
+    <string name="onboarding_back">Voltar</string>
+    <string name="onboarding_start">Começar</string>
+
     <!-- New Project -->
     <string name="new_project">Novo projeto</string>
     <string name="search_project">Pesquisar projetos...</string>

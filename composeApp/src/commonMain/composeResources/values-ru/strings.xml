@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Автоматически создавайте вопросы для повторения из фото!</string>
+    <string name="onboarding_page1_body">Просто сфотографируйте учебники или конспекты, и ИИ автоматически составит вопросы для повторения по их содержанию.</string>
+    <string name="onboarding_page2_title">Автоматически создавайте цифровые конспекты из фото!</string>
+    <string name="onboarding_page2_body">Просто сфотографируйте учебники или конспекты, и ИИ автоматически создаст цифровые заметки по их содержанию.</string>
+    <string name="onboarding_page3_title">Учитесь в поезде без учебников!</string>
+    <string name="onboarding_page3_body">Просматривайте созданные ИИ вопросы для повторения и цифровые конспекты в любое время и в любом месте со своего смартфона.</string>
+    <string name="onboarding_page4_title">Повышайте оценки и сдавайте экзамены!</string>
+    <string name="onboarding_page4_body">Учитесь эффективно с вопросами для повторения и цифровыми конспектами, созданными ИИ, чтобы добиться высоких результатов на экзаменах!</string>
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_back">Назад</string>
+    <string name="onboarding_start">Начать</string>
+
     <!-- New Project -->
     <string name="new_project">Новый проект</string>
     <string name="search_project">Поиск проектов...</string>

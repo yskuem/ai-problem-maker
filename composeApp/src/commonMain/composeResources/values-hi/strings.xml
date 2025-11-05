@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- ऑनबोर्डिंग -->
+    <string name="onboarding_page1_title">फ़ोटो से पुनरावृत्ति प्रश्न स्वतः बनाएं!</string>
+    <string name="onboarding_page1_body">बस अपने पाठ्यपुस्तक या नोट्स की फोटो लें, और AI उसके आधार पर पुनरावृत्ति प्रश्न तैयार कर देगा।</string>
+    <string name="onboarding_page2_title">फ़ोटो से डिजिटल नोट्स स्वतः बनाएं!</string>
+    <string name="onboarding_page2_body">बस अपने पाठ्यपुस्तक या नोट्स की फोटो लें, और AI उसके आधार पर डिजिटल नोट्स तैयार कर देगा।</string>
+    <string name="onboarding_page3_title">पुस्तकें साथ लाए बिना ट्रेन में भी पढ़ें!</string>
+    <string name="onboarding_page3_body">AI द्वारा बनाए गए पुनरावृत्ति प्रश्न और डिजिटल नोट्स को अपने स्मार्टफ़ोन पर कभी भी, कहीं भी देखें।</string>
+    <string name="onboarding_page4_title">अंक बढ़ाएँ और परीक्षा में सफल हों!</string>
+    <string name="onboarding_page4_body">AI द्वारा बनाए गए पुनरावृत्ति प्रश्न और डिजिटल नोट्स के साथ प्रभावी ढंग से पढ़ें और परीक्षाओं में उच्च अंक हासिल करें!</string>
+    <string name="onboarding_skip">छोड़ें</string>
+    <string name="onboarding_next">आगे</string>
+    <string name="onboarding_back">वापस</string>
+    <string name="onboarding_start">शुरू करें</string>
+
     <!-- New Project -->
     <string name="new_project">नई परियोजना</string>
     <string name="search_project">परियोजनाएँ खोजें...</string>
