@@ -13,6 +13,7 @@
     <string name="onboarding_next">Далее</string>
     <string name="onboarding_back">Назад</string>
     <string name="onboarding_start">Начать</string>
+    <string name="onboarding_toggle_sound">Вкл./выкл. звук</string>
 
     <!-- New Project -->
     <string name="new_project">Новый проект</string>

@@ -13,6 +13,7 @@
     <string name="onboarding_next">Avançar</string>
     <string name="onboarding_back">Voltar</string>
     <string name="onboarding_start">Começar</string>
+    <string name="onboarding_toggle_sound">Ativar/desativar som</string>
 
     <!-- New Project -->
     <string name="new_project">Novo projeto</string>
