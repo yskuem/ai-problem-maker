@@ -67,6 +67,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 0),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -85,6 +86,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 1),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -103,6 +105,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 2),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -121,6 +124,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 3),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
