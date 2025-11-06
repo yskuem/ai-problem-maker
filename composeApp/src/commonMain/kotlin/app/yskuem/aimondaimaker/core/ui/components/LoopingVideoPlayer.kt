@@ -14,13 +14,14 @@ import chaintech.videoplayer.ui.video.VideoPlayerComposable
 fun LoopingVideoPlayer(
     url: String,
     modifier: Modifier = Modifier,
+    isMuted: Boolean = false,
 ) {
     val playerHost =
         remember {
             MediaPlayerHost(
                 mediaUrl = url,
                 isPaused = false,
-                isMuted = false,
+                isMuted = isMuted,
                 isLooping = true,
             )
         }

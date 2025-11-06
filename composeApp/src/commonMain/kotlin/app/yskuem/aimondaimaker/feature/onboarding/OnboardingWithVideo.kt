@@ -1,5 +1,18 @@
 package app.yskuem.aimondaimaker.feature.onboarding
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.onboarding_back
+import ai_problem_maker.composeapp.generated.resources.onboarding_next
+import ai_problem_maker.composeapp.generated.resources.onboarding_page1_body
+import ai_problem_maker.composeapp.generated.resources.onboarding_page1_title
+import ai_problem_maker.composeapp.generated.resources.onboarding_page2_body
+import ai_problem_maker.composeapp.generated.resources.onboarding_page2_title
+import ai_problem_maker.composeapp.generated.resources.onboarding_page3_body
+import ai_problem_maker.composeapp.generated.resources.onboarding_page3_title
+import ai_problem_maker.composeapp.generated.resources.onboarding_page4_body
+import ai_problem_maker.composeapp.generated.resources.onboarding_page4_title
+import ai_problem_maker.composeapp.generated.resources.onboarding_skip
+import ai_problem_maker.composeapp.generated.resources.onboarding_start
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +34,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.yskuem.aimondaimaker.core.generated.resources.Res
 import app.yskuem.aimondaimaker.core.ui.components.LoopingVideoPlayer
 import io.github.yskuem.onboarding.api.DotsContainerStyle
 import io.github.yskuem.onboarding.api.IntroductionScreen
@@ -67,6 +79,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 0),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -85,6 +98,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 1),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -103,6 +117,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 2),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
@@ -121,6 +136,7 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
                         LoopingVideoPlayer(
                             url = getOnboardingVideoUrl(pageIndex = 3),
                             modifier = videoModifier,
+                            isMuted = true,
                         )
                     },
                     decoration = PageDecoration(pageColor = Color.White),
