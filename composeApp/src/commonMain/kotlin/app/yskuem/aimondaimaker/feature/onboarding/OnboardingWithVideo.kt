@@ -15,18 +15,19 @@ import ai_problem_maker.composeapp.generated.resources.onboarding_skip
 import ai_problem_maker.composeapp.generated.resources.onboarding_start
 import ai_problem_maker.composeapp.generated.resources.onboarding_toggle_sound
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
-import androidx.compose.material.icons.filled.VolumeOff
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -71,13 +72,18 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
         val videoContainerModifier =
             Modifier
                 .width(targetWidth)
-                .height(targetHeight)
                 .padding(20.dp)
+
+        val videoModifier =
+            Modifier
+                .height(targetHeight)
+                .fillMaxWidth()
 
         val onboardingVideo: @Composable (String) -> Unit = { url ->
             OnboardingVideoPlayer(
                 url = url,
                 containerModifier = videoContainerModifier,
+                videoModifier = videoModifier,
                 isMuted = isMuted,
                 onToggleMute = { isMuted = !isMuted },
             )
@@ -172,32 +178,34 @@ fun OnboardingWithVideo(onDone: () -> Unit = { }) {
 private fun OnboardingVideoPlayer(
     url: String,
     containerModifier: Modifier,
+    videoModifier: Modifier,
     isMuted: Boolean,
     onToggleMute: () -> Unit,
 ) {
     val toggleSoundDescription = stringResource(Res.string.onboarding_toggle_sound)
 
-    Box(modifier = containerModifier) {
+    Column(modifier = containerModifier) {
         LoopingVideoPlayer(
             url = url,
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
+            modifier = videoModifier.clip(RoundedCornerShape(16.dp)),
             isMuted = isMuted,
         )
 
-        Surface(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(32.dp),
-            shape = CircleShape,
-            color = Color.Black.copy(alpha = 0.6f),
-            contentColor = Color.White,
-        ) {
-            IconButton(onClick = onToggleMute) {
-                Icon(
-                    imageVector =
-                        if (isMuted) Icons.AutoMirrored.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeUp,
-                    contentDescription = toggleSoundDescription,
-                )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+            Surface(
+                shape = CircleShape,
+                color = Color.Black.copy(alpha = 0.6f),
+                contentColor = Color.White,
+            ) {
+                IconButton(onClick = onToggleMute) {
+                    Icon(
+                        imageVector =
+                            if (isMuted) Icons.AutoMirrored.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeUp,
+                        contentDescription = toggleSoundDescription,
+                    )
+                }
             }
         }
     }
