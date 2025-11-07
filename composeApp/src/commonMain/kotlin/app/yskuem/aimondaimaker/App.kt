@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.runtime.*
 import app.yskuem.aimondaimaker.core.ui.theme.AiProblemMakerTheme
+import app.yskuem.aimondaimaker.feature.onboarding.AppIntroductionScreen
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition

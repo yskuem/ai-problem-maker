@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">¡Crea preguntas de repaso automáticamente a partir de fotos!</string>
+    <string name="onboarding_page1_body">Solo tienes que fotografiar tus libros o apuntes, y la IA generará preguntas de repaso basadas en su contenido.</string>
+    <string name="onboarding_page2_title">¡Crea cuadernos digitales automáticamente a partir de fotos!</string>
+    <string name="onboarding_page2_body">Solo tienes que fotografiar tus libros o apuntes, y la IA generará cuadernos digitales basados en su contenido.</string>
+    <string name="onboarding_page3_title">¡Estudia en el tren sin llevar los libros!</string>
+    <string name="onboarding_page3_body">Consulta en tu teléfono, en cualquier momento y lugar, las preguntas de repaso y los apuntes digitales generados por la IA.</string>
+    <string name="onboarding_page4_title">¡Mejora tus notas y aprueba los exámenes!</string>
+    <string name="onboarding_page4_body">Estudia de forma eficiente con las preguntas de repaso y los apuntes digitales generados por la IA para alcanzar una puntuación alta en los exámenes.</string>
+    <string name="onboarding_skip">Omitir</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_back">Atrás</string>
+    <string name="onboarding_start">Empezar</string>
+
     <!-- New Project -->
     <string name="new_project">Nuevo proyecto</string>
     <string name="search_project">Buscar proyectos...</string>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
 import app.yskuem.aimondaimaker.core.ui.theme.Spacing
+import app.yskuem.aimondaimaker.feature.onboarding.AppIntroductionScreen
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -24,17 +25,22 @@ class AuthScreen : Screen {
     override fun Content() {
         val viewModel = koinScreenModel<AuthScreenViewModel>()
         val navigator = LocalNavigator.current
-        val isLoginSuccess = viewModel.isLoginSuccess.collectAsState()
-        val hasError = viewModel.hasError.collectAsState()
+        val uiState = viewModel.uiState.collectAsState()
 
         LaunchedEffect(Unit) {
             viewModel.login()
         }
-        LaunchedEffect(isLoginSuccess.value) {
-            if (isLoginSuccess.value) {
-                navigator?.replace(SelectProjectScreen())
+        LaunchedEffect(uiState.value.isLoginSuccessful) {
+            if (!uiState.value.isLoginSuccessful) {
+                return@LaunchedEffect
             }
+            if (uiState.value.isInitialLoginUser) {
+                navigator?.replace(AppIntroductionScreen())
+                return@LaunchedEffect
+            }
+            navigator?.replace(SelectProjectScreen())
         }
+
         Box(
             modifier =
                 Modifier
@@ -42,18 +48,28 @@ class AuthScreen : Screen {
                     .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center,
         ) {
-            if (hasError.value) {
-                Text(
-                    text = "エラーが発生しました。",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            } else {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(ComponentSpacing.iconXLarge),
-                    color = MaterialTheme.colorScheme.primary,
-                    strokeWidth = Spacing.xs,
-                )
+            when {
+                uiState.value.isLoading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(ComponentSpacing.iconXLarge),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = Spacing.xs,
+                    )
+                }
+                !uiState.value.isLoginSuccessful -> {
+                    Text(
+                        text = "エラーが発生しました。",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+                else -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(ComponentSpacing.iconXLarge),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = Spacing.xs,
+                    )
+                }
             }
         }
     }

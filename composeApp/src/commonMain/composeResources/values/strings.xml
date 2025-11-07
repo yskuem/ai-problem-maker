@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Automatically create review questions from photos!</string>
+    <string name="onboarding_page1_body">Just take photos of your textbooks or notes, and AI will automatically generate review questions based on the content.</string>
+    <string name="onboarding_page2_title">Automatically create digital notes from photos!</string>
+    <string name="onboarding_page2_body">Just take photos of your textbooks or notes, and AI will automatically generate digital notes based on the content.</string>
+    <string name="onboarding_page3_title">Study on the train without carrying textbooks!</string>
+    <string name="onboarding_page3_body">Check the AI-generated review questions and digital notes on your smartphone anytime, anywhere.</string>
+    <string name="onboarding_page4_title">Boost your scores and pass your exams!</string>
+    <string name="onboarding_page4_body">Study efficiently with AI-generated review questions and digital notes to aim for top scores on your exams!</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_start">Start</string>
+
     <!-- New Project -->
     <string name="new_project">New Project</string>
     <string name="search_project">Search projects...</string>

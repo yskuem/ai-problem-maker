@@ -48,9 +48,9 @@ class AuthViewModelTest : MainDispatcherTestBase() {
             testScheduler.advanceUntilIdle()
 
             // isLoginSuccessがtrueかどうか
-            viewModel.isLoginSuccess.test {
+            viewModel.uiState.test {
                 val result = expectMostRecentItem()
-                assertTrue(result)
+                assertTrue(result.isLoginSuccessful)
                 cancelAndIgnoreRemainingEvents()
             }
 
@@ -77,9 +77,9 @@ class AuthViewModelTest : MainDispatcherTestBase() {
             testScheduler.advanceUntilIdle()
 
             // isLoginSuccessがtrueかどうか
-            viewModel.isLoginSuccess.test {
+            viewModel.uiState.test {
                 val result = expectMostRecentItem()
-                assertTrue(result)
+                assertTrue(result.isLoginSuccessful)
                 cancelAndIgnoreRemainingEvents()
             }
 
@@ -106,9 +106,9 @@ class AuthViewModelTest : MainDispatcherTestBase() {
             testScheduler.advanceUntilIdle()
 
             // isLoginSuccessがfalseかどうか
-            viewModel.isLoginSuccess.test {
+            viewModel.uiState.test {
                 val result = expectMostRecentItem()
-                assertFalse(result)
+                assertFalse(result.isLoginSuccessful)
                 cancelAndIgnoreRemainingEvents()
             }
 

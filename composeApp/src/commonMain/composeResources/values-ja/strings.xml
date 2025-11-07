@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- オンボーディング -->
+    <string name="onboarding_page1_title">写真から復習問題を自動作成！</string>
+    <string name="onboarding_page1_body">参考書やノートの写真を撮るだけで、AIが自動でその内容に基づいた復習問題を作成します。</string>
+    <string name="onboarding_page2_title">写真から電子ノートを自動作成！</string>
+    <string name="onboarding_page2_body">参考書やノートの写真を撮るだけで、AIが自動でその内容に基づいた電子ノートを作成します。</string>
+    <string name="onboarding_page3_title">参考書を持ち歩かないで電車の中でも勉強ができる！</string>
+    <string name="onboarding_page3_body">AIが作成した復習問題と電子ノートをスマホでいつでもどこでも確認できます。</string>
+    <string name="onboarding_page4_title">点数が上がって試験に合格！</string>
+    <string name="onboarding_page4_body">AIが作成した復習問題や電子ノートで効率的に学習し、試験で高得点を目指しましょう！</string>
+    <string name="onboarding_skip">スキップ</string>
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_back">戻る</string>
+    <string name="onboarding_start">はじめる</string>
+
     <!-- 新規プロジェクト -->
     <string name="new_project">新規プロジェクト</string>
     <string name="search_project">プロジェクトを検索...</string>

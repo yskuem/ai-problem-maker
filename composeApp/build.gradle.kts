@@ -99,6 +99,8 @@ kotlin {
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.compose.multiplatform.media.player)
+            implementation(libs.kmp.onboarding)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -130,8 +132,8 @@ android {
         applicationId = "app.yskuem.aimondaimaker"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 14
-        versionName = "1.0.2"
+        versionCode = 15
+        versionName = "1.1.2"
     }
     packaging {
         resources {

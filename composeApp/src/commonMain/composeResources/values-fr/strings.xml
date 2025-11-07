@@ -1,5 +1,19 @@
 <resources>
 
+    <!-- Onboarding -->
+    <string name="onboarding_page1_title">Créez automatiquement des questions de révision à partir de photos !</string>
+    <string name="onboarding_page1_body">Prenez simplement des photos de vos manuels ou de vos notes, et l’IA génère automatiquement des questions de révision basées sur leur contenu.</string>
+    <string name="onboarding_page2_title">Créez automatiquement des notes numériques à partir de photos !</string>
+    <string name="onboarding_page2_body">Prenez simplement des photos de vos manuels ou de vos notes, et l’IA génère automatiquement des notes numériques basées sur leur contenu.</string>
+    <string name="onboarding_page3_title">Étudiez dans le train sans transporter vos manuels !</string>
+    <string name="onboarding_page3_body">Consultez à tout moment sur votre smartphone les questions de révision et les notes numériques générées par l’IA.</string>
+    <string name="onboarding_page4_title">Progressez et réussissez vos examens !</string>
+    <string name="onboarding_page4_body">Étudiez efficacement grâce aux questions de révision et aux notes numériques générées par l’IA pour viser les meilleures notes aux examens !</string>
+    <string name="onboarding_skip">Ignorer</string>
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_back">Précédent</string>
+    <string name="onboarding_start">Commencer</string>
+
     <!-- New Project -->
     <string name="new_project">Nouveau projet</string>
     <string name="search_project">Rechercher des projets...</string>
