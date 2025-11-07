@@ -50,7 +50,7 @@ fun LoopingVideoPlayer(
 
     DisposableEffect(playerHost) {
         onDispose {
-            runCatching { playerHost.release() }
+            runCatching { playerHost.pause() }
         }
     }
 }
