@@ -44,7 +44,7 @@ import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
 import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
 import app.yskuem.aimondaimaker.core.ui.theme.*
-import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.core.util.toLocalizedMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.core.screen.Screen
@@ -188,7 +188,7 @@ class SelectProjectScreen : Screen {
                                         val updatedAt =
                                             project.updatedAt
                                                 .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                                .toJapaneseMonthDay()
+                                                .toLocalizedMonthDay()
                                         PremiumCard(
                                             onClick = {
                                                 navigator.push(

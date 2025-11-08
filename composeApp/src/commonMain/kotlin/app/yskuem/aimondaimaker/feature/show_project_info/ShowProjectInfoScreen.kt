@@ -43,7 +43,7 @@ import app.yskuem.aimondaimaker.core.ui.EmptyProjectsUI
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.core.ui.LoadingScreen
-import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
+import app.yskuem.aimondaimaker.core.util.toLocalizedMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.note.ui.ShowNoteAppScreen
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraScreen
@@ -173,7 +173,7 @@ data class ShowProjectInfoScreen(
                                             quizInfoList.data.map {
                                                 it.updatedAt
                                                     .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                                    .toJapaneseMonthDay()
+                                                    .toLocalizedMonthDay()
                                             },
                                         itemGroupIds = quizInfoList.data.map { it.groupId },
                                         onTapCard = { groupId ->
@@ -230,7 +230,7 @@ data class ShowProjectInfoScreen(
                                             noteList.data.map {
                                                 it.updatedAt
                                                     .toLocalDateTime(timeZone = TimeZone.currentSystemDefault())
-                                                    .toJapaneseMonthDay()
+                                                    .toLocalizedMonthDay()
                                             },
                                         itemGroupIds = noteList.data.map { it.id },
                                         onTapCard = { id ->
