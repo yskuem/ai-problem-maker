@@ -1,6 +1,11 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.cancel
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_note_message
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_note_title
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_quiz_message
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_quiz_title
 import ai_problem_maker.composeapp.generated.resources.create_new_note
 import ai_problem_maker.composeapp.generated.resources.create_new_quiz
 import ai_problem_maker.composeapp.generated.resources.delete_note
@@ -284,6 +289,7 @@ fun ContentList(
     contentType: ContentType,
 ) {
     var expandedMenuFor by remember { mutableStateOf<String?>(null) }
+    var pendingDeleteIndex by remember { mutableStateOf<Int?>(null) }
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp), // 間隔を広げる
     ) {
@@ -387,7 +393,7 @@ fun ContentList(
                                     )
                                 },
                                 onClick = {
-                                    onDeleteItem(itemGroupIds[index])
+                                    pendingDeleteIndex = index
                                     expandedMenuFor = null
                                 },
                             )
@@ -396,6 +402,49 @@ fun ContentList(
                 }
             }
         }
+    }
+    pendingDeleteIndex?.let { index ->
+        val (titleRes, messageRes, confirmRes) =
+            if (contentType == ContentType.QUIZ) {
+                Triple(
+                    Res.string.confirm_delete_quiz_title,
+                    Res.string.confirm_delete_quiz_message,
+                    Res.string.delete_quiz,
+                )
+            } else {
+                Triple(
+                    Res.string.confirm_delete_note_title,
+                    Res.string.confirm_delete_note_message,
+                    Res.string.delete_note,
+                )
+            }
+        AlertDialog(
+            onDismissRequest = { pendingDeleteIndex = null },
+            title = { Text(stringResource(titleRes)) },
+            text = {
+                Text(
+                    stringResource(
+                        messageRes,
+                        items[index],
+                    ),
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onDeleteItem(itemGroupIds[index])
+                        pendingDeleteIndex = null
+                    },
+                ) {
+                    Text(stringResource(confirmRes))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingDeleteIndex = null }) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+        )
     }
 }
 
