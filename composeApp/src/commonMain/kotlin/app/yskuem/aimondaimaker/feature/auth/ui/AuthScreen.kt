@@ -38,7 +38,7 @@ class AuthScreen : Screen {
                 navigator?.replace(AppIntroductionScreen())
                 return@LaunchedEffect
             }
-            navigator?.replace(AppIntroductionScreen())
+            navigator?.replace(SelectProjectScreen())
         }
 
         Box(
