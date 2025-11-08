@@ -19,6 +19,8 @@
     <string name="search_project">परियोजनाएँ खोजें...</string>
     <string name="change_project_name">नाम बदलें</string>
     <string name="delete_project">हटाएं</string>
+    <string name="confirm_delete_project_title">प्रोजेक्ट हटाएँ?</string>
+    <string name="confirm_delete_project_message">क्या आप वाकई प्रोजेक्ट "%1$s" को हटाना चाहते हैं? यह क्रिया वापस नहीं की जा सकती।</string>
     <string name="last_updated_project_date">अंतिम संपादन:</string>
     <string name="no_project_message">अभी तक कोई परियोजनाएँ नहीं बनाई गई हैं।\nनीचे दिए गए बटन को टैप करके अपनी पहली परियोजना बनाएं!</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">पिछली स्क्रीन पर लौटें</string>
     <string name="delete_quiz">क्विज़ हटाएँ</string>
     <string name="delete_note">नोट हटाएँ</string>
+    <string name="confirm_delete_quiz_title">क्विज़ हटाएँ?</string>
+    <string name="confirm_delete_quiz_message">क्या आप वाकई क्विज़ "%1$s" को हटाना चाहते हैं? यह क्रिया वापस नहीं की जा सकती।</string>
+    <string name="confirm_delete_note_title">नोट हटाएँ?</string>
+    <string name="confirm_delete_note_message">क्या आप वाकई नोट "%1$s" को हटाना चाहते हैं? यह क्रिया वापस नहीं की जा सकती।</string>
+    <string name="cancel">रद्द करें</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">क्विज़ साझा करें</string>

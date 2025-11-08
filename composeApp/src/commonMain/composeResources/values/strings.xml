@@ -19,6 +19,8 @@
     <string name="search_project">Search projects...</string>
     <string name="change_project_name">Rename</string>
     <string name="delete_project">Delete</string>
+    <string name="confirm_delete_project_title">Delete project?</string>
+    <string name="confirm_delete_project_message">Are you sure you want to delete the project "%1$s"? This action cannot be undone.</string>
     <string name="last_updated_project_date">Last edited:</string>
     <string name="no_project_message">No projects created yet.\nTap the button below to create your first one!</string>
 
@@ -77,6 +79,11 @@
     <string name="back_to_previous_screen">Back to Previous Screen</string>
     <string name="delete_quiz">Delete Quiz</string>
     <string name="delete_note">Delete Note</string>
+    <string name="confirm_delete_quiz_title">Delete quiz?</string>
+    <string name="confirm_delete_quiz_message">Are you sure you want to delete the quiz "%1$s"? This action cannot be undone.</string>
+    <string name="confirm_delete_note_title">Delete note?</string>
+    <string name="confirm_delete_note_message">Are you sure you want to delete the note "%1$s"? This action cannot be undone.</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">Share Quiz</string>

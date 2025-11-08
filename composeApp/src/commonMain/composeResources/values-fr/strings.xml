@@ -19,6 +19,8 @@
     <string name="search_project">Rechercher des projets...</string>
     <string name="change_project_name">Renommer</string>
     <string name="delete_project">Supprimer</string>
+    <string name="confirm_delete_project_title">Supprimer le projet ?</string>
+    <string name="confirm_delete_project_message">Êtes-vous sûr de vouloir supprimer le projet "%1$s" ? Cette action est irréversible.</string>
     <string name="last_updated_project_date">Dernière édition :</string>
     <string name="no_project_message">Aucun projet créé pour le moment.\nAppuyez sur le bouton ci-dessous pour créer le premier !</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">Revenir à l'écran précédent</string>
     <string name="delete_quiz">Supprimer le quiz</string>
     <string name="delete_note">Supprimer la note</string>
+    <string name="confirm_delete_quiz_title">Supprimer le quiz ?</string>
+    <string name="confirm_delete_quiz_message">Êtes-vous sûr de vouloir supprimer le quiz "%1$s" ? Cette action est irréversible.</string>
+    <string name="confirm_delete_note_title">Supprimer la note ?</string>
+    <string name="confirm_delete_note_message">Êtes-vous sûr de vouloir supprimer la note "%1$s" ? Cette action est irréversible.</string>
+    <string name="cancel">Annuler</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">Partager le quiz</string>

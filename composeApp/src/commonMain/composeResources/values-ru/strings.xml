@@ -19,6 +19,8 @@
     <string name="search_project">Поиск проектов...</string>
     <string name="change_project_name">Переименовать</string>
     <string name="delete_project">Удалить</string>
+    <string name="confirm_delete_project_title">Удалить проект?</string>
+    <string name="confirm_delete_project_message">Вы уверены, что хотите удалить проект "%1$s"? Это действие нельзя отменить.</string>
     <string name="last_updated_project_date">Последнее редактирование:</string>
     <string name="no_project_message">Проекты еще не созданы.\nНажмите кнопку ниже, чтобы создать первый!</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">Вернуться к предыдущему экрану</string>
     <string name="delete_quiz">Удалить викторину</string>
     <string name="delete_note">Удалить заметку</string>
+    <string name="confirm_delete_quiz_title">Удалить викторину?</string>
+    <string name="confirm_delete_quiz_message">Вы уверены, что хотите удалить викторину "%1$s"? Это действие нельзя отменить.</string>
+    <string name="confirm_delete_note_title">Удалить заметку?</string>
+    <string name="confirm_delete_note_message">Вы уверены, что хотите удалить заметку "%1$s"? Это действие нельзя отменить.</string>
+    <string name="cancel">Отмена</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">Поделиться викториной</string>

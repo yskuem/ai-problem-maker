@@ -19,6 +19,8 @@
     <string name="search_project">Projekte suchen...</string>
     <string name="change_project_name">Umbenennen</string>
     <string name="delete_project">Löschen</string>
+    <string name="confirm_delete_project_title">Projekt löschen?</string>
+    <string name="confirm_delete_project_message">Möchten Sie das Projekt "%1$s" wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
     <string name="last_updated_project_date">Zuletzt bearbeitet:</string>
     <string name="no_project_message">Noch keine Projekte erstellt.\nTippe unten auf die Schaltfläche, um dein erstes zu erstellen!</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">Zur vorherigen Seite zurückkehren</string>
     <string name="delete_quiz">Quiz löschen</string>
     <string name="delete_note">Notiz löschen</string>
+    <string name="confirm_delete_quiz_title">Quiz löschen?</string>
+    <string name="confirm_delete_quiz_message">Möchten Sie das Quiz "%1$s" wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <string name="confirm_delete_note_title">Notiz löschen?</string>
+    <string name="confirm_delete_note_message">Möchten Sie die Notiz "%1$s" wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.</string>
+    <string name="cancel">Abbrechen</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">Quiz teilen</string>

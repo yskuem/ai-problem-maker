@@ -19,6 +19,8 @@
     <string name="search_project">Pesquisar projetos...</string>
     <string name="change_project_name">Renomear</string>
     <string name="delete_project">Excluir</string>
+    <string name="confirm_delete_project_title">Excluir projeto?</string>
+    <string name="confirm_delete_project_message">Tem certeza de que deseja excluir o projeto "%1$s"? Essa ação não pode ser desfeita.</string>
     <string name="last_updated_project_date">Última edição:</string>
     <string name="no_project_message">Nenhum projeto criado ainda.\nToque no botão abaixo para criar o seu primeiro!</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">Voltar para a tela anterior</string>
     <string name="delete_quiz">Excluir quiz</string>
     <string name="delete_note">Excluir nota</string>
+    <string name="confirm_delete_quiz_title">Excluir quiz?</string>
+    <string name="confirm_delete_quiz_message">Tem certeza de que deseja excluir o quiz "%1$s"? Essa ação não pode ser desfeita.</string>
+    <string name="confirm_delete_note_title">Excluir nota?</string>
+    <string name="confirm_delete_note_message">Tem certeza de que deseja excluir a nota "%1$s"? Essa ação não pode ser desfeita.</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">Compartilhar quiz</string>
