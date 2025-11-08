@@ -48,8 +48,9 @@ fun LoopingVideoPlayer(
             ),
     )
 
-    DisposableEffect(Unit) {
+    DisposableEffect(playerHost) {
         onDispose {
+            runCatching { playerHost.pause() }
         }
     }
 }
