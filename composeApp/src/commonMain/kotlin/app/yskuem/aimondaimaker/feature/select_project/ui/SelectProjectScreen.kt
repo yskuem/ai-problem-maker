@@ -1,11 +1,11 @@
 package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.cancel
-import ai_problem_maker.composeapp.generated.resources.delete_project
+import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_message
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_title
+import ai_problem_maker.composeapp.generated.resources.delete_project
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
@@ -48,9 +48,9 @@ import app.yskuem.aimondaimaker.core.ui.components.PremiumCard
 import app.yskuem.aimondaimaker.core.ui.components.PremiumSearchBar
 import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toLocalizedMonthDay
+import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
-import app.yskuem.aimondaimaker.domain.entity.Project
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -421,10 +421,11 @@ class SelectProjectScreen : Screen {
                                 },
                                 text = {
                                     Text(
-                                        text = stringResource(
-                                            Res.string.confirm_delete_project_message,
-                                            pendingProject.name,
-                                        ),
+                                        text =
+                                            stringResource(
+                                                Res.string.confirm_delete_project_message,
+                                                pendingProject.name,
+                                            ),
                                     )
                                 },
                                 confirmButton = {
