@@ -19,6 +19,8 @@
     <string name="search_project">プロジェクトを検索...</string>
     <string name="change_project_name">名前を変更</string>
     <string name="delete_project">削除</string>
+    <string name="confirm_delete_project_title">プロジェクトを削除しますか？</string>
+    <string name="confirm_delete_project_message">プロジェクト「%1$s」を削除しますか？この操作は元に戻せません。</string>
     <string name="last_updated_project_date">最終編集:</string>
     <string name="no_project_message">まだプロジェクトが作成されていません。\n下のボタンから新規作成してみましょう！</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">前の画面に戻る</string>
     <string name="delete_quiz">クイズを削除</string>
     <string name="delete_note">ノートを削除</string>
+    <string name="confirm_delete_quiz_title">クイズを削除しますか？</string>
+    <string name="confirm_delete_quiz_message">クイズ「%1$s」を削除しますか？この操作は元に戻せません。</string>
+    <string name="confirm_delete_note_title">ノートを削除しますか？</string>
+    <string name="confirm_delete_note_message">ノート「%1$s」を削除しますか？この操作は元に戻せません。</string>
+    <string name="cancel">キャンセル</string>
 
     <!-- 共有機能 -->
     <string name="share_quiz">クイズを共有</string>

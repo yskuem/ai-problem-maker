@@ -19,6 +19,8 @@
     <string name="search_project">프로젝트 검색...</string>
     <string name="change_project_name">이름 변경</string>
     <string name="delete_project">삭제</string>
+    <string name="confirm_delete_project_title">프로젝트를 삭제할까요?</string>
+    <string name="confirm_delete_project_message">프로젝트 "%1$s"를 정말 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.</string>
     <string name="last_updated_project_date">마지막 편집:</string>
     <string name="no_project_message">아직 생성된 프로젝트가 없습니다.\n아래 버튼을 눌러 첫 프로젝트를 만들어보세요!</string>
 
@@ -78,6 +80,11 @@
     <string name="back_to_previous_screen">이전 화면으로 돌아가기</string>
     <string name="delete_quiz">퀴즈 삭제</string>
     <string name="delete_note">노트 삭제</string>
+    <string name="confirm_delete_quiz_title">퀴즈를 삭제할까요?</string>
+    <string name="confirm_delete_quiz_message">퀴즈 "%1$s"를 정말 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="confirm_delete_note_title">노트를 삭제할까요?</string>
+    <string name="confirm_delete_note_message">노트 "%1$s"를 정말 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="cancel">취소</string>
 
     <!-- Share Feature -->
     <string name="share_quiz">퀴즈 공유</string>

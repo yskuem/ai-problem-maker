@@ -2,7 +2,10 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.change_project_name
+import ai_problem_maker.composeapp.generated.resources.cancel
 import ai_problem_maker.composeapp.generated.resources.delete_project
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_message
+import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_title
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
@@ -47,6 +50,7 @@ import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toJapaneseMonthDay
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
+import app.yskuem.aimondaimaker.domain.entity.Project
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -72,6 +76,7 @@ class SelectProjectScreen : Screen {
         var searchTerm by remember { mutableStateOf("") }
         var editingId by remember { mutableStateOf<String?>(null) }
         var editingTitle by remember { mutableStateOf("") }
+        var projectToDelete by remember { mutableStateOf<Project?>(null) }
 
         // フォーカス用リクエスタ（1つだけでOK）
         val focusRequester = remember { FocusRequester() }
@@ -346,11 +351,7 @@ class SelectProjectScreen : Screen {
                                                         DropdownMenuItem(
                                                             text = { Text(stringResource(Res.string.delete_project)) },
                                                             onClick = {
-                                                                // プロジェクトを削除
-                                                                viewModel.deleteProject(
-                                                                    projectId = project.id,
-                                                                    currentProjects = projects,
-                                                                )
+                                                                projectToDelete = project
                                                                 expandedMenuFor = null
                                                             },
                                                             modifier = Modifier,
@@ -411,6 +412,40 @@ class SelectProjectScreen : Screen {
                                     }
                                 }
                             }
+                        }
+                        projectToDelete?.let { pendingProject ->
+                            AlertDialog(
+                                onDismissRequest = { projectToDelete = null },
+                                title = {
+                                    Text(text = stringResource(Res.string.confirm_delete_project_title))
+                                },
+                                text = {
+                                    Text(
+                                        text = stringResource(
+                                            Res.string.confirm_delete_project_message,
+                                            pendingProject.name,
+                                        ),
+                                    )
+                                },
+                                confirmButton = {
+                                    TextButton(
+                                        onClick = {
+                                            viewModel.deleteProject(
+                                                projectId = pendingProject.id,
+                                                currentProjects = projects,
+                                            )
+                                            projectToDelete = null
+                                        },
+                                    ) {
+                                        Text(text = stringResource(Res.string.delete_project))
+                                    }
+                                },
+                                dismissButton = {
+                                    TextButton(onClick = { projectToDelete = null }) {
+                                        Text(text = stringResource(Res.string.cancel))
+                                    }
+                                },
+                            )
                         }
                     }
                 }
