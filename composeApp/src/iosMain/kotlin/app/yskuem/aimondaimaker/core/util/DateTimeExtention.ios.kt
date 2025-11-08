@@ -7,7 +7,11 @@ import kotlinx.datetime.toNSDate
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSLocale
 import platform.Foundation.NSTimeZone
+import platform.Foundation.autoupdatingCurrentLocale
+import platform.Foundation.localTimeZone
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 actual fun LocalDateTime.toLocalizedMonthDay(): String {
     val formatter = NSDateFormatter().apply {
         locale = NSLocale.autoupdatingCurrentLocale
