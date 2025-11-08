@@ -13,11 +13,12 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 actual fun LocalDateTime.toLocalizedMonthDay(): String {
-    val formatter = NSDateFormatter().apply {
-        locale = NSLocale.autoupdatingCurrentLocale
-        setLocalizedDateFormatFromTemplate("MdEEE")
-        timeZone = NSTimeZone.localTimeZone
-    }
+    val formatter =
+        NSDateFormatter().apply {
+            locale = NSLocale.autoupdatingCurrentLocale
+            setLocalizedDateFormatFromTemplate("MdEEE")
+            timeZone = NSTimeZone.localTimeZone
+        }
 
     val date = toInstant(TimeZone.currentSystemDefault()).toNSDate()
     return formatter.stringFromDate(date)
