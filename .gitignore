@@ -30,3 +30,7 @@ iosApp/iosApp/GoogleService-Info.plist
 /composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/data/api/config/ProdHost.kt
 /composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/data/api/config/DevHost.kt
 /composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/core/config/WebQuizAppDomain.kt
+/iosApp/GoogleService/dev/GoogleService-Info.plist
+/iosApp/GoogleService/staging/GoogleService-Info.plist
+/composeApp/src/dev/google-services.json
+/composeApp/src/staging/google-services.json
