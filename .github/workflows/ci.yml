@@ -19,7 +19,7 @@ jobs:
         run: scripts/create-placeholder-configs.sh
       - name: Restore google-services.json
         env:
-          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          DEV_GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.DEV_GOOGLE_SERVICES_JSON_BASE64 }}
         run: scripts/write-google-services.sh
       - name: Run Android unit tests
         run: ./gradlew :composeApp:testDevDebugUnitTest
@@ -36,7 +36,7 @@ jobs:
         run: scripts/create-placeholder-configs.sh
       - name: Restore google-services.json
         env:
-          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          DEV_GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.DEV_GOOGLE_SERVICES_JSON_BASE64 }}
         run: scripts/write-google-services.sh
       - name: Build Android
         run: ./gradlew :composeApp:assembleDevDebug
