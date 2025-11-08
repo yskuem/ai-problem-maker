@@ -260,10 +260,10 @@
 			);
 			inputFileListPaths = (
 			);
-			inputPaths = (
-				"$(DWARF_DSYM_FOLDER_PATH)/$(DWARF_DSYM_FILE_NAME)",
-				"$(SRCROOT)/iosApp/GoogleService-Info.plist",
-			);
+                        inputPaths = (
+                                "$(DWARF_DSYM_FOLDER_PATH)/$(DWARF_DSYM_FILE_NAME)",
+                                "$(SRCROOT)/GoogleService/prod/GoogleService-Info.plist",
+                        );
 			name = "Upload dSYMs to Crashlytics";
 			outputFileListPaths = (
 			);
@@ -271,7 +271,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+                        shellScript = "GOOGLE_SERVICE_INFO_PLIST_PATH=\"$PROJECT_DIR/GoogleService/prod/GoogleService-Info.plist\"\nGOOGLE_SERVICES_INFO_PLIST_PATH=\"$GOOGLE_SERVICE_INFO_PLIST_PATH\"\nif [ ! -f \"$GOOGLE_SERVICES_INFO_PLIST_PATH\" ]; then\n  echo \"error: Missing GoogleService-Info.plist at $GOOGLE_SERVICES_INFO_PLIST_PATH\"\n  exit 1\nfi\nexport GOOGLE_SERVICE_INFO_PLIST_PATH\nexport GOOGLE_SERVICES_INFO_PLIST_PATH\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
