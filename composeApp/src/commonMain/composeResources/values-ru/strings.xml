@@ -88,6 +88,7 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">Поделиться викториной</string>
+    <string name="export_quiz_pdf">Экспортировать викторину в PDF</string>
     <string name="share_dialog_title">Поделиться викториной</string>
     <string name="copy_link">Скопировать ссылку</string>
     <string name="share_with_others">Поделиться с другими</string>

@@ -60,7 +60,15 @@ data class CreateQuizScreen(
                 )
             }
             is DataUiState.Success -> {
-                QuizApp(quizList.data) {
+                QuizApp(
+                    quizList = quizList.data,
+                    onPdfExport = {
+                        viewmodel.onPdfExport(
+                            quizList = quizList.data
+                        )
+                    },
+                    pdfResponse = state.pdfData
+                ) {
                     navigator?.pop()
                 }
             }
