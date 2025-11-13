@@ -101,6 +101,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.compose.multiplatform.media.player)
             implementation(libs.kmp.onboarding)
+            implementation(libs.compottie)
+            implementation(libs.compottie.resources)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
