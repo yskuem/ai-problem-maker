@@ -6,7 +6,10 @@ import ai_problem_maker.composeapp.generated.resources.ic_splash_back
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -29,12 +32,14 @@ fun App() {
     }
 
     AiProblemMakerTheme {
-        GlobalToastContainer {
-            Navigator(UpdateCheckScreen()) { navigator ->
-                FadeTransition(
-                    navigator = navigator,
-                    animationSpec = spring(stiffness = Spring.StiffnessLow),
-                )
+        SystemPaddingContainer {
+            GlobalToastContainer {
+                Navigator(UpdateCheckScreen()) { navigator ->
+                    FadeTransition(
+                        navigator = navigator,
+                        animationSpec = spring(stiffness = Spring.StiffnessLow),
+                    )
+                }
             }
         }
     }
@@ -44,5 +49,20 @@ fun App() {
                 shouldShowSplash.value = false
             }
         )
+    }
+}
+
+
+@Composable
+private fun SystemPaddingContainer(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+    ) {
+        content()
     }
 }
