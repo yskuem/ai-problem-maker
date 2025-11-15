@@ -93,6 +93,7 @@ fun ErrorScreen(
                         when (type) {
                             ErrorScreenType.RELOAD,
                             -> stringResource(Res.string.error_screen_reload_action)
+
                             ErrorScreenType.BACK,
                             -> stringResource(Res.string.error_screen_back_action)
                         } + "\n\n" + errorMessage,
@@ -107,7 +108,10 @@ fun ErrorScreen(
                 Button(
                     onClick = {
                         when (type) {
-                            ErrorScreenType.RELOAD -> onRefresh()
+                            ErrorScreenType.RELOAD -> {
+                                onRefresh()
+                            }
+
                             ErrorScreenType.BACK -> {
                                 navigator?.pop()
                             }
@@ -145,10 +149,13 @@ fun ErrorScreen(
                         Text(
                             text =
                                 when (type) {
-                                    ErrorScreenType.RELOAD ->
+                                    ErrorScreenType.RELOAD -> {
                                         stringResource(Res.string.load_again)
-                                    ErrorScreenType.BACK ->
+                                    }
+
+                                    ErrorScreenType.BACK -> {
                                         stringResource(Res.string.back_to_pre_screen)
+                                    }
                                 },
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,

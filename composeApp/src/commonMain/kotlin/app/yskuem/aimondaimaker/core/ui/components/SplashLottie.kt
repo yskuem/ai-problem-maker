@@ -4,36 +4,31 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.ic_splash_back
 import ai_problem_maker.composeapp.generated.resources.ic_splash_icon
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import io.github.alexzhirkevich.compottie.ExperimentalCompottieApi
-import io.github.alexzhirkevich.compottie.LottieCompositionSpec
-import io.github.alexzhirkevich.compottie.rememberLottieComposition
-import io.github.alexzhirkevich.compottie.rememberLottiePainter
-import io.github.alexzhirkevich.compottie.rememberResourcesAssetsManager
-import io.github.alexzhirkevich.compottie.rememberResourcesFontManager
-
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
-
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import io.github.alexzhirkevich.compottie.ExperimentalCompottieApi
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
+import io.github.alexzhirkevich.compottie.rememberLottieComposition
+import io.github.alexzhirkevich.compottie.rememberLottiePainter
+import io.github.alexzhirkevich.compottie.rememberResourcesAssetsManager
+import io.github.alexzhirkevich.compottie.rememberResourcesFontManager
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 
@@ -50,12 +45,12 @@ fun SplashLottie(
     resourcePath: String = "files/ai_note_scan_splash_lottie_large.json", // ← 大きい版をデフォルトに
     modifier: Modifier = Modifier.fillMaxSize(),
     background: Color = Color.White,
-    onFinished: () -> Unit = {}
+    onFinished: () -> Unit = {},
 ) {
     // Lottie読み込み
     val composition by rememberLottieComposition {
         LottieCompositionSpec.JsonString(
-            Res.readBytes(resourcePath).decodeToString()
+            Res.readBytes(resourcePath).decodeToString(),
         )
     }
 
@@ -73,20 +68,18 @@ fun SplashLottie(
 
     // 描画：横幅一杯に拡大
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
-        val painter = rememberLottiePainter(
-            composition = composition,
-            progress = { progress }
-        )
+        val painter =
+            rememberLottiePainter(
+                composition = composition,
+                progress = { progress },
+            )
         Image(
             painter = painter,
             contentDescription = "Splash animation",
-            modifier = Modifier.fillMaxWidth(),             // 横幅いっぱい
-            contentScale = ContentScale.FillWidth           // 幅基準でスケール
+            modifier = Modifier.fillMaxWidth(), // 横幅いっぱい
+            contentScale = ContentScale.FillWidth, // 幅基準でスケール
         )
     }
 }
-
-
-

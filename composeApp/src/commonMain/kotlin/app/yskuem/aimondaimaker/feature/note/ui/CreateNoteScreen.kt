@@ -53,11 +53,13 @@ data class CreateNoteScreen(
                     errorMessage = result.throwable.message ?: "Unknown Error",
                 )
             }
+
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
                     loadingTitle = stringResource(Res.string.note_generating),
                 )
             }
+
             is DataUiState.Success -> {
                 NoteApp(note = result.data) {
                     navigator?.pop()
