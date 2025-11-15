@@ -103,6 +103,8 @@ kotlin {
             implementation(libs.kmp.onboarding)
             implementation(libs.compottie)
             implementation(libs.compottie.resources)
+            implementation(libs.revenuecat.core)
+            implementation(libs.revenuecat.purchases.result)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -120,6 +122,13 @@ kotlin {
                 implementation(libs.firebase.remote.config)
             }
         }
+        // revenuecat requires opt-in for experimental foreign API on iOS
+        // None: https://www.revenuecat.com/docs/getting-started/installation/kotlin-multiplatform#opt-in-to-experimentalforeignapi
+        sourceSets
+            .filter { it.name.lowercase().startsWith("ios") }
+            .forEach { iosSourceSet ->
+                iosSourceSet.languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+            }
     }
 }
 
