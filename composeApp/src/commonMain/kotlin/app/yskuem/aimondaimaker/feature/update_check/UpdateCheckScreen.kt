@@ -53,9 +53,11 @@ class UpdateCheckScreen : Screen {
                 // エラー時はなにもしない
                 navigator?.push(AuthScreen())
             }
+
             is DataUiState.Loading -> {
                 LoadingScreen()
             }
+
             is DataUiState.Success -> {
                 when (res.data) {
                     CheckUpdateStatus.UPDATED_NEEDED -> {
@@ -63,6 +65,7 @@ class UpdateCheckScreen : Screen {
                             openStorePage = viewModel::openStorePage,
                         )
                     }
+
                     CheckUpdateStatus.HAVE_LATEST_APP_VERSION -> {
                         LaunchedEffect(Unit) {
                             UpdateToastManager.show(
@@ -79,6 +82,7 @@ class UpdateCheckScreen : Screen {
                             navigator?.push(AuthScreen())
                         }
                     }
+
                     CheckUpdateStatus.NONE -> {
                         navigator?.push(AuthScreen())
                     }

@@ -163,6 +163,7 @@ data class ShowProjectInfoScreen(
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }
+
                             is DataUiState.Success -> {
                                 if (quizInfoList.data.isEmpty()) {
                                     EmptyProjectsUI(
@@ -205,6 +206,7 @@ data class ShowProjectInfoScreen(
                                     )
                                 }
                             }
+
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     type = ErrorScreenType.RELOAD,
@@ -215,12 +217,14 @@ data class ShowProjectInfoScreen(
                             }
                         }
                     }
+
                     1 -> {
                         when (val noteList = uiState.noteList) {
                             is DataUiState.Initial -> {}
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }
+
                             is DataUiState.Success -> {
                                 if (noteList.data.isEmpty()) {
                                     EmptyProjectsUI(
@@ -264,6 +268,7 @@ data class ShowProjectInfoScreen(
                                     )
                                 }
                             }
+
                             is DataUiState.Error -> {
                                 ErrorScreen(
                                     type = ErrorScreenType.RELOAD,

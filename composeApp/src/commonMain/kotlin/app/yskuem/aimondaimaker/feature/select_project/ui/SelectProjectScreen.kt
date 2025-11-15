@@ -112,6 +112,7 @@ class SelectProjectScreen : Screen {
                 is DataUiState.Loading -> {
                     LoadingScreen()
                 }
+
                 is DataUiState.Error -> {
                     ErrorScreen(
                         type = ErrorScreenType.RELOAD,
@@ -122,6 +123,7 @@ class SelectProjectScreen : Screen {
                         viewModel.refreshProjectList()
                     }
                 }
+
                 is DataUiState.Success -> {
                     val projects = projectState.data
                     val filtered =
