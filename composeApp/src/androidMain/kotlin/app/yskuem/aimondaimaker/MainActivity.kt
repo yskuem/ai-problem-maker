@@ -10,9 +10,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowInsetsControllerCompat
-import app.yskuem.aimondaimaker.core.ui.components.FullScreenPhotoBackground
-import app.yskuem.aimondaimaker.core.ui.components.SplashLottie
-import app.yskuem.aimondaimaker.core.ui.components.SplashScreen
 import com.google.firebase.FirebaseApp
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.init

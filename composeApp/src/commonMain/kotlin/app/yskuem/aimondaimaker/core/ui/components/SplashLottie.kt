@@ -88,54 +88,5 @@ fun SplashLottie(
     }
 }
 
-@Composable
-fun SplashScreen(
-    onDismissed: () -> Unit
-) {
-    LaunchedEffect(Unit) {
-        delay(2000L)
-        onDismissed()
-    }
-    FullScreenPhotoBackground(
-        painter = painterResource(Res.drawable.ic_splash_back)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(Res.drawable.ic_splash_icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Fit
-            )
-        }
-    }
-}
-
-
-@Composable
-fun FullScreenPhotoBackground(
-    painter: Painter,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit = {}
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets(0, 0, 0, 0))
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop, // 画面いっぱいにトリミング
-        )
-
-        content()
-    }
-}
 
 

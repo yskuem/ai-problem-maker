@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import app.yskuem.aimondaimaker.core.ui.components.FullScreenPhotoBackground
-import app.yskuem.aimondaimaker.core.ui.components.SplashLottie
 import app.yskuem.aimondaimaker.core.ui.components.SplashScreen
 import app.yskuem.aimondaimaker.core.ui.theme.AiProblemMakerTheme
 import app.yskuem.aimondaimaker.feature.onboarding.AppIntroductionScreen
