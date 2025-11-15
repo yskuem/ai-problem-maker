@@ -56,6 +56,7 @@ class AuthScreen : Screen {
                         strokeWidth = Spacing.xs,
                     )
                 }
+
                 !uiState.value.isLoginSuccessful -> {
                     Text(
                         text = "エラーが発生しました。",
@@ -63,6 +64,7 @@ class AuthScreen : Screen {
                         color = MaterialTheme.colorScheme.error,
                     )
                 }
+
                 else -> {
                     CircularProgressIndicator(
                         modifier = Modifier.size(ComponentSpacing.iconXLarge),
