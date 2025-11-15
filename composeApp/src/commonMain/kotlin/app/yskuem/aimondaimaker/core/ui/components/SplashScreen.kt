@@ -38,15 +38,16 @@ fun SplashScreen(
     var showTitle by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        // ① ロゴだけを少し先に出す
         delay(300L)
 
-        // ② タイトル表示開始＆ハプティクス
         showTitle = true
-        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
 
-        // ③ 残り時間分待ってからスプラッシュ終了
-        delay(1700L) // 合計で約 2000ms
+        repeat(4) {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            delay(80L)
+        }
+
+        delay(1500L)
         onDismissed()
     }
 
@@ -60,7 +61,6 @@ fun SplashScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // ロゴ
                 Image(
                     painter = painterResource(Res.drawable.ic_splash_icon),
                     contentDescription = null,
@@ -72,7 +72,6 @@ fun SplashScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // アプリ名（フェードイン＋下からスライド＋少し拡大のアニメーション）
                 AnimatedVisibility(
                     visible = showTitle,
                     enter = fadeIn(animationSpec = tween(durationMillis = 600)) +
@@ -114,8 +113,6 @@ private fun FullScreenPhotoBackground(
     Box(
         modifier = modifier
             .fillMaxSize()
-            // 必要に応じてステータスバー等のインセット調整をここで行う
-            .windowInsetsPadding(WindowInsets(0, 0, 0, 0))
     ) {
         Image(
             painter = painter,
