@@ -84,6 +84,7 @@ data class CameraPermissionScreen(
                         ),
                     )
                 }
+
                 NavCreateMode.Quiz -> {
                     navigator?.push(
                         CreateQuizScreen(
@@ -157,15 +158,18 @@ fun CameraPermission(
     }
 
     when {
-        state.uiPermissionState == UiPermissionState.GRANTED ->
+        state.uiPermissionState == UiPermissionState.GRANTED -> {
             CameraPickerView(
                 upLoadImage = onImageReady,
             )
-        state.isAlwaysDeniedDialogVisible ->
+        }
+
+        state.isAlwaysDeniedDialogVisible -> {
             AlwaysDeniedDialog(
                 onOpenSettings = openSettings,
                 onDismiss = onDismiss,
             )
+        }
     }
 }
 

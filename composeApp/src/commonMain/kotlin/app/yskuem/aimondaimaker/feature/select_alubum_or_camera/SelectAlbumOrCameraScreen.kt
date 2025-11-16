@@ -77,6 +77,7 @@ data class SelectAlbumOrCameraScreen(
                                 ),
                             )
                         }
+
                         CreateMode.Quiz -> {
                             navigator?.push(
                                 CreateQuizScreen(

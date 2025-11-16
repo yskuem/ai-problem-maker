@@ -101,6 +101,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.compose.multiplatform.media.player)
             implementation(libs.kmp.onboarding)
+            implementation(libs.compottie)
+            implementation(libs.compottie.resources)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -132,8 +134,8 @@ android {
         applicationId = "app.yskuem.aimondaimaker"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 17
-        versionName = "1.1.2"
+        versionCode = 18
+        versionName = "1.1.3"
     }
     packaging {
         resources {

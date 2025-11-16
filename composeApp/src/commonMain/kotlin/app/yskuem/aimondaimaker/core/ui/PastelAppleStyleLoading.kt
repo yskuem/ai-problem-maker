@@ -448,9 +448,15 @@ fun FloatingParticles() {
                     initialY = Random.nextFloat() * 200f - 100f,
                     color =
                         when (it % 4) {
-                            0 -> Color(0xB3A78BFA) // Purple with alpha
-                            1 -> Color(0xB360A5FA) // Blue with alpha
-                            2 -> Color(0xB3F472B6) // Pink with alpha
+                            0 -> Color(0xB3A78BFA)
+
+                            // Purple with alpha
+                            1 -> Color(0xB360A5FA)
+
+                            // Blue with alpha
+                            2 -> Color(0xB3F472B6)
+
+                            // Pink with alpha
                             else -> Color(0xB399F6E4) // Teal with alpha
                         },
                     delay = Random.nextInt(5000),

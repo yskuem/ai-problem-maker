@@ -54,11 +54,13 @@ data class CreateQuizScreen(
                     errorMessage = quizList.throwable.message ?: "Unknown Error",
                 )
             }
+
             is DataUiState.Loading -> {
                 PastelAppleStyleLoading(
                     loadingTitle = stringResource(Res.string.quiz_generating),
                 )
             }
+
             is DataUiState.Success -> {
                 QuizApp(quizList.data) {
                     navigator?.pop()
