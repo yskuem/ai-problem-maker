@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import app.yskuem.aimondaimaker.core.ui.theme.ComponentSpacing
 import app.yskuem.aimondaimaker.core.ui.theme.Spacing
 import app.yskuem.aimondaimaker.feature.onboarding.AppIntroductionScreen
+import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreen
 import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -38,7 +39,7 @@ class AuthScreen : Screen {
                 navigator?.replace(AppIntroductionScreen())
                 return@LaunchedEffect
             }
-            navigator?.replace(SubscriptionScreen())
+            navigator?.replace(SelectProjectScreen())
         }
 
         Box(
