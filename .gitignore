@@ -35,3 +35,5 @@ iosApp/iosApp/GoogleService-Info.plist
 /composeApp/src/dev/google-services.json
 /composeApp/src/staging/google-services.json
 /composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/feature/quiz/config/PdfGenerateUrl.kt
+/composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.android.kt
+/composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.ios.kt

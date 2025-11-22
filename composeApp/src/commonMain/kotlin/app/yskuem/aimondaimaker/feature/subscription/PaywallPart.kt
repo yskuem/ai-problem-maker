@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
@@ -32,13 +33,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.revenuecat.purchases.kmp.models.Package
+import com.revenuecat.purchases.kmp.models.PackageType
 
 @Composable
-fun PaywallPart() {
+fun PaywallPart(
+    packages: List<Package>,
+    onPurchase: (Package) -> Unit,
+    onRestore: () -> Unit
+) {
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F7FA)
 
-    var selectedPlan by remember { mutableStateOf(1) }
+    var selectedPackage by remember(packages) {
+        mutableStateOf(
+            packages.firstOrNull { it.packageType == PackageType.ANNUAL } ?: packages.firstOrNull()
+        )
+    }
     val scrollState = rememberScrollState()
 
     Column(
@@ -111,32 +122,41 @@ fun PaywallPart() {
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                PlanCard(
-                    title = "年間プラン",
-                    price = "¥4,800",
-                    period = "/年",
-                    discount = "40% OFF",
-                    isSelected = selectedPlan == 0,
-                    onClick = { selectedPlan = 0 },
-                    primaryColor = primaryColor
-                )
+                packages.forEach { rcPackage ->
+                    val title = when (rcPackage.packageType) {
+                        PackageType.ANNUAL -> "年間プラン"
+                        PackageType.MONTHLY -> "月間プラン"
+                        PackageType.LIFETIME -> "買い切り"
+                        else -> "その他プラン"
+                    }
 
-                PlanCard(
-                    title = "月間プラン",
-                    price = "¥800",
-                    period = "/月",
-                    discount = null,
-                    isSelected = selectedPlan == 1,
-                    onClick = { selectedPlan = 1 },
-                    primaryColor = primaryColor
-                )
+                    val period = when (rcPackage.packageType) {
+                        PackageType.ANNUAL -> "/年"
+                        PackageType.MONTHLY -> "/月"
+                        else -> ""
+                    }
+
+                    val discount = if (rcPackage.packageType == PackageType.ANNUAL) "お得" else null
+
+                    PlanCard(
+                        title = title,
+                        price = rcPackage.storeProduct.price.formatted,
+                        period = period,
+                        discount = discount,
+                        isSelected = selectedPackage == rcPackage,
+                        onClick = { selectedPackage = rcPackage },
+                        primaryColor = primaryColor
+                    )
+                }
             }
         }
 
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = { },
+            onClick = {
+                selectedPackage?.let { onPurchase(it) }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp),
@@ -147,7 +167,8 @@ fun PaywallPart() {
             elevation = ButtonDefaults.buttonElevation(
                 defaultElevation = 4.dp,
                 pressedElevation = 8.dp
-            )
+            ),
+            enabled = selectedPackage != null
         ) {
             Text(
                 text = "今すぐ始める",
@@ -159,7 +180,7 @@ fun PaywallPart() {
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(
-            onClick = { /* Handle restore */ },
+            onClick = onRestore,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
@@ -193,7 +214,7 @@ fun FeatureItem(
                 .background(primaryColor.copy(alpha = 0.08f)),
             contentAlignment = Alignment.Center
         ) {
-            androidx.compose.material3.Icon(
+            Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = primaryColor
