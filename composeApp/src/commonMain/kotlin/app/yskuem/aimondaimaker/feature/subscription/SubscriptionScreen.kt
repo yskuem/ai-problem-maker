@@ -2,6 +2,8 @@ package app.yskuem.aimondaimaker.feature.subscription
 
 import PaywallPart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
@@ -14,7 +16,11 @@ class SubscriptionScreen: Screen {
     @Composable
     override fun Content() {
         val viewModel = koinScreenModel<SubscriptionScreenViewModel>()
-        when(val offering = viewModel.uiState.value.offering) {
+        val uiState = viewModel.uiState.collectAsState()
+        LaunchedEffect(Unit) {
+            viewModel.onEvent(SubscriptionScreenEvent.Initialize)
+        }
+        when(val offering = uiState.value.offering) {
             is DataUiState.Success -> {
                 PaywallPart(
                     packages = offering.data.availablePackages,
