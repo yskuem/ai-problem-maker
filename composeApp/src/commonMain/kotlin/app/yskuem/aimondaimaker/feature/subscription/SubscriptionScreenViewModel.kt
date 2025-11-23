@@ -26,6 +26,7 @@ class SubscriptionScreenViewModel(
     }
 
     private suspend fun initialize() {
+        RevenueCatInitializer.configureIfNeeded()
         runCatching {
             subscriptionRepository.identifyUser(
                 appUserId = authRepository.getUserId()

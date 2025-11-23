@@ -11,7 +11,6 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initKoinForAndroid(context = this@MyApp)
-        RevenueCatInitializer.configureIfNeeded()
     }
 
     private fun initKoinForAndroid(context: Context) {
