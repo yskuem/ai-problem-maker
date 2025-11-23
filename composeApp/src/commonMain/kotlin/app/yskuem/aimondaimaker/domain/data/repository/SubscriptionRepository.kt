@@ -3,6 +3,8 @@ package app.yskuem.aimondaimaker.domain.data.repository
 import com.revenuecat.purchases.kmp.ktx.SuccessfulLogin
 import com.revenuecat.purchases.kmp.models.CustomerInfo
 import com.revenuecat.purchases.kmp.models.Offering
+import com.revenuecat.purchases.kmp.models.Package
+import com.revenuecat.purchases.kmp.models.StoreTransaction
 
 interface SubscriptionRepository {
     suspend fun fetchCurrentOfferingOrNull(): Offering?
@@ -13,7 +15,7 @@ interface SubscriptionRepository {
 
     suspend fun logout(): CustomerInfo
 
-    suspend fun subscribe(packageToPurchase: com.revenuecat.purchases.kmp.models.Package): com.revenuecat.purchases.kmp.models.StoreTransaction
+    suspend fun subscribe(packageToPurchase: Package): StoreTransaction
 
     suspend fun restorePurchase(): CustomerInfo
 }
