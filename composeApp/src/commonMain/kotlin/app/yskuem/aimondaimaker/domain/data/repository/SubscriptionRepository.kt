@@ -17,7 +17,9 @@ interface SubscriptionRepository {
 
     suspend fun subscribe(packageToPurchase: Package): StoreTransaction
 
-    suspend fun restorePurchase(): CustomerInfo
+    suspend fun restorePurchaseAndRecheckIsSubscribed(
+        entitlementId: String = ENTITLEMENT_ID_PREMIUM
+    ): Boolean
 }
 
 

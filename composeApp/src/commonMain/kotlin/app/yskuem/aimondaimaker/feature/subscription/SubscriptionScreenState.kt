@@ -5,4 +5,6 @@ import com.revenuecat.purchases.kmp.models.Offering
 
 data class SubscriptionScreenState(
     val offering: DataUiState<Offering> = DataUiState.Initial,
+    val isSubscribed: DataUiState<Boolean> = DataUiState.Initial,
+
 )
