@@ -34,6 +34,7 @@ fun <T1, T2, R> combineDataUiStates(
 }
 
 
+@Suppress("unused")
 fun <T1, T2, T3, R> combineDataUiStates(
     state1: DataUiState<T1>,
     state2: DataUiState<T2>,
