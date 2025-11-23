@@ -67,8 +67,7 @@ class SubscriptionRepositoryImpl: SubscriptionRepository {
     override suspend fun restorePurchaseAndRecheckIsSubscribed(entitlementId: String): Boolean {
         return try {
             val info = Purchases.sharedInstance.awaitRestore()
-            info.entitlements[entitlementId]?.isActive
-                ?: throw NoSuchElementException("Entitlement $entitlementId not found")
+            info.entitlements[entitlementId]?.isActive == true
         } catch (e: PurchasesException) {
             throw e
         }

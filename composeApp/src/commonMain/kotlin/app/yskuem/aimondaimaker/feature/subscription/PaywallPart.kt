@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -39,8 +40,10 @@ import com.revenuecat.purchases.kmp.models.PackageType
 @Composable
 fun PaywallPart(
     packages: List<Package>,
+    isSubscribed: Boolean,
+    isProcessing: Boolean,
     onPurchase: (Package) -> Unit,
-    onRestore: () -> Unit
+    onRestore: () -> Unit,
 ) {
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F7FA)
@@ -52,147 +55,170 @@ fun PaywallPart(
     }
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundColor)
-            .verticalScroll(scrollState)
-            .padding(horizontal = 24.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
-
-        Text(
-            textAlign = TextAlign.Center,
-            text = "プレミアムプラン",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF1A1A1A),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Text(
-            textAlign = TextAlign.Center,
-            text = "すべての機能を解放して、より快適な学習体験を！",
-            fontSize = 14.sp,
-            color = Color(0xFF666666),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
         Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .fillMaxSize()
+                .background(backgroundColor)
+                .verticalScroll(scrollState)
+                .padding(horizontal = 24.dp, vertical = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            FeatureItem(
-                icon = Icons.Default.Check,
-                title = "広告なし体験",
-                description = "邪魔な広告を完全に削除",
-                primaryColor = primaryColor
-            )
-            FeatureItem(
-                icon = Icons.Default.Star,
-                title = "すべての機能を解放",
-                description = "プレミアム限定機能に無制限アクセス",
-                primaryColor = primaryColor
-            )
-            FeatureItem(
-                icon = Icons.Default.Lock,
-                title = "優先サポート",
-                description = "24時間以内の迅速な対応",
-                primaryColor = primaryColor
-            )
-        }
+            Spacer(modifier = Modifier.height(80.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            color = Color.White,
-            shadowElevation = 6.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                packages.forEach { rcPackage ->
-                    val title = when (rcPackage.packageType) {
-                        PackageType.ANNUAL -> "年間プラン"
-                        PackageType.MONTHLY -> "月間プラン"
-                        PackageType.LIFETIME -> "買い切り"
-                        else -> "その他プラン"
-                    }
-
-                    val period = when (rcPackage.packageType) {
-                        PackageType.ANNUAL -> "/年"
-                        PackageType.MONTHLY -> "/月"
-                        else -> ""
-                    }
-
-                    val discount = if (rcPackage.packageType == PackageType.ANNUAL) "お得" else null
-
-                    PlanCard(
-                        title = title,
-                        price = rcPackage.storeProduct.price.formatted,
-                        period = period,
-                        discount = discount,
-                        isSelected = selectedPackage == rcPackage,
-                        onClick = { selectedPackage = rcPackage },
-                        primaryColor = primaryColor
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Button(
-            onClick = {
-                selectedPackage?.let { onPurchase(it) }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = primaryColor
-            ),
-            shape = RoundedCornerShape(14.dp),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 4.dp,
-                pressedElevation = 8.dp
-            ),
-            enabled = selectedPackage != null
-        ) {
             Text(
-                text = "今すぐ始める",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextButton(
-            onClick = onRestore,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = "購入を復元",
-                color = primaryColor,
-                fontSize = 13.sp,
                 textAlign = TextAlign.Center,
+                text = "プレミアムプラン",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1A1A1A),
                 modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                textAlign = TextAlign.Center,
+                text = "すべての機能を解放して、より快適な学習体験を！",
+                fontSize = 14.sp,
+                color = Color(0xFF666666),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                FeatureItem(
+                    icon = Icons.Default.Check,
+                    title = "広告なし体験",
+                    description = "邪魔な広告を完全に削除",
+                    primaryColor = primaryColor
+                )
+                FeatureItem(
+                    icon = Icons.Default.Star,
+                    title = "すべての機能を解放",
+                    description = "プレミアム限定機能に無制限アクセス",
+                    primaryColor = primaryColor
+                )
+                FeatureItem(
+                    icon = Icons.Default.Lock,
+                    title = "優先サポート",
+                    description = "24時間以内の迅速な対応",
+                    primaryColor = primaryColor
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                color = Color.White,
+                shadowElevation = 6.dp
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    packages.forEach { rcPackage ->
+                        val title = when (rcPackage.packageType) {
+                            PackageType.ANNUAL -> "年間プラン"
+                            PackageType.MONTHLY -> "月間プラン"
+                            PackageType.LIFETIME -> "買い切り"
+                            else -> "その他プラン"
+                        }
+
+                        val period = when (rcPackage.packageType) {
+                            PackageType.ANNUAL -> "/年"
+                            PackageType.MONTHLY -> "/月"
+                            else -> ""
+                        }
+
+                        val discount = if (rcPackage.packageType == PackageType.ANNUAL) "お得" else null
+
+                        PlanCard(
+                            title = title,
+                            price = rcPackage.storeProduct.price.formatted,
+                            period = period,
+                            discount = discount,
+                            isSelected = selectedPackage == rcPackage,
+                            onClick = { selectedPackage = rcPackage },
+                            primaryColor = primaryColor
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            Button(
+                onClick = {
+                    selectedPackage?.let { onPurchase(it) }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = primaryColor,
+                    disabledContainerColor = Color.Gray
+                ),
+                shape = RoundedCornerShape(14.dp),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 4.dp,
+                    pressedElevation = 8.dp
+                ),
+                enabled = selectedPackage != null && !isSubscribed
+            ) {
+                Text(
+                    text = if (isSubscribed) "登録済み" else "今すぐ始める",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextButton(
+                onClick = onRestore,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !isSubscribed
+            ) {
+                Text(
+                    text = "購入を復元",
+                    color = if (isSubscribed) Color.Gray else primaryColor,
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        if (isProcessing) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { },
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    color = Color.White
+                )
+            }
+        }
     }
 }
 

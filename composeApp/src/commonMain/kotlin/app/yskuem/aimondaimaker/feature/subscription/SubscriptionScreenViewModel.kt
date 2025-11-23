@@ -67,7 +67,7 @@ class SubscriptionScreenViewModel(
     }
 
     private suspend fun checkIsSubscribed() {
-        changeToLoadingState()
+        changeProcessingState(isProcessing = true)
         return runCatching {
             subscriptionRepository.isSubscribed()
         }.fold(
@@ -77,6 +77,7 @@ class SubscriptionScreenViewModel(
                         isSubscribed = DataUiState.Success(isSubscribed)
                     )
                 }
+                changeProcessingState(isProcessing = false)
             },
             onFailure = { error ->
                 _uiState.update {
@@ -84,12 +85,13 @@ class SubscriptionScreenViewModel(
                         isSubscribed = DataUiState.Error(error)
                     )
                 }
+                changeProcessingState(isProcessing = false)
             }
         )
     }
 
     private suspend fun purchaseSubscription(purchasePackage: Package) {
-        changeToLoadingState()
+        changeProcessingState(isProcessing = true)
         runCatching {
             subscriptionRepository.subscribe(packageToPurchase = purchasePackage)
         }.fold(
@@ -108,10 +110,11 @@ class SubscriptionScreenViewModel(
                 }
             }
         )
+        changeProcessingState(isProcessing = false)
     }
 
     private suspend fun restore() {
-        changeToLoadingState()
+        changeProcessingState(isProcessing = true)
         runCatching {
             subscriptionRepository.restorePurchaseAndRecheckIsSubscribed()
         }.fold(
@@ -130,12 +133,13 @@ class SubscriptionScreenViewModel(
                 }
             }
         )
+        changeProcessingState(isProcessing = true)
     }
 
-    private fun changeToLoadingState() {
+    private fun changeProcessingState(isProcessing: Boolean) {
         _uiState.update {
             it.copy(
-                isSubscribed = DataUiState.Loading,
+                isProcessing = isProcessing
             )
         }
     }

@@ -18,6 +18,22 @@ sealed class DataUiState<out T> {
 }
 
 
+fun <T1, T2, R> combineDataUiStates(
+    state1: DataUiState<T1>,
+    state2: DataUiState<T2>,
+    transform: (T1, T2) -> R
+): DataUiState<R> {
+    return when {
+        state1 is DataUiState.Error -> state1
+        state2 is DataUiState.Error -> state2
+        state1 is DataUiState.Loading || state2 is DataUiState.Loading -> DataUiState.Loading
+        state1 is DataUiState.Success && state2 is DataUiState.Success ->
+            DataUiState.Success(transform(state1.data, state2.data))
+        else -> DataUiState.Initial
+    }
+}
+
+
 fun <T1, T2, T3, R> combineDataUiStates(
     state1: DataUiState<T1>,
     state2: DataUiState<T2>,
