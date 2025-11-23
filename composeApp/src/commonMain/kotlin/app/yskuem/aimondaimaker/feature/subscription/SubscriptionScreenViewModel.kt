@@ -67,6 +67,7 @@ class SubscriptionScreenViewModel(
     }
 
     private suspend fun checkIsSubscribed() {
+        changeToLoadingState()
         return runCatching {
             subscriptionRepository.isSubscribed()
         }.fold(
@@ -88,6 +89,7 @@ class SubscriptionScreenViewModel(
     }
 
     private suspend fun purchaseSubscription(purchasePackage: Package) {
+        changeToLoadingState()
         runCatching {
             subscriptionRepository.subscribe(packageToPurchase = purchasePackage)
         }.fold(
@@ -109,6 +111,7 @@ class SubscriptionScreenViewModel(
     }
 
     private suspend fun restore() {
+        changeToLoadingState()
         runCatching {
             subscriptionRepository.restorePurchaseAndRecheckIsSubscribed()
         }.fold(
@@ -127,5 +130,13 @@ class SubscriptionScreenViewModel(
                 }
             }
         )
+    }
+
+    private fun changeToLoadingState() {
+        _uiState.update {
+            it.copy(
+                isSubscribed = DataUiState.Loading,
+            )
+        }
     }
 }
