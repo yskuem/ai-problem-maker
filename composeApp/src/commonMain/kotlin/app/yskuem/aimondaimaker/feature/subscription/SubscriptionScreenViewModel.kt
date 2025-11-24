@@ -133,7 +133,7 @@ class SubscriptionScreenViewModel(
                 }
             }
         )
-        changeProcessingState(isProcessing = true)
+        changeProcessingState(isProcessing = false)
     }
 
     private fun changeProcessingState(isProcessing: Boolean) {
