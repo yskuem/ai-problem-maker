@@ -112,4 +112,22 @@
     <string name="update_toast_message">एक नया संस्करण जारी किया गया है।</string>
 
     <string name="login_error_message">एक त्रुटि हुई।</string>
+    <string name="paywall_title">Premium Plan</string>
+    <string name="paywall_description">Unlock all features for a better learning experience!</string>
+    <string name="feature_ad_free_title">Ad-free experience</string>
+    <string name="feature_ad_free_desc">Completely remove annoying ads</string>
+    <string name="feature_unlock_all_title">Unlock all features</string>
+    <string name="feature_unlock_all_desc">Unlimited access to premium-only features</string>
+    <string name="feature_priority_support_title">Priority support</string>
+    <string name="feature_priority_support_desc">Quick response within 24 hours</string>
+    <string name="plan_annual">Annual Plan</string>
+    <string name="plan_monthly">Monthly Plan</string>
+    <string name="plan_lifetime">Lifetime</string>
+    <string name="plan_other">Other Plan</string>
+    <string name="price_per_year">/year</string>
+    <string name="price_per_month">/month</string>
+    <string name="discount_label">Best Value</string>
+    <string name="subscribed_label">Subscribed</string>
+    <string name="start_now_label">Start Now</string>
+    <string name="restore_purchase_label">Restore Purchase</string>
 </resources>
