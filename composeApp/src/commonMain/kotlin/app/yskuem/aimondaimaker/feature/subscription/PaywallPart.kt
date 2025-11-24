@@ -36,8 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.revenuecat.purchases.kmp.models.Package
 import com.revenuecat.purchases.kmp.models.PackageType
-import ai_problem_maker.composeapp.generated.resources.*
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PaywallPart(
@@ -72,7 +70,7 @@ fun PaywallPart(
 
             Text(
                 textAlign = TextAlign.Center,
-                text = stringResource(Res.string.paywall_title),
+                text = "プレミアムプラン",
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1A1A1A),
@@ -83,7 +81,7 @@ fun PaywallPart(
 
             Text(
                 textAlign = TextAlign.Center,
-                text = stringResource(Res.string.paywall_description),
+                text = "すべての機能を解放して、より快適な学習体験を！",
                 fontSize = 14.sp,
                 color = Color(0xFF666666),
                 modifier = Modifier.fillMaxWidth()
@@ -98,20 +96,20 @@ fun PaywallPart(
             ) {
                 FeatureItem(
                     icon = Icons.Default.Check,
-                    title = stringResource(Res.string.feature_ad_free_title),
-                    description = stringResource(Res.string.feature_ad_free_desc),
+                    title = "広告なし体験",
+                    description = "邪魔な広告を完全に削除",
                     primaryColor = primaryColor
                 )
                 FeatureItem(
                     icon = Icons.Default.Star,
-                    title = stringResource(Res.string.feature_unlock_all_title),
-                    description = stringResource(Res.string.feature_unlock_all_desc),
+                    title = "すべての機能を解放",
+                    description = "プレミアム限定機能に無制限アクセス",
                     primaryColor = primaryColor
                 )
                 FeatureItem(
                     icon = Icons.Default.Lock,
-                    title = stringResource(Res.string.feature_priority_support_title),
-                    description = stringResource(Res.string.feature_priority_support_desc),
+                    title = "優先サポート",
+                    description = "24時間以内の迅速な対応",
                     primaryColor = primaryColor
                 )
             }
@@ -132,19 +130,19 @@ fun PaywallPart(
                 ) {
                     packages.forEach { rcPackage ->
                         val title = when (rcPackage.packageType) {
-                            PackageType.ANNUAL -> stringResource(Res.string.plan_annual)
-                            PackageType.MONTHLY -> stringResource(Res.string.plan_monthly)
-                            PackageType.LIFETIME -> stringResource(Res.string.plan_lifetime)
-                            else -> stringResource(Res.string.plan_other)
+                            PackageType.ANNUAL -> "年間プラン"
+                            PackageType.MONTHLY -> "月間プラン"
+                            PackageType.LIFETIME -> "買い切り"
+                            else -> "その他プラン"
                         }
 
                         val period = when (rcPackage.packageType) {
-                            PackageType.ANNUAL -> stringResource(Res.string.price_per_year)
-                            PackageType.MONTHLY -> stringResource(Res.string.price_per_month)
+                            PackageType.ANNUAL -> "/年"
+                            PackageType.MONTHLY -> "/月"
                             else -> ""
                         }
 
-                        val discount = if (rcPackage.packageType == PackageType.ANNUAL) stringResource(Res.string.discount_label) else null
+                        val discount = if (rcPackage.packageType == PackageType.ANNUAL) "お得" else null
 
                         PlanCard(
                             title = title,
@@ -181,7 +179,7 @@ fun PaywallPart(
                 enabled = selectedPackage != null && !isSubscribed
             ) {
                 Text(
-                    text = if (isSubscribed) stringResource(Res.string.subscribed_label) else stringResource(Res.string.start_now_label),
+                    text = if (isSubscribed) "登録済み" else "今すぐ始める",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -195,7 +193,7 @@ fun PaywallPart(
                 enabled = !isSubscribed
             ) {
                 Text(
-                    text = stringResource(Res.string.restore_purchase_label),
+                    text = "購入を復元",
                     color = if (isSubscribed) Color.Gray else primaryColor,
                     fontSize = 13.sp,
                     textAlign = TextAlign.Center,
