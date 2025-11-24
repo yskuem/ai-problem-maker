@@ -69,7 +69,7 @@ async def handle_generation(
     )
     contents = [uploaded, "\n\n" + prompt]
     result = client.models.generate_content(
-        model="gemini-flash-latest",
+        model="gemini-flash-lite-latest",
         contents=contents,
         config=generate_config,
     )
