@@ -168,7 +168,8 @@ fun PaywallPart(
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = primaryColor,
-                    disabledContainerColor = Color.Gray
+                    disabledContainerColor = Color.Gray,
+                    disabledContentColor = Color.White
                 ),
                 shape = RoundedCornerShape(14.dp),
                 elevation = ButtonDefaults.buttonElevation(
