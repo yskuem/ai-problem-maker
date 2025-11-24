@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.feature.auth.ui
 
+import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.login_error_message
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +22,7 @@ import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import org.jetbrains.compose.resources.stringResource
 
 class AuthScreen : Screen {
     @Composable
@@ -60,7 +63,7 @@ class AuthScreen : Screen {
 
                 !uiState.value.isLoginSuccessful -> {
                     Text(
-                        text = "エラーが発生しました。",
+                        text = stringResource(Res.string.login_error_message),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.error,
                     )

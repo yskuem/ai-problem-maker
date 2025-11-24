@@ -111,4 +111,5 @@
     <string name="update_toast_title_with_version">La version %1$s est disponible</string>
     <string name="update_toast_message">Une nouvelle version a été publiée.</string>
 
+    <string name="login_error_message">Une erreur s'est produite.</string>
 </resources>

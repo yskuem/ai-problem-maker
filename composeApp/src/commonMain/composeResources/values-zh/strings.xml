@@ -111,4 +111,5 @@
     <string name="update_toast_title_with_version">%1$s 版本现已可用</string>
     <string name="update_toast_message">新版本已经发布。</string>
 
+    <string name="login_error_message">发生错误。</string>
 </resources>

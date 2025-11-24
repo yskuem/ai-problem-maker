@@ -111,4 +111,5 @@
     <string name="update_toast_title_with_version">संस्करण %1$s उपलब्ध है</string>
     <string name="update_toast_message">एक नया संस्करण जारी किया गया है।</string>
 
+    <string name="login_error_message">एक त्रुटि हुई।</string>
 </resources>
