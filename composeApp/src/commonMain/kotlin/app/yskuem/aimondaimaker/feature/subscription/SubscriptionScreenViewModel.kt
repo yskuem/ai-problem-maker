@@ -31,7 +31,6 @@ class SubscriptionScreenViewModel(
     }
 
     private fun initialize() {
-        RevenueCatInitializer.configureIfNeeded()
         screenModelScope.launch {
             fetchOffering()
         }
