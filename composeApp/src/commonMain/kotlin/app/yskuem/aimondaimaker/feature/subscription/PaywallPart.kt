@@ -20,8 +20,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +46,7 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaywallPart(
     packages: List<Package>,
@@ -61,33 +66,40 @@ fun PaywallPart(
     }
     val scrollState = rememberScrollState()
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {},
+                navigationIcon = {
+                    IconButton(
+                        onClick = onDismiss,
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color(0xFF1A1A1A)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.Transparent
+                )
+            )
+        },
+        containerColor = backgroundColor
+    ) { innerPadding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(backgroundColor)
-                .verticalScroll(scrollState)
-                .padding(horizontal = 24.dp, vertical = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(innerPadding)
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 24.dp, vertical = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconButton(
-                    onClick = onDismiss,
-                    modifier = Modifier.align(Alignment.CenterStart)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color(0xFF1A1A1A)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 textAlign = TextAlign.Center,
@@ -221,6 +233,9 @@ fun PaywallPart(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
 
             Spacer(modifier = Modifier.height(24.dp))
         }
