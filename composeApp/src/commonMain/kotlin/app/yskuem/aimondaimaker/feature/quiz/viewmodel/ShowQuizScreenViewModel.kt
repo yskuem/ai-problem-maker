@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.quiz.viewmodel
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.ui.PdfDocument
 import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
+import app.yskuem.aimondaimaker.core.util.combine
 import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.PdfRepository
@@ -41,6 +42,11 @@ class ShowQuizScreenViewModel(
     private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Initial)
     private val _savePdfState = MutableStateFlow<DataUiState<Unit>>(DataUiState.Initial)
     private val _isSubscribed = MutableStateFlow(false)
+    private val _currentQuestionIndex = MutableStateFlow(0)
+    private val _selectedOption = MutableStateFlow<Int?>(null)
+    private val _showResult = MutableStateFlow(false)
+    private val _score = MutableStateFlow(0)
+    private val _quizCompleted = MutableStateFlow(false)
     val savePdfState: StateFlow<DataUiState<Unit>> = _savePdfState.asStateFlow()
 
     val uiState: StateFlow<QuizUiState> =
@@ -50,13 +56,23 @@ class ShowQuizScreenViewModel(
             _pdfData,
             _savePdfState,
             _isSubscribed,
-        ) { quizList, currentQuizListIndex, pdfData, saveState, isSubscribed ->
+            _currentQuestionIndex,
+            _selectedOption,
+            _showResult,
+            _score,
+            _quizCompleted,
+        ) { quizList, currentQuizListIndex, pdfData, saveState, isSubscribed, currentQuestionIndex, selectedOption, showResult, score, quizCompleted ->
             QuizUiState(
                 quizList = quizList,
                 currentQuizListIndex = currentQuizListIndex,
                 pdfData = pdfData,
                 pdfSaveState = saveState,
                 isSubscribed = isSubscribed,
+                currentQuestionIndex = currentQuestionIndex,
+                selectedOption = selectedOption,
+                showResult = showResult,
+                score = score,
+                quizCompleted = quizCompleted,
             )
         }.stateIn(
             scope = screenModelScope,
@@ -158,6 +174,34 @@ class ShowQuizScreenViewModel(
                 _savePdfState.value = DataUiState.Error(t)
             }
         }
+    }
+
+    fun onOptionSelected(optionIndex: Int, correctAnswerIndex: Int) {
+        if (_selectedOption.value == null) {
+            _selectedOption.value = optionIndex
+            _showResult.value = true
+            if (optionIndex == correctAnswerIndex) {
+                _score.value += 1
+            }
+        }
+    }
+
+    fun onNextQuestion(totalQuestions: Int) {
+        _selectedOption.value = null
+        _showResult.value = false
+        if (_currentQuestionIndex.value < totalQuestions - 1) {
+            _currentQuestionIndex.value += 1
+        } else {
+            _quizCompleted.value = true
+        }
+    }
+
+    fun onRestart() {
+        _currentQuestionIndex.value = 0
+        _selectedOption.value = null
+        _showResult.value = false
+        _score.value = 0
+        _quizCompleted.value = false
     }
 
     private suspend fun onFetchQuizList(

@@ -64,6 +64,22 @@ class ShowAnsweredQuizzesScreen private constructor(
             isSubscribed = state.isSubscribed,
             onNavigateToSubscription = {
                 navigator?.push(SubscriptionScreen())
+            },
+            currentQuestionIndex = state.currentQuestionIndex,
+            selectedOption = state.selectedOption,
+            showResult = state.showResult,
+            score = state.score,
+            quizCompleted = state.quizCompleted,
+            onOptionSelected = { optionIndex ->
+                val currentQuiz = quizList[state.currentQuestionIndex]
+                val correctAnswerIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
+                viewmodel.onOptionSelected(optionIndex, correctAnswerIndex)
+            },
+            onNextQuestion = {
+                viewmodel.onNextQuestion(quizList.size)
+            },
+            onRestart = {
+                viewmodel.onRestart()
             }
         )
     }

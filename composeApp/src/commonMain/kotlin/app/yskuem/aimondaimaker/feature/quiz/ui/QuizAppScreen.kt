@@ -80,12 +80,16 @@ fun QuizApp(
     onDismissPdfSaveResult: () -> Unit,
     isSubscribed: Boolean,
     onNavigateToSubscription: () -> Unit,
+    currentQuestionIndex: Int,
+    selectedOption: Int?,
+    showResult: Boolean,
+    score: Int,
+    quizCompleted: Boolean,
+    onOptionSelected: (Int) -> Unit,
+    onNextQuestion: () -> Unit,
+    onRestart: () -> Unit,
 ) {
-    var currentQuestion by remember { mutableStateOf(0) }
-    var selectedOption by remember { mutableStateOf<Int?>(null) }
-    var showResult by remember { mutableStateOf(false) }
-    var score by remember { mutableStateOf(0) }
-    var quizCompleted by remember { mutableStateOf(false) }
+
 
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F5F7)
@@ -106,7 +110,7 @@ fun QuizApp(
                             text =
                                 stringResource(
                                     Res.string.question_number_title,
-                                    currentQuestion + 1,
+                                    currentQuestionIndex + 1,
                                     quizList.size,
                                 ),
                         )
@@ -145,13 +149,7 @@ fun QuizApp(
                         totalQuestions = quizList.size,
                         groupId = quizList.firstOrNull()?.groupId ?: "",
                         quizList = quizList,
-                        onRestart = {
-                            currentQuestion = 0
-                            selectedOption = null
-                            showResult = false
-                            score = 0
-                            quizCompleted = false
-                        },
+                        onRestart = onRestart,
                         onCreatePdf = onCreatePdf,
                         pdfResponse = pdfResponse,
                         onClosePdfViewer = onClosePdfViewer,
@@ -163,35 +161,21 @@ fun QuizApp(
                         onNavigateToSubscription = onNavigateToSubscription,
                     )
                 } else {
-                    val currentQuiz = quizList[currentQuestion]
+                    val currentQuiz = quizList[currentQuestionIndex]
                     val correctAnswerIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
 
                     QuizContentScreen(
                         quiz = currentQuiz,
                         correctAnswerIndex = correctAnswerIndex,
-                        currentQuestionIndex = currentQuestion,
+                        currentQuestionIndex = currentQuestionIndex,
                         totalQuestions = quizList.size,
                         selectedOption = selectedOption,
                         showResult = showResult,
                         score = score,
                         onOptionSelected = { optionIndex ->
-                            if (selectedOption == null) {
-                                selectedOption = optionIndex
-                                showResult = true
-                                if (optionIndex == correctAnswerIndex) {
-                                    score += 1
-                                }
-                            }
+                            onOptionSelected(optionIndex)
                         },
-                        onNextQuestion = {
-                            selectedOption = null
-                            showResult = false
-                            if (currentQuestion < quizList.size - 1) {
-                                currentQuestion += 1
-                            } else {
-                                quizCompleted = true
-                            }
-                        },
+                        onNextQuestion = onNextQuestion,
                     )
                 }
             }
