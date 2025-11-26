@@ -8,6 +8,7 @@ import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.PdfRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.feature.quiz.uiState.QuizUiState
 import cafe.adriel.voyager.core.model.ScreenModel
@@ -33,11 +34,13 @@ class ShowQuizScreenViewModel(
     private val projectRepository: ProjectRepository,
     private val crashlytics: FirebaseCrashlytics,
     private val pdfRepository: PdfRepository,
+    private val subscriptionRepository: SubscriptionRepository,
 ) : ScreenModel {
     private val _quizList = MutableStateFlow<DataUiState<List<Quiz>>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
     private val _pdfData = MutableStateFlow<DataUiState<PdfResponse>>(DataUiState.Initial)
     private val _savePdfState = MutableStateFlow<DataUiState<Unit>>(DataUiState.Initial)
+    private val _isSubscribed = MutableStateFlow(false)
     val savePdfState: StateFlow<DataUiState<Unit>> = _savePdfState.asStateFlow()
 
     val uiState: StateFlow<QuizUiState> =
@@ -45,19 +48,27 @@ class ShowQuizScreenViewModel(
             _quizList,
             _currentQuizIndex,
             _pdfData,
-            _savePdfState
-        ) { quizList, currentQuizListIndex, pdfData, saveState ->
+            _savePdfState,
+            _isSubscribed,
+        ) { quizList, currentQuizListIndex, pdfData, saveState, isSubscribed ->
             QuizUiState(
                 quizList = quizList,
                 currentQuizListIndex = currentQuizListIndex,
                 pdfData = pdfData,
                 pdfSaveState = saveState,
+                isSubscribed = isSubscribed,
             )
         }.stateIn(
             scope = screenModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = QuizUiState(),
         )
+
+    init {
+        screenModelScope.launch {
+            _isSubscribed.value = subscriptionRepository.isSubscribed()
+        }
+    }
 
     fun onLoadPage(
         imageByte: ByteArray,

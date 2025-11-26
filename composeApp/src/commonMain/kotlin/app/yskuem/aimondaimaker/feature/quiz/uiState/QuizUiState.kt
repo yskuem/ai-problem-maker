@@ -9,4 +9,5 @@ data class QuizUiState(
     val currentQuizListIndex: Int = 0,
     val pdfData: DataUiState<PdfResponse> = DataUiState.Loading,
     val pdfSaveState: DataUiState<Unit> = DataUiState.Initial,
+    val isSubscribed: Boolean = false,
 )

@@ -8,6 +8,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.backhandler.BackHandler
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
+import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -59,6 +60,10 @@ class ShowAnsweredQuizzesScreen private constructor(
             pdfSaveState = state.pdfSaveState,
             onDismissPdfSaveResult = {
                 viewmodel.onDismissSavePdfResult()
+            },
+            isSubscribed = state.isSubscribed,
+            onNavigateToSubscription = {
+                navigator?.push(SubscriptionScreen())
             }
         )
     }

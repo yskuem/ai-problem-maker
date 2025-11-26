@@ -103,6 +103,8 @@ fun QuizCompletedScreen(
     onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
     pdfSaveState: DataUiState<Unit>,
     onDismissPdfSaveResult: () -> Unit,
+    isSubscribed: Boolean,
+    onNavigateToSubscription: () -> Unit,
 ) {
 
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
@@ -295,7 +297,11 @@ fun QuizCompletedScreen(
                 pdf = pdfDocument,
                 title = exportPdfLabel,
                 onClickSave = {
-                    onSavePdf(byte,filename)
+                    if (isSubscribed) {
+                        onSavePdf(byte, filename)
+                    } else {
+                        onNavigateToSubscription()
+                    }
                 },
                 isSavingPdf = isSavingPdf,
                 onCloseViewer = {

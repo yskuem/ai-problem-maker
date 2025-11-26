@@ -14,6 +14,7 @@ import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.feature.ad.ui.InterstitialHost
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
+import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -87,6 +88,10 @@ data class CreateQuizScreen(
                     pdfSaveState = state.pdfSaveState,
                     onDismissPdfSaveResult = {
                         viewmodel.onDismissSavePdfResult()
+                    },
+                    isSubscribed = state.isSubscribed,
+                    onNavigateToSubscription = {
+                        navigator?.push(SubscriptionScreen())
                     }
                 )
             }

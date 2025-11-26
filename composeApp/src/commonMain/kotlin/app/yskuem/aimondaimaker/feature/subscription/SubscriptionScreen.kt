@@ -14,11 +14,14 @@ import app.yskuem.aimondaimaker.core.ui.LoadingScreen
 import app.yskuem.aimondaimaker.core.ui.combineDataUiStates
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 
 class SubscriptionScreen: Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val viewModel = koinScreenModel<SubscriptionScreenViewModel>()
         val uiState = viewModel.uiState.collectAsState()
         LaunchedEffect(Unit) {
@@ -55,6 +58,9 @@ class SubscriptionScreen: Screen {
                     },
                     isSubscribed = state.data.second,
                     isProcessing = uiState.value.isProcessing,
+                    onDismiss = {
+                        navigator.pop()
+                    }
                 )
             }
             is DataUiState.Error -> {

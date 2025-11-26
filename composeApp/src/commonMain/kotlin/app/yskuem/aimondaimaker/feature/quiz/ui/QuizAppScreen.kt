@@ -78,6 +78,8 @@ fun QuizApp(
     onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
     pdfSaveState: DataUiState<Unit>,
     onDismissPdfSaveResult: () -> Unit,
+    isSubscribed: Boolean,
+    onNavigateToSubscription: () -> Unit,
 ) {
     var currentQuestion by remember { mutableStateOf(0) }
     var selectedOption by remember { mutableStateOf<Int?>(null) }
@@ -157,6 +159,8 @@ fun QuizApp(
                         onSavePdf = onSavePdf,
                         pdfSaveState = pdfSaveState,
                         onDismissPdfSaveResult = onDismissPdfSaveResult,
+                        isSubscribed = isSubscribed,
+                        onNavigateToSubscription = onNavigateToSubscription,
                     )
                 } else {
                     val currentQuiz = quizList[currentQuestion]

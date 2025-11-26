@@ -8,6 +8,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
@@ -15,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
@@ -47,6 +49,7 @@ fun PaywallPart(
     isProcessing: Boolean,
     onPurchase: (Package) -> Unit,
     onRestore: () -> Unit,
+    onDismiss: () -> Unit,
 ) {
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F7FA)
@@ -69,7 +72,22 @@ fun PaywallPart(
                 .padding(horizontal = 24.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.align(Alignment.CenterStart)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color(0xFF1A1A1A)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 textAlign = TextAlign.Center,
