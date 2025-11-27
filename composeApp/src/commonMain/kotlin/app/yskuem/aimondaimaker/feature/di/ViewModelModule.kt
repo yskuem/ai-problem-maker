@@ -34,6 +34,7 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 crashlytics = get(),
+                subscriptionRepository = get(),
             )
         }
         factory {
@@ -44,6 +45,7 @@ val viewModelModule =
         factory {
             SelectProjectScreenViewModel(
                 projectRepository = get(),
+                subscriptionRepository = get(),
             )
         }
         factory { (projectId: String) ->
@@ -51,6 +53,7 @@ val viewModelModule =
                 quizRepository = get(),
                 noteRepository = get(),
                 projectId = projectId,
+                subscriptionRepository = get(),
             )
         }
         factory {
