@@ -42,7 +42,9 @@ data class CreateQuizScreen(
             )
         }
 
-        InterstitialHost()
+        if (!state.isSubscribed) {
+            InterstitialHost()
+        }
 
         BackHandler {
             navigator?.pop()

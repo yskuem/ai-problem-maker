@@ -40,7 +40,9 @@ data class CreateNoteScreen(
             )
         }
 
-        InterstitialHost()
+        if (!state.isSubscribed) {
+            InterstitialHost()
+        }
 
         BackHandler {
             navigator?.pop()

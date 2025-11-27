@@ -86,9 +86,6 @@ fun QuizApp(
     onRestart: () -> Unit,
 ) {
 
-    // TODO サブスクリプション広告削除
-    // TODO サブスクリプション画面のサブスク説明修正
-
 
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F5F7)
