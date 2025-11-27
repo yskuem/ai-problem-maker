@@ -121,6 +121,10 @@
     <string name="feature_unlock_all_description">Unlimited access to premium-only features</string>
     <string name="feature_priority_support_title">Priority support</string>
     <string name="feature_priority_support_description">Quick response within 24 hours</string>
+    <string name="feature_pdf_download_title">Quiz PDF Download</string>
+    <string name="feature_pdf_download_description">Save and print your quizzes as PDFs for comfortable offline study.</string>
+    <string name="feature_remove_ads_title">Remove All Ads</string>
+    <string name="feature_remove_ads_description">Completely remove ads and focus on your learning.</string>
     <string name="plan_annual">Annual Plan</string>
     <string name="plan_monthly">Monthly Plan</string>
     <string name="plan_lifetime">Lifetime</string>

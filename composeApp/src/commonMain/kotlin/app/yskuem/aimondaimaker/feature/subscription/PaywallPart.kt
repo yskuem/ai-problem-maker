@@ -128,21 +128,15 @@ fun PaywallPart(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 FeatureItem(
-                    icon = Icons.Default.Check,
-                    title = stringResource(Res.string.feature_ad_free_title),
-                    description = stringResource(Res.string.feature_ad_free_description),
-                    primaryColor = primaryColor
-                )
-                FeatureItem(
                     icon = Icons.Default.Star,
-                    title = stringResource(Res.string.feature_unlock_all_title),
-                    description = stringResource(Res.string.feature_unlock_all_description),
+                    title = stringResource(Res.string.feature_pdf_download_title),
+                    description = stringResource(Res.string.feature_pdf_download_description),
                     primaryColor = primaryColor
                 )
                 FeatureItem(
-                    icon = Icons.Default.Lock,
-                    title = stringResource(Res.string.feature_priority_support_title),
-                    description = stringResource(Res.string.feature_priority_support_description),
+                    icon = Icons.Default.Check,
+                    title = stringResource(Res.string.feature_remove_ads_title),
+                    description = stringResource(Res.string.feature_remove_ads_description),
                     primaryColor = primaryColor
                 )
             }

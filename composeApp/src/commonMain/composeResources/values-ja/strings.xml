@@ -122,6 +122,10 @@
     <string name="feature_unlock_all_description">プレミアム限定機能に無制限アクセス</string>
     <string name="feature_priority_support_title">優先サポート</string>
     <string name="feature_priority_support_description">24時間以内の迅速な対応</string>
+    <string name="feature_pdf_download_title">クイズのPDFダウンロード機能</string>
+    <string name="feature_pdf_download_description">作成したクイズをPDFで保存・印刷して、オフラインでも快適に学習できます。</string>
+    <string name="feature_remove_ads_title">すべての広告の削除</string>
+    <string name="feature_remove_ads_description">広告を完全に削除して、学習に集中できる環境を手に入れましょう。</string>
     <string name="plan_annual">年間プラン</string>
     <string name="plan_monthly">月間プラン</string>
     <string name="plan_lifetime">買い切り</string>
