@@ -31,7 +31,9 @@ class ShowProjectInfoScreenViewModel(
     init {
         fetchQuizInfo()
         screenModelScope.launch {
-            _isSubscribed.value = subscriptionRepository.isSubscribed()
+            subscriptionRepository.isSubscribed().collect {
+                _isSubscribed.value = it
+            }
         }
     }
 

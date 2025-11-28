@@ -67,26 +67,15 @@ class SubscriptionScreenViewModel(
 
     private suspend fun checkIsSubscribed() {
         changeProcessingState(isProcessing = true)
-        return runCatching {
-            subscriptionRepository.isSubscribed()
-        }.fold(
-            onSuccess = { isSubscribed ->
+        subscriptionRepository.isSubscribed()
+            .collect { isSubscribed ->
                 _uiState.update {
                     it.copy(
                         isSubscribed = DataUiState.Success(isSubscribed)
                     )
                 }
                 changeProcessingState(isProcessing = false)
-            },
-            onFailure = { error ->
-                _uiState.update {
-                    it.copy(
-                        isSubscribed = DataUiState.Error(error)
-                    )
-                }
-                changeProcessingState(isProcessing = false)
             }
-        )
     }
 
     private suspend fun purchaseSubscription(purchasePackage: Package) {
