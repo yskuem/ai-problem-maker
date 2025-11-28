@@ -9,6 +9,7 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SystemUpdate
@@ -169,78 +170,62 @@ fun UpdateToast(
                             shape = RoundedCornerShape(16.dp),
                         ).clip(RoundedCornerShape(16.dp)),
             ) {
-                Row(
+                BoxWithConstraints(
                     modifier =
                         Modifier
                             .fillMaxWidth()
                             .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    // アイコン部分
-                    Box(
-                        modifier =
-                            Modifier
-                                .size(48.dp)
-                                .background(
-                                    PastelPurpleTheme.accentPurple.copy(alpha = 0.3f),
-                                    RoundedCornerShape(12.dp),
-                                ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.SystemUpdate,
-                            contentDescription = iconDescription,
-                            tint = PastelPurpleTheme.darkPurple,
-                            modifier = Modifier.size(24.dp),
-                        )
-                    }
+                    val isCompact = maxWidth < 360.dp
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                    if (isCompact) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                UpdateToastIcon(iconDescription)
+                                Spacer(modifier = Modifier.width(16.dp))
+                                UpdateToastTexts(
+                                    titleText = titleText,
+                                    messageText = messageText,
+                                )
+                            }
 
-                    // テキスト部分
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(
-                            text = titleText,
-                            color = PastelPurpleTheme.textPrimary,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = messageText,
-                            color = PastelPurpleTheme.textSecondary,
-                            fontSize = 12.sp,
-                        )
-                    }
+                            UpdateActionButton(
+                                buttonLabel = buttonLabel,
+                                onClick = {
+                                    onUpdate()
+                                    dismissToast()
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            UpdateToastIcon(iconDescription)
 
-                    Spacer(modifier = Modifier.width(12.dp))
+                            Spacer(modifier = Modifier.width(16.dp))
 
-                    // アップデートボタン
-                    Button(
-                        onClick = {
-                            onUpdate()
-                            dismissToast()
-                        },
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                containerColor = PastelPurpleTheme.buttonBackground,
-                                contentColor = PastelPurpleTheme.buttonText,
-                            ),
-                        shape = RoundedCornerShape(12.dp),
-                        elevation =
-                            ButtonDefaults.buttonElevation(
-                                defaultElevation = 4.dp,
-                                pressedElevation = 2.dp,
-                            ),
-                        modifier = Modifier.height(40.dp),
-                    ) {
-                        Text(
-                            text = buttonLabel,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp,
-                        )
+                            UpdateToastTexts(
+                                titleText = titleText,
+                                messageText = messageText,
+                                modifier = Modifier.weight(1f),
+                            )
+
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            UpdateActionButton(
+                                buttonLabel = buttonLabel,
+                                onClick = {
+                                    onUpdate()
+                                    dismissToast()
+                                },
+                            )
+                        }
                     }
                 }
 
@@ -257,6 +242,78 @@ fun UpdateToast(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun UpdateToastIcon(contentDescription: String) {
+    Box(
+        modifier =
+            Modifier
+                .size(48.dp)
+                .background(
+                    PastelPurpleTheme.accentPurple.copy(alpha = 0.3f),
+                    RoundedCornerShape(12.dp),
+                ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Default.SystemUpdate,
+            contentDescription = contentDescription,
+            tint = PastelPurpleTheme.darkPurple,
+            modifier = Modifier.size(24.dp),
+        )
+    }
+}
+
+@Composable
+private fun UpdateToastTexts(
+    titleText: String,
+    messageText: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = titleText,
+            color = PastelPurpleTheme.textPrimary,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = messageText,
+            color = PastelPurpleTheme.textSecondary,
+            fontSize = 12.sp,
+        )
+    }
+}
+
+@Composable
+private fun UpdateActionButton(
+    buttonLabel: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        onClick = onClick,
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = PastelPurpleTheme.buttonBackground,
+                contentColor = PastelPurpleTheme.buttonText,
+            ),
+        shape = RoundedCornerShape(12.dp),
+        elevation =
+            ButtonDefaults.buttonElevation(
+                defaultElevation = 4.dp,
+                pressedElevation = 2.dp,
+            ),
+        modifier = modifier.height(40.dp),
+    ) {
+        Text(
+            text = buttonLabel,
+            fontWeight = FontWeight.Bold,
+            fontSize = 13.sp,
+        )
     }
 }
 
