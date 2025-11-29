@@ -5,6 +5,7 @@ import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -20,18 +21,30 @@ class ShowNoteScreenViewModel(
     private val noteRepository: NoteRepository,
     private val projectRepository: ProjectRepository,
     private val crashlytics: FirebaseCrashlytics,
+    private val subscriptionRepository: SubscriptionRepository,
 ) : ScreenModel {
     private val _note = MutableStateFlow<DataUiState<Note>>(DataUiState.Loading)
     private val _currentQuizIndex = MutableStateFlow(0)
+    private val _isSubscribed = MutableStateFlow(false)
+
+    init {
+        screenModelScope.launch {
+            subscriptionRepository.isSubscribed().collect {
+                _isSubscribed.value = it
+            }
+        }
+    }
 
     val uiState: StateFlow<NoteUiState> =
         combine(
             _note,
             _currentQuizIndex,
-        ) { note, currentNoteIndex ->
+            _isSubscribed,
+        ) { note, currentNoteIndex, isSubscribed ->
             NoteUiState(
                 note = note,
                 currentNoteIndex = currentNoteIndex,
+                isSubscribed = isSubscribed,
             )
         }.stateIn(
             scope = screenModelScope,

@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.show_project_info
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import app.yskuem.aimondaimaker.feature.quiz.ui.ShowAnsweredQuizzesScreen
@@ -19,14 +20,21 @@ import kotlinx.coroutines.launch
 class ShowProjectInfoScreenViewModel(
     private val quizRepository: QuizRepository,
     private val noteRepository: NoteRepository,
+    private val subscriptionRepository: SubscriptionRepository,
     private val projectId: String,
 ) : ScreenModel {
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
     private val _noteList = MutableStateFlow<DataUiState<List<Note>>>(DataUiState.Loading)
     private val _selectedTabIndex = MutableStateFlow(0)
+    private val _isSubscribed = MutableStateFlow(false)
 
     init {
         fetchQuizInfo()
+        screenModelScope.launch {
+            subscriptionRepository.isSubscribed().collect {
+                _isSubscribed.value = it
+            }
+        }
     }
 
     val uiState: StateFlow<ProjectInfoScreenState> =
@@ -34,11 +42,13 @@ class ShowProjectInfoScreenViewModel(
             _quizInfoList,
             _noteList,
             _selectedTabIndex,
-        ) { quizInfoList, noteList, selectedTabIndex ->
+            _isSubscribed,
+        ) { quizInfoList, noteList, selectedTabIndex, isSubscribed ->
             ProjectInfoScreenState(
                 quizInfoList = quizInfoList,
                 noteList = noteList,
                 selectedTabIndex = selectedTabIndex,
+                isSubscribed = isSubscribed,
             )
         }.stateIn(
             scope = screenModelScope,

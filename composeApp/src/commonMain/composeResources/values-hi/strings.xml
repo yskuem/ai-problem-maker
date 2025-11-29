@@ -88,11 +88,19 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">क्विज़ साझा करें</string>
+    <string name="export_quiz_pdf">क्विज़ को PDF में निर्यात करें</string>
+    <string name="pdf_generating_title">PDF बना रहा है</string>
+    <string name="pdf_generating_questions_message">प्रश्नों का PDF तैयार किया जा रहा है...</string>
+    <string name="pdf_generating_answers_message">उत्तर का PDF तैयार किया जा रहा है...</string>
     <string name="share_dialog_title">क्विज़ साझा करें</string>
     <string name="copy_link">लिंक कॉपी करें</string>
     <string name="share_with_others">दूसरों के साथ साझा करें</string>
     <string name="link_copied">लिंक कॉपी किया गया</string>
     <string name="close">बंद करें</string>
+    <string name="pdf_save_success_title">PDF सहेजा गया</string>
+    <string name="pdf_save_success_message">आपका PDF सफलतापूर्वक सहेजा गया।</string>
+    <string name="pdf_save_failure_title">सहेजना विफल रहा</string>
+    <string name="pdf_save_failure_message">PDF सहेजा नहीं जा सका। कृपया दोबारा प्रयास करें।</string>
 
     <!-- अपडेट -->
     <string name="force_update_title">अपडेट आवश्यक है</string>
@@ -103,4 +111,6 @@
     <string name="update_toast_title_with_version">संस्करण %1$s उपलब्ध है</string>
     <string name="update_toast_message">एक नया संस्करण जारी किया गया है।</string>
 
+    <string name="login_error_message">एक त्रुटि हुई।</string>
+    <string name="explanation">स्पष्टीकरण</string>
 </resources>

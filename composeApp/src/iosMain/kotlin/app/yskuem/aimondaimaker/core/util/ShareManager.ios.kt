@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.core.util
 
 import app.yskuem.aimondaimaker.core.config.getWebQuizAppDomain
+import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import platform.Foundation.NSArray
@@ -11,6 +12,7 @@ import platform.UIKit.UIApplication
 class IosShareManager(
     private val clipboard: Clipboard,
     private val sharedQuizRepository: SharedQuizRepository,
+    private val authRepository: AuthRepository,
 ) : ShareManager {
     override fun copyToClipboard(text: String) {
         clipboard.copyText(text)
@@ -40,9 +42,9 @@ class IosShareManager(
     override suspend fun saveQuizToSupabase(
         groupId: String,
         quizData: List<Quiz>,
-        userId: String,
     ) {
         try {
+            val userId = authRepository.getUserId()
             val uploadQuizzes = sharedQuizRepository.getSharedQuizzes(groupId = groupId)
             if (uploadQuizzes.isEmpty()) {
                 sharedQuizRepository.saveSharedQuizzes(groupId, quizData, userId)

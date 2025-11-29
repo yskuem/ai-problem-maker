@@ -88,11 +88,19 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">Compartilhar quiz</string>
+    <string name="export_quiz_pdf">Exportar o quiz em PDF</string>
+    <string name="pdf_generating_title">Gerando PDF</string>
+    <string name="pdf_generating_questions_message">Gerando o PDF das questões...</string>
+    <string name="pdf_generating_answers_message">Gerando o PDF das respostas...</string>
     <string name="share_dialog_title">Compartilhar quiz</string>
     <string name="copy_link">Copiar link</string>
     <string name="share_with_others">Compartilhar com outros</string>
     <string name="link_copied">Link copiado</string>
     <string name="close">Fechar</string>
+    <string name="pdf_save_success_title">PDF salvo</string>
+    <string name="pdf_save_success_message">Seu PDF foi salvo com sucesso.</string>
+    <string name="pdf_save_failure_title">Falha ao salvar</string>
+    <string name="pdf_save_failure_message">Não foi possível salvar o PDF. Tente novamente.</string>
 
     <!-- Atualização -->
     <string name="force_update_title">Atualização necessária</string>
@@ -103,4 +111,6 @@
     <string name="update_toast_title_with_version">A versão %1$s está disponível</string>
     <string name="update_toast_message">Uma nova versão foi lançada.</string>
 
+    <string name="login_error_message">Ocorreu um erro.</string>
+    <string name="explanation">Explicação</string>
 </resources>

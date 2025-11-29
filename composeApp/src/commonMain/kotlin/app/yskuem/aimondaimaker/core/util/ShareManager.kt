@@ -15,6 +15,5 @@ interface ShareManager {
     suspend fun saveQuizToSupabase(
         groupId: String,
         quizData: List<Quiz>,
-        userId: String,
     )
 }

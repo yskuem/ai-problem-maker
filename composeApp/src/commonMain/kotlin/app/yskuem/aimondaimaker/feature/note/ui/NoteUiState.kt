@@ -6,4 +6,5 @@ import app.yskuem.aimondaimaker.domain.entity.Note
 data class NoteUiState(
     val note: DataUiState<Note> = DataUiState.Loading,
     val currentNoteIndex: Int = 0,
+    val isSubscribed: Boolean = false,
 )

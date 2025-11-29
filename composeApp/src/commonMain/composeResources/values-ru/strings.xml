@@ -88,11 +88,19 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">Поделиться викториной</string>
+    <string name="export_quiz_pdf">Экспортировать викторину в PDF</string>
+    <string name="pdf_generating_title">Создание PDF</string>
+    <string name="pdf_generating_questions_message">Создаём PDF с вопросами...</string>
+    <string name="pdf_generating_answers_message">Создаём PDF с ответами...</string>
     <string name="share_dialog_title">Поделиться викториной</string>
     <string name="copy_link">Скопировать ссылку</string>
     <string name="share_with_others">Поделиться с другими</string>
     <string name="link_copied">Ссылка скопирована</string>
     <string name="close">Закрыть</string>
+    <string name="pdf_save_success_title">PDF сохранён</string>
+    <string name="pdf_save_success_message">Ваш PDF успешно сохранён.</string>
+    <string name="pdf_save_failure_title">Сбой сохранения</string>
+    <string name="pdf_save_failure_message">Не удалось сохранить PDF. Попробуйте ещё раз.</string>
 
     <!-- Обновление -->
     <string name="force_update_title">Требуется обновление</string>
@@ -103,4 +111,6 @@
     <string name="update_toast_title_with_version">Доступна версия %1$s</string>
     <string name="update_toast_message">Выпущена новая версия.</string>
 
+    <string name="login_error_message">Произошла ошибка.</string>
+    <string name="explanation">Объяснение</string>
 </resources>
