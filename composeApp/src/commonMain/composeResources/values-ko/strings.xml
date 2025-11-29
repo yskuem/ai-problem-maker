@@ -112,4 +112,5 @@
     <string name="update_toast_message">새로운 버전이 출시되었습니다.</string>
 
     <string name="login_error_message">오류가 발생했습니다.</string>
+    <string name="explanation">해설</string>
 </resources>

@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
+import ai_problem_maker.composeapp.generated.resources.explanation
 import ai_problem_maker.composeapp.generated.resources.next_question
 import ai_problem_maker.composeapp.generated.resources.question_number_title
 import ai_problem_maker.composeapp.generated.resources.question_progress
@@ -296,7 +297,7 @@ fun QuizContentScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "解説",
+                                text = stringResource(Res.string.explanation),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Bold,

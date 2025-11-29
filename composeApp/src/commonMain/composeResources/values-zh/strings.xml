@@ -112,4 +112,5 @@
     <string name="update_toast_message">新版本已经发布。</string>
 
     <string name="login_error_message">发生错误。</string>
+    <string name="explanation">解释</string>
 </resources>

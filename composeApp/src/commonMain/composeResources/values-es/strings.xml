@@ -112,4 +112,5 @@
     <string name="update_toast_message">Se ha publicado una nueva versión.</string>
 
     <string name="login_error_message">Ha ocurrido un error.</string>
+    <string name="explanation">Explicación</string>
 </resources>

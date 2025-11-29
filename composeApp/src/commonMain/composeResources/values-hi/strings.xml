@@ -112,4 +112,5 @@
     <string name="update_toast_message">एक नया संस्करण जारी किया गया है।</string>
 
     <string name="login_error_message">एक त्रुटि हुई।</string>
+    <string name="explanation">स्पष्टीकरण</string>
 </resources>
