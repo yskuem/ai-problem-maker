@@ -228,6 +228,36 @@ fun PaywallPart(
                 )
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
+
+            val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(
+                    onClick = { uriHandler.openUri(TERMS_OF_SERVICE_URL) }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.terms_of_service),
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+
+                TextButton(
+                    onClick = { uriHandler.openUri(PRIVACY_POLICY_URL) }
+                ) {
+                    Text(
+                        text = stringResource(Res.string.privacy_policy),
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.height(24.dp))
         }
 
@@ -400,3 +430,6 @@ fun PlanCard(
         }
     }
 }
+
+private const val PRIVACY_POLICY_URL = "https://sites.google.com/view/picstudy-privacy-policy-en/%E3%83%9B%E3%83%BC%E3%83%A0"
+private const val TERMS_OF_SERVICE_URL = "https://sites.google.com/view/ai-note-scan-tos/%E3%83%9B%E3%83%BC%E3%83%A0"
