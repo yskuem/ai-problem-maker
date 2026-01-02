@@ -39,6 +39,7 @@ class SubscriptionRepositoryImpl : SubscriptionRepository {
     override fun isSubscribed(entitlementId: String): Flow<Boolean> {
         return _customerInfo
             .onStart {
+                // TODO デバッグ用の設定を行う
                 if(getFlavor() == Flavor.PROD) {
                     fetchCustomerInfo()
                 }
