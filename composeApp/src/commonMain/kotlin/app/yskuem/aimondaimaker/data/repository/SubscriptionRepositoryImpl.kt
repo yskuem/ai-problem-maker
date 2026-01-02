@@ -1,5 +1,7 @@
 package app.yskuem.aimondaimaker.data.repository
 
+import app.yskuem.aimondaimaker.core.config.Flavor
+import app.yskuem.aimondaimaker.core.config.getFlavor
 import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.ktx.SuccessfulLogin
@@ -37,10 +39,16 @@ class SubscriptionRepositoryImpl : SubscriptionRepository {
     override fun isSubscribed(entitlementId: String): Flow<Boolean> {
         return _customerInfo
             .onStart {
-                fetchCustomerInfo()
+                if(getFlavor() == Flavor.PROD) {
+                    fetchCustomerInfo()
+                }
             }
             .map { info ->
-                info?.entitlements?.get(entitlementId)?.isActive == true
+                if(getFlavor() == Flavor.PROD) {
+                    info?.entitlements?.get(entitlementId)?.isActive == true
+                } else {
+                    false
+                }
             }
     }
 
