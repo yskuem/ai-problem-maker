@@ -7,13 +7,16 @@ import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.Project
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
+import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -27,6 +30,7 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
     private val noteRepository: NoteRepository = mock()
     private val projectRepository: ProjectRepository = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
+    private val subscriptionRepository: SubscriptionRepository = mock()
 
     private val mockNoteObj =
         Note(
@@ -78,12 +82,15 @@ class ShowNoteScreenViewModelTest : MainDispatcherTestBase() {
             crashlytics.log(any())
         } returns Unit
 
+        every { subscriptionRepository.isSubscribed(any()) } returns flowOf(false)
+
         viewModel =
             ShowNoteScreenViewModel(
                 authRepository = authRepository,
                 noteRepository = noteRepository,
                 projectRepository = projectRepository,
                 crashlytics = crashlytics,
+                subscriptionRepository = subscriptionRepository,
             )
     }
 
