@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.update
 class SubscriptionRepositoryImpl : SubscriptionRepository {
     private val _customerInfo = MutableStateFlow<CustomerInfo?>(null)
 
-    override suspend fun fetchCurrentOfferingOrNull(): Offering? {
-        return try {
+    override suspend fun fetchCurrentOfferingOrNull(): Offering? =
+        try {
             val offerings = Purchases.sharedInstance.awaitOfferings()
             offerings.current
         } catch (e: PurchasesException) {
@@ -34,24 +34,21 @@ class SubscriptionRepositoryImpl : SubscriptionRepository {
             println("Failed to fetch offerings: ${e.message}")
             throw e
         }
-    }
 
-    override fun isSubscribed(entitlementId: String): Flow<Boolean> {
-        return _customerInfo
+    override fun isSubscribed(entitlementId: String): Flow<Boolean> =
+        _customerInfo
             .onStart {
                 // TODO デバッグ用の設定を行う
-                if(getFlavor() == Flavor.PROD) {
+                if (getFlavor() == Flavor.PROD) {
                     fetchCustomerInfo()
                 }
-            }
-            .map { info ->
-                if(getFlavor() == Flavor.PROD) {
+            }.map { info ->
+                if (getFlavor() == Flavor.PROD) {
                     info?.entitlements?.get(entitlementId)?.isActive == true
                 } else {
                     false
                 }
             }
-    }
 
     private suspend fun fetchCustomerInfo() {
         try {
@@ -62,43 +59,39 @@ class SubscriptionRepositoryImpl : SubscriptionRepository {
         }
     }
 
-    override suspend fun identifyUser(appUserId: String): SuccessfulLogin {
-        return try {
+    override suspend fun identifyUser(appUserId: String): SuccessfulLogin =
+        try {
             val result = Purchases.sharedInstance.awaitLogIn(appUserId)
             _customerInfo.update { result.customerInfo }
             result
         } catch (e: PurchasesException) {
             throw e
         }
-    }
 
-    override suspend fun logout(): CustomerInfo {
-        return try {
+    override suspend fun logout(): CustomerInfo =
+        try {
             val info = Purchases.sharedInstance.awaitLogOut()
             _customerInfo.update { info }
             info
         } catch (e: PurchasesException) {
             throw e
         }
-    }
 
-    override suspend fun subscribe(packageToPurchase: Package): StoreTransaction {
-        return try {
+    override suspend fun subscribe(packageToPurchase: Package): StoreTransaction =
+        try {
             val result = Purchases.sharedInstance.awaitPurchase(packageToPurchase)
             _customerInfo.update { result.customerInfo }
             result.storeTransaction
         } catch (e: PurchasesException) {
             throw e
         }
-    }
 
-    override suspend fun restorePurchaseAndRecheckIsSubscribed(entitlementId: String): Boolean {
-        return try {
+    override suspend fun restorePurchaseAndRecheckIsSubscribed(entitlementId: String): Boolean =
+        try {
             val info = Purchases.sharedInstance.awaitRestore()
             _customerInfo.update { info }
             info.entitlements[entitlementId]?.isActive == true
         } catch (e: PurchasesException) {
             throw e
         }
-    }
 }

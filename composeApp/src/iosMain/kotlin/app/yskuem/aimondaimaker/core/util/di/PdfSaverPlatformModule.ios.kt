@@ -25,14 +25,19 @@ actual val pdfSaverPlatformModule: Module =
     }
 
 private class IosPdfSaver : PdfSaver {
-    override suspend fun savePdf(bytes: ByteArray, fileName: String): Result<Unit> =
+    override suspend fun savePdf(
+        bytes: ByteArray,
+        fileName: String,
+    ): Result<Unit> =
         withContext(Dispatchers.Default) {
             runCatching {
                 // Documents ディレクトリの NSURL を非 null で取得
                 val documentsDirectory: NSURL =
-                    (NSFileManager.defaultManager
-                        .URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
-                        .firstOrNull() as? NSURL)
+                    (
+                        NSFileManager.defaultManager
+                            .URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
+                            .firstOrNull() as? NSURL
+                    )
                         ?: error("Documents directory not found")
 
                 // ここが nullable（NSURL?）なので非 null を強制
@@ -45,7 +50,7 @@ private class IosPdfSaver : PdfSaver {
 
                 if (!data.writeToURL(targetUrl, atomically = true)) {
                     throw IllegalStateException(
-                        "Failed to write pdf to ${targetUrl.path.orEmpty()}"
+                        "Failed to write pdf to ${targetUrl.path.orEmpty()}",
                     )
                 }
             }

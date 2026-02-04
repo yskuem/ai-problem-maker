@@ -17,8 +17,7 @@ import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 
-
-class SubscriptionScreen: Screen {
+class SubscriptionScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -29,28 +28,28 @@ class SubscriptionScreen: Screen {
         }
         val combineState by remember(
             uiState.value.offering,
-            uiState.value.isSubscribed
+            uiState.value.isSubscribed,
         ) {
             derivedStateOf {
                 combineDataUiStates(
                     state1 = uiState.value.offering,
                     state2 = uiState.value.isSubscribed,
-                    transform = { offering , isSubscribed ->
+                    transform = { offering, isSubscribed ->
                         Pair(offering, isSubscribed)
-                    }
+                    },
                 )
             }
         }
 
-        when(val state = combineState) {
+        when (val state = combineState) {
             is DataUiState.Success -> {
                 PaywallPart(
                     packages = state.data.first.availablePackages,
                     onPurchase = {
                         viewModel.onEvent(
                             SubscriptionScreenEvent.PurchaseSubscription(
-                                purchasePackage = it
-                            )
+                                purchasePackage = it,
+                            ),
                         )
                     },
                     onRestore = {
@@ -60,15 +59,17 @@ class SubscriptionScreen: Screen {
                     isProcessing = uiState.value.isProcessing,
                     onDismiss = {
                         navigator.pop()
-                    }
+                    },
                 )
             }
+
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,
                     errorMessage = state.throwable.message ?: "Unknown error",
                 )
             }
+
             else -> {
                 LoadingScreen()
             }

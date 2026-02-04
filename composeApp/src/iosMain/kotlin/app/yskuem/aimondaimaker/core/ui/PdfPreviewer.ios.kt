@@ -17,16 +17,20 @@ import platform.WebKit.WKWebViewConfiguration
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
 @Composable
-actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
+actual fun PlatformPdfView(
+    pdf: PdfDocument,
+    modifier: Modifier,
+) {
     // ByteArray → 一時ファイル（bytes が変わったときのみ再生成）
-    val fileUrl: NSURL = remember(pdf.bytes) {
-        val tempDir = NSTemporaryDirectory()
-        val name = pdf.fileName ?: "preview_${NSUUID().UUIDString}.pdf"
-        val path = "$tempDir/$name"
-        val data = pdf.bytes.toNSData()
-        NSFileManager.defaultManager.createFileAtPath(path, contents = data, attributes = null)
-        NSURL.fileURLWithPath(path)
-    }
+    val fileUrl: NSURL =
+        remember(pdf.bytes) {
+            val tempDir = NSTemporaryDirectory()
+            val name = pdf.fileName ?: "preview_${NSUUID().UUIDString}.pdf"
+            val path = "$tempDir/$name"
+            val data = pdf.bytes.toNSData()
+            NSFileManager.defaultManager.createFileAtPath(path, contents = data, attributes = null)
+            NSURL.fileURLWithPath(path)
+        }
 
     // 複数回の再コンポジションで毎回 load しないよう制御
     var loaded by remember { mutableStateOf(false) }
@@ -34,16 +38,17 @@ actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
     UIKitView(
         modifier = modifier,
         // 新API: properties を明示（必要に応じて調整）
-        properties = UIKitInteropProperties(
-            // デフォルトは Cooperative。旧挙動にしたい場合だけ以下を使う
-            // interactionMode = UIKitInteropInteractionMode.NonCooperative,
-            // iOSのネイティブA11yを通したい場合
-            // isNativeAccessibilityEnabled = true,
-        ),
+        properties =
+            UIKitInteropProperties(
+                // デフォルトは Cooperative。旧挙動にしたい場合だけ以下を使う
+                // interactionMode = UIKitInteropInteractionMode.NonCooperative,
+                // iOSのネイティブA11yを通したい場合
+                // isNativeAccessibilityEnabled = true,
+            ),
         factory = {
             WKWebView(
                 frame = CGRectMake(0.0, 0.0, 0.0, 0.0),
-                configuration = WKWebViewConfiguration()
+                configuration = WKWebViewConfiguration(),
             )
         },
         update = { webView ->
@@ -55,7 +60,7 @@ actual fun PlatformPdfView(pdf: PdfDocument, modifier: Modifier) {
         },
         onRelease = { webView ->
             webView.stopLoading()
-        }
+        },
         // isInteractive は properties ではなく UIKitView の引数（必要ならコメントアウト解除）
         // , isInteractive = true
     )

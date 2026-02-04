@@ -9,6 +9,8 @@ interface PdfSaver {
      * The [fileName] parameter must include the extension that will
      * be used when saving the file.
      */
-    suspend fun savePdf(bytes: ByteArray, fileName: String): Result<Unit>
+    suspend fun savePdf(
+        bytes: ByteArray,
+        fileName: String,
+    ): Result<Unit>
 }
-

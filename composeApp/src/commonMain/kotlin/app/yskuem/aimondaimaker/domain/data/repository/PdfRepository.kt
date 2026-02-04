@@ -6,6 +6,6 @@ import app.yskuem.aimondaimaker.domain.entity.Quiz
 interface PdfRepository {
     suspend fun createQuizPdf(
         quizList: List<Quiz>,
-        isColorModel: Boolean
+        isColorModel: Boolean,
     ): PdfResponse
 }

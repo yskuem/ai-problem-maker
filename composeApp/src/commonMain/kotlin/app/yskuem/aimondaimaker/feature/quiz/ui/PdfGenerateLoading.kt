@@ -4,8 +4,8 @@ import ai_problem_maker.composeapp.generated.resources.Res
 import ai_problem_maker.composeapp.generated.resources.pdf_generating_answers_message
 import ai_problem_maker.composeapp.generated.resources.pdf_generating_questions_message
 import ai_problem_maker.composeapp.generated.resources.pdf_generating_title
-import androidx.compose.animation.core.*
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import kotlin.math.*
 import org.jetbrains.compose.resources.stringResource
+import kotlin.math.*
 
 @Composable
 fun PdfGenerateLoading() {
@@ -43,19 +43,20 @@ fun PdfGenerateLoading() {
     val veryLight = lerp(base, Color.White, if (isDark) 0.80f else 0.92f)
 
     // 背景グラデーション - プライマリーカラーベース
-    val bgGradient = if (isDark) {
-        listOf(
-            base.copy(alpha = 0.05f).compositeOver(Color(0xFF0B0F14)),
-            base.copy(alpha = 0.08f).compositeOver(Color(0xFF101622)),
-            base.copy(alpha = 0.12f).compositeOver(Color(0xFF17142A))
-        )
-    } else {
-        listOf(
-            lerp(base, Color.White, 0.95f),
-            lerp(base, Color.White, 0.92f),
-            lerp(base, Color.White, 0.88f)
-        )
-    }
+    val bgGradient =
+        if (isDark) {
+            listOf(
+                base.copy(alpha = 0.05f).compositeOver(Color(0xFF0B0F14)),
+                base.copy(alpha = 0.08f).compositeOver(Color(0xFF101622)),
+                base.copy(alpha = 0.12f).compositeOver(Color(0xFF17142A)),
+            )
+        } else {
+            listOf(
+                lerp(base, Color.White, 0.95f),
+                lerp(base, Color.White, 0.92f),
+                lerp(base, Color.White, 0.88f),
+            )
+        }
 
     val cardBg = if (isDark) Color.White.copy(alpha = 0.06f) else Color.White.copy(alpha = 0.9f)
     val lineColor = if (isDark) light else base.copy(alpha = 0.6f)
@@ -64,11 +65,12 @@ fun PdfGenerateLoading() {
     val titleColor = if (isDark) light else base
     val messageColor = if (isDark) Color.White.copy(alpha = 0.7f) else base.copy(alpha = 0.7f)
 
-    val dotColors = listOf(
-        base,
-        lerp(base, Color.White, 0.25f),
-        lerp(base, Color.White, 0.45f)
-    )
+    val dotColors =
+        listOf(
+            base,
+            lerp(base, Color.White, 0.25f),
+            lerp(base, Color.White, 0.45f),
+        )
 
     // Animations
     val infiniteTransition = rememberInfiniteTransition(label = "infinite")
@@ -76,41 +78,45 @@ fun PdfGenerateLoading() {
     val floatOffset by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 10f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(6000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "float"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(6000, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
+        label = "float",
     )
 
     val pencilProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "pencil"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(2000, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "pencil",
     )
 
     val dotsProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1400, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "dots"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(1400, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "dots",
     )
 
     val progressValue by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "progress"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(3000, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "progress",
     )
 
     // Messages
@@ -129,9 +135,10 @@ fun PdfGenerateLoading() {
 
     Surface {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.linearGradient(bgGradient, start = Offset.Zero, end = Offset.Infinite))
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Brush.linearGradient(bgGradient, start = Offset.Zero, end = Offset.Infinite)),
         ) {
             // Floating circles
             repeat(4) { index ->
@@ -140,31 +147,32 @@ fun PdfGenerateLoading() {
 
             // Main content
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(20.dp),
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                contentAlignment = Alignment.Center,
             ) {
                 Box(
-                    modifier = Modifier
-                        .offset(y = (-floatOffset).dp)
-                        .then(
-                            if (isDark) {
-                                Modifier.border(1.dp, base.copy(alpha = 0.20f), RoundedCornerShape(30.dp))
-                            } else {
-                                Modifier.border(1.dp, base.copy(alpha = 0.10f), RoundedCornerShape(30.dp))
-                            }
-                        )
-                        .background(cardBg, RoundedCornerShape(30.dp))
-                        .padding(horizontal = 40.dp, vertical = 60.dp)
+                    modifier =
+                        Modifier
+                            .offset(y = (-floatOffset).dp)
+                            .then(
+                                if (isDark) {
+                                    Modifier.border(1.dp, base.copy(alpha = 0.20f), RoundedCornerShape(30.dp))
+                                } else {
+                                    Modifier.border(1.dp, base.copy(alpha = 0.10f), RoundedCornerShape(30.dp))
+                                },
+                            ).background(cardBg, RoundedCornerShape(30.dp))
+                            .padding(horizontal = 40.dp, vertical = 60.dp),
                 ) {
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         // Pencil + paper animation
                         Box(
                             modifier = Modifier.size(120.dp),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             PaperLines(lineColor, pencilProgress)
                             Pencil(base, light, pencilProgress)
@@ -182,7 +190,7 @@ fun PdfGenerateLoading() {
                             fontSize = 24.sp,
                             color = titleColor,
                             fontWeight = FontWeight.Light,
-                            letterSpacing = 2.sp
+                            letterSpacing = 2.sp,
                         )
 
                         Spacer(modifier = Modifier.height(15.dp))
@@ -192,13 +200,13 @@ fun PdfGenerateLoading() {
                             transitionSpec = {
                                 fadeIn(tween(300)) togetherWith fadeOut(tween(300))
                             },
-                            label = "message"
+                            label = "message",
                         ) { index ->
                             Text(
                                 text = messages[index],
                                 fontSize = 14.sp,
                                 color = messageColor,
-                                letterSpacing = 1.sp
+                                letterSpacing = 1.sp,
                             )
                         }
 
@@ -213,108 +221,126 @@ fun PdfGenerateLoading() {
 }
 
 @Composable
-fun FloatingCircle(index: Int, auraColor: Color) {
+fun FloatingCircle(
+    index: Int,
+    auraColor: Color,
+) {
     val sizes = listOf(100.dp, 150.dp, 80.dp, 120.dp)
-    val alignments = listOf(
-        BiasAlignment(-0.8f, -0.8f),
-        BiasAlignment(0.8f, 0.8f),
-        BiasAlignment(-0.8f, 0.6f),
-        BiasAlignment(0.8f, -0.6f)
-    )
+    val alignments =
+        listOf(
+            BiasAlignment(-0.8f, -0.8f),
+            BiasAlignment(0.8f, 0.8f),
+            BiasAlignment(-0.8f, 0.6f),
+            BiasAlignment(0.8f, -0.6f),
+        )
 
     val infiniteTransition = rememberInfiniteTransition(label = "circle$index")
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween((20 + index * 5) * 1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "rotation$index"
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween((20 + index * 5) * 1000, easing = LinearEasing),
+                repeatMode = RepeatMode.Restart,
+            ),
+        label = "rotation$index",
     )
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = alignments[index]
+        contentAlignment = alignments[index],
     ) {
         Box(
-            modifier = Modifier
-                .size(sizes[index])
-                .rotate(rotation)
-                .background(
-                    Brush.radialGradient(listOf(auraColor, Color.Transparent)),
-                    CircleShape
-                )
+            modifier =
+                Modifier
+                    .size(sizes[index])
+                    .rotate(rotation)
+                    .background(
+                        Brush.radialGradient(listOf(auraColor, Color.Transparent)),
+                        CircleShape,
+                    ),
         )
     }
 }
 
 @Composable
-fun Pencil(base: Color, light: Color, progress: Float) {
+fun Pencil(
+    base: Color,
+    light: Color,
+    progress: Float,
+) {
     val scale = progress
     val rotation = sin(progress * PI.toFloat() * 2) * 0.3f
 
     Box(
-        modifier = Modifier
-            .graphicsLayer {
-                rotationZ = rotation * 180f / PI.toFloat()
-                scaleX = scale
-                transformOrigin = TransformOrigin(0f, 0.5f)
-            }
-            .width(60.dp)
-            .height(8.dp)
-            .background(
-                Brush.linearGradient(
-                    listOf(base, lerp(base, Color.White, 0.18f), light)
+        modifier =
+            Modifier
+                .graphicsLayer {
+                    rotationZ = rotation * 180f / PI.toFloat()
+                    scaleX = scale
+                    transformOrigin = TransformOrigin(0f, 0.5f)
+                }.width(60.dp)
+                .height(8.dp)
+                .background(
+                    Brush.linearGradient(
+                        listOf(base, lerp(base, Color.White, 0.18f), light),
+                    ),
+                    RoundedCornerShape(4.dp),
                 ),
-                RoundedCornerShape(4.dp)
-            ),
-        contentAlignment = Alignment.CenterEnd
+        contentAlignment = Alignment.CenterEnd,
     ) {
         Canvas(modifier = Modifier.size(8.dp)) {
-            val path = Path().apply {
-                moveTo(0f, size.height / 2)
-                lineTo(size.width, 0f)
-                lineTo(size.width, size.height)
-                close()
-            }
+            val path =
+                Path().apply {
+                    moveTo(0f, size.height / 2)
+                    lineTo(size.width, 0f)
+                    lineTo(size.width, size.height)
+                    close()
+                }
             drawPath(path, color = base)
         }
     }
 }
 
 @Composable
-fun PaperLines(lineColor: Color, progress: Float) {
+fun PaperLines(
+    lineColor: Color,
+    progress: Float,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         repeat(4) { index ->
             val delay = index * 0.2f
             val opacity = abs(((progress + delay) % 1) * 2 - 1)
 
             Box(
-                modifier = Modifier
-                    .width((80 - (index % 2) * 10).dp)
-                    .height(2.dp)
-                    .padding(vertical = 4.dp)
-                    .background(
-                        Brush.linearGradient(
-                            listOf(
-                                Color.Transparent,
-                                lineColor.copy(alpha = opacity),
-                                Color.Transparent
-                            )
+                modifier =
+                    Modifier
+                        .width((80 - (index % 2) * 10).dp)
+                        .height(2.dp)
+                        .padding(vertical = 4.dp)
+                        .background(
+                            Brush.linearGradient(
+                                listOf(
+                                    Color.Transparent,
+                                    lineColor.copy(alpha = opacity),
+                                    Color.Transparent,
+                                ),
+                            ),
+                            RoundedCornerShape(1.dp),
                         ),
-                        RoundedCornerShape(1.dp)
-                    )
             )
         }
     }
 }
 
 @Composable
-fun LoadingDots(colors: List<Color>, progress: Float) {
+fun LoadingDots(
+    colors: List<Color>,
+    progress: Float,
+) {
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         repeat(3) { index ->
             val delay = index * 0.2f
@@ -322,37 +348,48 @@ fun LoadingDots(colors: List<Color>, progress: Float) {
             val scale = 1f + (sin(value * PI.toFloat() * 2) * 0.3f)
 
             Box(
-                modifier = Modifier
-                    .size(12.dp)
-                    .scale(scale)
-                    .background(colors[index], CircleShape)
+                modifier =
+                    Modifier
+                        .size(12.dp)
+                        .scale(scale)
+                        .background(colors[index], CircleShape),
             )
         }
     }
 }
 
 @Composable
-fun ProgressBar(start: Color, end: Color, track: Color, progress: Float) {
+fun ProgressBar(
+    start: Color,
+    end: Color,
+    track: Color,
+    progress: Float,
+) {
     Box(
-        modifier = Modifier
-            .width(200.dp)
-            .height(4.dp)
-            .background(track, RoundedCornerShape(2.dp))
+        modifier =
+            Modifier
+                .width(200.dp)
+                .height(4.dp)
+                .background(track, RoundedCornerShape(2.dp)),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(progress)
-                .background(
-                    Brush.linearGradient(listOf(start, end)),
-                    RoundedCornerShape(2.dp)
-                )
+            modifier =
+                Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(progress)
+                    .background(
+                        Brush.linearGradient(listOf(start, end)),
+                        RoundedCornerShape(2.dp),
+                    ),
         )
     }
 }
 
 @Composable
-fun Particles(color: Color, progress: Float) {
+fun Particles(
+    color: Color,
+    progress: Float,
+) {
     Canvas(modifier = Modifier.size(120.dp)) {
         val center = Offset(size.width / 2, size.height / 2)
         val random = kotlin.random.Random(42)
@@ -366,16 +403,22 @@ fun Particles(color: Color, progress: Float) {
                 drawCircle(
                     color = color.copy(alpha = 0.6f * (1 - progress)),
                     radius = particleSize,
-                    center = center + Offset(
-                        (cos(angle) * distance).toFloat(),
-                        (sin(angle) * distance).toFloat()
-                    )
+                    center =
+                        center +
+                            Offset(
+                                (cos(angle) * distance).toFloat(),
+                                (sin(angle) * distance).toFloat(),
+                            ),
                 )
             }
         }
     }
 }
 
-fun lerp(start: Color, end: Color, fraction: Float): Color {
-    return androidx.compose.ui.graphics.lerp(start, end, fraction.coerceIn(0f, 1f))
-}
+fun lerp(
+    start: Color,
+    end: Color,
+    fraction: Float,
+): Color =
+    androidx.compose.ui.graphics
+        .lerp(start, end, fraction.coerceIn(0f, 1f))

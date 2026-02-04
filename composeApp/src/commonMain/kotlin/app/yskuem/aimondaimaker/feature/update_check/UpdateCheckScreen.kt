@@ -49,6 +49,7 @@ class UpdateCheckScreen : Screen {
         }
         when (val res = state) {
             is DataUiState.Initial -> {}
+
             is DataUiState.Error -> {
                 // エラー時はなにもしない
                 navigator?.push(AuthScreen())

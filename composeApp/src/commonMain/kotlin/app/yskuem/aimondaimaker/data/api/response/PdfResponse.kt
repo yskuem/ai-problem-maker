@@ -2,7 +2,7 @@ package app.yskuem.aimondaimaker.data.api.response
 
 data class PdfResponse(
     val bytes: ByteArray,
-    val filename: String?
+    val filename: String?,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

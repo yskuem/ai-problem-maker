@@ -18,10 +18,7 @@ interface SubscriptionRepository {
 
     suspend fun subscribe(packageToPurchase: Package): StoreTransaction
 
-    suspend fun restorePurchaseAndRecheckIsSubscribed(
-        entitlementId: String = ENTITLEMENT_ID_PREMIUM
-    ): Boolean
+    suspend fun restorePurchaseAndRecheckIsSubscribed(entitlementId: String = ENTITLEMENT_ID_PREMIUM): Boolean
 }
-
 
 private const val ENTITLEMENT_ID_PREMIUM = "premium"
