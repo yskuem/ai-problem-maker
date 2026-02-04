@@ -20,12 +20,20 @@ class SubscriptionScreenViewModel(
 
     fun onEvent(event: SubscriptionScreenEvent) {
         screenModelScope.launch {
-            when(event) {
-                is SubscriptionScreenEvent.Initialize -> initialize()
-                is SubscriptionScreenEvent.RestorePurchase -> restore()
-                is SubscriptionScreenEvent.PurchaseSubscription -> purchaseSubscription(
-                    purchasePackage = event.purchasePackage
-                )
+            when (event) {
+                is SubscriptionScreenEvent.Initialize -> {
+                    initialize()
+                }
+
+                is SubscriptionScreenEvent.RestorePurchase -> {
+                    restore()
+                }
+
+                is SubscriptionScreenEvent.PurchaseSubscription -> {
+                    purchaseSubscription(
+                        purchasePackage = event.purchasePackage,
+                    )
+                }
             }
         }
     }
@@ -37,13 +45,12 @@ class SubscriptionScreenViewModel(
         screenModelScope.launch {
             checkIsSubscribed()
         }
-
     }
 
     private suspend fun fetchOffering() {
         runCatching {
             subscriptionRepository.identifyUser(
-                appUserId = authRepository.getUserId()
+                appUserId = authRepository.getUserId(),
             )
             subscriptionRepository.fetchCurrentOfferingOrNull()
                 ?: throw NoSuchElementException("No offering available")
@@ -51,27 +58,28 @@ class SubscriptionScreenViewModel(
             onSuccess = { offering ->
                 _uiState.update {
                     it.copy(
-                        offering = DataUiState.Success(offering)
+                        offering = DataUiState.Success(offering),
                     )
                 }
             },
             onFailure = { error ->
                 _uiState.update {
                     it.copy(
-                        offering = DataUiState.Error(error)
+                        offering = DataUiState.Error(error),
                     )
                 }
-            }
+            },
         )
     }
 
     private suspend fun checkIsSubscribed() {
         changeProcessingState(isProcessing = true)
-        subscriptionRepository.isSubscribed()
+        subscriptionRepository
+            .isSubscribed()
             .collect { isSubscribed ->
                 _uiState.update {
                     it.copy(
-                        isSubscribed = DataUiState.Success(isSubscribed)
+                        isSubscribed = DataUiState.Success(isSubscribed),
                     )
                 }
                 changeProcessingState(isProcessing = false)
@@ -86,17 +94,17 @@ class SubscriptionScreenViewModel(
             onSuccess = { _ ->
                 _uiState.update {
                     it.copy(
-                        isSubscribed = DataUiState.Success(true)
+                        isSubscribed = DataUiState.Success(true),
                     )
                 }
             },
             onFailure = { error ->
                 _uiState.update {
                     it.copy(
-                        isSubscribed = DataUiState.Error(error)
+                        isSubscribed = DataUiState.Error(error),
                     )
                 }
-            }
+            },
         )
         changeProcessingState(isProcessing = false)
     }
@@ -109,17 +117,17 @@ class SubscriptionScreenViewModel(
             onSuccess = { isSubscribed ->
                 _uiState.update {
                     it.copy(
-                        isSubscribed = DataUiState.Success(isSubscribed)
+                        isSubscribed = DataUiState.Success(isSubscribed),
                     )
                 }
             },
             onFailure = { error ->
                 _uiState.update {
                     it.copy(
-                        isSubscribed = DataUiState.Error(error)
+                        isSubscribed = DataUiState.Error(error),
                     )
                 }
-            }
+            },
         )
         changeProcessingState(isProcessing = false)
     }
@@ -127,7 +135,7 @@ class SubscriptionScreenViewModel(
     private fun changeProcessingState(isProcessing: Boolean) {
         _uiState.update {
             it.copy(
-                isProcessing = isProcessing
+                isProcessing = isProcessing,
             )
         }
     }

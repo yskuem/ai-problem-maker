@@ -31,7 +31,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -44,6 +43,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -86,8 +86,6 @@ fun QuizApp(
     onNextQuestion: () -> Unit,
     onRestart: () -> Unit,
 ) {
-
-
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F5F7)
 
@@ -413,4 +411,3 @@ fun OptionItem(
         )
     }
 }
-

@@ -32,9 +32,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.PictureAsPdf
@@ -106,7 +106,6 @@ fun QuizCompletedScreen(
     isSubscribed: Boolean,
     onNavigateToSubscription: () -> Unit,
 ) {
-
     val percentage = (score.toFloat() / totalQuestions * 100).toInt()
     var showShareDialog by remember { mutableStateOf(false) }
 
@@ -116,20 +115,21 @@ fun QuizCompletedScreen(
     var isVisible by remember { mutableStateOf(false) }
     val animatedPercentage by animateIntAsState(
         targetValue = if (isVisible) percentage else 0,
-        animationSpec = tween(durationMillis = 1800, easing = FastOutSlowInEasing)
+        animationSpec = tween(durationMillis = 1800, easing = FastOutSlowInEasing),
     )
     val cardScale by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0.96f,
-        animationSpec = spring(dampingRatio = 0.7f)
+        animationSpec = spring(dampingRatio = 0.7f),
     )
     val confettiAnim = rememberInfiniteTransition()
     val confettiRotation by confettiAnim.animateFloat(
         initialValue = 0f,
         targetValue = 360f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(10000),
-            repeatMode = RepeatMode.Restart
-        )
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(10000),
+                repeatMode = RepeatMode.Restart,
+            ),
     )
 
     LaunchedEffect(Unit) {
@@ -141,23 +141,26 @@ fun QuizCompletedScreen(
     LaunchStoreReview(
         trigger = true,
         onComplete = { result ->
-            result.onSuccess { println("Store review requested successfully") }
+            result
+                .onSuccess { println("Store review requested successfully") }
                 .onFailure { error -> println("Store review request failed: $error") }
         },
     )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.04f),
-                        MaterialTheme.colorScheme.background,
-                        MaterialTheme.colorScheme.secondary.copy(alpha = 0.04f)
-                    )
-                )
-            )
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors =
+                            listOf(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.04f),
+                                MaterialTheme.colorScheme.background,
+                                MaterialTheme.colorScheme.secondary.copy(alpha = 0.04f),
+                            ),
+                    ),
+                ),
     ) {
         // 背景コンフェッティ（背面）
         if (percentage >= 80) {
@@ -167,34 +170,38 @@ fun QuizCompletedScreen(
         // スクロール可能なラッパー
         val scrollState = rememberScrollState()
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(vertical = 24.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
+                    .padding(vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Card(
-                modifier = Modifier
-                    .widthIn(max = 560.dp)
-                    .padding(horizontal = 20.dp)
-                    .scale(cardScale)
-                    .shadow(
-                        elevation = 18.dp,
-                        shape = RoundedCornerShape(28.dp),
-                        ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
-                        spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                    ),
+                modifier =
+                    Modifier
+                        .widthIn(max = 560.dp)
+                        .padding(horizontal = 20.dp)
+                        .scale(cardScale)
+                        .shadow(
+                            elevation = 18.dp,
+                            shape = RoundedCornerShape(28.dp),
+                            ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.16f),
+                            spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                        ),
                 elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
                 shape = RoundedCornerShape(28.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 28.dp, vertical = 28.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 28.dp, vertical = 28.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                 ) {
@@ -204,12 +211,13 @@ fun QuizCompletedScreen(
                     // タイトル
                     Text(
                         text = stringResource(Res.string.quiz_finished),
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 28.sp
-                        ),
+                        style =
+                            MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 28.sp,
+                            ),
                         color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
 
                     // スコアサマリー
@@ -217,14 +225,14 @@ fun QuizCompletedScreen(
                         text = stringResource(Res.string.score_summary, score, totalQuestions),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
 
                     // パーセンテージ：カスタム円形リング（文言なし）
                     PercentageRing(
                         percentage = percentage,
                         animatedPercentage = animatedPercentage,
-                        ringSize = 220.dp
+                        ringSize = 220.dp,
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
@@ -232,7 +240,7 @@ fun QuizCompletedScreen(
                     // アクションボタン群（余白拡大）
                     Column(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                        verticalArrangement = Arrangement.spacedBy(20.dp),
                     ) {
                         // 共有（プライマリ）
                         AnimatedActionButton(
@@ -241,7 +249,7 @@ fun QuizCompletedScreen(
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                             icon = Icons.Default.Share,
                             text = stringResource(Res.string.share_quiz),
-                            elevation = 4.dp
+                            elevation = 4.dp,
                         )
 
                         // PDFエクスポート
@@ -251,7 +259,7 @@ fun QuizCompletedScreen(
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                             icon = Icons.Default.PictureAsPdf,
                             text = exportPdfLabel,
-                            elevation = 2.dp
+                            elevation = 2.dp,
                         )
 
                         // もう一度挑戦（励まし文言は廃止）
@@ -261,7 +269,7 @@ fun QuizCompletedScreen(
                             contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                             icon = Icons.Default.Refresh,
                             text = stringResource(Res.string.try_again),
-                            elevation = 2.dp
+                            elevation = 2.dp,
                         )
                     }
                 }
@@ -279,20 +287,24 @@ fun QuizCompletedScreen(
         onDismiss = { showShareDialog = false },
     )
 
-    when(pdfResponse) {
+    when (pdfResponse) {
         is DataUiState.Initial -> {}
+
         is DataUiState.Error -> {
         }
+
         is DataUiState.Loading -> {
             PdfGenerateLoading()
         }
+
         is DataUiState.Success -> {
             val byte = pdfResponse.data.bytes
             val filename = pdfResponse.data.filename ?: "quiz.pdf"
-            val pdfDocument = PdfDocument(
-                bytes = byte,
-                fileName = filename,
-            )
+            val pdfDocument =
+                PdfDocument(
+                    bytes = byte,
+                    fileName = filename,
+                )
             PdfPreviewerOverlayDialog(
                 pdf = pdfDocument,
                 title = exportPdfLabel,
@@ -313,12 +325,14 @@ fun QuizCompletedScreen(
 
     when (pdfSaveState) {
         DataUiState.Initial, DataUiState.Loading -> {}
+
         is DataUiState.Success -> {
             PdfSaveResultDialog(
                 type = PdfSaveResultDialogType.Success,
                 onDismiss = onDismissPdfSaveResult,
             )
         }
+
         is DataUiState.Error -> {
             PdfSaveResultDialog(
                 type = PdfSaveResultDialogType.Failure,
@@ -336,12 +350,12 @@ fun AnimatedActionButton(
     icon: ImageVector,
     text: String,
     elevation: Dp = 2.dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var pressed by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
         targetValue = if (pressed) 0.98f else 1f,
-        animationSpec = spring(dampingRatio = 0.8f)
+        animationSpec = spring(dampingRatio = 0.8f),
     )
 
     ElevatedButton(
@@ -349,38 +363,42 @@ fun AnimatedActionButton(
             pressed = true
             onClick()
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .scale(scale),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .scale(scale),
         shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = containerColor,
-            contentColor = contentColor
-        ),
-        elevation = ButtonDefaults.elevatedButtonElevation(
-            defaultElevation = elevation,
-            pressedElevation = elevation * 1.5f
-        ),
-        contentPadding = PaddingValues(
-            horizontal = 18.dp,
-            vertical = 12.dp
-        )
+        colors =
+            ButtonDefaults.elevatedButtonColors(
+                containerColor = containerColor,
+                contentColor = contentColor,
+            ),
+        elevation =
+            ButtonDefaults.elevatedButtonElevation(
+                defaultElevation = elevation,
+                pressedElevation = elevation * 1.5f,
+            ),
+        contentPadding =
+            PaddingValues(
+                horizontal = 18.dp,
+                vertical = 12.dp,
+            ),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(20.dp),
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = text,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
             )
         }
     }
@@ -398,49 +416,54 @@ fun AnimatedResultIcon(percentage: Int) {
     val rotation by rememberInfiniteTransition().animateFloat(
         initialValue = -5f,
         targetValue = 5f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        )
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(2000, easing = FastOutSlowInEasing),
+                repeatMode = RepeatMode.Reverse,
+            ),
     )
 
     Box(
-        modifier = Modifier
-            .size(84.dp)
-            .clip(CircleShape)
-            .background(
+        modifier =
+            Modifier
+                .size(84.dp)
+                .clip(CircleShape)
+                .background(
+                    when {
+                        percentage >= 80 -> Color(0xFF4CAF50).copy(alpha = 0.10f)
+                        percentage >= 60 -> Color(0xFFFFC107).copy(alpha = 0.10f)
+                        else -> Color(0xFFFF5252).copy(alpha = 0.10f)
+                    },
+                ).border(
+                    width = 3.dp,
+                    color =
+                        when {
+                            percentage >= 80 -> Color(0xFF4CAF50)
+                            percentage >= 60 -> Color(0xFFFFC107)
+                            else -> Color(0xFFFF5252)
+                        },
+                    shape = CircleShape,
+                ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector =
                 when {
-                    percentage >= 80 -> Color(0xFF4CAF50).copy(alpha = 0.10f)
-                    percentage >= 60 -> Color(0xFFFFC107).copy(alpha = 0.10f)
-                    else -> Color(0xFFFF5252).copy(alpha = 0.10f)
-                }
-            )
-            .border(
-                width = 3.dp,
-                color = when {
+                    percentage >= 80 -> Icons.Default.EmojiEvents
+                    percentage >= 60 -> Icons.Default.ThumbUp
+                    else -> Icons.Default.SentimentDissatisfied
+                },
+            contentDescription = null,
+            modifier =
+                Modifier
+                    .size(42.dp)
+                    .rotate(if (percentage >= 80) rotation else 0f),
+            tint =
+                when {
                     percentage >= 80 -> Color(0xFF4CAF50)
                     percentage >= 60 -> Color(0xFFFFC107)
                     else -> Color(0xFFFF5252)
                 },
-                shape = CircleShape
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            imageVector = when {
-                percentage >= 80 -> Icons.Default.EmojiEvents
-                percentage >= 60 -> Icons.Default.ThumbUp
-                else -> Icons.Default.SentimentDissatisfied
-            },
-            contentDescription = null,
-            modifier = Modifier
-                .size(42.dp)
-                .rotate(if (percentage >= 80) rotation else 0f),
-            tint = when {
-                percentage >= 80 -> Color(0xFF4CAF50)
-                percentage >= 60 -> Color(0xFFFFC107)
-                else -> Color(0xFFFF5252)
-            }
         )
     }
 }
@@ -450,25 +473,27 @@ fun PercentageRing(
     percentage: Int,
     animatedPercentage: Int,
     ringSize: Dp = 200.dp,
-    strokeWidth: Dp = 14.dp
+    strokeWidth: Dp = 14.dp,
 ) {
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
-    val progressColor = when {
-        percentage >= 80 -> Color(0xFF4CAF50)
-        percentage >= 60 -> Color(0xFFFFC107)
-        else -> Color(0xFFFF5252)
-    }
+    val progressColor =
+        when {
+            percentage >= 80 -> Color(0xFF4CAF50)
+            percentage >= 60 -> Color(0xFFFFC107)
+            else -> Color(0xFFFF5252)
+        }
     val sweep = (animatedPercentage / 100f) * 360f
 
     Box(
         modifier = Modifier.size(ringSize),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            val stroke = Stroke(
-                width = strokeWidth.toPx(),
-                cap = StrokeCap.Round
-            )
+            val stroke =
+                Stroke(
+                    width = strokeWidth.toPx(),
+                    cap = StrokeCap.Round,
+                )
             val inset = strokeWidth.toPx() / 2f
 
             // DrawScopeの描画領域サイズ（Px）
@@ -484,7 +509,7 @@ fun PercentageRing(
                 useCenter = false,
                 style = stroke,
                 topLeft = Offset(inset, inset),
-                size = Size(diameterW, diameterH)
+                size = Size(diameterW, diameterH),
             )
             // プログレス
             if (sweep > 0f) {
@@ -495,19 +520,20 @@ fun PercentageRing(
                     useCenter = false,
                     style = stroke,
                     topLeft = Offset(inset, inset),
-                    size = Size(diameterW, diameterH)
+                    size = Size(diameterW, diameterH),
                 )
             }
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = "$animatedPercentage%",
-                style = MaterialTheme.typography.displaySmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp
-                ),
+                style =
+                    MaterialTheme.typography.displaySmall.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 44.sp,
+                    ),
                 color = progressColor,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -516,13 +542,14 @@ fun PercentageRing(
 @Composable
 fun ConfettiEffect(rotation: Float) {
     Canvas(modifier = Modifier.fillMaxSize()) {
-        val colors = listOf(
-            Color(0xFFFF6B6B),
-            Color(0xFF4ECDC4),
-            Color(0xFFFFE66D),
-            Color(0xFF95E1D3),
-            Color(0xFFF38181)
-        )
+        val colors =
+            listOf(
+                Color(0xFFFF6B6B),
+                Color(0xFF4ECDC4),
+                Color(0xFFFFE66D),
+                Color(0xFF95E1D3),
+                Color(0xFFF38181),
+            )
 
         repeat(20) { i ->
             val angle = (i * 18f + rotation) * PI / 180
@@ -534,7 +561,7 @@ fun ConfettiEffect(rotation: Float) {
                 drawCircle(
                     color = colors[i % colors.size].copy(alpha = 0.6f),
                     radius = 8.dp.toPx(),
-                    center = Offset(x, y)
+                    center = Offset(x, y),
                 )
             }
         }

@@ -112,13 +112,14 @@ object HttpClient {
     suspend inline fun <reified REQ> postForGeneratePdf(
         requestModel: REQ,
         path: String = "/generate-pdf",
-        baseUrl: String = GENERATE_PDF_BASE_UEL
+        baseUrl: String = GENERATE_PDF_BASE_UEL,
     ): PdfResponse {
-        val res: HttpResponse = client.post("$baseUrl$path") {
-            contentType(ContentType.Application.Json)
-            accept(ContentType.Application.Pdf)
-            setBody(requestModel)
-        }
+        val res: HttpResponse =
+            client.post("$baseUrl$path") {
+                contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Pdf)
+                setBody(requestModel)
+            }
 
         // 1) HTTP ステータス検証
         if (!res.status.isSuccess()) {
@@ -128,7 +129,8 @@ object HttpClient {
 
         // 2) Content-Type 検証
         val ct = res.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
-        val isPdf = ct?.match(ContentType.Application.Pdf) == true ||
+        val isPdf =
+            ct?.match(ContentType.Application.Pdf) == true ||
                 (ct?.contentType == "application" && ct.contentSubtype == "pdf") ||
                 (ct?.contentType == "application" && ct.contentSubtype == "octet-stream")
 
@@ -140,7 +142,7 @@ object HttpClient {
             bytes[1] != 0x50.toByte() || // P
             bytes[2] != 0x44.toByte() || // D
             bytes[3] != 0x46.toByte() || // F
-            bytes[4] != 0x2D.toByte()    // -
+            bytes[4] != 0x2D.toByte() // -
         ) {
             val preview = bytes.hexHead(16)
             throw IllegalStateException("Response is not PDF. Content-Type=$ct, head=$preview")
@@ -148,10 +150,9 @@ object HttpClient {
 
         return PdfResponse(
             filename = extractFilename(res.headers[HttpHeaders.ContentDisposition]),
-            bytes = bytes
+            bytes = bytes,
         )
     }
-
 
     fun extractFilename(contentDisposition: String?): String? {
         if (contentDisposition.isNullOrBlank()) return null

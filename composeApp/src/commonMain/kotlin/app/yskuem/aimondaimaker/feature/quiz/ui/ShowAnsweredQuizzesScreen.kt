@@ -18,7 +18,6 @@ import kotlinx.serialization.json.Json
 class ShowAnsweredQuizzesScreen private constructor(
     private val quizListJson: String,
 ) : Screen {
-
     constructor(quizList: List<Quiz>) : this(
         quizListJson = serializer.encodeToString(ListSerializer(Quiz.serializer()), quizList),
     )
@@ -29,9 +28,10 @@ class ShowAnsweredQuizzesScreen private constructor(
         val navigator = LocalNavigator.current
         val viewmodel = koinScreenModel<ShowQuizScreenViewModel>()
         val state by viewmodel.uiState.collectAsState()
-        val quizList = remember(quizListJson) {
-            serializer.decodeFromString(ListSerializer(Quiz.serializer()), quizListJson)
-        }
+        val quizList =
+            remember(quizListJson) {
+                serializer.decodeFromString(ListSerializer(Quiz.serializer()), quizListJson)
+            }
 
         BackHandler {
             navigator?.pop()
@@ -41,7 +41,7 @@ class ShowAnsweredQuizzesScreen private constructor(
             pdfResponse = state.pdfData,
             onCreatePdf = {
                 viewmodel.onCreatePdf(
-                    quizList = quizList
+                    quizList = quizList,
                 )
             },
             onClosePdfViewer = {
@@ -80,7 +80,7 @@ class ShowAnsweredQuizzesScreen private constructor(
             },
             onRestart = {
                 viewmodel.onRestart()
-            }
+            },
         )
     }
 

@@ -61,7 +61,18 @@ class ShowQuizScreenViewModel(
             _showResult,
             _score,
             _quizCompleted,
-        ) { quizList, currentQuizListIndex, pdfData, saveState, isSubscribed, currentQuestionIndex, selectedOption, showResult, score, quizCompleted ->
+        ) {
+            quizList,
+            currentQuizListIndex,
+            pdfData,
+            saveState,
+            isSubscribed,
+            currentQuestionIndex,
+            selectedOption,
+            showResult,
+            score,
+            quizCompleted,
+            ->
             QuizUiState(
                 quizList = quizList,
                 currentQuizListIndex = currentQuizListIndex,
@@ -130,10 +141,11 @@ class ShowQuizScreenViewModel(
             _pdfData.update {
                 DataUiState.Loading
             }
-            val res = pdfRepository.createQuizPdf(
-                quizList = quizList,
-                isColorModel = isColorMode,
-            )
+            val res =
+                pdfRepository.createQuizPdf(
+                    quizList = quizList,
+                    isColorModel = isColorMode,
+                )
             _pdfData.update {
                 DataUiState.Success(res)
             }
@@ -162,15 +174,17 @@ class ShowQuizScreenViewModel(
             try {
                 // suggestedName は拡張子なしを渡し、extension で "pdf" を指定
                 val nameNoExt =
-                    if (pdfName.endsWith(".pdf", ignoreCase = true))
+                    if (pdfName.endsWith(".pdf", ignoreCase = true)) {
                         pdfName.substring(0, pdfName.length - 4)
-                    else
+                    } else {
                         pdfName
+                    }
 
-                val dest: PlatformFile? = FileKit.openFileSaver(
-                    suggestedName = nameNoExt,
-                    extension = "pdf"
-                )
+                val dest: PlatformFile? =
+                    FileKit.openFileSaver(
+                        suggestedName = nameNoExt,
+                        extension = "pdf",
+                    )
 
                 if (dest == null) {
                     _savePdfState.value = DataUiState.Initial // キャンセル
@@ -189,7 +203,10 @@ class ShowQuizScreenViewModel(
         }
     }
 
-    fun onOptionSelected(optionIndex: Int, correctAnswerIndex: Int) {
+    fun onOptionSelected(
+        optionIndex: Int,
+        correctAnswerIndex: Int,
+    ) {
         if (_selectedOption.value == null) {
             _selectedOption.value = optionIndex
             _showResult.value = true

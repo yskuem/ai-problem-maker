@@ -8,9 +8,8 @@ import com.revenuecat.purchases.kmp.Purchases
 import com.revenuecat.purchases.kmp.configure
 
 object RevenueCatInitializer {
-
     fun configureIfNeeded() {
-        if(getFlavor() != Flavor.PROD) {
+        if (getFlavor() != Flavor.PROD) {
             // アプリケーションIDが異なるためクラッシュするのでとりあえずPROD以外では無効化
             return
         }
@@ -18,7 +17,7 @@ object RevenueCatInitializer {
 
         Purchases.configure(apiKey = REVENUE_CAT_API_KEY) {
             // NOTE : ユーザIDをここでも設定できる
-            //appUserId = null
+            // appUserId = null
         }
     }
 }

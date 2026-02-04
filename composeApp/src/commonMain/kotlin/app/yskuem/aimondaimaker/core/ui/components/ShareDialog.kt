@@ -159,7 +159,7 @@ private fun ShareDialogContent(
                     coroutineScope.launch {
                         shareManager.saveQuizToSupabase(
                             groupId = groupId,
-                            quizData = quizList
+                            quizData = quizList,
                         )
                     }
                     shareManager.shareText(
