@@ -45,6 +45,8 @@ class ShowQuizScreenViewModel(
     private val _showResult = MutableStateFlow(false)
     private val _score = MutableStateFlow(0)
     private val _quizCompleted = MutableStateFlow(false)
+    private var hasLoadedQuiz = false
+    private var isLoadingQuiz = false
     val savePdfState: StateFlow<DataUiState<Unit>> = _savePdfState.asStateFlow()
 
     val uiState: StateFlow<QuizUiState> =
@@ -92,20 +94,31 @@ class ShowQuizScreenViewModel(
         extension: String,
         projectId: String? = null,
     ) {
+        if (hasLoadedQuiz || isLoadingQuiz) {
+            return
+        }
+        isLoadingQuiz = true
         screenModelScope.launch {
-            _quizList.value = DataUiState.Loading
+            try {
+                _quizList.value = DataUiState.Loading
 
-            // 画像からQuizを取得
-            val quizList =
-                onFetchQuizList(
-                    imageByte = imageByte,
-                    fileName = fileName,
-                    extension = extension,
+                // 画像からQuizを取得
+                val quizList =
+                    onFetchQuizList(
+                        imageByte = imageByte,
+                        fileName = fileName,
+                        extension = extension,
+                    )
+                if (_quizList.value is DataUiState.Success) {
+                    hasLoadedQuiz = true
+                }
+                onSaveData(
+                    quizList = quizList,
+                    projectId = projectId,
                 )
-            onSaveData(
-                quizList = quizList,
-                projectId = projectId,
-            )
+            } finally {
+                isLoadingQuiz = false
+            }
         }
     }
 
