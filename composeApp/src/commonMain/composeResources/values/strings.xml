@@ -87,11 +87,19 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">Share Quiz</string>
+    <string name="export_quiz_pdf">Export Quiz as PDF</string>
+    <string name="pdf_generating_title">Generating PDF</string>
+    <string name="pdf_generating_questions_message">Generating the questions PDF...</string>
+    <string name="pdf_generating_answers_message">Generating the answers PDF...</string>
     <string name="share_dialog_title">Share Quiz</string>
     <string name="copy_link">Copy Link</string>
     <string name="share_with_others">Share with Others</string>
     <string name="link_copied">Link Copied</string>
     <string name="close">Close</string>
+    <string name="pdf_save_success_title">PDF Saved</string>
+    <string name="pdf_save_success_message">Your PDF was saved successfully.</string>
+    <string name="pdf_save_failure_title">Save Failed</string>
+    <string name="pdf_save_failure_message">The PDF could not be saved. Please try again.</string>
 
     <!-- Update -->
     <string name="force_update_title">Update Required</string>
@@ -102,5 +110,33 @@
     <string name="update_toast_title_with_version">Version %1$s is available</string>
     <string name="update_toast_message">A new version has been released.</string>
 
+    <string name="login_error_message">An error occurred.</string>
+
+    <!-- Paywall -->
+    <string name="paywall_title">Premium Plan</string>
+    <string name="paywall_description">Unlock all features for a better learning experience!</string>
+    <string name="feature_ad_free_title">Ad-free experience</string>
+    <string name="feature_ad_free_description">Completely remove annoying ads</string>
+    <string name="feature_unlock_all_title">Unlock all features</string>
+    <string name="feature_unlock_all_description">Unlimited access to premium-only features</string>
+    <string name="feature_priority_support_title">Priority support</string>
+    <string name="feature_priority_support_description">Quick response within 24 hours</string>
+    <string name="feature_pdf_download_title">Quiz PDF Download</string>
+    <string name="feature_pdf_download_description">Save and print your quizzes as PDFs for comfortable offline study.</string>
+    <string name="feature_remove_ads_title">Remove All Ads</string>
+    <string name="feature_remove_ads_description">Completely remove ads and focus on your learning.</string>
+    <string name="plan_annual">Annual Plan</string>
+    <string name="plan_monthly">Monthly Plan</string>
+    <string name="plan_lifetime">Lifetime</string>
+    <string name="plan_other">Other Plan</string>
+    <string name="price_per_year">/year</string>
+    <string name="price_per_month">/month</string>
+    <string name="discount_best_value">Best Value</string>
+    <string name="subscribed">Subscribed</string>
+    <string name="start_now">Start Now</string>
+    <string name="restore_purchase">Restore Purchase</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="explanation">Explanation</string>
 </resources>
 

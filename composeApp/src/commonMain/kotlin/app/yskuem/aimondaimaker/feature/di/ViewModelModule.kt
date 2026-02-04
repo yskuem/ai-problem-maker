@@ -6,6 +6,7 @@ import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreenViewModel
+import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreenViewModel
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreenViewModel
 import org.koin.dsl.module
 
@@ -23,6 +24,8 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 crashlytics = get(),
+                pdfRepository = get(),
+                subscriptionRepository = get(),
             )
         }
         factory {
@@ -31,6 +34,7 @@ val viewModelModule =
                 authRepository = get(),
                 projectRepository = get(),
                 crashlytics = get(),
+                subscriptionRepository = get(),
             )
         }
         factory {
@@ -41,6 +45,7 @@ val viewModelModule =
         factory {
             SelectProjectScreenViewModel(
                 projectRepository = get(),
+                subscriptionRepository = get(),
             )
         }
         factory { (projectId: String) ->
@@ -48,6 +53,7 @@ val viewModelModule =
                 quizRepository = get(),
                 noteRepository = get(),
                 projectId = projectId,
+                subscriptionRepository = get(),
             )
         }
         factory {
@@ -55,6 +61,12 @@ val viewModelModule =
                 checkUpdateUseCase = get(),
                 openUrl = get(),
                 versionRepository = get(),
+            )
+        }
+        factory {
+            SubscriptionScreenViewModel(
+                authRepository = get(),
+                subscriptionRepository = get(),
             )
         }
     }

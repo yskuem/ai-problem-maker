@@ -2,6 +2,7 @@ package app.yskuem.aimondaimaker.feature.select_project.ui
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -11,9 +12,21 @@ import kotlinx.coroutines.launch
 
 class SelectProjectScreenViewModel(
     private val projectRepository: ProjectRepository,
+    private val subscriptionRepository: SubscriptionRepository,
 ) : ScreenModel {
     private val _projects = MutableStateFlow<DataUiState<List<Project>>>(DataUiState.Loading)
     val projects = _projects.asStateFlow()
+
+    private val _isSubscribed = MutableStateFlow(false)
+    val isSubscribed = _isSubscribed.asStateFlow()
+
+    init {
+        screenModelScope.launch {
+            subscriptionRepository.isSubscribed().collect {
+                _isSubscribed.value = it
+            }
+        }
+    }
 
     private fun onFetchProjectList() {
         screenModelScope.launch {

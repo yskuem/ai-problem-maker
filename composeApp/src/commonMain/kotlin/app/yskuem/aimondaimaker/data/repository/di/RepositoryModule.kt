@@ -2,16 +2,20 @@ package app.yskuem.aimondaimaker.data.repository.di
 
 import app.yskuem.aimondaimaker.data.repository.AuthRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.NoteRepositoryImpl
+import app.yskuem.aimondaimaker.data.repository.PdfRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.ProjectRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.QuizRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.SharedQuizRepositoryImpl
+import app.yskuem.aimondaimaker.data.repository.SubscriptionRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.UserRepositoryImpl
 import app.yskuem.aimondaimaker.data.repository.VersionRepositoryImpl
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
+import app.yskuem.aimondaimaker.domain.data.repository.PdfRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.SharedQuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
 import app.yskuem.aimondaimaker.domain.data.repository.VersionRepository
 import dev.gitlive.firebase.Firebase
@@ -58,5 +62,11 @@ val repositoryModule =
             SharedQuizRepositoryImpl(
                 supabaseClientHelper = get(),
             )
+        }
+        single<PdfRepository> {
+            PdfRepositoryImpl()
+        }
+        single<SubscriptionRepository> {
+            SubscriptionRepositoryImpl()
         }
     }

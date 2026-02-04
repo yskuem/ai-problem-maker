@@ -14,6 +14,7 @@ import app.yskuem.aimondaimaker.core.ui.ErrorScreen
 import app.yskuem.aimondaimaker.core.ui.ErrorScreenType
 import app.yskuem.aimondaimaker.feature.ad.ui.InterstitialHost
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
+import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -41,13 +42,16 @@ data class CreateQuizScreen(
             )
         }
 
-        InterstitialHost()
+        if (!state.isSubscribed) {
+            InterstitialHost()
+        }
 
         BackHandler {
             navigator?.pop()
         }
 
         when (val quizList = state.quizList) {
+            is DataUiState.Initial -> {}
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,
@@ -62,9 +66,52 @@ data class CreateQuizScreen(
             }
 
             is DataUiState.Success -> {
-                QuizApp(quizList.data) {
-                    navigator?.pop()
-                }
+                QuizApp(
+                    quizList = quizList.data,
+                    onCreatePdf = {
+                        viewmodel.onCreatePdf(
+                            quizList = quizList.data
+                        )
+                    },
+                    onClosePdfViewer = {
+                        viewmodel.onClosePdfViewer()
+                    },
+                    pdfResponse = state.pdfData,
+                    isSavingPdf = state.pdfSaveState.isLoading,
+                    onBack = {
+                        navigator?.pop()
+                    },
+                    onSavePdf = { pdfData, pdfName ->
+                        viewmodel.onSavePdf(
+                            pdfData = pdfData,
+                            pdfName = pdfName,
+                        )
+                    },
+                    pdfSaveState = state.pdfSaveState,
+                    onDismissPdfSaveResult = {
+                        viewmodel.onDismissSavePdfResult()
+                    },
+                    isSubscribed = state.isSubscribed,
+                    onNavigateToSubscription = {
+                        navigator?.push(SubscriptionScreen())
+                    },
+                    currentQuestionIndex = state.currentQuestionIndex,
+                    selectedOption = state.selectedOption,
+                    showResult = state.showResult,
+                    score = state.score,
+                    quizCompleted = state.quizCompleted,
+                    onOptionSelected = { optionIndex ->
+                        val currentQuiz = quizList.data[state.currentQuestionIndex]
+                        val correctAnswerIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
+                        viewmodel.onOptionSelected(optionIndex, correctAnswerIndex)
+                    },
+                    onNextQuestion = {
+                        viewmodel.onNextQuestion(quizList.data.size)
+                    },
+                    onRestart = {
+                        viewmodel.onRestart()
+                    }
+                )
             }
         }
     }
