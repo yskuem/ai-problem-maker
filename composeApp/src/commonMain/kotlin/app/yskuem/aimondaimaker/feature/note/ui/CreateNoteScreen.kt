@@ -40,13 +40,17 @@ data class CreateNoteScreen(
             )
         }
 
-        InterstitialHost()
+        if (!state.isSubscribed) {
+            InterstitialHost()
+        }
 
         BackHandler {
             navigator?.pop()
         }
 
         when (val result = state.note) {
+            is DataUiState.Initial -> {}
+
             is DataUiState.Error -> {
                 ErrorScreen(
                     type = ErrorScreenType.BACK,

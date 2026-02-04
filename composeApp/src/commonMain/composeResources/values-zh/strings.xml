@@ -88,11 +88,19 @@
 
     <!-- Share Feature -->
     <string name="share_quiz">分享测验</string>
+    <string name="export_quiz_pdf">将测验导出为PDF</string>
+    <string name="pdf_generating_title">正在生成 PDF</string>
+    <string name="pdf_generating_questions_message">正在生成试题 PDF...</string>
+    <string name="pdf_generating_answers_message">正在生成解答 PDF...</string>
     <string name="share_dialog_title">分享测验</string>
     <string name="copy_link">复制链接</string>
     <string name="share_with_others">与他人分享</string>
     <string name="link_copied">链接已复制</string>
     <string name="close">关闭</string>
+    <string name="pdf_save_success_title">PDF已保存</string>
+    <string name="pdf_save_success_message">PDF已成功保存。</string>
+    <string name="pdf_save_failure_title">保存失败</string>
+    <string name="pdf_save_failure_message">无法保存PDF。请重试。</string>
 
     <!-- 更新 -->
     <string name="force_update_title">需要更新</string>
@@ -103,4 +111,6 @@
     <string name="update_toast_title_with_version">%1$s 版本现已可用</string>
     <string name="update_toast_message">新版本已经发布。</string>
 
+    <string name="login_error_message">发生错误。</string>
+    <string name="explanation">解释</string>
 </resources>

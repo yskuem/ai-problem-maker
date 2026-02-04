@@ -159,6 +159,8 @@ data class ShowProjectInfoScreen(
                 when (uiState.selectedTabIndex) {
                     0 -> {
                         when (val quizInfoList = uiState.quizInfoList) {
+                            is DataUiState.Initial -> {}
+
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }
@@ -196,6 +198,7 @@ data class ShowProjectInfoScreen(
                                 BottomContent(
                                     modifier = Modifier.align(alignment = Alignment.BottomEnd),
                                     buttonText = stringResource(Res.string.create_new_quiz),
+                                    isSubscribed = uiState.isSubscribed,
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -219,6 +222,8 @@ data class ShowProjectInfoScreen(
 
                     1 -> {
                         when (val noteList = uiState.noteList) {
+                            is DataUiState.Initial -> {}
+
                             is DataUiState.Loading -> {
                                 LoadingScreen()
                             }
@@ -257,6 +262,7 @@ data class ShowProjectInfoScreen(
                                 BottomContent(
                                     modifier = Modifier.align(alignment = Alignment.BottomEnd),
                                     buttonText = stringResource(Res.string.create_new_note),
+                                    isSubscribed = uiState.isSubscribed,
                                 ) {
                                     navigator?.push(
                                         SelectAlbumOrCameraScreen(
@@ -458,6 +464,7 @@ fun ContentList(
 private fun BottomContent(
     modifier: Modifier,
     buttonText: String,
+    isSubscribed: Boolean,
     onTapButton: () -> Unit,
 ) {
     Column(
@@ -468,18 +475,20 @@ private fun BottomContent(
         ) {
             onTapButton()
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        Box(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(color = Color.White),
-            contentAlignment = Alignment.Center,
-        ) {
-            BannerAd(
-                adUnitId = getAdmobBannerId(),
-            )
+        if (!isSubscribed) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Box(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .background(color = Color.White),
+                contentAlignment = Alignment.Center,
+            ) {
+                BannerAd(
+                    adUnitId = getAdmobBannerId(),
+                )
+            }
         }
     }
 }

@@ -1,15 +1,11 @@
 package app.yskuem.aimondaimaker.feature.quiz.ui
 
 import ai_problem_maker.composeapp.generated.resources.Res
-import ai_problem_maker.composeapp.generated.resources.back_to_previous_screen
+import ai_problem_maker.composeapp.generated.resources.explanation
 import ai_problem_maker.composeapp.generated.resources.next_question
 import ai_problem_maker.composeapp.generated.resources.question_number_title
 import ai_problem_maker.composeapp.generated.resources.question_progress
-import ai_problem_maker.composeapp.generated.resources.quiz_finished
 import ai_problem_maker.composeapp.generated.resources.score_label
-import ai_problem_maker.composeapp.generated.resources.score_summary
-import ai_problem_maker.composeapp.generated.resources.share_quiz
-import ai_problem_maker.composeapp.generated.resources.try_again
 import ai_problem_maker.composeapp.generated.resources.view_results
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -35,13 +31,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -49,46 +43,49 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.yskuem.aimondaimaker.core.ui.components.ShareDialog
-import app.yskuem.aimondaimaker.core.util.LaunchStoreReview
-import app.yskuem.aimondaimaker.core.util.ShareManager
-import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.data.api.response.PdfResponse
 import app.yskuem.aimondaimaker.domain.entity.Quiz
-import cafe.adriel.voyager.navigator.LocalNavigator
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizApp(
     quizList: List<Quiz>,
+    onCreatePdf: () -> Unit,
+    onClosePdfViewer: () -> Unit,
+    pdfResponse: DataUiState<PdfResponse>,
     onBack: () -> Unit,
+    isSavingPdf: Boolean,
+    onSavePdf: (pdfDate: ByteArray, pdfName: String) -> Unit,
+    pdfSaveState: DataUiState<Unit>,
+    onDismissPdfSaveResult: () -> Unit,
+    isSubscribed: Boolean,
+    onNavigateToSubscription: () -> Unit,
+    currentQuestionIndex: Int,
+    selectedOption: Int?,
+    showResult: Boolean,
+    score: Int,
+    quizCompleted: Boolean,
+    onOptionSelected: (Int) -> Unit,
+    onNextQuestion: () -> Unit,
+    onRestart: () -> Unit,
 ) {
-    var currentQuestion by remember { mutableStateOf(0) }
-    var selectedOption by remember { mutableStateOf<Int?>(null) }
-    var showResult by remember { mutableStateOf(false) }
-    var score by remember { mutableStateOf(0) }
-    var quizCompleted by remember { mutableStateOf(false) }
-
     val primaryColor = Color(0xFF0066CC)
     val backgroundColor = Color(0xFFF5F5F7)
 
@@ -108,7 +105,7 @@ fun QuizApp(
                             text =
                                 stringResource(
                                     Res.string.question_number_title,
-                                    currentQuestion + 1,
+                                    currentQuestionIndex + 1,
                                     quizList.size,
                                 ),
                         )
@@ -147,44 +144,33 @@ fun QuizApp(
                         totalQuestions = quizList.size,
                         groupId = quizList.firstOrNull()?.groupId ?: "",
                         quizList = quizList,
-                        onRestart = {
-                            currentQuestion = 0
-                            selectedOption = null
-                            showResult = false
-                            score = 0
-                            quizCompleted = false
-                        },
+                        onRestart = onRestart,
+                        onCreatePdf = onCreatePdf,
+                        pdfResponse = pdfResponse,
+                        onClosePdfViewer = onClosePdfViewer,
+                        isSavingPdf = isSavingPdf,
+                        onSavePdf = onSavePdf,
+                        pdfSaveState = pdfSaveState,
+                        onDismissPdfSaveResult = onDismissPdfSaveResult,
+                        isSubscribed = isSubscribed,
+                        onNavigateToSubscription = onNavigateToSubscription,
                     )
                 } else {
-                    val currentQuiz = quizList[currentQuestion]
+                    val currentQuiz = quizList[currentQuestionIndex]
                     val correctAnswerIndex = currentQuiz.choices.indexOf(currentQuiz.answer)
 
                     QuizContentScreen(
                         quiz = currentQuiz,
                         correctAnswerIndex = correctAnswerIndex,
-                        currentQuestionIndex = currentQuestion,
+                        currentQuestionIndex = currentQuestionIndex,
                         totalQuestions = quizList.size,
                         selectedOption = selectedOption,
                         showResult = showResult,
                         score = score,
                         onOptionSelected = { optionIndex ->
-                            if (selectedOption == null) {
-                                selectedOption = optionIndex
-                                showResult = true
-                                if (optionIndex == correctAnswerIndex) {
-                                    score += 1
-                                }
-                            }
+                            onOptionSelected(optionIndex)
                         },
-                        onNextQuestion = {
-                            selectedOption = null
-                            showResult = false
-                            if (currentQuestion < quizList.size - 1) {
-                                currentQuestion += 1
-                            } else {
-                                quizCompleted = true
-                            }
-                        },
+                        onNextQuestion = onNextQuestion,
                     )
                 }
             }
@@ -309,7 +295,7 @@ fun QuizContentScreen(
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "解説",
+                                text = stringResource(Res.string.explanation),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Bold,
@@ -424,163 +410,4 @@ fun OptionItem(
             modifier = Modifier.weight(1f),
         )
     }
-}
-
-@Composable
-fun QuizCompletedScreen(
-    score: Int,
-    totalQuestions: Int,
-    groupId: String,
-    quizList: List<Quiz>,
-    onRestart: () -> Unit,
-) {
-    val percentage = (score.toFloat() / totalQuestions * 100).toInt()
-    val navigator = LocalNavigator.current
-    val shareManager: ShareManager = koinInject()
-    val authRepository: AuthRepository = koinInject()
-    var showShareDialog by remember { mutableStateOf(false) }
-    var userId by remember { mutableStateOf("") }
-
-    LaunchedEffect(Unit) {
-        userId = authRepository.getUserId()
-    }
-
-    // Request store review when quiz is completed
-    LaunchStoreReview(
-        trigger = true,
-        onComplete = { result ->
-            result
-                .onSuccess {
-                    println("Store review requested successfully")
-                }.onFailure { error ->
-                    println("Store review request failed: $error")
-                }
-        },
-    )
-
-    Card(
-        modifier =
-            Modifier
-                .widthIn(max = 500.dp)
-                .padding(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(24.dp),
-    ) {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                text = stringResource(Res.string.quiz_finished),
-                style =
-                    MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
-            )
-
-            Text(
-                text = stringResource(Res.string.score_summary, score, totalQuestions),
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray,
-            )
-
-            Text(
-                text = "$percentage%",
-                style =
-                    MaterialTheme.typography.displayMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                    ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 16.dp),
-            )
-
-            Button(
-                onClick = { showShareDialog = true },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Row(
-                    modifier = Modifier.padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = null,
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(Res.string.share_quiz),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = onRestart,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.try_again),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(8.dp),
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(
-                onClick = {
-                    navigator?.pop()
-                },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.back_to_previous_screen),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(8.dp),
-                )
-            }
-        }
-    }
-
-    ShareDialog(
-        isVisible = showShareDialog,
-        quizUrl = shareManager.generateQuizUrl(groupId),
-        shareManager = shareManager,
-        groupId = groupId,
-        quizList = quizList,
-        userId = userId,
-        onDismiss = { showShareDialog = false },
-    )
 }

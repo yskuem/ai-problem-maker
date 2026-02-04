@@ -44,15 +44,13 @@ import app.yskuem.aimondaimaker.core.util.ShareManager
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun ShareDialog(
     isVisible: Boolean,
-    quizUrl: String,
-    shareManager: ShareManager,
     groupId: String,
     quizList: List<Quiz>,
-    userId: String,
     onDismiss: () -> Unit,
 ) {
     if (isVisible) {
@@ -65,11 +63,8 @@ fun ShareDialog(
                 ),
         ) {
             ShareDialogContent(
-                quizUrl = quizUrl,
-                shareManager = shareManager,
                 groupId = groupId,
                 quizList = quizList,
-                userId = userId,
                 onDismiss = onDismiss,
             )
         }
@@ -78,16 +73,16 @@ fun ShareDialog(
 
 @Composable
 private fun ShareDialogContent(
-    quizUrl: String,
-    shareManager: ShareManager,
     groupId: String,
     quizList: List<Quiz>,
-    userId: String,
     onDismiss: () -> Unit,
 ) {
     var showCopiedMessage by remember { mutableStateOf(false) }
     val shareDialogTitle = stringResource(Res.string.share_dialog_title)
     val coroutineScope = rememberCoroutineScope()
+    // TODO(Refactor) Inject From ViewModel
+    val shareManager: ShareManager = koinInject()
+    val quizUrl = shareManager.generateQuizUrl(groupId)
 
     Card(
         modifier = Modifier.padding(16.dp),
@@ -125,7 +120,10 @@ private fun ShareDialogContent(
             Button(
                 onClick = {
                     coroutineScope.launch {
-                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
+                        shareManager.saveQuizToSupabase(
+                            groupId = groupId,
+                            quizData = quizList,
+                        )
                     }
                     shareManager.copyToClipboard(quizUrl)
                     showCopiedMessage = true
@@ -159,7 +157,10 @@ private fun ShareDialogContent(
             OutlinedButton(
                 onClick = {
                     coroutineScope.launch {
-                        shareManager.saveQuizToSupabase(groupId, quizList, userId)
+                        shareManager.saveQuizToSupabase(
+                            groupId = groupId,
+                            quizData = quizList,
+                        )
                     }
                     shareManager.shareText(
                         text = quizUrl,

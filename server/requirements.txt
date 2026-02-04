@@ -1,6 +1,0 @@
-fastapi
-uvicorn[standard]
-google-genai
-python-multipart 
-google-generativeai
-python-dotenv

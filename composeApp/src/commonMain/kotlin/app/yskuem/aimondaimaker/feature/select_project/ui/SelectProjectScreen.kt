@@ -86,6 +86,8 @@ class SelectProjectScreen : Screen {
 
         val uiState by viewModel.projects.collectAsState()
 
+        val isSubscribed by viewModel.isSubscribed.collectAsState()
+
         // 初回表示と前の画面に戻ってきたときにデータフェッチ
         LaunchedEffect(navigator) {
             snapshotFlow { navigator.lastEvent }
@@ -108,6 +110,8 @@ class SelectProjectScreen : Screen {
             containerColor = BackgroundPrimary,
         ) { padding ->
             when (val projectState = uiState) {
+                is DataUiState.Initial -> {}
+
                 is DataUiState.Loading -> {
                     LoadingScreen()
                 }
@@ -322,7 +326,6 @@ class SelectProjectScreen : Screen {
                                                     }
                                                 }
 
-                                                // メニューボタン
                                                 Box {
                                                     IconButton(onClick = {
                                                         expandedMenuFor =
@@ -382,35 +385,37 @@ class SelectProjectScreen : Screen {
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(Spacing.md))
-                                // Premium ad container with glass morphism
-                                Box(
-                                    modifier =
-                                        Modifier
-                                            .fillMaxWidth()
-                                            .shadow(
-                                                elevation = Elevation.xs,
-                                                shape = RoundedCornerShape(CornerRadius.lg),
-                                                ambientColor = GlassShadow,
-                                                spotColor = GlassShadow,
-                                            ).clip(RoundedCornerShape(CornerRadius.lg))
-                                            .background(GlassSurface)
-                                            .border(
-                                                width = 1.dp,
-                                                color = GlassBorder,
-                                                shape = RoundedCornerShape(CornerRadius.lg),
-                                            ),
-                                ) {
+
+                                if (!isSubscribed) {
                                     Box(
                                         modifier =
                                             Modifier
                                                 .fillMaxWidth()
-                                                .height(60.dp)
-                                                .padding(Spacing.sm),
-                                        contentAlignment = Alignment.Center,
+                                                .shadow(
+                                                    elevation = Elevation.xs,
+                                                    shape = RoundedCornerShape(CornerRadius.lg),
+                                                    ambientColor = GlassShadow,
+                                                    spotColor = GlassShadow,
+                                                ).clip(RoundedCornerShape(CornerRadius.lg))
+                                                .background(GlassSurface)
+                                                .border(
+                                                    width = 1.dp,
+                                                    color = GlassBorder,
+                                                    shape = RoundedCornerShape(CornerRadius.lg),
+                                                ),
                                     ) {
-                                        BannerAd(
-                                            adUnitId = getAdmobBannerId(),
-                                        )
+                                        Box(
+                                            modifier =
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .height(60.dp)
+                                                    .padding(Spacing.sm),
+                                            contentAlignment = Alignment.Center,
+                                        ) {
+                                            BannerAd(
+                                                adUnitId = getAdmobBannerId(),
+                                            )
+                                        }
                                     }
                                 }
                             }
