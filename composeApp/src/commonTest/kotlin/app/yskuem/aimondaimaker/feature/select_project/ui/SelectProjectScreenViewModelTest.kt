@@ -4,12 +4,15 @@ import MainDispatcherTestBase
 import app.cash.turbine.test
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
+import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -21,6 +24,7 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
     private val projectRepository: ProjectRepository = mock()
+    private val subscriptionRepository: SubscriptionRepository = mock()
 
     private val mockProjectList =
         listOf(
@@ -40,10 +44,12 @@ class SelectProjectScreenViewModelTest : MainDispatcherTestBase() {
         everySuspend { projectRepository.fetchProjectList() } returns mockProjectList
         everySuspend { projectRepository.updateProject(any()) } returns mockProjectList.first()
         everySuspend { projectRepository.deleteProject(any()) } returns true
+        every { subscriptionRepository.isSubscribed(any()) } returns flowOf(false)
 
         viewModel =
             SelectProjectScreenViewModel(
                 projectRepository = projectRepository,
+                subscriptionRepository = subscriptionRepository,
             )
     }
 

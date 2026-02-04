@@ -5,16 +5,20 @@ import app.cash.turbine.test
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.core.util.FirebaseCrashlytics
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
+import app.yskuem.aimondaimaker.domain.data.repository.PdfRepository
 import app.yskuem.aimondaimaker.domain.data.repository.ProjectRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.domain.entity.Quiz
 import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
+import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -28,6 +32,8 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
     private val quizRepository: QuizRepository = mock()
     private val projectRepository: ProjectRepository = mock()
     private val crashlytics: FirebaseCrashlytics = mock()
+    private val pdfRepository: PdfRepository = mock()
+    private val subscriptionRepository: SubscriptionRepository = mock()
 
     private val mockQuizList =
         listOf(
@@ -94,12 +100,16 @@ class ShowQuizScreenViewModelTest : MainDispatcherTestBase() {
             crashlytics.log(any())
         } returns Unit
 
+        every { subscriptionRepository.isSubscribed(any()) } returns flowOf(false)
+
         viewModel =
             ShowQuizScreenViewModel(
                 authRepository = authRepository,
                 quizRepository = quizRepository,
                 projectRepository = projectRepository,
                 crashlytics = crashlytics,
+                pdfRepository = pdfRepository,
+                subscriptionRepository = subscriptionRepository,
             )
     }
 

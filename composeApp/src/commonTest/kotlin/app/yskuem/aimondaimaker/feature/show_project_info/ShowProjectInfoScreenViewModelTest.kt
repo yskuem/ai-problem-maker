@@ -5,13 +5,16 @@ import app.cash.turbine.test
 import app.yskuem.aimondaimaker.core.ui.DataUiState
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
+import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
 import app.yskuem.aimondaimaker.domain.entity.Note
 import app.yskuem.aimondaimaker.domain.entity.QuizInfo
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throwsErrorWith
+import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -23,6 +26,7 @@ import kotlin.time.ExperimentalTime
 class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     private val quizRepository: QuizRepository = mock()
     private val noteRepository: NoteRepository = mock()
+    private val subscriptionRepository: SubscriptionRepository = mock()
 
     private val mockQuizInfoList =
         listOf(
@@ -53,11 +57,13 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
     fun setup() {
         everySuspend { quizRepository.fetchQuizInfoList(any()) } returns mockQuizInfoList
         everySuspend { noteRepository.fetchNotes(any()) } returns mockNoteList
+        every { subscriptionRepository.isSubscribed(any()) } returns flowOf(false)
 
         viewModel =
             ShowProjectInfoScreenViewModel(
                 quizRepository = quizRepository,
                 noteRepository = noteRepository,
+                subscriptionRepository = subscriptionRepository,
                 projectId = "",
             )
     }
@@ -91,6 +97,7 @@ class ShowProjectInfoScreenViewModelTest : MainDispatcherTestBase() {
                 ShowProjectInfoScreenViewModel(
                     quizRepository = quizRepository,
                     noteRepository = noteRepository,
+                    subscriptionRepository = subscriptionRepository,
                     projectId = "",
                 )
 
