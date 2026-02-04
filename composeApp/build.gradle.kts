@@ -143,7 +143,7 @@ android {
         applicationId = "app.yskuem.aimondaimaker"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 19
+        versionCode = 21
         versionName = "1.1.3"
     }
     packaging {
