@@ -64,6 +64,17 @@ object AdmobIosProdConfigs {
     const val BANNER_ID: String = "ca-app-pub-prod-banner-ios"
 }'
 
+# RevenueCat API key
+write_if_missing composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.android.kt \
+'package app.yskuem.aimondaimaker.core.config
+
+actual val REVENUE_CAT_API_KEY: String = "revenuecat-public-key"'
+
+write_if_missing composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.ios.kt \
+'package app.yskuem.aimondaimaker.core.config
+
+actual val REVENUE_CAT_API_KEY: String = "revenuecat-public-key"'
+
 
 # Android prod strings
 if [ ! -f composeApp/src/prod/res/values/strings.xml ]; then
