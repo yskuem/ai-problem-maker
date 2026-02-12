@@ -18,6 +18,11 @@ interface NoteRepository {
     suspend fun fetchNotes(projectId: String): List<Note>
 
     /**
+     * プロジェクトのノートをページネーション付きで取得
+     */
+    suspend fun fetchNotes(projectId: String, limit: Int, offset: Int): List<Note>
+
+    /**
      * ノートの保存
      */
     suspend fun saveNote(

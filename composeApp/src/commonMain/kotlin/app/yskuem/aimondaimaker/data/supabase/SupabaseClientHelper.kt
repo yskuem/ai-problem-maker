@@ -49,6 +49,34 @@ class SupabaseClientHelper(
             }.decodeList<T>()
 
     /**
+     * 指定したカラム(filterCol)が filterVal と一致するレコードを取得し、
+     * 指定したカラム(orderCol)で降順にソートし、ページネーションして返します。
+     *
+     * @param tableName 検索対象のテーブル名
+     * @param filterCol フィルタに使用するカラム名
+     * @param filterVal フィルタに使用する値
+     * @param orderCol ソートに使用するカラム名（降順）
+     * @param limit 取得する最大件数
+     * @param offset 取得開始位置（0始まり）
+     * @return 条件に合致するレコードをデコードした T 型のリスト
+     */
+    internal suspend inline fun <reified T : Any> fetchPaginatedListByMatchValue(
+        tableName: String,
+        filterCol: String,
+        filterVal: String,
+        orderCol: String,
+        limit: Long,
+        offset: Long,
+    ): List<T> =
+        supabase
+            .from(tableName)
+            .select {
+                filter { eq(filterCol, filterVal) }
+                order(column = orderCol, order = Order.DESCENDING)
+                range(from = offset, to = offset + limit - 1)
+            }.decodeList<T>()
+
+    /**
      * 指定したカラム(filterCol)が filterVal と一致するレコードを
      * changes で渡したデータクラス T のプロパティで更新し、更新後のレコード群を返します。
      *

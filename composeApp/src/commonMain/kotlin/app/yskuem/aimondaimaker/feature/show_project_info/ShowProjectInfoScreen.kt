@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -193,6 +194,8 @@ data class ShowProjectInfoScreen(
                                         onDeleteItem = { groupId ->
                                             viewModel.deleteQuizInfo(groupId)
                                         },
+                                        isLoadingMore = uiState.isLoadingMoreQuiz,
+                                        onLoadMore = { viewModel.fetchMoreQuizInfo() },
                                     )
                                 }
                                 BottomContent(
@@ -257,6 +260,8 @@ data class ShowProjectInfoScreen(
                                         onDeleteItem = { id ->
                                             viewModel.deleteNote(id)
                                         },
+                                        isLoadingMore = uiState.isLoadingMoreNote,
+                                        onLoadMore = { viewModel.fetchMoreNotes() },
                                     )
                                 }
                                 BottomContent(
@@ -298,11 +303,31 @@ fun ContentList(
     onDeleteItem: (String) -> Unit,
     icon: ImageVector,
     contentType: ContentType,
+    isLoadingMore: Boolean = false,
+    onLoadMore: () -> Unit = {},
 ) {
     var expandedMenuFor by remember { mutableStateOf<String?>(null) }
     var pendingDeleteIndex by remember { mutableStateOf<Int?>(null) }
+    val listState = rememberLazyListState()
+
+    // Detect scroll to end for pagination
+    LaunchedEffect(listState) {
+        snapshotFlow {
+            val layoutInfo = listState.layoutInfo
+            val totalItems = layoutInfo.totalItemsCount
+            val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            lastVisibleItem >= totalItems - 3
+        }.distinctUntilChanged()
+            .collect { isNearEnd ->
+                if (isNearEnd) {
+                    onLoadMore()
+                }
+            }
+    }
+
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp), // 間隔を広げる
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         itemsIndexed(items) { index, item ->
             Card(
@@ -312,7 +337,7 @@ fun ContentList(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .height(100.dp) // カードを大きくする
+                        .height(100.dp)
                         .border(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.outlineVariant,
@@ -320,13 +345,13 @@ fun ContentList(
                         ),
                 colors =
                     CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface, // 白い背景を維持
+                        containerColor = MaterialTheme.colorScheme.surface,
                     ),
                 elevation =
                     CardDefaults.cardElevation(
-                        defaultElevation = 3.dp, // 影を少し強くして立体感を出す
+                        defaultElevation = 3.dp,
                     ),
-                shape = RoundedCornerShape(12.dp), // 角を少し丸くする
+                shape = RoundedCornerShape(12.dp),
             ) {
                 Row(
                     modifier =
@@ -335,7 +360,6 @@ fun ContentList(
                             .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    // アイコン部分を円形の背景で装飾
                     Box(
                         modifier =
                             Modifier
@@ -356,7 +380,6 @@ fun ContentList(
 
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    // テキスト
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = item,
@@ -364,7 +387,7 @@ fun ContentList(
                                 TextStyle(
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Medium,
-                                    color = MaterialTheme.colorScheme.onSurface, // テキスト色をはっきりさせる
+                                    color = MaterialTheme.colorScheme.onSurface,
                                 ),
                         )
 
@@ -375,12 +398,11 @@ fun ContentList(
                             style =
                                 TextStyle(
                                     fontSize = 14.sp,
-                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f), // もう少しはっきりした色に
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                                 ),
                         )
                     }
 
-                    // メニューボタン
                     Box {
                         IconButton(onClick = {
                             expandedMenuFor = if (expandedMenuFor == itemGroupIds[index]) null else itemGroupIds[index]
@@ -410,6 +432,23 @@ fun ContentList(
                             )
                         }
                     }
+                }
+            }
+        }
+
+        // Loading more indicator
+        if (isLoadingMore) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.dp,
+                    )
                 }
             }
         }
