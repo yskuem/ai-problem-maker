@@ -106,6 +106,17 @@ kotlin {
             implementation(libs.revenuecat.core)
             implementation(libs.revenuecat.purchases.result)
         }
+        
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.multiplatform.settings.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+        }
+        
+        androidUnitTest.dependencies {
+            implementation(libs.kotlin.test.junit)
+        }
+        
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
