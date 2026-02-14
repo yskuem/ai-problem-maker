@@ -62,7 +62,8 @@ class ShowProjectInfoScreenViewModel(
             _hasMoreQuiz,
             _isLoadingMoreNote,
             _hasMoreNote,
-        ) { quizInfoList,
+        ) {
+            quizInfoList,
             noteList,
             selectedTabIndex,
             isSubscribed,
