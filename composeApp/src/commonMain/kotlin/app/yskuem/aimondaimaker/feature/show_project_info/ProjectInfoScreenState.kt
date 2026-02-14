@@ -9,4 +9,8 @@ data class ProjectInfoScreenState(
     val noteList: DataUiState<List<Note>> = DataUiState.Loading,
     val selectedTabIndex: Int = 0,
     val isSubscribed: Boolean = false,
+    val isLoadingMoreQuiz: Boolean = false,
+    val hasMoreQuiz: Boolean = true,
+    val isLoadingMoreNote: Boolean = false,
+    val hasMoreNote: Boolean = true,
 )

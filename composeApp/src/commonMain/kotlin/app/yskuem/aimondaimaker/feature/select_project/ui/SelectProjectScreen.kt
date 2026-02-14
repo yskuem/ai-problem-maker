@@ -88,6 +88,9 @@ class SelectProjectScreen : Screen {
 
         val isSubscribed by viewModel.isSubscribed.collectAsState()
 
+        val isLoadingMore by viewModel.isLoadingMore.collectAsState()
+        val hasMoreData by viewModel.hasMoreData.collectAsState()
+
         // 初回表示と前の画面に戻ってきたときにデータフェッチ
         LaunchedEffect(navigator) {
             snapshotFlow { navigator.lastEvent }
@@ -372,6 +375,38 @@ class SelectProjectScreen : Screen {
                                             }
                                         }
                                     }
+
+                                    // Loading more indicator
+                                    if (isLoadingMore) {
+                                        item {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(16.dp),
+                                                contentAlignment = Alignment.Center,
+                                            ) {
+                                                CircularProgressIndicator(
+                                                    modifier = Modifier.size(24.dp),
+                                                    strokeWidth = 2.dp,
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // Detect scroll to end for pagination
+                                LaunchedEffect(gridState) {
+                                    snapshotFlow {
+                                        val layoutInfo = gridState.layoutInfo
+                                        val totalItems = layoutInfo.totalItemsCount
+                                        val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+                                        lastVisibleItem >= totalItems - 3
+                                    }.distinctUntilChanged()
+                                        .collect { isNearEnd ->
+                                            if (isNearEnd) {
+                                                viewModel.fetchMoreProjects()
+                                            }
+                                        }
                                 }
                             }
 

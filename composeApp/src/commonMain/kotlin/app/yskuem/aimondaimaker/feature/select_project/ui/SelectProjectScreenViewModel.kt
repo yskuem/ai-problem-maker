@@ -14,11 +14,23 @@ class SelectProjectScreenViewModel(
     private val projectRepository: ProjectRepository,
     private val subscriptionRepository: SubscriptionRepository,
 ) : ScreenModel {
+    companion object {
+        private const val PAGE_SIZE = 20
+    }
+
     private val _projects = MutableStateFlow<DataUiState<List<Project>>>(DataUiState.Loading)
     val projects = _projects.asStateFlow()
 
     private val _isSubscribed = MutableStateFlow(false)
     val isSubscribed = _isSubscribed.asStateFlow()
+
+    private val _isLoadingMore = MutableStateFlow(false)
+    val isLoadingMore = _isLoadingMore.asStateFlow()
+
+    private val _hasMoreData = MutableStateFlow(true)
+    val hasMoreData = _hasMoreData.asStateFlow()
+
+    private var currentOffset = 0
 
     init {
         screenModelScope.launch {
@@ -30,16 +42,50 @@ class SelectProjectScreenViewModel(
 
     private fun onFetchProjectList() {
         screenModelScope.launch {
+            currentOffset = 0
+            _hasMoreData.value = true
             val result =
                 runCatching {
-                    projectRepository.fetchProjectList()
+                    projectRepository.fetchProjectList(
+                        limit = PAGE_SIZE,
+                        offset = 0,
+                    )
                 }
             result
                 .onSuccess {
                     _projects.value = DataUiState.Success(it)
+                    currentOffset = it.size
+                    _hasMoreData.value = it.size >= PAGE_SIZE
                 }.onFailure {
                     _projects.value = DataUiState.Error(it)
                 }
+        }
+    }
+
+    fun fetchMoreProjects() {
+        if (_isLoadingMore.value || !_hasMoreData.value) return
+        val currentState = _projects.value
+        if (currentState !is DataUiState.Success) return
+
+        screenModelScope.launch {
+            _isLoadingMore.value = true
+            val result =
+                runCatching {
+                    projectRepository.fetchProjectList(
+                        limit = PAGE_SIZE,
+                        offset = currentOffset,
+                    )
+                }
+            result
+                .onSuccess { newProjects ->
+                    val allProjects = currentState.data + newProjects
+                    _projects.value = DataUiState.Success(allProjects)
+                    currentOffset += newProjects.size
+                    _hasMoreData.value = newProjects.size >= PAGE_SIZE
+                }.onFailure {
+                    println(it)
+                }
+            _isLoadingMore.value = false
         }
     }
 

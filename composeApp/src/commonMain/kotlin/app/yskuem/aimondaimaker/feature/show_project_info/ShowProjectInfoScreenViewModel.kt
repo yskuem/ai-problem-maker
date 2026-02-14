@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.combine
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
@@ -23,10 +24,24 @@ class ShowProjectInfoScreenViewModel(
     private val subscriptionRepository: SubscriptionRepository,
     private val projectId: String,
 ) : ScreenModel {
+    companion object {
+        private const val PAGE_SIZE = 20
+    }
+
     private val _quizInfoList = MutableStateFlow<DataUiState<List<QuizInfo>>>(DataUiState.Loading)
     private val _noteList = MutableStateFlow<DataUiState<List<Note>>>(DataUiState.Loading)
     private val _selectedTabIndex = MutableStateFlow(0)
     private val _isSubscribed = MutableStateFlow(false)
+
+    // Pagination state for quiz
+    private val _isLoadingMoreQuiz = MutableStateFlow(false)
+    private val _hasMoreQuiz = MutableStateFlow(true)
+    private var quizOffset = 0
+
+    // Pagination state for note
+    private val _isLoadingMoreNote = MutableStateFlow(false)
+    private val _hasMoreNote = MutableStateFlow(true)
+    private var noteOffset = 0
 
     init {
         fetchQuizInfo()
@@ -43,12 +58,28 @@ class ShowProjectInfoScreenViewModel(
             _noteList,
             _selectedTabIndex,
             _isSubscribed,
-        ) { quizInfoList, noteList, selectedTabIndex, isSubscribed ->
+            _isLoadingMoreQuiz,
+            _hasMoreQuiz,
+            _isLoadingMoreNote,
+            _hasMoreNote,
+        ) { quizInfoList,
+            noteList,
+            selectedTabIndex,
+            isSubscribed,
+            isLoadingMoreQuiz,
+            hasMoreQuiz,
+            isLoadingMoreNote,
+            hasMoreNote,
+            ->
             ProjectInfoScreenState(
                 quizInfoList = quizInfoList,
                 noteList = noteList,
                 selectedTabIndex = selectedTabIndex,
                 isSubscribed = isSubscribed,
+                isLoadingMoreQuiz = isLoadingMoreQuiz,
+                hasMoreQuiz = hasMoreQuiz,
+                isLoadingMoreNote = isLoadingMoreNote,
+                hasMoreNote = hasMoreNote,
             )
         }.stateIn(
             scope = screenModelScope,
@@ -80,34 +111,103 @@ class ShowProjectInfoScreenViewModel(
 
     private fun fetchQuizInfo() {
         screenModelScope.launch {
+            quizOffset = 0
+            _hasMoreQuiz.value = true
             val res =
                 runCatching {
                     quizRepository.fetchQuizInfoList(
                         projectId = projectId,
+                        limit = PAGE_SIZE,
+                        offset = 0,
                     )
                 }
             res
                 .onSuccess { quizInfoList ->
                     _quizInfoList.value = DataUiState.Success(quizInfoList)
+                    quizOffset = quizInfoList.size
+                    _hasMoreQuiz.value = quizInfoList.size >= PAGE_SIZE
                 }.onFailure { exception ->
                     _quizInfoList.value = DataUiState.Error(exception)
                 }
         }
     }
 
+    fun fetchMoreQuizInfo() {
+        if (_isLoadingMoreQuiz.value || !_hasMoreQuiz.value) return
+        val currentState = _quizInfoList.value
+        if (currentState !is DataUiState.Success) return
+
+        screenModelScope.launch {
+            _isLoadingMoreQuiz.value = true
+            val res =
+                runCatching {
+                    quizRepository.fetchQuizInfoList(
+                        projectId = projectId,
+                        limit = PAGE_SIZE,
+                        offset = quizOffset,
+                    )
+                }
+            res
+                .onSuccess { newQuizInfoList ->
+                    val allQuizInfoList = currentState.data + newQuizInfoList
+                    _quizInfoList.value = DataUiState.Success(allQuizInfoList)
+                    quizOffset += newQuizInfoList.size
+                    _hasMoreQuiz.value = newQuizInfoList.size >= PAGE_SIZE
+                }.onFailure { exception ->
+                    println(exception)
+                }
+            _isLoadingMoreQuiz.value = false
+        }
+    }
+
     private fun fetchNoteList() {
         screenModelScope.launch {
-            // noteのfetchをする
+            noteOffset = 0
+            _hasMoreNote.value = true
             val result =
                 runCatching {
-                    noteRepository.fetchNotes(projectId = projectId)
+                    noteRepository.fetchNotes(
+                        projectId = projectId,
+                        limit = PAGE_SIZE,
+                        offset = 0,
+                    )
                 }
             result
                 .onSuccess { notes ->
                     _noteList.value = DataUiState.Success(data = notes)
+                    noteOffset = notes.size
+                    _hasMoreNote.value = notes.size >= PAGE_SIZE
                 }.onFailure {
                     _noteList.value = DataUiState.Error(it)
                 }
+        }
+    }
+
+    fun fetchMoreNotes() {
+        if (_isLoadingMoreNote.value || !_hasMoreNote.value) return
+        val currentState = _noteList.value
+        if (currentState !is DataUiState.Success) return
+
+        screenModelScope.launch {
+            _isLoadingMoreNote.value = true
+            val result =
+                runCatching {
+                    noteRepository.fetchNotes(
+                        projectId = projectId,
+                        limit = PAGE_SIZE,
+                        offset = noteOffset,
+                    )
+                }
+            result
+                .onSuccess { newNotes ->
+                    val allNotes = currentState.data + newNotes
+                    _noteList.value = DataUiState.Success(data = allNotes)
+                    noteOffset += newNotes.size
+                    _hasMoreNote.value = newNotes.size >= PAGE_SIZE
+                }.onFailure { exception ->
+                    println(exception)
+                }
+            _isLoadingMoreNote.value = false
         }
     }
 
@@ -124,7 +224,7 @@ class ShowProjectInfoScreenViewModel(
     }
 
     fun refreshNoteList() {
-        _quizInfoList.value = DataUiState.Loading
+        _noteList.value = DataUiState.Loading
         fetchNoteList()
     }
 

@@ -98,6 +98,19 @@ class QuizRepositoryImpl(
         return res.map { it.toDomain() }
     }
 
+    override suspend fun fetchQuizInfoList(projectId: String, limit: Int, offset: Int): List<QuizInfo> {
+        val res =
+            supabaseClientHelper.fetchPaginatedListByMatchValue<QuizInfoDto>(
+                tableName = SupabaseTableName.QuizInfo.NAME,
+                filterCol = SupabaseColumnName.PROJECT_ID,
+                filterVal = projectId,
+                orderCol = SupabaseColumnName.UPDATED_AT,
+                limit = limit.toLong(),
+                offset = offset.toLong(),
+            )
+        return res.map { it.toDomain() }
+    }
+
     override suspend fun deleteQuizInfo(quizInfoId: String): Boolean {
         // First delete all related quizzes
         val quizzesDeleted = deleteQuizzesByQuizInfoId(quizInfoId)

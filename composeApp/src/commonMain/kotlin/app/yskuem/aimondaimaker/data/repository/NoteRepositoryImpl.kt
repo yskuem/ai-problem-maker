@@ -41,6 +41,19 @@ class NoteRepositoryImpl(
         return res.map { it.toDomain() }
     }
 
+    override suspend fun fetchNotes(projectId: String, limit: Int, offset: Int): List<Note> {
+        val res =
+            supabaseClientHelper.fetchPaginatedListByMatchValue<NoteSupabaseDto>(
+                tableName = SupabaseTableName.Note.NAME,
+                filterCol = SupabaseColumnName.PROJECT_ID,
+                filterVal = projectId,
+                orderCol = SupabaseColumnName.CREATED_AT,
+                limit = limit.toLong(),
+                offset = offset.toLong(),
+            )
+        return res.map { it.toDomain() }
+    }
+
     override suspend fun saveNote(
         note: Note,
         projectId: String,

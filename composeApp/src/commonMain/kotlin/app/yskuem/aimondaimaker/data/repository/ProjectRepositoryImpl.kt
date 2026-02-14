@@ -50,6 +50,19 @@ class ProjectRepositoryImpl(
         return res.map { it.toDomain() }
     }
 
+    override suspend fun fetchProjectList(limit: Int, offset: Int): List<Project> {
+        val res =
+            supabaseClientHelper.fetchPaginatedListByMatchValue<ProjectDto>(
+                tableName = SupabaseTableName.Project.NAME,
+                filterCol = SupabaseColumnName.Project.CREATE_USER_ID,
+                filterVal = authRepository.getUserId(),
+                orderCol = SupabaseColumnName.CREATED_AT,
+                limit = limit.toLong(),
+                offset = offset.toLong(),
+            )
+        return res.map { it.toDomain() }
+    }
+
     override suspend fun updateProject(targetProject: Project): Project? {
         val res =
             supabaseClientHelper.updateItemById<ProjectDto>(
