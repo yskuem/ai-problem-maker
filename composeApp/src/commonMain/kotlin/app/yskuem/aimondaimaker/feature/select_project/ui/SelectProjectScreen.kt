@@ -6,10 +6,12 @@ import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_message
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_title
 import ai_problem_maker.composeapp.generated.resources.delete_project
+import ai_problem_maker.composeapp.generated.resources.home_title
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
+import ai_problem_maker.composeapp.generated.resources.settings_title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -50,6 +52,7 @@ import app.yskuem.aimondaimaker.core.ui.theme.*
 import app.yskuem.aimondaimaker.core.util.toLocalizedMonthDay
 import app.yskuem.aimondaimaker.domain.entity.Project
 import app.yskuem.aimondaimaker.feature.ad.config.getAdmobBannerId
+import app.yskuem.aimondaimaker.feature.settings.SettingsScreen
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
@@ -111,6 +114,22 @@ class SelectProjectScreen : Screen {
 
         Scaffold(
             containerColor = BackgroundPrimary,
+            bottomBar = {
+                NavigationBar {
+                    NavigationBarItem(
+                        selected = true,
+                        onClick = { },
+                        icon = { Icon(Icons.Default.Home, contentDescription = null) },
+                        label = { Text(stringResource(Res.string.home_title)) },
+                    )
+                    NavigationBarItem(
+                        selected = false,
+                        onClick = { navigator.push(SettingsScreen()) },
+                        icon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                        label = { Text(stringResource(Res.string.settings_title)) },
+                    )
+                }
+            },
         ) { padding ->
             when (val projectState = uiState) {
                 is DataUiState.Initial -> {}
@@ -163,7 +182,6 @@ class SelectProjectScreen : Screen {
                                     .padding(padding)
                                     .padding(ComponentSpacing.screenPadding),
                         ) {
-                            Spacer(modifier = Modifier.height(ComponentSpacing.screenTopPadding))
 
                             // Premium search bar with glass morphism
                             PremiumSearchBar(

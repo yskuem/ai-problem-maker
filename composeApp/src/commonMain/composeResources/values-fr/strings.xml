@@ -113,4 +113,8 @@
 
     <string name="login_error_message">Une erreur s'est produite.</string>
     <string name="explanation">Explication</string>
+
+    <!-- Paramètres -->
+    <string name="settings_title">Paramètres</string>
+    <string name="home_title">Accueil</string>
 </resources>
