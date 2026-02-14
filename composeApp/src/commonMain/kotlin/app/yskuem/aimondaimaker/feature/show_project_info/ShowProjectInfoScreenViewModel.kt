@@ -1,6 +1,7 @@
 package app.yskuem.aimondaimaker.feature.show_project_info
 
 import app.yskuem.aimondaimaker.core.ui.DataUiState
+import app.yskuem.aimondaimaker.core.util.combine
 import app.yskuem.aimondaimaker.domain.data.repository.NoteRepository
 import app.yskuem.aimondaimaker.domain.data.repository.QuizRepository
 import app.yskuem.aimondaimaker.domain.data.repository.SubscriptionRepository
@@ -57,16 +58,28 @@ class ShowProjectInfoScreenViewModel(
             _noteList,
             _selectedTabIndex,
             _isSubscribed,
-        ) { quizInfoList, noteList, selectedTabIndex, isSubscribed ->
+            _isLoadingMoreQuiz,
+            _hasMoreQuiz,
+            _isLoadingMoreNote,
+            _hasMoreNote,
+        ) { quizInfoList,
+            noteList,
+            selectedTabIndex,
+            isSubscribed,
+            isLoadingMoreQuiz,
+            hasMoreQuiz,
+            isLoadingMoreNote,
+            hasMoreNote,
+            ->
             ProjectInfoScreenState(
                 quizInfoList = quizInfoList,
                 noteList = noteList,
                 selectedTabIndex = selectedTabIndex,
                 isSubscribed = isSubscribed,
-                isLoadingMoreQuiz = _isLoadingMoreQuiz.value,
-                hasMoreQuiz = _hasMoreQuiz.value,
-                isLoadingMoreNote = _isLoadingMoreNote.value,
-                hasMoreNote = _hasMoreNote.value,
+                isLoadingMoreQuiz = isLoadingMoreQuiz,
+                hasMoreQuiz = hasMoreQuiz,
+                isLoadingMoreNote = isLoadingMoreNote,
+                hasMoreNote = hasMoreNote,
             )
         }.stateIn(
             scope = screenModelScope,
