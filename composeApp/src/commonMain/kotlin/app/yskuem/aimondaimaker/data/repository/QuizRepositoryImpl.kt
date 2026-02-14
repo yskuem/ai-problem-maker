@@ -98,7 +98,11 @@ class QuizRepositoryImpl(
         return res.map { it.toDomain() }
     }
 
-    override suspend fun fetchQuizInfoList(projectId: String, limit: Int, offset: Int): List<QuizInfo> {
+    override suspend fun fetchQuizInfoList(
+        projectId: String,
+        limit: Int,
+        offset: Int,
+    ): List<QuizInfo> {
         val res =
             supabaseClientHelper.fetchPaginatedListByMatchValue<QuizInfoDto>(
                 tableName = SupabaseTableName.QuizInfo.NAME,

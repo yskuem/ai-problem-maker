@@ -7,7 +7,10 @@ interface ProjectRepository {
 
     suspend fun fetchProjectList(): List<Project>
 
-    suspend fun fetchProjectList(limit: Int, offset: Int): List<Project>
+    suspend fun fetchProjectList(
+        limit: Int,
+        offset: Int,
+    ): List<Project>
 
     suspend fun updateProject(targetProject: Project): Project?
 

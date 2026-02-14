@@ -50,7 +50,10 @@ class ProjectRepositoryImpl(
         return res.map { it.toDomain() }
     }
 
-    override suspend fun fetchProjectList(limit: Int, offset: Int): List<Project> {
+    override suspend fun fetchProjectList(
+        limit: Int,
+        offset: Int,
+    ): List<Project> {
         val res =
             supabaseClientHelper.fetchPaginatedListByMatchValue<ProjectDto>(
                 tableName = SupabaseTableName.Project.NAME,
