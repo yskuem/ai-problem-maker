@@ -117,4 +117,7 @@
     <!-- Paramètres -->
     <string name="settings_title">Paramètres</string>
     <string name="home_title">Accueil</string>
+    <string name="social_login">Connexion sociale</string>
+    <string name="sign_in_with_apple">Se connecter avec Apple</string>
+    <string name="sign_in_with_google">Se connecter avec Google</string>
 </resources>

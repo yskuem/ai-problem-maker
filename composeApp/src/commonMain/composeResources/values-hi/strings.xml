@@ -117,4 +117,7 @@
     <!-- सेटिंग्स -->
     <string name="settings_title">सेटिंग्स</string>
     <string name="home_title">होम</string>
+    <string name="social_login">सोशल लॉगिन</string>
+    <string name="sign_in_with_apple">Apple से साइन इन करें</string>
+    <string name="sign_in_with_google">Google से साइन इन करें</string>
 </resources>

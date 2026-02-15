@@ -117,4 +117,7 @@
     <!-- Configuración -->
     <string name="settings_title">Configuración</string>
     <string name="home_title">Inicio</string>
+    <string name="social_login">Inicio de sesión social</string>
+    <string name="sign_in_with_apple">Iniciar sesión con Apple</string>
+    <string name="sign_in_with_google">Iniciar sesión con Google</string>
 </resources>

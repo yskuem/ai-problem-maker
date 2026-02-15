@@ -142,5 +142,8 @@
     <!-- Settings -->
     <string name="settings_title">Settings</string>
     <string name="home_title">Home</string>
+    <string name="social_login">Social Login</string>
+    <string name="sign_in_with_apple">Sign in with Apple</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
 </resources>
 

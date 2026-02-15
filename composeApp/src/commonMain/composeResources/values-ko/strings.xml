@@ -117,4 +117,7 @@
     <!-- 설정 -->
     <string name="settings_title">설정</string>
     <string name="home_title">홈</string>
+    <string name="social_login">소셜 로그인</string>
+    <string name="sign_in_with_apple">Apple로 로그인</string>
+    <string name="sign_in_with_google">Google로 로그인</string>
 </resources>

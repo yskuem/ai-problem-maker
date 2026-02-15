@@ -117,4 +117,7 @@
     <!-- Настройки -->
     <string name="settings_title">Настройки</string>
     <string name="home_title">Главная</string>
+    <string name="social_login">Вход через соцсети</string>
+    <string name="sign_in_with_apple">Войти через Apple</string>
+    <string name="sign_in_with_google">Войти через Google</string>
 </resources>

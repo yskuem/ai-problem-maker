@@ -117,4 +117,7 @@
     <!-- Einstellungen -->
     <string name="settings_title">Einstellungen</string>
     <string name="home_title">Startseite</string>
+    <string name="social_login">Soziale Anmeldung</string>
+    <string name="sign_in_with_apple">Mit Apple anmelden</string>
+    <string name="sign_in_with_google">Mit Google anmelden</string>
 </resources>
