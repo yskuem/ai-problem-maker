@@ -142,7 +142,8 @@
     <!-- Settings -->
     <string name="settings_title">Settings</string>
     <string name="home_title">Home</string>
-    <string name="social_login">Social Login</string>
+    <string name="social_login">Sign In</string>
+    <string name="social_login_description">Sign in to sync your data across devices</string>
     <string name="sign_in_with_apple">Sign in with Apple</string>
     <string name="sign_in_with_google">Sign in with Google</string>
 </resources>

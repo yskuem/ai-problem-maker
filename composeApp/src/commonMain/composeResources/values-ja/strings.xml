@@ -143,7 +143,8 @@
     <!-- 設定 -->
     <string name="settings_title">設定</string>
     <string name="home_title">ホーム</string>
-    <string name="social_login">ソーシャルログイン</string>
+    <string name="social_login">サインイン</string>
+    <string name="social_login_description">サインインすると複数端末でデータを同期できます</string>
     <string name="sign_in_with_apple">Appleでサインイン</string>
     <string name="sign_in_with_google">Googleでサインイン</string>
 </resources>
