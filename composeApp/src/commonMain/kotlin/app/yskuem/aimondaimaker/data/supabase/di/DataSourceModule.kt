@@ -23,7 +23,10 @@ val supabaseModule =
                 supabaseUrl = SupabaseConfigHelper.getSupabaseUrl(),
                 supabaseKey = SupabaseConfigHelper.getSupabaseAnonKey(),
             ) {
-                install(Auth)
+                install(Auth) {
+                    scheme = "app.yskuem.aimondaimaker"
+                    host = "callback"
+                }
                 install(Postgrest)
                 install(ComposeAuth) {
                     // TODO prodとdevで分ける
