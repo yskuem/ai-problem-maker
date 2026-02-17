@@ -6,12 +6,11 @@ import ai_problem_maker.composeapp.generated.resources.change_project_name
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_message
 import ai_problem_maker.composeapp.generated.resources.confirm_delete_project_title
 import ai_problem_maker.composeapp.generated.resources.delete_project
-import ai_problem_maker.composeapp.generated.resources.home_title
 import ai_problem_maker.composeapp.generated.resources.last_updated_project_date
 import ai_problem_maker.composeapp.generated.resources.new_project
 import ai_problem_maker.composeapp.generated.resources.no_project_message
 import ai_problem_maker.composeapp.generated.resources.search_project
-import ai_problem_maker.composeapp.generated.resources.settings_title
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -114,22 +113,6 @@ class SelectProjectScreen : Screen {
 
         Scaffold(
             containerColor = BackgroundPrimary,
-            bottomBar = {
-                NavigationBar {
-                    NavigationBarItem(
-                        selected = true,
-                        onClick = { },
-                        icon = { Icon(Icons.Default.Home, contentDescription = null) },
-                        label = { Text(stringResource(Res.string.home_title)) },
-                    )
-                    NavigationBarItem(
-                        selected = false,
-                        onClick = { navigator.push(SettingsScreen()) },
-                        icon = { Icon(Icons.Default.Settings, contentDescription = null) },
-                        label = { Text(stringResource(Res.string.settings_title)) },
-                    )
-                }
-            },
         ) { padding ->
             when (val projectState = uiState) {
                 is DataUiState.Initial -> {}
@@ -183,19 +166,62 @@ class SelectProjectScreen : Screen {
                                     .padding(ComponentSpacing.screenPadding),
                         ) {
 
-                            // Premium search bar with glass morphism
-                            PremiumSearchBar(
-                                value = searchTerm,
-                                onValueChange = { searchTerm = it },
-                                placeholder = stringResource(Res.string.search_project),
-                                modifier =
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = ComponentSpacing.fieldSpacing),
-                                onSearch = {
-                                    focusManager.clearFocus()
-                                },
-                            )
+                            // Search bar + Settings icon row
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = ComponentSpacing.fieldSpacing),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
+                            ) {
+                                PremiumSearchBar(
+                                    value = searchTerm,
+                                    onValueChange = { searchTerm = it },
+                                    placeholder = stringResource(Res.string.search_project),
+                                    modifier = Modifier.weight(1f),
+                                    onSearch = {
+                                        focusManager.clearFocus()
+                                    },
+                                )
+
+                                // Glass-morphism settings icon
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .shadow(
+                                            elevation = Elevation.sm,
+                                            shape = RoundedCornerShape(CornerRadius.xl),
+                                            ambientColor = ShadowLight,
+                                            spotColor = ShadowMedium,
+                                        )
+                                        .clip(RoundedCornerShape(CornerRadius.xl))
+                                        .background(
+                                            brush = Brush.verticalGradient(
+                                                listOf(
+                                                    MaterialTheme.colorScheme.surface,
+                                                    MaterialTheme.colorScheme.surfaceContainer,
+                                                ),
+                                            ),
+                                        )
+                                        .border(
+                                            width = 1.dp,
+                                            color = BorderAccent,
+                                            shape = RoundedCornerShape(CornerRadius.xl),
+                                        ),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    IconButton(
+                                        onClick = { navigator.push(SettingsScreen()) },
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Settings,
+                                            contentDescription = "Settings",
+                                            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                                            modifier = Modifier.size(22.dp),
+                                        )
+                                    }
+                                }
+                            }
 
                             if (projects.isEmpty()) {
                                 EmptyProjectsUI(
