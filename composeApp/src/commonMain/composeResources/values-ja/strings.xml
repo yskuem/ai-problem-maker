@@ -147,4 +147,7 @@
     <string name="social_login_description">サインインすると複数端末でデータを同期できます</string>
     <string name="sign_in_with_apple">Appleでサインイン</string>
     <string name="sign_in_with_google">Googleでサインイン</string>
+    <string name="link_success">アカウントの連携が完了しました！</string>
+    <string name="link_error">アカウントの連携に失敗しました</string>
+    <string name="linking_account">アカウントを連携中…</string>
 </resources>

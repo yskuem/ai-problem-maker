@@ -146,5 +146,8 @@
     <string name="social_login_description">Sign in to sync your data across devices</string>
     <string name="sign_in_with_apple">Sign in with Apple</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="link_success">Account linked successfully!</string>
+    <string name="link_error">Failed to link account</string>
+    <string name="linking_account">Linking account…</string>
 </resources>
 

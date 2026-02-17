@@ -120,4 +120,7 @@
     <string name="social_login">सोशल लॉगिन</string>
     <string name="sign_in_with_apple">Apple से साइन इन करें</string>
     <string name="sign_in_with_google">Google से साइन इन करें</string>
+    <string name="link_success">खाता सफलतापूर्वक लिंक हो गया!</string>
+    <string name="link_error">खाता लिंक करने में विफल</string>
+    <string name="linking_account">खाता लिंक हो रहा है…</string>
 </resources>

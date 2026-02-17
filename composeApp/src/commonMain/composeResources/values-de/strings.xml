@@ -120,4 +120,7 @@
     <string name="social_login">Soziale Anmeldung</string>
     <string name="sign_in_with_apple">Mit Apple anmelden</string>
     <string name="sign_in_with_google">Mit Google anmelden</string>
+    <string name="link_success">Konto erfolgreich verknüpft!</string>
+    <string name="link_error">Konto konnte nicht verknüpft werden</string>
+    <string name="linking_account">Konto wird verknüpft…</string>
 </resources>

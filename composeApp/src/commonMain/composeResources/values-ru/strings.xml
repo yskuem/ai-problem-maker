@@ -120,4 +120,7 @@
     <string name="social_login">Вход через соцсети</string>
     <string name="sign_in_with_apple">Войти через Apple</string>
     <string name="sign_in_with_google">Войти через Google</string>
+    <string name="link_success">Аккаунт успешно привязан!</string>
+    <string name="link_error">Не удалось привязать аккаунт</string>
+    <string name="linking_account">Привязка аккаунта…</string>
 </resources>

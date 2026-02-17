@@ -120,4 +120,7 @@
     <string name="social_login">社交登录</string>
     <string name="sign_in_with_apple">使用Apple登录</string>
     <string name="sign_in_with_google">使用Google登录</string>
+    <string name="link_success">账号关联成功！</string>
+    <string name="link_error">账号关联失败</string>
+    <string name="linking_account">正在关联账号…</string>
 </resources>

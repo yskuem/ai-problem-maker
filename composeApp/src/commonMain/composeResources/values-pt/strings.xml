@@ -120,4 +120,7 @@
     <string name="social_login">Login social</string>
     <string name="sign_in_with_apple">Entrar com Apple</string>
     <string name="sign_in_with_google">Entrar com Google</string>
+    <string name="link_success">Conta vinculada com sucesso!</string>
+    <string name="link_error">Falha ao vincular a conta</string>
+    <string name="linking_account">Vinculando conta…</string>
 </resources>

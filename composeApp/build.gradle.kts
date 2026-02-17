@@ -88,6 +88,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.supabase.auth)
             implementation(libs.supabase.postgrest)
+            implementation(libs.supabase.compose.auth)
             implementation(libs.serialization.core)
             implementation(libs.serialization.json)
             implementation(libs.multiplatform.settings.core)

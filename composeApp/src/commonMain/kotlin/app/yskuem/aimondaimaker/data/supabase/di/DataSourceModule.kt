@@ -3,6 +3,9 @@ package app.yskuem.aimondaimaker.data.supabase.di
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.handler.SupabaseConfigHelper
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.compose.auth.ComposeAuth
+import io.github.jan.supabase.compose.auth.appleNativeLogin
+import io.github.jan.supabase.compose.auth.googleNativeLogin
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.serialization.json.Json
@@ -17,6 +20,10 @@ val supabaseModule =
             ) {
                 install(Auth)
                 install(Postgrest)
+                install(ComposeAuth) {
+                    googleNativeLogin(serverClientId = "YOUR_GOOGLE_SERVER_CLIENT_ID")
+                    appleNativeLogin()
+                }
             }
         }
         single<Json> {
@@ -33,3 +40,4 @@ val supabaseModule =
             )
         }
     }
+

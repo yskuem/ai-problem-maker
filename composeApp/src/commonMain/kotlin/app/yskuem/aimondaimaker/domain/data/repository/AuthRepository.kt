@@ -8,4 +8,10 @@ interface AuthRepository {
     suspend fun getUser(): UserInfo?
 
     suspend fun getUserId(): String
+
+    suspend fun linkWithGoogle()
+
+    suspend fun linkWithApple()
+
+    fun isAnonymousUser(): Boolean
 }
