@@ -37,3 +37,4 @@ iosApp/iosApp/GoogleService-Info.plist
 /composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/feature/quiz/config/PdfGenerateUrl.kt
 /composeApp/src/androidMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.android.kt
 /composeApp/src/iosMain/kotlin/app/yskuem/aimondaimaker/core/config/RevenueCatApiKey.ios.kt
+/composeApp/src/commonMain/kotlin/app/yskuem/aimondaimaker/core/config/GoogleServerClientIds.kt

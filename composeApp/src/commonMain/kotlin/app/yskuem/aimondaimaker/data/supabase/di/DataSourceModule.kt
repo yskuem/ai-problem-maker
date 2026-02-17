@@ -1,5 +1,10 @@
 package app.yskuem.aimondaimaker.data.supabase.di
 
+import app.yskuem.aimondaimaker.core.config.DEV_GOOGLE_SERVER_CLIENT_ID
+import app.yskuem.aimondaimaker.core.config.Flavor
+import app.yskuem.aimondaimaker.core.config.PROD_GOOGLE_SERVER_CLIENT_ID
+import app.yskuem.aimondaimaker.core.config.STAGING_GOOGLE_SERVER_CLIENT_ID
+import app.yskuem.aimondaimaker.core.config.getFlavor
 import app.yskuem.aimondaimaker.data.supabase.SupabaseClientHelper
 import app.yskuem.aimondaimaker.data.supabase.handler.SupabaseConfigHelper
 import io.github.jan.supabase.auth.Auth
@@ -21,7 +26,8 @@ val supabaseModule =
                 install(Auth)
                 install(Postgrest)
                 install(ComposeAuth) {
-                    googleNativeLogin(serverClientId = "YOUR_GOOGLE_SERVER_CLIENT_ID")
+                    // TODO prodとdevで分ける
+                    googleNativeLogin(serverClientId = getServerClientId())
                     appleNativeLogin()
                 }
             }
@@ -41,3 +47,11 @@ val supabaseModule =
         }
     }
 
+
+private fun getServerClientId(): String {
+    return when(getFlavor()) {
+        Flavor.DEV -> DEV_GOOGLE_SERVER_CLIENT_ID
+        Flavor.STAGING -> STAGING_GOOGLE_SERVER_CLIENT_ID
+        Flavor.PROD -> PROD_GOOGLE_SERVER_CLIENT_ID
+    }
+}
