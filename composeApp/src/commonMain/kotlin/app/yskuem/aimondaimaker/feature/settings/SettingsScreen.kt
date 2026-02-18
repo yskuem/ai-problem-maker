@@ -115,10 +115,18 @@ class SettingsScreen : Screen {
                     .fillMaxSize()
                     .padding(paddingValues),
             ) {
-                // ソーシャルログイン項目（匿名ユーザーのみ表示）
+                // ソーシャルログイン項目
                 if (uiState.isAnonymous) {
+                    // 匿名ユーザー：ログインオプションを表示
                     ListItem(
                         headlineContent = { Text(stringResource(Res.string.social_login)) },
+                        supportingContent = {
+                            Text(
+                                text = stringResource(Res.string.social_login_description),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        },
                         trailingContent = {
                             Icon(
                                 imageVector = Icons.Default.ChevronRight,
@@ -130,156 +138,181 @@ class SettingsScreen : Screen {
                             .clickable { showLoginDialog = true },
                     )
                     HorizontalDivider()
-                }
-            }
-        }
-
-        // ソーシャルログイン選択ダイアログ
-        if (showLoginDialog) {
-            Dialog(onDismissRequest = {
-                if (!uiState.isLinking) showLoginDialog = false
-            }) {
-                Card(
-                    shape = RoundedCornerShape(28.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface,
-                    ),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .padding(horizontal = 16.dp),
-                ) {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        // ヘッダー：タイトルと閉じるボタン
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            // タイトル
-                            Text(
-                                text = stringResource(Res.string.social_login),
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.align(Alignment.Center),
-                            )
-
-                            // 閉じるボタン（リンク中は無効）
-                            if (!uiState.isLinking) {
-                                IconButton(
-                                    onClick = { showLoginDialog = false },
-                                    modifier = Modifier.align(Alignment.CenterEnd),
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = stringResource(Res.string.cancel),
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    )
-                                }
-                            }
+                } else {
+                    // ログイン済み：プロバイダーとメールアドレスを表示
+                    val provider = uiState.linkedProvider
+                    if (provider != null) {
+                        val providerDisplayName = when (provider) {
+                            "google" -> "Google"
+                            "apple" -> "Apple"
+                            else -> provider.replaceFirstChar { it.uppercase() }
                         }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        // 説明テキスト
-                        Text(
-                            text = stringResource(Res.string.social_login_description),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 8.dp),
-                        )
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        if (uiState.isLinking) {
-                            // ローディング表示
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(vertical = 16.dp),
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(40.dp),
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                                Spacer(modifier = Modifier.height(12.dp))
+                        ListItem(
+                            headlineContent = {
                                 Text(
-                                    text = stringResource(Res.string.linking_account),
-                                    style = MaterialTheme.typography.bodyMedium,
+                                    text = stringResource(Res.string.social_login),
+                                )
+                            },
+                            supportingContent = {
+                                Text(
+                                    text = "$providerDisplayName: ${uiState.linkedEmail ?: ""}",
+                                    style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
+                            },
+                        )
+                        HorizontalDivider()
+                    }
+                }
+            }
+
+            // ソーシャルログイン選択ダイアログ
+            if (showLoginDialog) {
+                Dialog(onDismissRequest = {
+                    if (!uiState.isLinking) showLoginDialog = false
+                }) {
+                    Card(
+                        shape = RoundedCornerShape(28.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(horizontal = 24.dp, vertical = 20.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            // ヘッダー：タイトルと閉じるボタン
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                // タイトル
+                                Text(
+                                    text = stringResource(Res.string.social_login),
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.align(Alignment.Center),
+                                )
+
+                                // 閉じるボタン（リンク中は無効）
+                                if (!uiState.isLinking) {
+                                    IconButton(
+                                        onClick = { showLoginDialog = false },
+                                        modifier = Modifier.align(Alignment.CenterEnd),
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Close,
+                                            contentDescription = stringResource(Res.string.cancel),
+                                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        )
+                                    }
+                                }
                             }
-                        } else {
-                            // Apple サインインボタン（iOS のみ）
-                            if (isIOS) {
-                                Button(
-                                    onClick = { viewModel.linkWithApple() },
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            // 説明テキスト
+                            Text(
+                                text = stringResource(Res.string.social_login_description),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                            )
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            if (uiState.isLinking) {
+                                // ローディング表示
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.padding(vertical = 16.dp),
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(40.dp),
+                                        color = MaterialTheme.colorScheme.primary,
+                                    )
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Text(
+                                        text = stringResource(Res.string.linking_account),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                            } else {
+                                // Apple サインインボタン（iOS のみ）
+                                if (isIOS) {
+                                    Button(
+                                        onClick = { viewModel.linkWithApple() },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(50.dp),
+                                        shape = RoundedCornerShape(12.dp),
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = Color(0xFF000000),
+                                        ),
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.Center,
+                                        ) {
+                                            // Apple アイコン（Unicode）
+                                            Text(
+                                                text = "\uF8FF",
+                                                style = MaterialTheme.typography.titleLarge,
+                                                color = Color.White,
+                                            )
+                                            Spacer(modifier = Modifier.width(12.dp))
+                                            Text(
+                                                text = stringResource(Res.string.sign_in_with_apple),
+                                                style = MaterialTheme.typography.titleSmall,
+                                                fontWeight = FontWeight.Medium,
+                                                color = Color.White,
+                                            )
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                }
+
+                                // Google サインインボタン
+                                OutlinedButton(
+                                    onClick = { viewModel.linkWithGoogle() },
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(50.dp),
                                     shape = RoundedCornerShape(12.dp),
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = Color(0xFF000000),
+                                    border = BorderStroke(
+                                        width = 1.dp,
+                                        color = MaterialTheme.colorScheme.outline,
                                     ),
                                 ) {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.Center,
                                     ) {
-                                        // Apple アイコン（Unicode）
+                                        // Google "G" アイコン
                                         Text(
-                                            text = "\uF8FF",
+                                            text = "G",
                                             style = MaterialTheme.typography.titleLarge,
-                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF4285F4),
                                         )
                                         Spacer(modifier = Modifier.width(12.dp))
                                         Text(
-                                            text = stringResource(Res.string.sign_in_with_apple),
+                                            text = stringResource(Res.string.sign_in_with_google),
                                             style = MaterialTheme.typography.titleSmall,
                                             fontWeight = FontWeight.Medium,
-                                            color = Color.White,
+                                            color = MaterialTheme.colorScheme.onSurface,
                                         )
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(12.dp))
                             }
 
-                            // Google サインインボタン
-                            OutlinedButton(
-                                onClick = { viewModel.linkWithGoogle() },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(50.dp),
-                                shape = RoundedCornerShape(12.dp),
-                                border = BorderStroke(
-                                    width = 1.dp,
-                                    color = MaterialTheme.colorScheme.outline,
-                                ),
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center,
-                                ) {
-                                    // Google "G" アイコン
-                                    Text(
-                                        text = "G",
-                                        style = MaterialTheme.typography.titleLarge,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF4285F4),
-                                    )
-                                    Spacer(modifier = Modifier.width(12.dp))
-                                    Text(
-                                        text = stringResource(Res.string.sign_in_with_google),
-                                        style = MaterialTheme.typography.titleSmall,
-                                        fontWeight = FontWeight.Medium,
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                    )
-                                }
-                            }
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
-
-                        Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
             }

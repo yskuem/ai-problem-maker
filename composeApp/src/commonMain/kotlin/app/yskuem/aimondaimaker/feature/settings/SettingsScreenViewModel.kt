@@ -14,6 +14,8 @@ data class SettingsUiState(
     val linkSuccess: Boolean = false,
     val linkError: String? = null,
     val isAnonymous: Boolean = true,
+    val linkedProvider: String? = null,
+    val linkedEmail: String? = null,
 )
 
 class SettingsScreenViewModel(
@@ -23,12 +25,17 @@ class SettingsScreenViewModel(
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     init {
-        checkAnonymousStatus()
+        checkAccountStatus()
     }
 
-    private fun checkAnonymousStatus() {
+    private fun checkAccountStatus() {
+        val isAnonymous = authRepository.isAnonymousUser()
         _uiState.update {
-            it.copy(isAnonymous = authRepository.isAnonymousUser())
+            it.copy(
+                isAnonymous = isAnonymous,
+                linkedProvider = if (!isAnonymous) authRepository.getLinkedProviderName() else null,
+                linkedEmail = if (!isAnonymous) authRepository.getLinkedEmail() else null,
+            )
         }
     }
 
@@ -38,11 +45,11 @@ class SettingsScreenViewModel(
             val result = runCatching { authRepository.linkWithGoogle() }
             result
                 .onSuccess {
+                    checkAccountStatus()
                     _uiState.update {
                         it.copy(
                             isLinking = false,
                             linkSuccess = true,
-                            isAnonymous = false,
                         )
                     }
                 }
@@ -63,11 +70,11 @@ class SettingsScreenViewModel(
             val result = runCatching { authRepository.linkWithApple() }
             result
                 .onSuccess {
+                    checkAccountStatus()
                     _uiState.update {
                         it.copy(
                             isLinking = false,
                             linkSuccess = true,
-                            isAnonymous = false,
                         )
                     }
                 }

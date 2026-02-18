@@ -14,4 +14,8 @@ interface AuthRepository {
     suspend fun linkWithApple()
 
     fun isAnonymousUser(): Boolean
+
+    fun getLinkedProviderName(): String?
+
+    fun getLinkedEmail(): String?
 }

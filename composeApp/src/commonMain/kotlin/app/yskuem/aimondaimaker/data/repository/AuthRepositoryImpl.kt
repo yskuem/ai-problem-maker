@@ -37,4 +37,14 @@ class AuthRepositoryImpl(
         val user = supabaseClient.auth.currentUserOrNull()
         return user?.identities.isNullOrEmpty()
     }
+
+    override fun getLinkedProviderName(): String? {
+        val user = supabaseClient.auth.currentUserOrNull()
+        return user?.identities?.firstOrNull()?.provider
+    }
+
+    override fun getLinkedEmail(): String? {
+        val user = supabaseClient.auth.currentUserOrNull()
+        return user?.email
+    }
 }
