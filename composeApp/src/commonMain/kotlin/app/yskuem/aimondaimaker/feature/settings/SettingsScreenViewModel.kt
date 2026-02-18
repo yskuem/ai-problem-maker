@@ -3,6 +3,7 @@ package app.yskuem.aimondaimaker.feature.settings
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +27,17 @@ class SettingsScreenViewModel(
 
     init {
         checkAccountStatus()
+        observeSessionChanges()
+    }
+
+    private fun observeSessionChanges() {
+        screenModelScope.launch {
+            authRepository.observeSessionStatus().collect { status ->
+                if (status is SessionStatus.Authenticated) {
+                    checkAccountStatus()
+                }
+            }
+        }
     }
 
     private fun checkAccountStatus() {

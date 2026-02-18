@@ -1,6 +1,8 @@
 package app.yskuem.aimondaimaker.domain.data.repository
 
+import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.auth.user.UserInfo
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun signInAnonymous()
@@ -18,4 +20,6 @@ interface AuthRepository {
     fun getLinkedProviderName(): String?
 
     fun getLinkedEmail(): String?
+
+    fun observeSessionStatus(): Flow<SessionStatus>
 }

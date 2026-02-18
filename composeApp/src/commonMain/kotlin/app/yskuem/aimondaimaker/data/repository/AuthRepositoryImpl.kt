@@ -5,7 +5,9 @@ import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.Apple
 import io.github.jan.supabase.auth.providers.Google
+import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.auth.user.UserInfo
+import kotlinx.coroutines.flow.Flow
 
 class AuthRepositoryImpl(
     private val supabaseClient: SupabaseClient,
@@ -46,5 +48,9 @@ class AuthRepositoryImpl(
     override fun getLinkedEmail(): String? {
         val user = supabaseClient.auth.currentUserOrNull()
         return user?.email
+    }
+
+    override fun observeSessionStatus(): Flow<SessionStatus> {
+        return supabaseClient.auth.sessionStatus
     }
 }
