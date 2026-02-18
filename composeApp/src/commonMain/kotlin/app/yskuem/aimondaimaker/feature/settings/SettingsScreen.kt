@@ -191,8 +191,8 @@ class SettingsScreen : Screen {
                                         )
                                     }
                                 },
-                                title = providerDisplayName,
-                                subtitle = uiState.linkedEmail ?: "",
+                                title = stringResource(Res.string.social_login),
+                                subtitle = "$providerDisplayName: ${uiState.linkedEmail ?: ""}",
                                 trailing = null,
                                 onClick = null,
                             )
