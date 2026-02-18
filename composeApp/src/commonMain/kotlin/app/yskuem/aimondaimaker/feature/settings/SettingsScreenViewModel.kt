@@ -34,7 +34,29 @@ class SettingsScreenViewModel(
         screenModelScope.launch {
             authRepository.observeSessionStatus().collect { status ->
                 if (status is SessionStatus.Authenticated) {
+                    val wasLinking = _uiState.value.isLinking
                     checkAccountStatus()
+
+                    if (wasLinking) {
+                        val isStillAnonymous = _uiState.value.isAnonymous
+                        if (isStillAnonymous) {
+                            // ブラウザから戻ったがリンクされなかった
+                            _uiState.update {
+                                it.copy(
+                                    isLinking = false,
+                                    linkError = "linking_failed",
+                                )
+                            }
+                        } else {
+                            // リンク成功
+                            _uiState.update {
+                                it.copy(
+                                    isLinking = false,
+                                    linkSuccess = true,
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -54,17 +76,7 @@ class SettingsScreenViewModel(
     fun linkWithGoogle() {
         screenModelScope.launch {
             _uiState.update { it.copy(isLinking = true, linkError = null, linkSuccess = false) }
-            val result = runCatching { authRepository.linkWithGoogle() }
-            result
-                .onSuccess {
-                    checkAccountStatus()
-                    _uiState.update {
-                        it.copy(
-                            isLinking = false,
-                            linkSuccess = true,
-                        )
-                    }
-                }
+            runCatching { authRepository.linkWithGoogle() }
                 .onFailure { e ->
                     _uiState.update {
                         it.copy(
@@ -73,23 +85,14 @@ class SettingsScreenViewModel(
                         )
                     }
                 }
+            // onSuccess は何もしない — 結果は observeSessionChanges で判定
         }
     }
 
     fun linkWithApple() {
         screenModelScope.launch {
             _uiState.update { it.copy(isLinking = true, linkError = null, linkSuccess = false) }
-            val result = runCatching { authRepository.linkWithApple() }
-            result
-                .onSuccess {
-                    checkAccountStatus()
-                    _uiState.update {
-                        it.copy(
-                            isLinking = false,
-                            linkSuccess = true,
-                        )
-                    }
-                }
+            runCatching { authRepository.linkWithApple() }
                 .onFailure { e ->
                     _uiState.update {
                         it.copy(
@@ -98,6 +101,7 @@ class SettingsScreenViewModel(
                         )
                     }
                 }
+            // onSuccess は何もしない — 結果は observeSessionChanges で判定
         }
     }
 
