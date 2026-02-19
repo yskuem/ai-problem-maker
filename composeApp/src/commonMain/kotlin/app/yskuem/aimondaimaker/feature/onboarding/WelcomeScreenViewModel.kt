@@ -34,6 +34,12 @@ class WelcomeScreenViewModel(
             authRepository.observeSessionStatus().collect { status ->
                 if (status is SessionStatus.Authenticated && _uiState.value.isSocialSigningIn) {
                     // ソーシャルログイン完了
+                    // ユーザーレコードが存在しない場合のみ saveUser
+                    val userId = authRepository.getUserId()
+                    val exists = userRepository.existsUser(userId)
+                    if (!exists) {
+                        userRepository.saveUser()
+                    }
                     _uiState.update {
                         it.copy(
                             isSocialSigningIn = false,

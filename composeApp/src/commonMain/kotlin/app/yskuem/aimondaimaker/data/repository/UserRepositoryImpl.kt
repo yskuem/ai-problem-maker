@@ -6,6 +6,7 @@ import app.yskuem.aimondaimaker.data.supabase.extension.toDTO
 import app.yskuem.aimondaimaker.domain.data.repository.AuthRepository
 import app.yskuem.aimondaimaker.domain.data.repository.UserRepository
 import app.yskuem.aimondaimaker.domain.entity.User
+import app.yskuem.aimondaimaker.data.supabase.response.UserDto
 
 class UserRepositoryImpl(
     private val supabaseClientHelper: SupabaseClientHelper,
@@ -20,5 +21,15 @@ class UserRepositoryImpl(
                         id = authRepository.getUserId(),
                     ).toDTO(),
         )
+    }
+
+    override suspend fun existsUser(userId: String): Boolean {
+        val results = supabaseClientHelper.fetchListByMatchValue<UserDto>(
+            tableName = SupabaseTableName.User.NAME,
+            filterCol = "id",
+            filterVal = userId,
+            orderCol = "created_at",
+        )
+        return results.isNotEmpty()
     }
 }
