@@ -26,25 +26,24 @@ class AuthScreenViewModel(
                 runCatching {
                     val currentUser = authRepository.getUser()
                     if (currentUser == null) {
-                        authRepository.signInAnonymous()
-                        userRepository.saveUser()
+                        // ログインなし → WelcomeScreen でログイン選択
                         _uiState.update {
                             it.copy(isInitialLoginUser = true)
                         }
                     }
-                    println("Login successful: ${authRepository.getUserId()}")
+                    println("Login check: ${currentUser?.id ?: "no user"}")
                 }
             result
                 .onSuccess {
                     _uiState.update {
                         it.copy(isLoginSuccessful = true)
                     }
-                    println("Login successful")
+                    println("Login check successful")
                 }.onFailure {
                     _uiState.update { state ->
                         state.copy(isLoginSuccessful = false)
                     }
-                    println("Login failed: ${it.message}")
+                    println("Login check failed: ${it.message}")
                 }
             _uiState.update { it.copy(isLoading = false) }
         }

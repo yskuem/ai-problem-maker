@@ -123,4 +123,10 @@
     <string name="link_success">Conta vinculada com sucesso!</string>
     <string name="link_error">Falha ao vincular a conta</string>
     <string name="linking_account">Vinculando conta…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Pronto para aprender?</string>
+    <string name="welcome_subtitle">Transforme seus livros e anotações em quizzes e materiais de estudo com IA</string>
+    <string name="welcome_get_started">Começar</string>
+    <string name="welcome_sign_in_to_start">Entrar e começar</string>
 </resources>

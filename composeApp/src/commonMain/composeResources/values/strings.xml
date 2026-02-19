@@ -149,5 +149,11 @@
     <string name="link_success">Account linked successfully!</string>
     <string name="link_error">Failed to link account</string>
     <string name="linking_account">Linking account…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Ready to Start Learning?</string>
+    <string name="welcome_subtitle">Turn your textbooks and notes into quizzes and study materials with AI</string>
+    <string name="welcome_get_started">Get Started</string>
+    <string name="welcome_sign_in_to_start">Sign in to Get Started</string>
 </resources>
 

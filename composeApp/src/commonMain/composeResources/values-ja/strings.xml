@@ -150,4 +150,10 @@
     <string name="link_success">アカウントの連携が完了しました！</string>
     <string name="link_error">アカウントの連携に失敗しました</string>
     <string name="linking_account">アカウントを連携中…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">学習を始めましょう！</string>
+    <string name="welcome_subtitle">教科書やノートの写真をAIがクイズや学習教材に変換します</string>
+    <string name="welcome_get_started">はじめる</string>
+    <string name="welcome_sign_in_to_start">ログインしてはじめる</string>
 </resources>

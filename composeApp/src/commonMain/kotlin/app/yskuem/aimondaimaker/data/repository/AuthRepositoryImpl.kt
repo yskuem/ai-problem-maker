@@ -35,6 +35,14 @@ class AuthRepositoryImpl(
         supabaseClient.auth.linkIdentity(Apple)
     }
 
+    override suspend fun signInWithGoogle() {
+        supabaseClient.auth.signInWith(Google)
+    }
+
+    override suspend fun signInWithApple() {
+        supabaseClient.auth.signInWith(Apple)
+    }
+
     override fun isAnonymousUser(): Boolean {
         val user = supabaseClient.auth.currentUserOrNull()
         return user?.identities.isNullOrEmpty()

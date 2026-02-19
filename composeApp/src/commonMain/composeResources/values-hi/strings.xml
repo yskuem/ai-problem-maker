@@ -123,4 +123,10 @@
     <string name="link_success">खाता सफलतापूर्वक लिंक हो गया!</string>
     <string name="link_error">खाता लिंक करने में विफल</string>
     <string name="linking_account">खाता लिंक हो रहा है…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">सीखने के लिए तैयार हैं?</string>
+    <string name="welcome_subtitle">AI की मदद से अपनी किताबों और नोट्स को क्विज़ और अध्ययन सामग्री में बदलें</string>
+    <string name="welcome_get_started">शुरू करें</string>
+    <string name="welcome_sign_in_to_start">साइन इन करके शुरू करें</string>
 </resources>

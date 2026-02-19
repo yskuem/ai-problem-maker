@@ -123,4 +123,10 @@
     <string name="link_success">Konto erfolgreich verknüpft!</string>
     <string name="link_error">Konto konnte nicht verknüpft werden</string>
     <string name="linking_account">Konto wird verknüpft…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Bereit zum Lernen?</string>
+    <string name="welcome_subtitle">Verwandle deine Lehrbücher und Notizen mit KI in Quizze und Lernmaterialien</string>
+    <string name="welcome_get_started">Loslegen</string>
+    <string name="welcome_sign_in_to_start">Anmelden und loslegen</string>
 </resources>

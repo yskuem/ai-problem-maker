@@ -6,6 +6,7 @@ import app.yskuem.aimondaimaker.feature.quiz.viewmodel.ShowQuizScreenViewModel
 import app.yskuem.aimondaimaker.feature.select_alubum_or_camera.SelectAlbumOrCameraViewModel
 import app.yskuem.aimondaimaker.feature.select_project.ui.SelectProjectScreenViewModel
 import app.yskuem.aimondaimaker.feature.settings.SettingsScreenViewModel
+import app.yskuem.aimondaimaker.feature.onboarding.WelcomeScreenViewModel
 import app.yskuem.aimondaimaker.feature.show_project_info.ShowProjectInfoScreenViewModel
 import app.yskuem.aimondaimaker.feature.subscription.SubscriptionScreenViewModel
 import app.yskuem.aimondaimaker.feature.update_check.UpdateCheckScreenViewModel
@@ -73,6 +74,12 @@ val viewModelModule =
         factory {
             SettingsScreenViewModel(
                 authRepository = get(),
+            )
+        }
+        factory {
+            WelcomeScreenViewModel(
+                authRepository = get(),
+                userRepository = get(),
             )
         }
     }

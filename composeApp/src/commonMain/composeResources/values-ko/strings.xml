@@ -123,4 +123,10 @@
     <string name="link_success">계정이 성공적으로 연결되었습니다!</string>
     <string name="link_error">계정 연결에 실패했습니다</string>
     <string name="linking_account">계정 연결 중…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">학습을 시작할 준비가 되셨나요?</string>
+    <string name="welcome_subtitle">AI를 사용하여 교과서와 노트를 퀴즈와 학습 자료로 변환하세요</string>
+    <string name="welcome_get_started">시작하기</string>
+    <string name="welcome_sign_in_to_start">로그인하고 시작하기</string>
 </resources>

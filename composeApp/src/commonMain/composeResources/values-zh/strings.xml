@@ -123,4 +123,10 @@
     <string name="link_success">账号关联成功！</string>
     <string name="link_error">账号关联失败</string>
     <string name="linking_account">正在关联账号…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">准备好开始学习了吗？</string>
+    <string name="welcome_subtitle">用AI将课本和笔记转化为测验和学习资料</string>
+    <string name="welcome_get_started">开始使用</string>
+    <string name="welcome_sign_in_to_start">登录并开始</string>
 </resources>

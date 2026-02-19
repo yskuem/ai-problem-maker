@@ -123,4 +123,10 @@
     <string name="link_success">Аккаунт успешно привязан!</string>
     <string name="link_error">Не удалось привязать аккаунт</string>
     <string name="linking_account">Привязка аккаунта…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Готовы начать учиться?</string>
+    <string name="welcome_subtitle">Превращайте учебники и заметки в тесты и учебные материалы с помощью ИИ</string>
+    <string name="welcome_get_started">Начать</string>
+    <string name="welcome_sign_in_to_start">Войти и начать</string>
 </resources>

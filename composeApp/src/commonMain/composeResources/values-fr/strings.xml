@@ -123,4 +123,10 @@
     <string name="link_success">Compte lié avec succès !</string>
     <string name="link_error">Échec de la liaison du compte</string>
     <string name="linking_account">Liaison du compte en cours…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Prêt à apprendre ?</string>
+    <string name="welcome_subtitle">Transformez vos manuels et notes en quiz et supports d'étude grâce à l'IA</string>
+    <string name="welcome_get_started">Commencer</string>
+    <string name="welcome_sign_in_to_start">Se connecter et commencer</string>
 </resources>
