@@ -33,27 +33,14 @@ class WelcomeScreenViewModel(
         screenModelScope.launch {
             authRepository.observeSessionStatus().collect { status ->
                 if (status is SessionStatus.Authenticated && _uiState.value.isSocialSigningIn) {
-                    // ソーシャルログイン完了 → ユーザー保存
-                    val result = runCatching { userRepository.saveUser() }
-                    result
-                        .onSuccess {
-                            _uiState.update {
-                                it.copy(
-                                    isSocialSigningIn = false,
-                                    isLoading = false,
-                                    loginSuccess = true,
-                                )
-                            }
-                        }
-                        .onFailure { e ->
-                            _uiState.update {
-                                it.copy(
-                                    isSocialSigningIn = false,
-                                    isLoading = false,
-                                    loginError = e.message ?: "Unknown error",
-                                )
-                            }
-                        }
+                    // ソーシャルログイン完了
+                    _uiState.update {
+                        it.copy(
+                            isSocialSigningIn = false,
+                            isLoading = false,
+                            loginSuccess = true,
+                        )
+                    }
                 }
             }
         }
