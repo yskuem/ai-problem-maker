@@ -58,6 +58,10 @@ class AuthRepositoryImpl(
         return user?.email
     }
 
+    override suspend fun signOut() {
+        supabaseClient.auth.signOut()
+    }
+
     override fun observeSessionStatus(): Flow<SessionStatus> {
         return supabaseClient.auth.sessionStatus
     }

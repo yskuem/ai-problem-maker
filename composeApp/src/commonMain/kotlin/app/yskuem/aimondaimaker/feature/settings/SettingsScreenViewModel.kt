@@ -17,6 +17,7 @@ data class SettingsUiState(
     val isAnonymous: Boolean = true,
     val linkedProvider: String? = null,
     val linkedEmail: String? = null,
+    val loggedOut: Boolean = false,
 )
 
 class SettingsScreenViewModel(
@@ -95,7 +96,15 @@ class SettingsScreenViewModel(
         }
     }
 
+    fun logout() {
+        screenModelScope.launch {
+            runCatching { authRepository.signOut() }
+            _uiState.value = SettingsUiState(loggedOut = true)
+        }
+    }
+
     fun clearMessages() {
         _uiState.update { it.copy(linkSuccess = false, linkError = null) }
     }
 }
+

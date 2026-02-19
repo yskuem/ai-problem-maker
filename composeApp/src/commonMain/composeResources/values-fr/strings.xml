@@ -129,4 +129,9 @@
     <string name="welcome_subtitle">Transformez vos manuels et notes en quiz et supports d'étude grâce à l'IA</string>
     <string name="welcome_get_started">Commencer</string>
     <string name="welcome_sign_in_to_start">Se connecter et commencer</string>
+
+    <!-- Logout -->
+    <string name="logout">Se déconnecter</string>
+    <string name="logout_confirm_title">Se déconnecter ?</string>
+    <string name="logout_confirm_message">Êtes-vous sûr de vouloir vous déconnecter ?</string>
 </resources>

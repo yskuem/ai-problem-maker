@@ -129,4 +129,9 @@
     <string name="welcome_subtitle">Transforme seus livros e anotações em quizzes e materiais de estudo com IA</string>
     <string name="welcome_get_started">Começar</string>
     <string name="welcome_sign_in_to_start">Entrar e começar</string>
+
+    <!-- Logout -->
+    <string name="logout">Sair</string>
+    <string name="logout_confirm_title">Sair?</string>
+    <string name="logout_confirm_message">Tem certeza de que deseja sair?</string>
 </resources>

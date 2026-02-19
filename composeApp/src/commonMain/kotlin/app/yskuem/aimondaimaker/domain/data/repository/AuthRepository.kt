@@ -25,5 +25,7 @@ interface AuthRepository {
 
     fun getLinkedEmail(): String?
 
+    suspend fun signOut()
+
     fun observeSessionStatus(): Flow<SessionStatus>
 }

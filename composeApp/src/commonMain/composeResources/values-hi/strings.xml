@@ -129,4 +129,9 @@
     <string name="welcome_subtitle">AI की मदद से अपनी किताबों और नोट्स को क्विज़ और अध्ययन सामग्री में बदलें</string>
     <string name="welcome_get_started">शुरू करें</string>
     <string name="welcome_sign_in_to_start">साइन इन करके शुरू करें</string>
+
+    <!-- Logout -->
+    <string name="logout">लॉग आउट</string>
+    <string name="logout_confirm_title">लॉग आउट करें?</string>
+    <string name="logout_confirm_message">क्या आप वाकई लॉग आउट करना चाहते हैं?</string>
 </resources>

@@ -129,4 +129,9 @@
     <string name="welcome_subtitle">AI를 사용하여 교과서와 노트를 퀴즈와 학습 자료로 변환하세요</string>
     <string name="welcome_get_started">시작하기</string>
     <string name="welcome_sign_in_to_start">로그인하고 시작하기</string>
+
+    <!-- Logout -->
+    <string name="logout">로그아웃</string>
+    <string name="logout_confirm_title">로그아웃하시겠습니까?</string>
+    <string name="logout_confirm_message">로그아웃하면 다시 로그인해야 합니다.</string>
 </resources>

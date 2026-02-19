@@ -5,6 +5,9 @@ import ai_problem_maker.composeapp.generated.resources.cancel
 import ai_problem_maker.composeapp.generated.resources.link_error
 import ai_problem_maker.composeapp.generated.resources.link_success
 import ai_problem_maker.composeapp.generated.resources.linking_account
+import ai_problem_maker.composeapp.generated.resources.logout
+import ai_problem_maker.composeapp.generated.resources.logout_confirm_message
+import ai_problem_maker.composeapp.generated.resources.logout_confirm_title
 import ai_problem_maker.composeapp.generated.resources.settings_title
 import ai_problem_maker.composeapp.generated.resources.social_login
 import ai_problem_maker.composeapp.generated.resources.social_login_description
@@ -36,7 +39,9 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.PersonOutline
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -51,6 +56,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,6 +72,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import app.yskuem.aimondaimaker.feature.onboarding.WelcomeScreen
 import app.yskuem.aimondaimaker.getPlatform
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -82,10 +89,18 @@ class SettingsScreen : Screen {
         val uiState by viewModel.uiState.collectAsState()
         val isIOS = getPlatform().name.startsWith("iOS")
         var showLoginDialog by remember { mutableStateOf(false) }
+        var showLogoutDialog by remember { mutableStateOf(false) }
         val snackbarHostState = remember { SnackbarHostState() }
 
         val linkSuccessMessage = stringResource(Res.string.link_success)
         val linkErrorMessage = stringResource(Res.string.link_error)
+
+        // ログアウト完了 → WelcomeScreen へ
+        LaunchedEffect(uiState.loggedOut) {
+            if (uiState.loggedOut) {
+                navigator.replaceAll(WelcomeScreen())
+            }
+        }
 
         LaunchedEffect(uiState.linkSuccess, uiState.linkError) {
             if (uiState.linkSuccess) {
@@ -197,6 +212,34 @@ class SettingsScreen : Screen {
                                 onClick = null,
                             )
                         }
+                    }
+                }
+
+                // --- ログアウトセクション（ソーシャルログイン済みのみ） ---
+                if (!uiState.isAnonymous) {
+                    SectionCard {
+                        SettingsRow(
+                            icon = {
+                                Box(
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.errorContainer),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Logout,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onErrorContainer,
+                                        modifier = Modifier.size(22.dp),
+                                    )
+                                }
+                            },
+                            title = stringResource(Res.string.logout),
+                            titleColor = MaterialTheme.colorScheme.error,
+                            trailing = null,
+                            onClick = { showLogoutDialog = true },
+                        )
                     }
                 }
             }
@@ -346,6 +389,40 @@ class SettingsScreen : Screen {
                 }
             }
         }
+
+        // --- ログアウト確認ダイアログ ---
+        if (showLogoutDialog) {
+            AlertDialog(
+                onDismissRequest = { showLogoutDialog = false },
+                title = {
+                    Text(
+                        text = stringResource(Res.string.logout_confirm_title),
+                        fontWeight = FontWeight.Bold,
+                    )
+                },
+                text = {
+                    Text(text = stringResource(Res.string.logout_confirm_message))
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showLogoutDialog = false
+                            viewModel.logout()
+                        },
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.logout),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showLogoutDialog = false }) {
+                        Text(text = stringResource(Res.string.cancel))
+                    }
+                },
+            )
+        }
     }
 }
 
@@ -373,6 +450,7 @@ private fun SettingsRow(
     icon: @Composable () -> Unit,
     title: String,
     subtitle: String? = null,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
     trailing: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
@@ -392,7 +470,7 @@ private fun SettingsRow(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = titleColor,
             )
             if (subtitle != null) {
                 Spacer(modifier = Modifier.height(2.dp))

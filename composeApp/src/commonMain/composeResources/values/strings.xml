@@ -155,5 +155,10 @@
     <string name="welcome_subtitle">Turn your textbooks and notes into quizzes and study materials with AI</string>
     <string name="welcome_get_started">Get Started</string>
     <string name="welcome_sign_in_to_start">Sign in to Get Started</string>
+
+    <!-- Logout -->
+    <string name="logout">Log Out</string>
+    <string name="logout_confirm_title">Log Out?</string>
+    <string name="logout_confirm_message">Are you sure you want to log out?</string>
 </resources>
 

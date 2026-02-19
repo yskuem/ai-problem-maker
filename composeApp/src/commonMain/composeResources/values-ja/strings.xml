@@ -156,4 +156,9 @@
     <string name="welcome_subtitle">教科書やノートの写真をAIがクイズや学習教材に変換します</string>
     <string name="welcome_get_started">はじめる</string>
     <string name="welcome_sign_in_to_start">ログインしてはじめる</string>
+
+    <!-- Logout -->
+    <string name="logout">ログアウト</string>
+    <string name="logout_confirm_title">ログアウトしますか？</string>
+    <string name="logout_confirm_message">ログアウトすると、再度サインインが必要になります。</string>
 </resources>
