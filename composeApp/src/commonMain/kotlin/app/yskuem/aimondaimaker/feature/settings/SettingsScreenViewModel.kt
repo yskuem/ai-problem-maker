@@ -38,23 +38,13 @@ class SettingsScreenViewModel(
                     checkAccountStatus()
 
                     if (wasLinking) {
-                        val isStillAnonymous = _uiState.value.isAnonymous
-                        if (isStillAnonymous) {
-                            // ブラウザから戻ったがリンクされなかった
-                            _uiState.update {
-                                it.copy(
-                                    isLinking = false,
-                                    linkError = "linking_failed",
-                                )
-                            }
-                        } else {
-                            // リンク成功
-                            _uiState.update {
-                                it.copy(
-                                    isLinking = false,
-                                    linkSuccess = true,
-                                )
-                            }
+                        // linkIdentity 成功時のみ新しい Authenticated が発火する
+                        // ユーザーがブラウザで何もせず戻った場合はセッション変更なしで発火しない
+                        _uiState.update {
+                            it.copy(
+                                isLinking = false,
+                                linkSuccess = true,
+                            )
                         }
                     }
                 }
